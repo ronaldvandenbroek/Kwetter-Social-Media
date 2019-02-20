@@ -1,4 +1,4 @@
-package models;
+package main.java.nl.fontys.kwetter.models;
 
 public class Credentials {
     private String email;
