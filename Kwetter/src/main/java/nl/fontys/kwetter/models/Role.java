@@ -1,4 +1,4 @@
-package main.java.nl.fontys.kwetter.models;
+package nl.fontys.kwetter.models;
 
 public enum Role {
     USER,
