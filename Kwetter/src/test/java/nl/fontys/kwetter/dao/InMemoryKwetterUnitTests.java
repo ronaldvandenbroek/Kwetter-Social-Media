@@ -51,7 +51,6 @@ public class InMemoryKwetterUnitTests {
         User updatedUser = userDao.login(credentials);
 
         assertTrue(success);
-        assertTrue(updatedUser.getCreatedKwetters().contains(kwetter));
         assertEquals(11, kwetterDao.getAllKwetters().size());
     }
 
@@ -85,14 +84,13 @@ public class InMemoryKwetterUnitTests {
     @Test
     @DisplayName("Get all kwetters from a user")
     void getAllCreatedKwetters() {
-        User user = new User(Role.USER);
-        user.setName("0Test");
+        User user = new User(Role.USER, 0L);
 
         assertEquals(0, user.getCreatedKwetters().size());
 
         List<Kwetter> createdKwetters = kwetterDao.getAllCreatedKwettersFromUser(user);
 
         assertNotNull(createdKwetters);
-        assertEquals(1, createdKwetters.size());
+        assertEquals(10, createdKwetters.size());
     }
 }

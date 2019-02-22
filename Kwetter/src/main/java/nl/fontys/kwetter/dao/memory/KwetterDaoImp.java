@@ -6,6 +6,7 @@ import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class KwetterDaoImp implements KwetterDao {
@@ -16,6 +17,7 @@ public class KwetterDaoImp implements KwetterDao {
             return false;
         }
         else {
+            kwetter.setId(InMemoryCollection.getNextFreeKwetterID());
             InMemoryCollection.getAllKwetters().add(kwetter);
             return true;
         }
@@ -55,6 +57,7 @@ public class KwetterDaoImp implements KwetterDao {
     @Override
     public List<Kwetter> getAllCreatedKwettersFromUser(User user) {
         if (InMemoryCollection.getAllUsers().contains(user)){
+            Collection<User> users = InMemoryCollection.getAllUsers();
             for (User allUser : InMemoryCollection.getAllUsers()
                  ) {
                 if (allUser.equals(user)){

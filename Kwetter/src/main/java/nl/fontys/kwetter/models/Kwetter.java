@@ -28,6 +28,11 @@ public class Kwetter {
     private User owner;
     private Date dateTime;
 
+    public Kwetter(String text, User owner, Date dateTime, Long tempId){
+        this(text, new HashSet<>(), new HashSet<>(), owner, dateTime);
+        this.id = tempId;
+    }
+
     public Kwetter(String text, User owner, Date dateTime){
         this(text, new HashSet<>(), new HashSet<>(), owner, dateTime);
     }

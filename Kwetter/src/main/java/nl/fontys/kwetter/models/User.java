@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials", "bio"})
+@EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials", "bio", "role", "name"})
 @ToString(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials"})
 public class User {
 
@@ -42,6 +42,11 @@ public class User {
         heartedKwetters = new HashSet<>();
         usersFollowed = new HashSet<>();
         followedByUsers = new HashSet<>();
+    }
+
+    public User(Role role, Long tempId){
+        this(role);
+        this.id = tempId;
     }
 
     public void addCreatedKwetter(Kwetter createdKwetter) {

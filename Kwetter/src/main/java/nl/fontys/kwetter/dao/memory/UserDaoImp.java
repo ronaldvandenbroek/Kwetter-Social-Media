@@ -29,6 +29,16 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    public User getUserById(Long userID) {
+        for (User user : InMemoryCollection.getAllUsers()) {
+            if (user.getId().equals(userID)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public boolean createNewUser(Credentials credentials) {
         boolean userNameAlreadyExists = false;
         for (Credentials existingCredentials: InMemoryCollection.getAllCredentials()) {
@@ -42,6 +52,7 @@ public class UserDaoImp implements UserDao {
         }
         else {
             InMemoryCollection.getAllCredentials().add(credentials);
+            credentials.getUser().setId(InMemoryCollection.getNextFreeUserID());
             InMemoryCollection.getAllUsers().add(credentials.getUser());
             return true;
         }

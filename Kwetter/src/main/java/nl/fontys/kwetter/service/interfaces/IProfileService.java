@@ -1,12 +1,11 @@
 package nl.fontys.kwetter.service.interfaces;
 
-import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 
 import java.util.List;
 
 public interface IProfileService {
-    void updateBio(User user);
+    User updateBio(Long userID, String bio);
 
     void updatePhoto(User user);
 

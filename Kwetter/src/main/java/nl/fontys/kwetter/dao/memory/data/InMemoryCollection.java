@@ -11,16 +11,21 @@ public class InMemoryCollection {
     private static Collection<User> allUsers;
     private static Collection<Credentials> allCredentials;
     private static Collection<Kwetter> allKwetters;
+    private static Long userID;
+    private static Long kwetterID;
 
     private static void createMemory() {
         allUsers = new ArrayList<>();
         allCredentials = new ArrayList<>();
         allKwetters = new ArrayList<>();
+        userID = 0L;
+        kwetterID = 0L;
 
         //Create 10 allUsers
         for (int i = 0; i < 10; i++) {
             User user = new User(Role.USER);
             user.setName(i + "Test");
+            user.setId(getNextFreeUserID());
             allCredentials.add(new Credentials(i + "@test.nl", "test", user));
             allUsers.add(user);
         }
@@ -36,7 +41,7 @@ public class InMemoryCollection {
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < 10; i++) {
             Kwetter kwetter = new Kwetter("Test", null, null, user, calendar.getTime());
-            user.addCreatedKwetter(kwetter);
+            kwetter.setId(getNextFreeKwetterID());
             allKwetters.add(kwetter);
         }
     }
@@ -61,6 +66,15 @@ public class InMemoryCollection {
         }
         return allKwetters;
     }
+
+    public static Long getNextFreeUserID(){
+        return userID++;
+    }
+
+    public static Long getNextFreeKwetterID(){
+        return kwetterID++;
+    }
+
 
     public static void resetMemory(){
         createMemory();

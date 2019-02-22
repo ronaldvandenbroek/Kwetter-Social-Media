@@ -10,6 +10,8 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
+    User getUserById(Long userID);
+
     boolean createNewUser(Credentials credentials);
 
     boolean updateUser(User user);
