@@ -1,19 +1,23 @@
 package nl.fontys.kwetter.service.interfaces;
 
+import nl.fontys.kwetter.exceptions.UserDoesntExist;
+import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.User;
 
 import java.util.List;
 
 public interface IProfileService {
-    User updateBio(Long userID, String bio);
+    User updateBio(Long userID, String bio, String location, String website);
 
-    void updatePhoto(User user);
+    User updateLanguage(Long userID, String language);
 
-    void updateName(User user);
+    User updatePhoto(Long userID, byte[] photo);
 
-    List<User> getFollowers(User user);
+    User updateName(Long userID, String name) throws UsernameAlreadyExists;
 
-    List<User> getFollowing(User user);
+    List<User> getFollowers(Long userID);
 
-    User getFullProfile(User user);
+    List<User> getFollowing(Long userID);
+
+    User getFullProfile(Long userID) throws UserDoesntExist;
 }

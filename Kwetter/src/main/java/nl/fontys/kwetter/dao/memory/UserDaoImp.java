@@ -84,4 +84,15 @@ public class UserDaoImp implements UserDao {
         }
         return false;
     }
+
+    @Override
+    public boolean checkIfUsernameDoesntExists(String name) {
+        for (User user: InMemoryCollection.getAllUsers()
+             ) {
+            if (user.getName().equals(name)){
+                return false;
+            }
+        }
+        return true;
+    }
 }
