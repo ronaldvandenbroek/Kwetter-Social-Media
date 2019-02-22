@@ -16,34 +16,6 @@ class ModelAssociationUnitTests {
 
     @BeforeEach
     void setUp() {
-//        users = new ArrayList<>();
-//        credentials = new ArrayList<>();
-//
-//        //Create users
-//        for (int i = 0; i < 10; i++) {
-//            users.add(new User(i, Role.USER));
-//        }
-//
-//        //Set usersFollowed
-//        users.get(1).follow(users.get(2));
-//        users.get(1).follow(users.get(3));
-//        users.get(1).follow(users.get(4));
-//        users.get(2).follow(users.get(1));
-//        users.get(2).follow(users.get(2));
-//
-//        //Add credentials to users
-//        for (int i = 0; i < 10; i++) {
-//            credentials.add(new Credentials(i + "@test.nl", "test", users.get(i)));
-//        }
-//
-//        //Add Kwetters
-//        Calendar calendar = Calendar.getInstance();
-//        for (User user : users) {
-//            for (int i = 0; i < 10; i++) {
-//                user.addCreatedKwetter(new Kwetter(i, "Test", null, null, user, calendar.getTime()));
-//            }
-//        }
-
         user = new User(Role.USER);
         user.setName("User1");
         secondUser = new User(Role.USER);
