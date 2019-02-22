@@ -6,7 +6,6 @@ import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 
-import java.util.Collection;
 import java.util.List;
 
 public class UserDaoImp implements UserDao {

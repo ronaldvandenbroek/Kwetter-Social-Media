@@ -24,6 +24,7 @@ public class User {
     private String bio;
     private String website;
     private String location;
+    private String language;
     private byte[] photo;
 
     private Set<Kwetter> createdKwetters;
