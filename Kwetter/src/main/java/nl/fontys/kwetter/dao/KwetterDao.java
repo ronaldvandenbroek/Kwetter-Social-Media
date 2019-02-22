@@ -19,4 +19,6 @@ public interface KwetterDao {
     List<Kwetter> getAllReportedKwettersFromUser(User user);
 
     List<Kwetter> getAllHeartedKwettersFromUser(User user);
+
+    Kwetter getKwetterById(Long kwetterId);
 }

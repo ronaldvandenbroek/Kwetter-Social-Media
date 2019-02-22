@@ -28,6 +28,17 @@ public class Kwetter {
     private User owner;
     private Date dateTime;
 
+    public Kwetter(Kwetter toBeClonedKwetter){
+        this.id = toBeClonedKwetter.getId();
+        this.text = toBeClonedKwetter.getText();
+        this.reports = toBeClonedKwetter.getReports();
+        this.hearts = toBeClonedKwetter.getHearts();
+        this.tags = toBeClonedKwetter.getTags();
+        this.mentions = toBeClonedKwetter.getMentions();
+        this.owner = toBeClonedKwetter.getOwner();
+        this.dateTime = toBeClonedKwetter.getDateTime();
+    }
+
     public Kwetter(String text, User owner, Date dateTime, Long tempId){
         this(text, new HashSet<>(), new HashSet<>(), owner, dateTime);
         this.id = tempId;

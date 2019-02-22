@@ -1,28 +1,31 @@
 package nl.fontys.kwetter.service.interfaces;
 
+import nl.fontys.kwetter.exceptions.InvalidModelException;
+import nl.fontys.kwetter.exceptions.KwetterDoesntExist;
+import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IKwetterService {
     Kwetter searchForKwetter(String searchTerm);
 
-    Kwetter createKwetter(User user, Kwetter kwetter);
+    Kwetter createKwetter(Long userId, String text, Set<String> tags, Set<Long> mentionIds) throws UserDoesntExist, InvalidModelException;
 
-    void removeKwetter(User user, Kwetter kwetter);
+    void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist;
 
-    void heartKwetter(User user, Kwetter kwetter);
+    void heartKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist;
 
-    void removeHeartKwetter(User user, Kwetter kwetter);
+    void removeHeartKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist;
 
-    void reportKwetter(User user, Kwetter kwetter);
+    void reportKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist;
 
-    void removeReportKwetter(User user, Kwetter kwetter);
+    void removeReportKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist;
 
-    List<Kwetter> getMentionedKwetters(User user);
+    List<Kwetter> getMentionedKwetters(Long userId) throws UserDoesntExist;
 
-    List<Kwetter> getMostRecentKwetters(User user);
+    List<Kwetter> getMostRecentKwetters(Long userId) throws UserDoesntExist;
 
-    List<Kwetter> getHeartedKwetters(User user);
+    List<Kwetter> getHeartedKwetters(Long userId) throws UserDoesntExist;
 }

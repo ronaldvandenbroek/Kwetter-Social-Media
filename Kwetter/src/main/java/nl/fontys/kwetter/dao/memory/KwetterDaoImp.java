@@ -93,4 +93,14 @@ public class KwetterDaoImp implements KwetterDao {
         }
         return null;
     }
+
+    @Override
+    public Kwetter getKwetterById(Long kwetterId) {
+        for (Kwetter kwetter : InMemoryCollection.getAllKwetters()) {
+            if (kwetter.getId().equals(kwetterId)){
+                return new Kwetter(kwetter);
+            }
+        }
+        return null;
+    }
 }
