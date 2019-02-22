@@ -13,22 +13,31 @@ import nl.fontys.kwetter.service.interfaces.IKwetterService;
 import nl.fontys.kwetter.utilities.ModelValidator;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.*;
 
 /**
- *
+ * Service for handling model operations regarding the kwetter tasks.
  */
+@Stateless
 public class KwetterService implements IKwetterService {
+
     private ModelValidator validator;
+
+    @Inject
     private UserDao userDao;
+
+    @Inject
     private KwetterDao kwetterDao;
+
     private Calendar calendar;
 
     public KwetterService() {
-        userDao = new UserDaoImp();
-        kwetterDao = new KwetterDaoImp();
-        validator = new ModelValidator();
         calendar = Calendar.getInstance();
+        validator = new ModelValidator();
     }
 
     /**

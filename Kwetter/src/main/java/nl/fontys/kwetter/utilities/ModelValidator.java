@@ -2,6 +2,7 @@ package nl.fontys.kwetter.utilities;
 
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 
+import javax.ejb.Stateless;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;

@@ -12,6 +12,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.ejb.Stateless;
+import javax.ejb.embeddable.EJBContainer;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.naming.NamingException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,15 +26,21 @@ import static org.junit.jupiter.api.Assertions.fail;
 class AdminServiceIntegrationTest {
 
     private User testUser;
+
     private IAdminService adminService;
     private IProfileService profileService;
+    private ILoginService loginService;
 
     @BeforeEach
     void setUp() {
-        adminService = new AdminService();
-        profileService = new ProfileService();
-
-        ILoginService loginService = new LoginService();
+        EJBContainer container = EJBContainer.createEJBContainer();
+        try {
+            adminService = (AdminService) container.getContext().lookup("java:global/classes/AdminService");
+            profileService = (ProfileService) container.getContext().lookup("java:global/classes/ProfileService");
+            loginService = (LoginService) container.getContext().lookup("java:global/classes/LoginService");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
 
         String email = "0@test.nl";
         String password = "test";

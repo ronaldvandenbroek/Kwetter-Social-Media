@@ -6,9 +6,11 @@ import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 
+import javax.ejb.Stateless;
 import java.util.Collection;
 import java.util.List;
 
+@Stateless
 public class UserDaoImp implements UserDao {
 
     @Override

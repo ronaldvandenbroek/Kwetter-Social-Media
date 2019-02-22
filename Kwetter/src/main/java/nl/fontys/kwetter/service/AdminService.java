@@ -1,23 +1,26 @@
 package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.dao.UserDao;
-import nl.fontys.kwetter.dao.memory.UserDaoImp;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IAdminService;
 
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.util.List;
 
 /**
  * Service for handling model operations regarding the administrative tasks.
  */
+@Stateless
 public class AdminService implements IAdminService {
 
     private UserDao userDao;
 
-    public AdminService() {
-        userDao = new UserDaoImp();
+    @Inject
+    public AdminService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     /**

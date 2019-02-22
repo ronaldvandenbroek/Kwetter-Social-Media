@@ -9,19 +9,24 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IProfileService;
 import nl.fontys.kwetter.utilities.ModelValidator;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Service for handling model operations regarding the profile.
  */
+@Stateless
 public class ProfileService implements IProfileService {
 
     private ModelValidator validator;
+
+    @Inject
     private UserDao userDao;
 
     public ProfileService() {
-        userDao = new UserDaoImp();
         validator = new ModelValidator();
     }
 

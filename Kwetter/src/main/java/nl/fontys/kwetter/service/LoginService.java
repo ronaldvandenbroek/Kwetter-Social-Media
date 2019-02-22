@@ -10,16 +10,23 @@ import nl.fontys.kwetter.service.interfaces.ILoginService;
 import nl.fontys.kwetter.utilities.ModelValidator;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * Service for handling model operations regarding the login process.
  */
+@Stateless
 public class LoginService implements ILoginService {
 
-    private ModelValidator validator;
+    @Inject
     private UserDao userDao;
 
+    private ModelValidator validator;
+
     public LoginService() {
-        userDao = new UserDaoImp();
         validator = new ModelValidator();
     }
 

@@ -5,10 +5,12 @@ import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 
+import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Stateless
 public class KwetterDaoImp implements KwetterDao {
 
     @Override
