@@ -19,8 +19,12 @@ public class Credentials {
     @NotNull(message = "Password cannot be null")
     private String password;
 
-    @NotNull(message = "User cannot be null")
     private User user;
+
+    public Credentials(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public Credentials(String email, String password, User user) {
         this.email = email;

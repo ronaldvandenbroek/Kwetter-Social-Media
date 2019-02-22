@@ -1,13 +1,13 @@
-package nl.fontys.kwetter.dao;
+package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.models.User;
 
 import java.util.List;
 
 public interface FollowDao {
-    void follow(User follower, User following);
+    boolean follow(User follower, User following);
 
-    void unFollow(User follower, User following);
+    boolean unFollow(User follower, User following);
 
     List<User> getFollowers(User user);
 
