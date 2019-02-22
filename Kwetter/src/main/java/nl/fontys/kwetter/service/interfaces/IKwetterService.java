@@ -13,7 +13,7 @@ public interface IKwetterService {
 
     Kwetter createKwetter(Long userId, String text, Set<String> tags, Set<Long> mentionIds) throws UserDoesntExist, InvalidModelException;
 
-    void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist;
+    void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist;
 
     void heartKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist;
 

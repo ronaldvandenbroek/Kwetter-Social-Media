@@ -38,8 +38,10 @@ public class KwetterService implements IKwetterService {
         User owner = getUserById(userId);
 
         Set<User> mentions = new HashSet<>();
-        for (Long mentionUserId: mentionIds) {
-            mentions.add(getUserById(mentionUserId));
+        if (mentionIds != null){
+            for (Long mentionUserId: mentionIds) {
+                mentions.add(getUserById(mentionUserId));
+            }
         }
 
         Kwetter kwetter = new Kwetter(text, tags, mentions, owner, calendar.getTime());
@@ -50,10 +52,14 @@ public class KwetterService implements IKwetterService {
     }
 
     @Override
-    public void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist {
+    public void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist {
         Kwetter kwetter = getKwetterById(kwetterId);
+        User owner = getUserById(kwetter.getOwner().getId());
+
         if (kwetter.getOwner().getId().equals(userId)){
-            kwetterDao.deleteKwetter(kwetter);
+            owner.removeCreatedKwetter(kwetter);
+            userDao.updateUser(owner);
+            kwetterDao.updateKwetter(kwetter);
         } else{
             throw new KwetterDoesntExist();
         }
@@ -118,7 +124,7 @@ public class KwetterService implements IKwetterService {
         List<Kwetter> lastKwetters = new ArrayList<>();
 
         int i = 0;
-        while(li.hasPrevious() || i == 10) {
+        while(li.hasPrevious() || i < 10) {
             lastKwetters.add(li.previous());
             i++;
         }

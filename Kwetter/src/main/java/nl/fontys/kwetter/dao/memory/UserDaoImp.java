@@ -6,6 +6,7 @@ import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 
+import java.util.Collection;
 import java.util.List;
 
 public class UserDaoImp implements UserDao {
@@ -30,7 +31,8 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User getUserById(Long userID) {
-        for (User user : InMemoryCollection.getAllUsers()) {
+        Collection<User> allUsers = InMemoryCollection.getAllUsers();
+        for (User user : allUsers) {
             if (user.getId().equals(userID)){
                 return new User(user);
             }
@@ -60,10 +62,13 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public boolean updateUser(User user) {
-        if (InMemoryCollection.getAllUsers().contains(user)){
-            for (User oldUser : InMemoryCollection.getAllUsers()) {
+        Collection<User> allUsers = InMemoryCollection.getAllUsers();
+
+        if (allUsers.contains(user)){
+            for (User oldUser : allUsers) {
                 if (oldUser.equals(user)){
-                    oldUser = user;
+                    allUsers.remove(oldUser);
+                    allUsers.add(user);
                     return true;
                 }
             }

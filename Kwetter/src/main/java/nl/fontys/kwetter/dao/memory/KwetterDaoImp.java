@@ -38,10 +38,13 @@ public class KwetterDaoImp implements KwetterDao {
 
     @Override
     public boolean deleteKwetter(Kwetter kwetter) {
-        if (InMemoryCollection.getAllKwetters().contains(kwetter)){
-            for (Kwetter oldKwetter : InMemoryCollection.getAllKwetters()) {
+        Collection<Kwetter> allKwetters = InMemoryCollection.getAllKwetters();
+        if (allKwetters.contains(kwetter)){
+            for (Kwetter oldKwetter : allKwetters) {
                 if (oldKwetter.equals(kwetter)){
-                    oldKwetter.setOwner(null);
+                    kwetter.setOwner(null);
+                    allKwetters.remove(oldKwetter);
+                    allKwetters.add(kwetter);
                     return true;
                 }
             }
