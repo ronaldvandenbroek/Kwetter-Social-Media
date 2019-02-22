@@ -6,20 +6,27 @@ import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IAdminService;
-import nl.fontys.kwetter.utilities.ModelValidator;
 
 import java.util.List;
 
+/**
+ * Service for handling model operations regarding the administrative tasks.
+ */
 public class AdminService implements IAdminService {
 
-    private ModelValidator validator;
     private UserDao userDao;
 
-    public AdminService(){
+    public AdminService() {
         userDao = new UserDaoImp();
-        validator = new ModelValidator();
     }
 
+    /**
+     * Change the role of a user
+     *
+     * @param userId Id of the User
+     * @param role   New Role of the User
+     * @throws UserDoesntExist Thrown if the user cannot be found.
+     */
     @Override
     public void changeRole(Long userId, Role role) throws UserDoesntExist {
         User user = getUserById(userId);
@@ -28,14 +35,26 @@ public class AdminService implements IAdminService {
         userDao.updateUser(user);
     }
 
+    /**
+     * Get a list of all users
+     *
+     * @return list of all users
+     */
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
+    /**
+     * Get the user via its Id
+     *
+     * @param userID Id of the User
+     * @return The User
+     * @throws UserDoesntExist Thrown when the userID does not have a corresponding user.
+     */
     private User getUserById(Long userID) throws UserDoesntExist {
         User user = userDao.getUserById(userID);
-        if (user == null){
+        if (user == null) {
             throw new UserDoesntExist();
         }
         return user;
