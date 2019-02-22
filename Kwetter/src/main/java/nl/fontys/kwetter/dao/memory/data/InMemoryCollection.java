@@ -20,8 +20,9 @@ public class InMemoryCollection {
         //Create 10 allUsers
         for (int i = 0; i < 10; i++) {
             User user = new User(Role.USER);
+            user.setName(i + "Test");
             allCredentials.add(new Credentials(i + "@test.nl", "test", user));
-            allUsers.add(new User(Role.USER));
+            allUsers.add(user);
         }
 
         //Follow everyone via the first user

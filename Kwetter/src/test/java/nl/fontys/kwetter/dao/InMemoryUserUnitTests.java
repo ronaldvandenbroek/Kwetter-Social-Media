@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Testing the In Memory DAO")
+@DisplayName("Testing the In Memory User DAO")
 public class InMemoryUserUnitTests {
     private UserDaoImp userDao;
 
