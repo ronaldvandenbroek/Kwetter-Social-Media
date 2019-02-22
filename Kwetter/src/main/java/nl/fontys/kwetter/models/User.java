@@ -2,6 +2,7 @@ package nl.fontys.kwetter.models;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +12,8 @@ import java.util.Set;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "followers", "followings", "credentials"})
+@EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials"})
+@ToString(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials"})
 public class User {
 
     private @Id @GeneratedValue Long id;
@@ -28,8 +30,8 @@ public class User {
     private Set<Kwetter> reportedKwetters;
     private Set<Kwetter> heartedKwetters;
 
-    private Set<User> followers;
-    private Set<User> followings;
+    private Set<User> usersFollowed;
+    private Set<User> followedByUsers;
 
     public User(Role role){
         this.role = role;
@@ -37,28 +39,70 @@ public class User {
         createdKwetters = new HashSet<>();
         reportedKwetters = new HashSet<>();
         heartedKwetters = new HashSet<>();
-        followers = new HashSet<>();
-        followings = new HashSet<>();
+        usersFollowed = new HashSet<>();
+        followedByUsers = new HashSet<>();
     }
 
     public void addCreatedKwetter(Kwetter createdKwetter) {
         createdKwetters.add(createdKwetter);
     }
 
+    public boolean removeCreatedKwetter(Kwetter createdKwetter) {
+        if (createdKwetters.remove(createdKwetter)){
+            createdKwetter.removeOwner();
+            return true;
+        }
+        return false;
+    }
+
     public void addReportedKwetter(Kwetter reportedKwetter) {
         reportedKwetters.add(reportedKwetter);
+        reportedKwetter.report();
+    }
+
+    public boolean removeReportedKwetter(Kwetter reportedKwetter) {
+        if (reportedKwetters.remove(reportedKwetter)){
+            reportedKwetter.removeReport();
+            return true;
+        }
+        return false;
     }
 
     public void addHeartedKwetter(Kwetter heartedKwetter) {
         heartedKwetters.add(heartedKwetter);
+        heartedKwetter.heart();
     }
 
-    public void follow(User follower) {
-        followers.add(follower);
-        follower.followedBy(this);
+    public boolean removeHeartedKwetter(Kwetter heartedKwetter) {
+        if (heartedKwetters.remove(heartedKwetter)){
+            heartedKwetter.removeHeart();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean follow(User follower) {
+        if (!this.equals(follower)){
+            usersFollowed.add(follower);
+            follower.followedBy(this);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeFollow(User follower){
+        if (usersFollowed.remove(follower)){
+            follower.removeFollowedBy(this);
+            return true;
+        }
+        return false;
     }
 
     public void followedBy(User following) {
-        followings.add(following);
+        followedByUsers.add(following);
+    }
+
+    public void removeFollowedBy(User following) {
+        followedByUsers.remove(following);
     }
 }

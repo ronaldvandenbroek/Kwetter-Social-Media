@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.models;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.Email;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
+@EqualsAndHashCode(exclude = {"user"})
 public class Credentials {
 
     @Email(message = "Email should be valid")
