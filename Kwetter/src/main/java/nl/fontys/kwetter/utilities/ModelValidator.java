@@ -11,7 +11,7 @@ import java.util.Set;
 public class ModelValidator {
     private Validator validator;
 
-    public ModelValidator(){
+    public ModelValidator() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
@@ -23,7 +23,7 @@ public class ModelValidator {
         for (ConstraintViolation<Object> violation : violations) {
             violationMessages.append(violation.getMessage()).append(" ");
         }
-        if (violationMessages.length() != 0){
+        if (violationMessages.length() != 0) {
             throw new InvalidModelException(violationMessages.toString());
         }
     }

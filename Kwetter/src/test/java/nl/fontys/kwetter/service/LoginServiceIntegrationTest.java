@@ -18,7 +18,7 @@ class LoginServiceIntegrationTest {
     private ILoginService loginService;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         loginService = new LoginService();
     }
 

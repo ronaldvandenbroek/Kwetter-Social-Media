@@ -18,7 +18,9 @@ import java.util.Set;
 @ToString(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials"})
 public class User {
 
-    private @Id @GeneratedValue Long id;
+    private @Id
+    @GeneratedValue
+    Long id;
 
     @NotNull(message = "Role cannot be null")
     private Role role;
@@ -49,7 +51,7 @@ public class User {
     private Set<User> usersFollowed;
     private Set<User> followedByUsers;
 
-    public User(User toBeClonedUser){
+    public User(User toBeClonedUser) {
         this.id = toBeClonedUser.getId();
         this.role = toBeClonedUser.getRole();
         this.credentials = toBeClonedUser.getCredentials();
@@ -66,7 +68,7 @@ public class User {
         this.followedByUsers = toBeClonedUser.getFollowedByUsers();
     }
 
-    public User(Role role){
+    public User(Role role) {
         this.role = role;
 
         createdKwetters = new HashSet<>();
@@ -76,7 +78,7 @@ public class User {
         followedByUsers = new HashSet<>();
     }
 
-    public User(Role role, Long tempId){
+    public User(Role role, Long tempId) {
         this(role);
         this.id = tempId;
     }
@@ -86,7 +88,7 @@ public class User {
     }
 
     public boolean removeCreatedKwetter(Kwetter createdKwetter) {
-        if (createdKwetters.remove(createdKwetter)){
+        if (createdKwetters.remove(createdKwetter)) {
             createdKwetter.removeOwner();
             return true;
         }
@@ -99,7 +101,7 @@ public class User {
     }
 
     public boolean removeReportedKwetter(Kwetter reportedKwetter) {
-        if (reportedKwetters.remove(reportedKwetter)){
+        if (reportedKwetters.remove(reportedKwetter)) {
             reportedKwetter.removeReport();
             return true;
         }
@@ -112,7 +114,7 @@ public class User {
     }
 
     public boolean removeHeartedKwetter(Kwetter heartedKwetter) {
-        if (heartedKwetters.remove(heartedKwetter)){
+        if (heartedKwetters.remove(heartedKwetter)) {
             heartedKwetter.removeHeart();
             return true;
         }
@@ -120,7 +122,7 @@ public class User {
     }
 
     public boolean follow(User follower) {
-        if (!this.equals(follower)){
+        if (!this.equals(follower)) {
             usersFollowed.add(follower);
             follower.followedBy(this);
             return true;
@@ -128,8 +130,8 @@ public class User {
         return false;
     }
 
-    public boolean removeFollow(User follower){
-        if (usersFollowed.remove(follower)){
+    public boolean removeFollow(User follower) {
+        if (usersFollowed.remove(follower)) {
             follower.removeFollowedBy(this);
             return true;
         }

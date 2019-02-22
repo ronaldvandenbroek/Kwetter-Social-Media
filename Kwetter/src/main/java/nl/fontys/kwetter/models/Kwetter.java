@@ -17,7 +17,9 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"reports", "hearts", "tags", "mentions"})
 public class Kwetter {
 
-    private @Id @GeneratedValue Long id;
+    private @Id
+    @GeneratedValue
+    Long id;
 
     @Size(max = 140)
     @NotNull
@@ -32,7 +34,7 @@ public class Kwetter {
     @NotNull
     private Date dateTime;
 
-    public Kwetter(Kwetter toBeClonedKwetter){
+    public Kwetter(Kwetter toBeClonedKwetter) {
         this.id = toBeClonedKwetter.getId();
         this.text = toBeClonedKwetter.getText();
         this.reports = toBeClonedKwetter.getReports();
@@ -43,31 +45,29 @@ public class Kwetter {
         this.dateTime = toBeClonedKwetter.getDateTime();
     }
 
-    public Kwetter(String text, User owner, Date dateTime, Long tempId){
+    public Kwetter(String text, User owner, Date dateTime, Long tempId) {
         this(text, new HashSet<>(), new HashSet<>(), owner, dateTime);
         this.id = tempId;
     }
 
-    public Kwetter(String text, User owner, Date dateTime){
+    public Kwetter(String text, User owner, Date dateTime) {
         this(text, new HashSet<>(), new HashSet<>(), owner, dateTime);
     }
 
-    public Kwetter(String text, Set<String> tags, Set<User> mentions, User owner, Date dateTime){
+    public Kwetter(String text, Set<String> tags, Set<User> mentions, User owner, Date dateTime) {
         this.text = text;
         this.owner = owner;
         this.dateTime = dateTime;
 
-        if (tags != null){
+        if (tags != null) {
             this.tags = tags;
-        }
-        else{
+        } else {
             this.tags = new HashSet<>();
         }
 
-        if (mentions != null){
+        if (mentions != null) {
             this.mentions = mentions;
-        }
-        else{
+        } else {
             this.mentions = new HashSet<>();
         }
 
@@ -92,5 +92,7 @@ public class Kwetter {
         hearts -= 1;
     }
 
-    public void removeOwner(){owner = null;}
+    public void removeOwner() {
+        owner = null;
+    }
 }

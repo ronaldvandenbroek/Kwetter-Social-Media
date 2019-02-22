@@ -1,9 +1,9 @@
 package nl.fontys.kwetter.dao.memory;
 
 import nl.fontys.kwetter.dao.UserDao;
-import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.models.Credentials;
+import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 
 import java.util.Collection;
@@ -13,7 +13,7 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User login(Credentials credentials) {
-        if (InMemoryCollection.getAllCredentials().contains(credentials)){
+        if (InMemoryCollection.getAllCredentials().contains(credentials)) {
             for (Credentials matchingCredentials : InMemoryCollection.getAllCredentials()) {
                 if (matchingCredentials.equals(credentials)) {
                     return matchingCredentials.getUser();
@@ -33,7 +33,7 @@ public class UserDaoImp implements UserDao {
     public User getUserById(Long userID) {
         Collection<User> allUsers = InMemoryCollection.getAllUsers();
         for (User user : allUsers) {
-            if (user.getId().equals(userID)){
+            if (user.getId().equals(userID)) {
                 return new User(user);
             }
         }
@@ -43,16 +43,15 @@ public class UserDaoImp implements UserDao {
     @Override
     public boolean createNewUser(Credentials credentials) {
         boolean userNameAlreadyExists = false;
-        for (Credentials existingCredentials: InMemoryCollection.getAllCredentials()) {
-            if (existingCredentials.getEmail().equals(credentials.getEmail())){
+        for (Credentials existingCredentials : InMemoryCollection.getAllCredentials()) {
+            if (existingCredentials.getEmail().equals(credentials.getEmail())) {
                 userNameAlreadyExists = true;
             }
         }
 
-        if (InMemoryCollection.getAllCredentials().contains(credentials) || userNameAlreadyExists || credentials.getUser() == null){
+        if (InMemoryCollection.getAllCredentials().contains(credentials) || userNameAlreadyExists || credentials.getUser() == null) {
             return false;
-        }
-        else {
+        } else {
             InMemoryCollection.getAllCredentials().add(credentials);
             credentials.getUser().setId(InMemoryCollection.getNextFreeUserID());
             InMemoryCollection.getAllUsers().add(credentials.getUser());
@@ -64,9 +63,9 @@ public class UserDaoImp implements UserDao {
     public boolean updateUser(User user) {
         Collection<User> allUsers = InMemoryCollection.getAllUsers();
 
-        if (allUsers.contains(user)){
+        if (allUsers.contains(user)) {
             for (User oldUser : allUsers) {
-                if (oldUser.equals(user)){
+                if (oldUser.equals(user)) {
                     allUsers.remove(oldUser);
                     allUsers.add(user);
                     return true;
@@ -78,10 +77,10 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public boolean deleteUser(User user) {
-        if (InMemoryCollection.getAllUsers().remove(user)){
+        if (InMemoryCollection.getAllUsers().remove(user)) {
             InMemoryCollection.getAllCredentials().remove(user.getCredentials());
             for (Kwetter kwetter : InMemoryCollection.getAllKwetters()) {
-                if(kwetter.getOwner().equals(user)){
+                if (kwetter.getOwner().equals(user)) {
                     kwetter.setOwner(null);
                 }
             }
@@ -92,9 +91,9 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public boolean checkIfUsernameDoesntExists(String name) {
-        for (User user: InMemoryCollection.getAllUsers()
-             ) {
-            if (user.getName().equals(name)){
+        for (User user : InMemoryCollection.getAllUsers()
+        ) {
+            if (user.getName().equals(name)) {
                 return false;
             }
         }

@@ -13,10 +13,9 @@ public class KwetterDaoImp implements KwetterDao {
 
     @Override
     public boolean createNewKwetter(Kwetter kwetter) {
-        if (InMemoryCollection.getAllKwetters().contains(kwetter)){
+        if (InMemoryCollection.getAllKwetters().contains(kwetter)) {
             return false;
-        }
-        else {
+        } else {
             kwetter.setId(InMemoryCollection.getNextFreeKwetterID());
             InMemoryCollection.getAllKwetters().add(kwetter);
             return true;
@@ -25,9 +24,9 @@ public class KwetterDaoImp implements KwetterDao {
 
     @Override
     public boolean updateKwetter(Kwetter kwetter) {
-        if (InMemoryCollection.getAllKwetters().contains(kwetter)){
+        if (InMemoryCollection.getAllKwetters().contains(kwetter)) {
             for (Kwetter oldKwetter : InMemoryCollection.getAllKwetters()) {
-                if (oldKwetter.equals(kwetter)){
+                if (oldKwetter.equals(kwetter)) {
                     oldKwetter = kwetter;
                     return true;
                 }
@@ -39,9 +38,9 @@ public class KwetterDaoImp implements KwetterDao {
     @Override
     public boolean deleteKwetter(Kwetter kwetter) {
         Collection<Kwetter> allKwetters = InMemoryCollection.getAllKwetters();
-        if (allKwetters.contains(kwetter)){
+        if (allKwetters.contains(kwetter)) {
             for (Kwetter oldKwetter : allKwetters) {
-                if (oldKwetter.equals(kwetter)){
+                if (oldKwetter.equals(kwetter)) {
                     kwetter.setOwner(null);
                     allKwetters.remove(oldKwetter);
                     allKwetters.add(kwetter);
@@ -59,11 +58,11 @@ public class KwetterDaoImp implements KwetterDao {
 
     @Override
     public List<Kwetter> getAllCreatedKwettersFromUser(User user) {
-        if (InMemoryCollection.getAllUsers().contains(user)){
+        if (InMemoryCollection.getAllUsers().contains(user)) {
             Collection<User> users = InMemoryCollection.getAllUsers();
             for (User allUser : InMemoryCollection.getAllUsers()
-                 ) {
-                if (allUser.equals(user)){
+            ) {
+                if (allUser.equals(user)) {
                     return new ArrayList<>(allUser.getCreatedKwetters());
                 }
             }
@@ -73,10 +72,10 @@ public class KwetterDaoImp implements KwetterDao {
 
     @Override
     public List<Kwetter> getAllReportedKwettersFromUser(User user) {
-        if (InMemoryCollection.getAllUsers().contains(user)){
+        if (InMemoryCollection.getAllUsers().contains(user)) {
             for (User allUser : InMemoryCollection.getAllUsers()
             ) {
-                if (allUser.equals(user)){
+                if (allUser.equals(user)) {
                     return new ArrayList<>(allUser.getReportedKwetters());
                 }
             }
@@ -86,10 +85,10 @@ public class KwetterDaoImp implements KwetterDao {
 
     @Override
     public List<Kwetter> getAllHeartedKwettersFromUser(User user) {
-        if (InMemoryCollection.getAllUsers().contains(user)){
+        if (InMemoryCollection.getAllUsers().contains(user)) {
             for (User allUser : InMemoryCollection.getAllUsers()
             ) {
-                if (allUser.equals(user)){
+                if (allUser.equals(user)) {
                     return new ArrayList<>(allUser.getHeartedKwetters());
                 }
             }
@@ -100,7 +99,7 @@ public class KwetterDaoImp implements KwetterDao {
     @Override
     public Kwetter getKwetterById(Long kwetterId) {
         for (Kwetter kwetter : InMemoryCollection.getAllKwetters()) {
-            if (kwetter.getId().equals(kwetterId)){
+            if (kwetter.getId().equals(kwetterId)) {
                 return new Kwetter(kwetter);
             }
         }

@@ -19,7 +19,7 @@ public class InMemoryUserUnitTests {
     private UserDaoImp userDao;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         userDao = new UserDaoImp();
     }
 

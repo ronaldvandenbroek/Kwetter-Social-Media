@@ -26,7 +26,7 @@ public class InMemoryKwetterUnitTests {
     private Calendar calendar;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         userDao = new UserDaoImp();
         kwetterDao = new KwetterDaoImp();
 

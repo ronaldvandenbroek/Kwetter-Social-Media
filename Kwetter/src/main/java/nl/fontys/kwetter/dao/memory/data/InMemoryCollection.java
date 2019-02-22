@@ -5,7 +5,10 @@ import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class InMemoryCollection {
     private static Collection<User> allUsers;
@@ -33,7 +36,7 @@ public class InMemoryCollection {
         //Follow everyone via the first user
         Iterator<User> userIterator = allUsers.iterator();
         User user = userIterator.next();
-        while (userIterator.hasNext()){
+        while (userIterator.hasNext()) {
             user.follow(userIterator.next());
         }
 
@@ -46,37 +49,37 @@ public class InMemoryCollection {
         }
     }
 
-    public static Collection<User> getAllUsers(){
-        if(allUsers == null){
+    public static Collection<User> getAllUsers() {
+        if (allUsers == null) {
             createMemory();
         }
         return allUsers;
     }
 
-    public static Collection<Credentials> getAllCredentials(){
-        if(allCredentials == null){
+    public static Collection<Credentials> getAllCredentials() {
+        if (allCredentials == null) {
             createMemory();
         }
         return allCredentials;
     }
 
-    public static Collection<Kwetter> getAllKwetters(){
-        if(allKwetters == null){
+    public static Collection<Kwetter> getAllKwetters() {
+        if (allKwetters == null) {
             createMemory();
         }
         return allKwetters;
     }
 
-    public static Long getNextFreeUserID(){
+    public static Long getNextFreeUserID() {
         return userID++;
     }
 
-    public static Long getNextFreeKwetterID(){
+    public static Long getNextFreeKwetterID() {
         return kwetterID++;
     }
 
 
-    public static void resetMemory(){
+    public static void resetMemory() {
         createMemory();
     }
 }
