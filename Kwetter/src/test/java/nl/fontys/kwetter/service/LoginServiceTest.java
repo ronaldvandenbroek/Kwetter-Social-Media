@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.exceptions.CannotLoginException;
+import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +34,7 @@ class LoginServiceTest {
             assertEquals(email, user.getCredentials().getEmail());
             assertEquals(password, user.getCredentials().getPassword());
             assertEquals(username, user.getName());
-        } catch (CannotLoginException e) {
+        } catch (CannotLoginException | InvalidModelException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -48,14 +49,29 @@ class LoginServiceTest {
     }
 
     @Test
-    @DisplayName("Invalid email")
-    void invalidEmail() {
-
-        new Credentials(null, null);
-
+    @DisplayName("Null email")
+    void nullEmail() {
         String email = null;
         String password = "test";
 
-        assertThrows(CannotLoginException.class, () -> loginService.login(email, password));
+        assertThrows(InvalidModelException.class, () -> loginService.login(email, password));
+    }
+
+    @Test
+    @DisplayName("Invalid email")
+    void invalidEmail() {
+        String email = "NotAnEmail";
+        String password = "test";
+
+        assertThrows(InvalidModelException.class, () -> loginService.login(email, password));
+    }
+
+    @Test
+    @DisplayName("Null password")
+    void nullPassword() {
+        String email = "1@test.nl";
+        String password = null;
+
+        assertThrows(InvalidModelException.class, () -> loginService.login(email, password));
     }
 }

@@ -12,8 +12,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(exclude = {"user"})
 public class Credentials {
 
-    @Email(message = "Email should be valid")
     @NotNull(message = "Email cannot be null")
+    @Email(message = "Email should be valid")
     private String email;
 
     @NotNull(message = "Password cannot be null")
