@@ -7,6 +7,8 @@ import lombok.ToString;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,14 +19,27 @@ import java.util.Set;
 public class User {
 
     private @Id @GeneratedValue Long id;
+
+    @NotNull(message = "Role cannot be null")
     private Role role;
+
     private Credentials credentials;
 
+    @Size(max = 50)
     private String name;
+
+    @Size(max = 140)
     private String bio;
+
+    @Size(max = 50)
     private String website;
+
+    @Size(max = 50)
     private String location;
+
+    @Size(max = 50)
     private String language;
+
     private byte[] photo;
 
     private Set<Kwetter> createdKwetters;
@@ -33,6 +48,23 @@ public class User {
 
     private Set<User> usersFollowed;
     private Set<User> followedByUsers;
+
+    public User(User toBeClonedUser){
+        this.id = toBeClonedUser.getId();
+        this.role = toBeClonedUser.getRole();
+        this.credentials = toBeClonedUser.getCredentials();
+        this.name = toBeClonedUser.getName();
+        this.bio = toBeClonedUser.getBio();
+        this.website = toBeClonedUser.getWebsite();
+        this.location = toBeClonedUser.getLocation();
+        this.language = toBeClonedUser.getLanguage();
+        this.photo = toBeClonedUser.getPhoto();
+        this.createdKwetters = toBeClonedUser.getCreatedKwetters();
+        this.reportedKwetters = toBeClonedUser.getReportedKwetters();
+        this.heartedKwetters = toBeClonedUser.getHeartedKwetters();
+        this.usersFollowed = toBeClonedUser.getUsersFollowed();
+        this.followedByUsers = toBeClonedUser.getFollowedByUsers();
+    }
 
     public User(Role role){
         this.role = role;

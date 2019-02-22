@@ -1,24 +1,30 @@
 package nl.fontys.kwetter.service;
 
+import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
-import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.service.interfaces.ILoginService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the Login Service")
-class LoginServiceTest {
+class LoginServiceIntegrationTest {
 
-    private LoginService loginService;
+    private ILoginService loginService;
 
     @BeforeEach
     void setUp(){
         loginService = new LoginService();
+    }
+
+    @AfterEach
+    void tearDown() {
+        InMemoryCollection.resetMemory();
     }
 
     @Test

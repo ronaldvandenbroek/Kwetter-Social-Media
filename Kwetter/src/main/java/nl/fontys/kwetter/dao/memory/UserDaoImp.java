@@ -32,7 +32,7 @@ public class UserDaoImp implements UserDao {
     public User getUserById(Long userID) {
         for (User user : InMemoryCollection.getAllUsers()) {
             if (user.getId().equals(userID)){
-                return user;
+                return new User(user);
             }
         }
         return null;
