@@ -6,10 +6,7 @@ import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoginController {
