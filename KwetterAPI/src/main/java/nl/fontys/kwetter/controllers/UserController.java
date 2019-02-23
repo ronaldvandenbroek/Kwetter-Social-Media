@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class ProfileController {
+public class UserController {
 
     private final IProfileService profileService;
 
     @Autowired
-    public ProfileController(IProfileService profileService) {
+    public UserController(IProfileService profileService) {
         this.profileService = profileService;
     }
 

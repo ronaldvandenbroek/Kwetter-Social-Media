@@ -1,8 +1,9 @@
 nl\fontys\kwetter\exceptions\UsernameAlreadyExists.class
+nl\fontys\kwetter\controllers\AdminController.class
+nl\fontys\kwetter\controllers\LoginController.class
 nl\fontys\kwetter\dao\memory\data\InMemoryCollection.class
 nl\fontys\kwetter\exceptions\KwetterDoesntExist.class
 nl\fontys\kwetter\service\interfaces\IKwetterService.class
-nl\fontys\kwetter\controllers\LoginRestController.class
 nl\fontys\kwetter\dao\memory\UserDaoImp.class
 nl\fontys\kwetter\service\interfaces\IProfileService.class
 nl\fontys\kwetter\service\KwetterService.class
@@ -10,10 +11,13 @@ nl\fontys\kwetter\models\Kwetter.class
 nl\fontys\kwetter\service\ProfileService.class
 nl\fontys\kwetter\service\AdminService.class
 nl\fontys\kwetter\service\interfaces\ILoginService.class
+nl\fontys\kwetter\controllers\ErrorControllerAdvice.class
+nl\fontys\kwetter\models\LongRequest.class
 nl\fontys\kwetter\dao\memory\KwetterDaoImp.class
 nl\fontys\kwetter\utilities\ModelValidator.class
 nl\fontys\kwetter\service\interfaces\IAdminService.class
 nl\fontys\kwetter\models\Credentials.class
+nl\fontys\kwetter\controllers\KwetterController.class
 nl\fontys\kwetter\service\LoginService.class
 nl\fontys\kwetter\Application.class
 nl\fontys\kwetter\exceptions\InvalidModelException.class
@@ -21,5 +25,6 @@ nl\fontys\kwetter\exceptions\UserDoesntExist.class
 nl\fontys\kwetter\models\Role.class
 nl\fontys\kwetter\dao\UserDao.class
 nl\fontys\kwetter\exceptions\CannotLoginException.class
+nl\fontys\kwetter\controllers\UserController.class
 nl\fontys\kwetter\dao\KwetterDao.class
 nl\fontys\kwetter\models\User.class

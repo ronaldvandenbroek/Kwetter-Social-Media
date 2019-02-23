@@ -53,4 +53,11 @@ public class ErrorControllerAdvice {
     public String notImplementedException(NotImplementedException ex) {
         return ex.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    public String exception(Exception ex) {
+        return ex.getMessage();
+    }
 }

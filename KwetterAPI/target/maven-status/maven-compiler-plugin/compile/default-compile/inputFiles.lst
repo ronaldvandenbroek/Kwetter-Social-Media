@@ -5,11 +5,14 @@ C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\exceptions\CannotLoginException.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\service\LoginService.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\service\interfaces\IKwetterService.java
+C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\controllers\LoginController.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\dao\memory\data\InMemoryCollection.java
-C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\controllers\LoginRestController.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\exceptions\InvalidModelException.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\dao\memory\KwetterDaoImp.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\service\ProfileService.java
+C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\controllers\ErrorControllerAdvice.java
+C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\controllers\KwetterController.java
+C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\controllers\AdminController.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\dao\KwetterDao.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\service\AdminService.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\utilities\ModelValidator.java
@@ -22,4 +25,6 @@ C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\dao\memory\UserDaoImp.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\exceptions\UserDoesntExist.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\models\User.java
+C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\controllers\UserController.java
+C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\models\LongRequest.java
 C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\src\main\java\nl\fontys\kwetter\dao\UserDao.java
