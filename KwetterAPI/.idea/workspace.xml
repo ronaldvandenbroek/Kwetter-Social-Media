@@ -3,17 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c7442367-19e0-45f3-ab6f-a0f33b107654" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/controllers/LoginRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/controllers/LoginRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Credentials.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Credentials.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Kwetter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Kwetter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/AdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/KwetterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/KwetterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/LoginService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/ProfileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/ProfileService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/interfaces/ILoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/interfaces/ILoginService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -30,44 +20,9 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/LoginService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="29" column="12" lean-forward="true" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/interfaces/ILoginService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/controllers/LoginRestController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="22" column="30" lean-forward="true" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#934#935#0" expanded="true" />
-                <element signature="e#968#969#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
+            <state relative-caret-position="34">
               <caret line="54" column="61" selection-start-line="54" selection-start-column="61" selection-end-line="54" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -76,11 +31,47 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Credentials.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/dao/InMemoryKwetterUnitTests.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+            <state relative-caret-position="-426">
+              <caret line="37" selection-start-line="37" selection-end-line="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/dao/InMemoryUserUnitTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1582">
+              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/mock/MockTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="101">
+              <caret line="11" column="2" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/models/ModelAssociationUnitTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2262">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/AdminServiceIntegrationTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-289">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -89,22 +80,43 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Role.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/LoginServiceIntegrationTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+            <state relative-caret-position="356">
+              <caret line="78" column="75" selection-start-line="78" selection-start-column="75" selection-end-line="78" selection-end-column="107" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Kwetter.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/ProfileServiceIntegrationTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="25" column="30" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="30" />
+            <state relative-caret-position="391">
+              <caret line="44" column="74" selection-start-line="44" selection-start-column="74" selection-end-line="44" selection-end-column="74" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/KwetterServiceIntegrationTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="305">
+              <caret line="37" selection-start-line="37" selection-end-line="39" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="492">
+              <caret line="69" selection-start-line="69" selection-end-line="69" />
             </state>
           </provider>
         </entry>
@@ -130,7 +142,6 @@
         <option value="$PROJECT_DIR$/KwetterAPI.iml" />
         <option value="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/Application.java" />
         <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/web.xml" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/controllers/Person.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/dao/memory/KwetterDaoImp.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/dao/memory/UserDaoImp.java" />
@@ -146,6 +157,12 @@
         <option value="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Credentials.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Kwetter.java" />
         <option value="$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/User.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/KwetterServiceIntegrationTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/AdminServiceIntegrationTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/LoginServiceIntegrationTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/ProfileServiceIntegrationTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/mock/MockTest.java" />
       </list>
     </option>
   </component>
@@ -160,6 +177,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -218,109 +236,6 @@
               <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="dao" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="dao" type="462c0819:PsiDirectoryNode" />
-              <item name="memory" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="dao" type="462c0819:PsiDirectoryNode" />
-              <item name="memory" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="exceptions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-              <item name="interfaces" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="nl" type="462c0819:PsiDirectoryNode" />
-              <item name="fontys" type="462c0819:PsiDirectoryNode" />
-              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
-              <item name="utilities" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
-              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -336,6 +251,84 @@
               <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="nl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="nl" type="462c0819:PsiDirectoryNode" />
+              <item name="fontys" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="nl" type="462c0819:PsiDirectoryNode" />
+              <item name="fontys" type="462c0819:PsiDirectoryNode" />
+              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="nl" type="462c0819:PsiDirectoryNode" />
+              <item name="fontys" type="462c0819:PsiDirectoryNode" />
+              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
+              <item name="dao" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="nl" type="462c0819:PsiDirectoryNode" />
+              <item name="fontys" type="462c0819:PsiDirectoryNode" />
+              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
+              <item name="mock" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="nl" type="462c0819:PsiDirectoryNode" />
+              <item name="fontys" type="462c0819:PsiDirectoryNode" />
+              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
+              <item name="KwetterAPI" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="nl" type="462c0819:PsiDirectoryNode" />
+              <item name="fontys" type="462c0819:PsiDirectoryNode" />
+              <item name="kwetter" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="KwetterAPI" type="b2602c69:ProjectViewProjectNode" />
@@ -359,13 +352,16 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550927491950" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550929327679" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -373,6 +369,11 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="nl" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -386,7 +387,15 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.All in kwetter">
+    <configuration name="All in kwetter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="kwetter" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="kwetter" />
       <extension name="coverage">
@@ -402,6 +411,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.All in kwetter" />
         <item itemvalue="Spring Boot.Application" />
       </list>
     </recent_temporary>
@@ -417,12 +427,13 @@
       <option name="presentableId" value="Default" />
       <updated>1550907389483</updated>
       <workItem from="1550907393679" duration="336000" />
-      <workItem from="1550907753651" duration="16510000" />
+      <workItem from="1550907753651" duration="16839000" />
+      <workItem from="1550928419096" duration="782000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16846000" />
+    <option name="totallyTimeSpent" value="17957000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -437,7 +448,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22068231" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2228145" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -445,8 +456,6 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info id="Web" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Spring" sideWeight="0.4989339" />
-      <window_info anchor="bottom" id="Messages" sideWeight="0.49413645" visible="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989339" />
@@ -457,11 +466,12 @@
       <window_info anchor="bottom" id="FindBugs-IDEA" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49946696" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50586355" side_tool="true" visible="true" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50586355" side_tool="true" visible="true" weight="0.23" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="bottom" id="Version Control" order="13" />
-      <window_info anchor="right" id="Bean Validation" />
+      <window_info anchor="bottom" id="Spring" order="14" sideWeight="0.4989339" />
+      <window_info anchor="bottom" id="Messages" order="15" sideWeight="0.49413645" visible="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -471,19 +481,13 @@
       <window_info anchor="right" id="Database" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Bean Validation" order="9" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/kwetter.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="18" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/Application.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -576,28 +580,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/controllers/Person.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding>
-            <element signature="e#530#531#0" expanded="true" />
-            <element signature="e#562#563#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/controllers/Person.java" />
     <entry file="file://$PROJECT_DIR$/kwetter.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="9" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="47" column="21" selection-start-line="47" selection-start-column="21" selection-end-line="47" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -635,8 +622,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/LoginService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="29" column="12" lean-forward="true" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
+        <state relative-caret-position="340">
+          <caret line="29" column="12" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -646,18 +633,28 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/service/interfaces/ILoginService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/controllers/LoginRestController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="22" column="30" lean-forward="true" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
+        <state relative-caret-position="238">
+          <caret line="22" column="30" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#934#935#0" expanded="true" />
             <element signature="e#968#969#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Credentials.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -669,19 +666,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Credentials.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/Kwetter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="289">
           <caret line="25" column="30" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -691,11 +678,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/nl/fontys/kwetter/models/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
+        <state relative-caret-position="34">
           <caret line="54" column="61" selection-start-line="54" selection-start-column="61" selection-end-line="54" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/AdminServiceIntegrationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-289">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/KwetterServiceIntegrationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="37" selection-start-line="37" selection-end-line="39" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/LoginServiceIntegrationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="78" column="75" selection-start-line="78" selection-start-column="75" selection-end-line="78" selection-end-column="107" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/service/ProfileServiceIntegrationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="44" column="74" selection-start-line="44" selection-start-column="74" selection-end-line="44" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/mock/MockTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="11" column="2" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/models/ModelAssociationUnitTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2262">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/dao/InMemoryUserUnitTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1582">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/nl/fontys/kwetter/dao/InMemoryKwetterUnitTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-426">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
         </state>
       </provider>
     </entry>
