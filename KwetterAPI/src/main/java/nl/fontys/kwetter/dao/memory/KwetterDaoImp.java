@@ -19,6 +19,8 @@ public class KwetterDaoImp implements KwetterDao {
             return false;
         } else {
             kwetter.setId(InMemoryCollection.getNextFreeKwetterID());
+            Collection<Kwetter> allKwetters = InMemoryCollection.getAllKwetters();
+
             InMemoryCollection.getAllKwetters().add(kwetter);
             return true;
         }

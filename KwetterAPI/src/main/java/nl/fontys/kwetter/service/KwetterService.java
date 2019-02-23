@@ -10,8 +10,6 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IKwetterService;
 import nl.fontys.kwetter.utilities.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -52,29 +50,31 @@ public class KwetterService implements IKwetterService {
     /**
      * Create a new kwetter
      *
-     * @param userId     Id of the User
-     * @param text       Text of the Kwetter
-     * @param tags       Tags added to the Kwetter
-     * @param mentionIds Mentioned Users
+     * @param userId  Id of the User
+     * @param kwetter The kwetter to be created
      * @return The created kwetter
      * @throws InvalidModelException Thrown when an invalid input is given for the model.
      * @throws UserDoesntExist       Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public Kwetter createKwetter(Long userId, String text, Set<String> tags, Set<Long> mentionIds) throws UserDoesntExist, InvalidModelException {
+    public Kwetter createKwetter(Long userId, Kwetter kwetter) throws UserDoesntExist, InvalidModelException {
         User owner = getUserById(userId);
 
         Set<User> mentions = new HashSet<>();
-        if (mentionIds != null) {
-            for (Long mentionUserId : mentionIds) {
-                mentions.add(getUserById(mentionUserId));
+        if (kwetter.getMentions() != null) {
+            for (User kwetterMentions : kwetter.getMentions()) {
+                mentions.add(getUserById(kwetterMentions.getId()));
             }
         }
 
-        Kwetter kwetter = new Kwetter(text, tags, mentions, owner, calendar.getTime());
+        kwetter.setMentions(mentions);
+        kwetter.setDateTime(calendar.getTime());
+        owner.addCreatedKwetter(kwetter);
+
         validator.validate(kwetter);
 
         kwetterDao.createNewKwetter(kwetter);
+        userDao.updateUser(owner);
         return kwetter;
     }
 

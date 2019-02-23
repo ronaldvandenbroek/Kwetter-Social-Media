@@ -6,7 +6,10 @@ import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

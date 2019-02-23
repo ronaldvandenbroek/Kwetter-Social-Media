@@ -31,7 +31,7 @@ public class ProfileService implements IProfileService {
     /**
      * Update the bio of the user.
      *
-     * @param user  User with the updated user bio
+     * @param user User with the updated user bio
      * @return The updated user
      * @throws InvalidModelException Thrown when an invalid input is given for the model.
      * @throws UserDoesntExist       Thrown when the userID does not have a corresponding user.

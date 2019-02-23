@@ -6,8 +6,6 @@ import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

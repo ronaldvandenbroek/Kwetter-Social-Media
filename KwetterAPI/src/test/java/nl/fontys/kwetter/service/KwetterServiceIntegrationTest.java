@@ -68,18 +68,23 @@ class KwetterServiceIntegrationTest {
         tags.add("TestTag1");
         tags.add("TestTag2");
 
-        Set<Long> mentionIds = new HashSet<>();
-        mentionIds.add(1L);
-        mentionIds.add(2L);
+//        Set<Long> mentionIds = new HashSet<>();
+//        mentionIds.add(1L);
+//        mentionIds.add(2L);
+
+        Kwetter newKwetter = new Kwetter();
+        newKwetter.setText(text);
+        newKwetter.setTags(tags);
+
 
         try {
-            Kwetter kwetter = kwetterService.createKwetter(testUser.getId(), text, tags, mentionIds);
+            Kwetter kwetter = kwetterService.createKwetter(testUser.getId(), newKwetter);
             List<Kwetter> latestKwetters = kwetterService.getMostRecentKwetters(testUser.getId());
 
             assertNotNull(kwetter);
             assertEquals(text, kwetter.getText());
             assertEquals(11, latestKwetters.size());
-            assertEquals(2, kwetter.getMentions().size());
+            //assertEquals(2, kwetter.getMentions().size());
             assertEquals(2, kwetter.getTags().size());
         } catch (UserDoesntExist | InvalidModelException e) {
             fail("This exception should not have been thrown");
@@ -91,8 +96,11 @@ class KwetterServiceIntegrationTest {
     void createKwetterMinimal() {
         String text = "This is a test kwetter";
 
+        Kwetter newKwetter = new Kwetter();
+        newKwetter.setText(text);
+
         try {
-            Kwetter kwetter = kwetterService.createKwetter(testUser.getId(), text, null, null);
+            Kwetter kwetter = kwetterService.createKwetter(testUser.getId(), newKwetter);
 
             List<Kwetter> latestKwetters = kwetterService.getMostRecentKwetters(testUser.getId());
 
@@ -111,7 +119,10 @@ class KwetterServiceIntegrationTest {
     void failToCreateKwetterInvalidText() {
         String text = null;
 
-        assertThrows(InvalidModelException.class, () -> kwetterService.createKwetter(testUser.getId(), text, null, null));
+        Kwetter kwetter = new Kwetter();
+        kwetter.setText(text);
+
+        assertThrows(InvalidModelException.class, () -> kwetterService.createKwetter(testUser.getId(), kwetter));
     }
 
 //    @Test

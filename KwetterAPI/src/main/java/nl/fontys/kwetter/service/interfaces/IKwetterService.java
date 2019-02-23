@@ -6,12 +6,11 @@ import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Kwetter;
 
 import java.util.List;
-import java.util.Set;
 
 public interface IKwetterService {
     Kwetter searchForKwetter(String searchTerm);
 
-    Kwetter createKwetter(Long userId, String text, Set<String> tags, Set<Long> mentionIds) throws UserDoesntExist, InvalidModelException;
+    Kwetter createKwetter(Long userId, Kwetter kwetter) throws UserDoesntExist, InvalidModelException;
 
     void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist;
 

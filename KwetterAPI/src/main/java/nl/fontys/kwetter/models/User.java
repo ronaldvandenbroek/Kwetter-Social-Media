@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,22 +38,22 @@ public class User {
 
     private byte[] photo;
 
-    @JsonIgnoreProperties({"owner","mentions"})
+    @JsonIgnoreProperties({"owner", "mentions"})
     private Set<Kwetter> createdKwetters;
 
-    @JsonIgnoreProperties({"owner","mentions"})
+    @JsonIgnoreProperties({"owner", "mentions"})
     private Set<Kwetter> reportedKwetters;
 
-    @JsonIgnoreProperties({"owner","mentions"})
+    @JsonIgnoreProperties({"owner", "mentions"})
     private Set<Kwetter> heartedKwetters;
 
-    @JsonIgnoreProperties({"usersFollowed","followedByUsers"})
+    @JsonIgnoreProperties({"usersFollowed", "followedByUsers"})
     private Set<User> usersFollowed;
 
-    @JsonIgnoreProperties({"usersFollowed","followedByUsers"})
+    @JsonIgnoreProperties({"usersFollowed", "followedByUsers"})
     private Set<User> followedByUsers;
 
-    public User(){
+    public User() {
 
     }
 

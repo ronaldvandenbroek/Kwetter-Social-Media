@@ -25,14 +25,15 @@ public class Kwetter {
 
     private Set<User> mentions;
 
-    @JsonIgnoreProperties({"createdKwetters","reportedKwetters","heartedKwetters"})
+    @JsonIgnoreProperties({"createdKwetters", "reportedKwetters", "heartedKwetters"})
     private User owner;
 
     @NotNull
     private Date dateTime;
 
-    public Kwetter(){
-
+    public Kwetter() {
+        this.tags = new HashSet<>();
+        this.mentions = new HashSet<>();
     }
 
     public Kwetter(Kwetter toBeClonedKwetter) {
