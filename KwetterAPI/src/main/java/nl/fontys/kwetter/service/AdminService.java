@@ -8,14 +8,14 @@ import nl.fontys.kwetter.service.interfaces.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Service for handling model operations regarding the administrative tasks.
  */
-@Scope(value = "session")
-@Component(value = "adminService")
+@Service
 public class AdminService implements IAdminService {
 
     private final UserDao userDao;

@@ -1,30 +1,26 @@
 package nl.fontys.kwetter.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
 @EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials", "bio", "role", "name"})
 @ToString(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials"})
 public class User {
 
-    private @Id
-    @GeneratedValue
-    Long id;
+    private Long id;
 
     @NotNull(message = "Role cannot be null")
     private Role role;
 
+    @JsonIgnoreProperties("user")
     private Credentials credentials;
 
     @Size(max = 50)
@@ -44,11 +40,19 @@ public class User {
 
     private byte[] photo;
 
+    @JsonIgnoreProperties({"owner","mentions"})
     private Set<Kwetter> createdKwetters;
+
+    @JsonIgnoreProperties({"owner","mentions"})
     private Set<Kwetter> reportedKwetters;
+
+    @JsonIgnoreProperties({"owner","mentions"})
     private Set<Kwetter> heartedKwetters;
 
+    @JsonIgnoreProperties({"usersFollowed","followedByUsers"})
     private Set<User> usersFollowed;
+
+    @JsonIgnoreProperties({"usersFollowed","followedByUsers"})
     private Set<User> followedByUsers;
 
     public User(User toBeClonedUser) {

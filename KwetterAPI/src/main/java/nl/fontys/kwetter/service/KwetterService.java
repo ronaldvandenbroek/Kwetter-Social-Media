@@ -12,6 +12,7 @@ import nl.fontys.kwetter.utilities.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
@@ -19,8 +20,7 @@ import java.util.*;
 /**
  * Service for handling model operations regarding the kwetter tasks.
  */
-@Scope(value = "session")
-@Component(value = "kwetterService")
+@Service
 public class KwetterService implements IKwetterService {
 
     private final ModelValidator validator;

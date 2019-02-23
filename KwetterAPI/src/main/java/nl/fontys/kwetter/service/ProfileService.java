@@ -10,6 +10,7 @@ import nl.fontys.kwetter.utilities.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,7 @@ import java.util.List;
 /**
  * Service for handling model operations regarding the profile.
  */
-@Scope(value = "session")
-@Component(value = "profileService")
+@Service
 public class ProfileService implements IProfileService {
 
     private final ModelValidator validator;

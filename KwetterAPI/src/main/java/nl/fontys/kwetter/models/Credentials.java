@@ -1,14 +1,13 @@
 package nl.fontys.kwetter.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Data
-@Entity
 @EqualsAndHashCode(exclude = {"user"})
 public class Credentials {
 
@@ -19,7 +18,11 @@ public class Credentials {
     @NotNull(message = "Password cannot be null")
     private String password;
 
+    @JsonIgnoreProperties("credentials")
     private User user;
+
+    public Credentials() {
+    }
 
     public Credentials(String email, String password) {
         this.email = email;

@@ -8,15 +8,13 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.ILoginService;
 import nl.fontys.kwetter.utilities.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Service for handling model operations regarding the login process.
  */
-@Scope(value = "session")
-@Component(value = "loginService")
+@Service
 public class LoginService implements ILoginService {
 
     private final UserDao userDao;
@@ -31,15 +29,13 @@ public class LoginService implements ILoginService {
     /**
      * Login
      *
-     * @param email    The users email
-     * @param password The users password
+     * @param credentials The users credentials
      * @return The logged in user
      * @throws CannotLoginException  Thrown if the credentials are not correct.
      * @throws InvalidModelException Thrown if the credentials are not valid.
      */
     @Override
-    public User login(String email, String password) throws CannotLoginException, InvalidModelException {
-        Credentials credentials = new Credentials(email, password);
+    public User login(Credentials credentials) throws CannotLoginException, InvalidModelException {
         validator.validate(credentials);
 
         User user = userDao.login(credentials);

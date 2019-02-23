@@ -1,11 +1,9 @@
 package nl.fontys.kwetter.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -13,13 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
 @EqualsAndHashCode(exclude = {"reports", "hearts", "tags", "mentions"})
 public class Kwetter {
 
-    private @Id
-    @GeneratedValue
-    Long id;
+    private Long id;
 
     @Size(max = 140)
     @NotNull
@@ -29,6 +24,8 @@ public class Kwetter {
     private Set<String> tags;
 
     private Set<User> mentions;
+
+    @JsonIgnoreProperties({"createdKwetters","reportedKwetters","heartedKwetters"})
     private User owner;
 
     @NotNull
