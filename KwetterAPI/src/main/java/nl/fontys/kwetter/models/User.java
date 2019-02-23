@@ -17,7 +17,6 @@ public class User {
 
     private Long id;
 
-    @NotNull(message = "Role cannot be null")
     private Role role;
 
     @JsonIgnoreProperties("user")
@@ -54,6 +53,10 @@ public class User {
 
     @JsonIgnoreProperties({"usersFollowed","followedByUsers"})
     private Set<User> followedByUsers;
+
+    public User(){
+
+    }
 
     public User(User toBeClonedUser) {
         this.id = toBeClonedUser.getId();

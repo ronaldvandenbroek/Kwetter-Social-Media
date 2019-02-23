@@ -31,6 +31,10 @@ public class Kwetter {
     @NotNull
     private Date dateTime;
 
+    public Kwetter(){
+
+    }
+
     public Kwetter(Kwetter toBeClonedKwetter) {
         this.id = toBeClonedKwetter.getId();
         this.text = toBeClonedKwetter.getText();

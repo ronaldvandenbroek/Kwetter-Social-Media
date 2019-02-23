@@ -1,5 +1,5 @@
 Building:
-cd C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI>
+cd C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI
 mvn clean install
 
 Running the server:

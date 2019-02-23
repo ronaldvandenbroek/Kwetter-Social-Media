@@ -1,8 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.KwetterDao;
 import nl.fontys.kwetter.dao.UserDao;
-import nl.fontys.kwetter.dao.memory.KwetterDaoImp;
 import nl.fontys.kwetter.dao.memory.UserDaoImp;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
@@ -55,46 +53,25 @@ class ProfileServiceIntegrationTest {
 
     @Test
     @DisplayName("User can update the bio")
-    void updateBio() {
+    void updateUser() {
         String bio = "This is a new test bio";
         String location = "This is a new test location";
         String website = "This is a new test website";
+        String language = "Nederlands";
+
+        User newUser = new User();
+        newUser.setId(testUser.getId());
+        newUser.setLocation(location);
+        newUser.setWebsite(website);
+        newUser.setBio(bio);
+        newUser.setLanguage(language);
 
         try {
-            User user = profileService.updateBio(testUser.getId(), bio, location, website);
+            User user = profileService.updateUser(newUser);
             assertNotNull(user);
             assertEquals(bio, user.getBio());
             assertEquals(location, user.getLocation());
             assertEquals(website, user.getWebsite());
-        } catch (InvalidModelException | UserDoesntExist e) {
-            fail("This exception should not have been thrown");
-        }
-    }
-
-    @Test
-    @DisplayName("User cant update the bio with too long entries")
-    void tooLongBio() {
-        assertThrows(InvalidModelException.class, () -> profileService.updateBio(testUser.getId(), TEST_STRING, TEST_STRING, TEST_STRING));
-
-        try {
-            User user = profileService.getFullProfile(testUser.getId());
-            assertNull(user.getLocation());
-            assertNull(user.getWebsite());
-            assertNull(user.getBio());
-
-        } catch (UserDoesntExist e) {
-            fail("This exception should not have been thrown");
-        }
-    }
-
-    @Test
-    @DisplayName("User can update his language")
-    void updateLanguage() {
-        String language = "Nederlands";
-
-        try {
-            User user = profileService.updateLanguage(testUser.getId(), language);
-            assertNotNull(user);
             assertEquals(language, user.getLanguage());
         } catch (InvalidModelException | UserDoesntExist e) {
             fail("This exception should not have been thrown");
@@ -102,12 +79,22 @@ class ProfileServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("User cant update the language with too long entries")
-    void tooLongLanguage() {
-        assertThrows(InvalidModelException.class, () -> profileService.updateLanguage(testUser.getId(), TEST_STRING));
+    @DisplayName("User cant update the bio with too long entries")
+    void tooLongUserUpdates() {
+        User newUser = new User();
+        newUser.setId(testUser.getId());
+        newUser.setLocation(TEST_STRING);
+        newUser.setWebsite(TEST_STRING);
+        newUser.setBio(TEST_STRING);
+        newUser.setLanguage(TEST_STRING);
+
+        assertThrows(InvalidModelException.class, () -> profileService.updateUser(newUser));
 
         try {
             User user = profileService.getFullProfile(testUser.getId());
+            assertNull(user.getLocation());
+            assertNull(user.getWebsite());
+            assertNull(user.getBio());
             assertNull(user.getLanguage());
         } catch (UserDoesntExist e) {
             fail("This exception should not have been thrown");
@@ -119,8 +106,12 @@ class ProfileServiceIntegrationTest {
     void updateName() {
         String name = "newTest";
 
+        User newUser = new User();
+        newUser.setId(testUser.getId());
+        newUser.setName(name);
+
         try {
-            User user = profileService.updateName(testUser.getId(), name);
+            User user = profileService.updateName(newUser);
             assertNotNull(user);
             assertEquals(name, user.getName());
         } catch (InvalidModelException | UsernameAlreadyExists | UserDoesntExist e) {
@@ -131,7 +122,11 @@ class ProfileServiceIntegrationTest {
     @Test
     @DisplayName("User cant update its name when it is too long")
     void tooLongName() {
-        assertThrows(InvalidModelException.class, () -> profileService.updateName(testUser.getId(), TEST_STRING));
+        User newUser = new User();
+        newUser.setId(testUser.getId());
+        newUser.setName(TEST_STRING);
+
+        assertThrows(InvalidModelException.class, () -> profileService.updateName(newUser));
 
         try {
             User user = profileService.getFullProfile(testUser.getId());
@@ -145,7 +140,12 @@ class ProfileServiceIntegrationTest {
     @DisplayName("User cant update its name when it is already taken")
     void nameAlreadyExists() {
         String name = "1Test";
-        assertThrows(UsernameAlreadyExists.class, () -> profileService.updateName(testUser.getId(), name));
+
+        User newUser = new User();
+        newUser.setId(testUser.getId());
+        newUser.setName(name);
+
+        assertThrows(UsernameAlreadyExists.class, () -> profileService.updateName(newUser));
 
         try {
             User user = profileService.getFullProfile(testUser.getId());

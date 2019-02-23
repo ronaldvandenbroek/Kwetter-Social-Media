@@ -9,23 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class LoginRestController {
+public class LoginController {
 
     private final ILoginService loginService;
 
     @Autowired
-    public LoginRestController(ILoginService loginService) {
+    public LoginController(ILoginService loginService) {
         this.loginService = loginService;
     }
 
     @PostMapping("/login")
     public User login(@RequestBody Credentials credentials) throws InvalidModelException, CannotLoginException {
         return loginService.login(credentials);
-    }
-
-    @PostMapping("/logintest")
-    public Credentials loginTest(@RequestBody Credentials credentials) {
-        return credentials;
     }
 
     @GetMapping("/test")

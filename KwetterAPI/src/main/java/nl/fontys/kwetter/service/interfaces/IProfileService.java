@@ -8,13 +8,9 @@ import nl.fontys.kwetter.models.User;
 import java.util.List;
 
 public interface IProfileService {
-    User updateBio(Long userID, String bio, String location, String website) throws InvalidModelException, UserDoesntExist;
+    User updateUser(User user) throws InvalidModelException, UserDoesntExist;
 
-    User updateLanguage(Long userID, String language) throws InvalidModelException, UserDoesntExist;
-
-    User updatePhoto(Long userID, byte[] photo) throws InvalidModelException, UserDoesntExist;
-
-    User updateName(Long userID, String name) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist;
+    User updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist;
 
     List<User> getFollowers(Long userID) throws UserDoesntExist;
 
