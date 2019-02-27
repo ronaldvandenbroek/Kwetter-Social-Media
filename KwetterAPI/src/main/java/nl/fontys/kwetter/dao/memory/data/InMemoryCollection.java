@@ -4,6 +4,8 @@ import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 
-@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class InMemoryCollection {
     private static Collection<User> allUsers;
     private static Collection<Credentials> allCredentials;

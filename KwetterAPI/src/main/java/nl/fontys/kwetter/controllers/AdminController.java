@@ -4,6 +4,7 @@ import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,12 +23,14 @@ public class AdminController {
     }
 
     @PostMapping("/changeRole")
-    public void changeRole(@RequestBody User user) throws UserDoesntExist {
+    public ResponseEntity changeRole(@RequestBody User user) throws UserDoesntExist {
         adminService.changeRole(user.getId(), user.getRole());
+        return ResponseEntity.ok("Changed user role");
     }
 
     @GetMapping("/getAllUsers")
-    public List<User> getAllUsers() {
-        return adminService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> allUsers = adminService.getAllUsers();
+        return  ResponseEntity.ok(allUsers);
     }
 }

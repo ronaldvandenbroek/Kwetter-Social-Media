@@ -6,6 +6,7 @@ import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,27 +25,32 @@ public class UserController {
     }
 
     @PostMapping("/updateUser")
-    public User updateUser(User user) throws UserDoesntExist, InvalidModelException {
-        return profileService.updateUser(user);
+    public ResponseEntity<User> updateUser(User user) throws UserDoesntExist, InvalidModelException {
+        User updatedUser = profileService.updateUser(user);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @PostMapping("/updateName")
-    public User updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist {
-        return profileService.updateName(user);
+    public ResponseEntity<User> updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist {
+        User updatedUser = profileService.updateName(user);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping("/getFollowers/{id}")
-    public List<User> getFollowers(@PathVariable Long id) throws UserDoesntExist {
-        return profileService.getFollowers(id);
+    public ResponseEntity<List<User>> getFollowers(@PathVariable Long id) throws UserDoesntExist {
+        List<User> followers = profileService.getFollowers(id);
+        return ResponseEntity.ok(followers);
     }
 
     @GetMapping("/getFollowing/{id}")
-    public List<User> getFollowing(@PathVariable Long id) throws UserDoesntExist {
-        return profileService.getFollowing(id);
+    public ResponseEntity<List<User>> getFollowing(@PathVariable Long id) throws UserDoesntExist {
+        List<User> following = profileService.getFollowing(id);
+        return ResponseEntity.ok(following);
     }
 
     @GetMapping("/getProfile/{id}")
-    public User getProfile(@PathVariable Long id) throws UserDoesntExist {
-        return profileService.getFullProfile(id);
+    public ResponseEntity<User> getProfile(@PathVariable Long id) throws UserDoesntExist {
+        User user = profileService.getFullProfile(id);
+        return ResponseEntity.ok(user);
     }
 }

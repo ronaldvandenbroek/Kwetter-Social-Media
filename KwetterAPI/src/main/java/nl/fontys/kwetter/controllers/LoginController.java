@@ -20,8 +20,9 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody Credentials credentials) throws InvalidModelException, CannotLoginException {
-        return loginService.login(credentials);
+    public ResponseEntity<User> login(@RequestBody Credentials credentials) throws InvalidModelException, CannotLoginException {
+        User user = loginService.login(credentials);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/test")
