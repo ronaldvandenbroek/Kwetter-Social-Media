@@ -23,10 +23,9 @@
 hs_err_pid*
 Demos/*
 Kwetter/.idea/*
-Docs/~$A-Kwetter-Backend.docx
-Docs/~$A-Kwetter-casus.docx
+KwetterAPI/.idea/*
 Kwetter/target/*
 KwetterAPI/target/*
-KwetterAPI/.idea/*
 Inleveren/*
-KwetterAPI/target/classes/WEB-INF/web.xml
+Docs/~$A-Kwetter-Backend.docx
+Docs/~$A-Kwetter-casus.docx
