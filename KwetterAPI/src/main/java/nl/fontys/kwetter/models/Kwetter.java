@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -12,20 +13,28 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = {"reports", "hearts", "tags", "mentions"})
+@Entity
 public class Kwetter {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 140)
     @NotNull
     private String text;
+
     private int reports;
+
     private int hearts;
+
     private Set<String> tags;
 
     private Set<User> mentions;
 
     @JsonIgnoreProperties({"createdKwetters", "reportedKwetters", "heartedKwetters"})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pla_fk_n_userId")
     private User owner;
 
     @NotNull

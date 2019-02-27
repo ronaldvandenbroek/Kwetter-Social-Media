@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.dao;
+package nl.fontys.kwetter.dao.memory;
 
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;

@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.IUserDao;
+import nl.fontys.kwetter.dao.memory.IUserDao;
 import nl.fontys.kwetter.dao.memory.UserDaoImp;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.exceptions.CannotLoginException;

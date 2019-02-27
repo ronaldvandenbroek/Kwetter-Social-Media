@@ -1,6 +1,5 @@
 package nl.fontys.kwetter.dao.memory;
 
-import nl.fontys.kwetter.dao.IKwetterDao;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;

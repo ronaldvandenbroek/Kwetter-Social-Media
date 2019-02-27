@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.IUserDao;
-import nl.fontys.kwetter.dao.IKwetterDao;
+import nl.fontys.kwetter.dao.memory.IUserDao;
+import nl.fontys.kwetter.dao.memory.IKwetterDao;
 import nl.fontys.kwetter.dao.memory.KwetterDaoImp;
 import nl.fontys.kwetter.dao.memory.UserDaoImp;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;

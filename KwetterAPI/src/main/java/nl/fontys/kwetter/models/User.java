@@ -5,20 +5,25 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@Entity
 @EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials", "bio", "role", "name"})
 @ToString(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials"})
 public class User {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     private Role role;
 
     @JsonIgnoreProperties("user")
+    @OneToOne(fetch = FetchType.LAZY)
     private Credentials credentials;
 
     @Size(max = 50)
@@ -39,22 +44,29 @@ public class User {
     private byte[] photo;
 
     @JsonIgnoreProperties({"owner", "mentions"})
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private Set<Kwetter> createdKwetters;
 
     @JsonIgnoreProperties({"owner", "mentions"})
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Kwetter> reportedKwetters;
 
     @JsonIgnoreProperties({"owner", "mentions"})
+    @ManyToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private Set<Kwetter> heartedKwetters;
 
     @JsonIgnoreProperties({"usersFollowed", "followedByUsers"})
+    @ManyToMany
+    @JoinTable(name = "follows",
+            joinColumns = { @JoinColumn(name = "follower_id") },
+            inverseJoinColumns = { @JoinColumn(name = "followed_id") })
     private Set<User> usersFollowed;
 
     @JsonIgnoreProperties({"usersFollowed", "followedByUsers"})
+    @ManyToMany
     private Set<User> followedByUsers;
 
     public User() {
-
     }
 
     public User(User toBeClonedUser) {
