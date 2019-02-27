@@ -6,6 +6,7 @@ import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +25,12 @@ public class LoginController {
     }
 
     @GetMapping("/test")
-    public String test() {
-        return "Test";
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Test");
+    }
+
+    @GetMapping("/failTest")
+    public ResponseEntity<String> failTest() throws CannotLoginException {
+        throw new CannotLoginException("Exception test");
     }
 }

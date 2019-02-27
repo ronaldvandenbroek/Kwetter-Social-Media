@@ -22,7 +22,7 @@ public class AdminController {
     }
 
     @PostMapping("/changeRole")
-    public void login(@RequestBody User user) throws UserDoesntExist {
+    public void changeRole(@RequestBody User user) throws UserDoesntExist {
         adminService.changeRole(user.getId(), user.getRole());
     }
 

@@ -3,11 +3,11 @@ cd C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI
 mvn clean install
 
 Running the server:
-C:\payara-5.184\payara5\bin\asadmin start-domain --verbose
+.\payara-5.184\payara5\bin\asadmin start-domain --verbose
 
 Deploying:
-C:\payara-5.184\payara5\bin\asadmin deploy C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI
+.\payara-5.184\payara5\bin\asadmin deploy C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\target\kwetter-1.0.war
 
 UnDeploying:
-C:\payara-5.184\payara5\bin\asadmin undeploy Kwetter-1.0
+.\payara-5.184\payara5\bin\asadmin undeploy Kwetter-1.0
 

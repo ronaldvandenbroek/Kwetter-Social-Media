@@ -122,7 +122,7 @@ public class ProfileService implements IProfileService {
     private User getUserById(Long userID) throws UserDoesntExist {
         User user = userDao.getUserById(userID);
         if (user == null) {
-            throw new UserDoesntExist();
+            throw new UserDoesntExist("User with the id:" + userID+ " could not be found.");
         }
         return user;
     }
