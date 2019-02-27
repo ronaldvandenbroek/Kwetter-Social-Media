@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.UserDao;
+import nl.fontys.kwetter.dao.IUserDao;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
@@ -20,12 +20,12 @@ import java.util.List;
 public class ProfileService implements IProfileService {
 
     private final ModelValidator validator;
-    private final UserDao userDao;
+    private final IUserDao IUserDao;
 
     @Autowired
-    public ProfileService(ModelValidator validator, UserDao userDao) {
+    public ProfileService(ModelValidator validator, IUserDao IUserDao) {
         this.validator = validator;
-        this.userDao = userDao;
+        this.IUserDao = IUserDao;
     }
 
     /**
@@ -48,7 +48,7 @@ public class ProfileService implements IProfileService {
         oldUser.setLocation(user.getLocation());
         oldUser.setBio(user.getBio());
 
-        userDao.updateUser(oldUser);
+        IUserDao.updateUser(oldUser);
         return oldUser;
     }
 
@@ -64,10 +64,10 @@ public class ProfileService implements IProfileService {
     @Override
     public User updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist {
         User oldUser = getUserById(user.getId());
-        if (userDao.checkIfUsernameDoesntExists(user.getName())) {
+        if (IUserDao.checkIfUsernameDoesntExists(user.getName())) {
             oldUser.setName(user.getName());
             validator.validate(oldUser);
-            userDao.updateUser(oldUser);
+            IUserDao.updateUser(oldUser);
             return user;
         } else {
             throw new UsernameAlreadyExists(user.getName());
@@ -120,7 +120,7 @@ public class ProfileService implements IProfileService {
      * @throws UserDoesntExist Thrown when the userID does not have a corresponding user.
      */
     private User getUserById(Long userID) throws UserDoesntExist {
-        User user = userDao.getUserById(userID);
+        User user = IUserDao.getUserById(userID);
         if (user == null) {
             throw new UserDoesntExist("User with the id:" + userID+ " could not be found.");
         }

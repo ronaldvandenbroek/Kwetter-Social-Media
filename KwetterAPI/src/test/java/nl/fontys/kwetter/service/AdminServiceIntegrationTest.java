@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.UserDao;
+import nl.fontys.kwetter.dao.IUserDao;
 import nl.fontys.kwetter.dao.memory.UserDaoImp;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
@@ -32,11 +32,11 @@ class AdminServiceIntegrationTest {
     @BeforeEach
     void setUp() {
         ModelValidator modelValidator = new ModelValidator();
-        UserDao userDao = new UserDaoImp();
+        IUserDao IUserDao = new UserDaoImp();
 
-        adminService = new AdminService(userDao);
-        profileService = new ProfileService(modelValidator, userDao);
-        ILoginService loginService = new LoginService(userDao, modelValidator);
+        adminService = new AdminService(IUserDao);
+        profileService = new ProfileService(modelValidator, IUserDao);
+        ILoginService loginService = new LoginService(IUserDao, modelValidator);
 
 
         String email = "0@test.nl";

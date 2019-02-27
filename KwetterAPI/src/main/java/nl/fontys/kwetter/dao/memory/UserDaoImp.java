@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.dao.memory;
 
-import nl.fontys.kwetter.dao.UserDao;
+import nl.fontys.kwetter.dao.IUserDao;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
-public class UserDaoImp implements UserDao {
+public class UserDaoImp implements IUserDao {
 
     @Override
     public User login(Credentials credentials) {

@@ -5,7 +5,7 @@ import nl.fontys.kwetter.models.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface IUserDao {
     User login(Credentials credentials);
 
     List<User> getAllUsers();

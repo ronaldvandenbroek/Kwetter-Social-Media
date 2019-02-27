@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.UserDao;
+import nl.fontys.kwetter.dao.IUserDao;
 import nl.fontys.kwetter.dao.memory.UserDaoImp;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
@@ -24,9 +24,9 @@ class LoginServiceIntegrationTest {
     @BeforeEach
     void setUp() {
         ModelValidator modelValidator = new ModelValidator();
-        UserDao userDao = new UserDaoImp();
+        IUserDao IUserDao = new UserDaoImp();
 
-        loginService = new LoginService(userDao, modelValidator);
+        loginService = new LoginService(IUserDao, modelValidator);
     }
 
     @AfterEach

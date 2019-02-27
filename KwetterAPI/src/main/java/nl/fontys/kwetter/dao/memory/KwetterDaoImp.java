@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.dao.memory;
 
-import nl.fontys.kwetter.dao.KwetterDao;
+import nl.fontys.kwetter.dao.IKwetterDao;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
-public class KwetterDaoImp implements KwetterDao {
+public class KwetterDaoImp implements IKwetterDao {
 
     @Override
     public boolean createNewKwetter(Kwetter kwetter) {

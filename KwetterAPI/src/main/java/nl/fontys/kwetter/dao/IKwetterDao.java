@@ -5,7 +5,7 @@ import nl.fontys.kwetter.models.User;
 
 import java.util.List;
 
-public interface KwetterDao {
+public interface IKwetterDao {
     boolean createNewKwetter(Kwetter kwetter);
 
     boolean updateKwetter(Kwetter kwetter);

@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.KwetterDao;
-import nl.fontys.kwetter.dao.UserDao;
+import nl.fontys.kwetter.dao.IUserDao;
+import nl.fontys.kwetter.dao.IKwetterDao;
 import nl.fontys.kwetter.dao.memory.KwetterDaoImp;
 import nl.fontys.kwetter.dao.memory.UserDaoImp;
 import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
@@ -36,13 +36,13 @@ class KwetterServiceIntegrationTest {
     @BeforeEach
     void setUp() {
         ModelValidator modelValidator = new ModelValidator();
-        UserDao userDao = new UserDaoImp();
-        KwetterDao kwetterDao = new KwetterDaoImp();
+        IUserDao IUserDao = new UserDaoImp();
+        IKwetterDao IKwetterDao = new KwetterDaoImp();
 
-        kwetterService = new KwetterService(modelValidator, userDao, kwetterDao);
-        profileService = new ProfileService(modelValidator, userDao);
+        kwetterService = new KwetterService(modelValidator, IUserDao, IKwetterDao);
+        profileService = new ProfileService(modelValidator, IUserDao);
 
-        ILoginService loginService = new LoginService(userDao, modelValidator);
+        ILoginService loginService = new LoginService(IUserDao, modelValidator);
 
         String email = "0@test.nl";
         String password = "test";

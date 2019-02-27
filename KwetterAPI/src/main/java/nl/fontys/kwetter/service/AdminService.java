@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.UserDao;
+import nl.fontys.kwetter.dao.IUserDao;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
@@ -16,11 +16,11 @@ import java.util.List;
 @Service
 public class AdminService implements IAdminService {
 
-    private final UserDao userDao;
+    private final IUserDao IUserDao;
 
     @Autowired
-    public AdminService(UserDao userDao) {
-        this.userDao = userDao;
+    public AdminService(IUserDao IUserDao) {
+        this.IUserDao = IUserDao;
     }
 
     /**
@@ -35,7 +35,7 @@ public class AdminService implements IAdminService {
         User user = getUserById(userId);
         user.setRole(role);
 
-        userDao.updateUser(user);
+        IUserDao.updateUser(user);
     }
 
     /**
@@ -45,7 +45,7 @@ public class AdminService implements IAdminService {
      */
     @Override
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return IUserDao.getAllUsers();
     }
 
     /**
@@ -56,7 +56,7 @@ public class AdminService implements IAdminService {
      * @throws UserDoesntExist Thrown when the userID does not have a corresponding user.
      */
     private User getUserById(Long userID) throws UserDoesntExist {
-        User user = userDao.getUserById(userID);
+        User user = IUserDao.getUserById(userID);
         if (user == null) {
             throw new UserDoesntExist();
         }
