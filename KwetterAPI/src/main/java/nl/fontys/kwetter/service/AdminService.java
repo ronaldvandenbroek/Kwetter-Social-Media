@@ -1,7 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.IUserRepository;
-import nl.fontys.kwetter.dao.memory.IUserDao;
+import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for handling model operations regarding the administrative tasks.
@@ -17,12 +17,10 @@ import java.util.List;
 @Service
 public class AdminService implements IAdminService {
 
-    private final IUserDao userDao;
     private final IUserRepository userRepository;
 
     @Autowired
-    public AdminService(IUserDao userDao, IUserRepository userRepository) {
-        this.userDao = userDao;
+    public AdminService(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -38,7 +36,7 @@ public class AdminService implements IAdminService {
         User user = getUserById(userId);
         user.setRole(role);
 
-        userDao.updateUser(user);
+        userRepository.save(user);
     }
 
     /**
@@ -48,7 +46,7 @@ public class AdminService implements IAdminService {
      */
     @Override
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return (List<User>) userRepository.findAll();
     }
 
     /**
@@ -59,10 +57,10 @@ public class AdminService implements IAdminService {
      * @throws UserDoesntExist Thrown when the userID does not have a corresponding user.
      */
     private User getUserById(Long userID) throws UserDoesntExist {
-        User user = userDao.getUserById(userID);
-        if (user == null) {
-            throw new UserDoesntExist();
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isPresent()) {
+            return user.get();
         }
-        return user;
+        throw new UserDoesntExist();
     }
 }

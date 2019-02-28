@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.memory.IUserDao;
+import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.models.Credentials;
@@ -17,12 +17,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @Service
 public class LoginService implements ILoginService {
 
-    private final IUserDao userDao;
+    private final ICredentialsRepository credentialsRepository;
     private final ModelValidator validator;
 
     @Autowired
-    public LoginService(IUserDao userDao, ModelValidator validator) {
-        this.userDao = userDao;
+    public LoginService(ICredentialsRepository credentialsRepository, ModelValidator validator) {
+        this.credentialsRepository = credentialsRepository;
         this.validator = validator;
     }
 
@@ -38,7 +38,7 @@ public class LoginService implements ILoginService {
     public User login(Credentials credentials) throws CannotLoginException, InvalidModelException {
         validator.validate(credentials);
 
-        User user = userDao.login(credentials);
+        User user = credentialsRepository.login(credentials);
         if (user == null) {
             throw new CannotLoginException("No account found matching the credentials");
         }
@@ -56,5 +56,4 @@ public class LoginService implements ILoginService {
     public User createAccount(String email, String password) {
         throw new NotImplementedException();
     }
-
 }

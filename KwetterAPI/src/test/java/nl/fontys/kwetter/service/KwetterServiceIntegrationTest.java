@@ -1,10 +1,12 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.memory.IUserDao;
-import nl.fontys.kwetter.dao.memory.IKwetterDao;
-import nl.fontys.kwetter.dao.memory.KwetterDaoImp;
-import nl.fontys.kwetter.dao.memory.UserDaoImp;
-import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
+import nl.fontys.kwetter.repository.ICredentialsRepository;
+import nl.fontys.kwetter.repository.IKwetterRepository;
+import nl.fontys.kwetter.repository.IUserRepository;
+import nl.fontys.kwetter.repository.memory.CredentialsRepository;
+import nl.fontys.kwetter.repository.memory.KwetterRepository;
+import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.repository.memory.data.InMemoryData;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.KwetterDoesntExist;
@@ -36,13 +38,14 @@ class KwetterServiceIntegrationTest {
     @BeforeEach
     void setUp() {
         ModelValidator modelValidator = new ModelValidator();
-        IUserDao IUserDao = new UserDaoImp();
-        IKwetterDao IKwetterDao = new KwetterDaoImp();
+        IUserRepository userRepository = new UserRepository();
+        IKwetterRepository kwetterRepository = new KwetterRepository();
+        ICredentialsRepository credentialsRepository = new CredentialsRepository();
 
-        kwetterService = new KwetterService(modelValidator, IUserDao, IKwetterDao);
-        profileService = new ProfileService(modelValidator, IUserDao);
+        kwetterService = new KwetterService(userRepository, kwetterRepository, modelValidator);
+        profileService = new ProfileService(userRepository, modelValidator);
 
-        ILoginService loginService = new LoginService(IUserDao, modelValidator);
+        ILoginService loginService = new LoginService(credentialsRepository, modelValidator);
 
         String email = "0@test.nl";
         String password = "test";
@@ -56,7 +59,7 @@ class KwetterServiceIntegrationTest {
 
     @AfterEach
     void tearDown() {
-        InMemoryCollection.resetMemory();
+        InMemoryData.resetMemory();
     }
 
     @Test

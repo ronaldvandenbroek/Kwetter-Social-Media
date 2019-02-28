@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.dao.memory.data;
+package nl.fontys.kwetter.repository.memory.data;
 
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
@@ -6,7 +6,6 @@ import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,7 +13,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class InMemoryCollection {
+public class InMemoryData {
     private static Collection<User> allUsers;
     private static Collection<Credentials> allCredentials;
     private static Collection<Kwetter> allKwetters;
@@ -53,21 +52,21 @@ public class InMemoryCollection {
         }
     }
 
-    public static Collection<User> getAllUsers() {
+    public static Collection<User> userCollection() {
         if (allUsers == null) {
             createMemory();
         }
         return allUsers;
     }
 
-    public static Collection<Credentials> getAllCredentials() {
+    public static Collection<Credentials> credentialsCollection() {
         if (allCredentials == null) {
             createMemory();
         }
         return allCredentials;
     }
 
-    public static Collection<Kwetter> getAllKwetters() {
+    public static Collection<Kwetter> kwetterCollection() {
         if (allKwetters == null) {
             createMemory();
         }
@@ -81,7 +80,6 @@ public class InMemoryCollection {
     public static Long getNextFreeKwetterID() {
         return kwetterID++;
     }
-
 
     public static void resetMemory() {
         createMemory();

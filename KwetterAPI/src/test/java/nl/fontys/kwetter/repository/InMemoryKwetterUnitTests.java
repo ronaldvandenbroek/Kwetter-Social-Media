@@ -1,8 +1,9 @@
-package nl.fontys.kwetter.dao;
+package nl.fontys.kwetter.repository;
 
-import nl.fontys.kwetter.dao.memory.KwetterDaoImp;
-import nl.fontys.kwetter.dao.memory.UserDaoImp;
-import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
+import nl.fontys.kwetter.repository.memory.CredentialsRepository;
+import nl.fontys.kwetter.repository.memory.KwetterRepository;
+import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.repository.memory.data.InMemoryData;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
@@ -19,26 +20,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the In Memory Kwetter DAO")
 public class InMemoryKwetterUnitTests {
-    private UserDaoImp userDao;
-    private KwetterDaoImp kwetterDao;
+
+    private KwetterRepository kwetterRepository;
+    private CredentialsRepository credentialsRepository;
     private User user;
     private Credentials credentials;
     private Calendar calendar;
 
     @BeforeEach
     void setUp() {
-        userDao = new UserDaoImp();
-        kwetterDao = new KwetterDaoImp();
+        kwetterRepository = new KwetterRepository();
+        credentialsRepository = new CredentialsRepository();
 
         credentials = new Credentials("5@test.nl", "test");
-        user = userDao.login(credentials);
+        user = credentialsRepository.login(credentials);
 
         calendar = Calendar.getInstance();
     }
 
     @AfterEach
     void tearDown() {
-        InMemoryCollection.resetMemory();
+        InMemoryData.resetMemory();
     }
 
     @Test
@@ -46,27 +48,26 @@ public class InMemoryKwetterUnitTests {
     void createKwetter() {
         Kwetter kwetter = new Kwetter("NewKwetter", user, calendar.getTime());
 
-        boolean success = kwetterDao.createNewKwetter(kwetter);
+        Kwetter savedKwetter = kwetterRepository.save(kwetter);
 
-        User updatedUser = userDao.login(credentials);
+        User updatedUser = credentialsRepository.login(credentials);
 
-        assertTrue(success);
-        assertEquals(11, kwetterDao.getAllKwetters().size());
+        assertNotNull(savedKwetter);
+        assertEquals(11, kwetterRepository.count());
     }
 
     @Test
     @DisplayName("Delete a kwetter")
     void deleteKwetter() {
         Kwetter kwetter = new Kwetter("NewKwetter", user, calendar.getTime());
-        kwetterDao.createNewKwetter(kwetter);
+        kwetterRepository.save(kwetter);
 
-        User updatedUser = userDao.login(credentials);
+        User updatedUser = credentialsRepository.login(credentials);
 
-        boolean deleteSuccess = kwetterDao.deleteKwetter(kwetter);
+        kwetterRepository.delete(kwetter);
 
-        assertTrue(deleteSuccess);
         assertFalse(updatedUser.getCreatedKwetters().contains(kwetter));
-        assertEquals(11, kwetterDao.getAllKwetters().size());
+        assertEquals(11, kwetterRepository.count());
         assertNull(kwetter.getOwner());
     }
 
@@ -75,10 +76,9 @@ public class InMemoryKwetterUnitTests {
     void failToDeleteKwetterNonExistent() {
         Kwetter kwetter = new Kwetter("NewKwetter", user, calendar.getTime());
 
-        boolean deleteSuccess = kwetterDao.deleteKwetter(kwetter);
+        kwetterRepository.delete(kwetter);
 
-        assertFalse(deleteSuccess);
-        assertEquals(10, kwetterDao.getAllKwetters().size());
+        assertEquals(10, kwetterRepository.count());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class InMemoryKwetterUnitTests {
 
         assertEquals(0, user.getCreatedKwetters().size());
 
-        List<Kwetter> createdKwetters = kwetterDao.getAllCreatedKwettersFromUser(user);
+        List<Kwetter> createdKwetters = kwetterRepository.findAllByOwnerId(user.getId());
 
         assertNotNull(createdKwetters);
         assertEquals(10, createdKwetters.size());

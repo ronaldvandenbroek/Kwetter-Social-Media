@@ -1,13 +1,15 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.memory.IUserDao;
-import nl.fontys.kwetter.dao.memory.UserDaoImp;
+import nl.fontys.kwetter.repository.ICredentialsRepository;
+import nl.fontys.kwetter.repository.IUserRepository;
+import nl.fontys.kwetter.repository.memory.CredentialsRepository;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.memory.UserRepository;
 import nl.fontys.kwetter.service.interfaces.IAdminService;
 import nl.fontys.kwetter.service.interfaces.ILoginService;
 import nl.fontys.kwetter.service.interfaces.IProfileService;
@@ -32,11 +34,12 @@ class AdminServiceIntegrationTest {
     @BeforeEach
     void setUp() {
         ModelValidator modelValidator = new ModelValidator();
-        IUserDao IUserDao = new UserDaoImp();
+        ICredentialsRepository credentialsRepository = new CredentialsRepository();
+        IUserRepository userRepository = new UserRepository();
 
-        adminService = new AdminService(IUserDao);
-        profileService = new ProfileService(modelValidator, IUserDao);
-        ILoginService loginService = new LoginService(IUserDao, modelValidator);
+        adminService = new AdminService(userRepository);
+        profileService = new ProfileService(userRepository, modelValidator);
+        ILoginService loginService = new LoginService(credentialsRepository, modelValidator);
 
 
         String email = "0@test.nl";

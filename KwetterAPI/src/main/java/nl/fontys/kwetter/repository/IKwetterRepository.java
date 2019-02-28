@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.dao;
+package nl.fontys.kwetter.repository;
 
 import nl.fontys.kwetter.models.Kwetter;
 import org.springframework.data.repository.CrudRepository;

@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.dao.memory.IUserDao;
+import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service for handling model operations regarding the profile.
@@ -20,12 +21,12 @@ import java.util.List;
 public class ProfileService implements IProfileService {
 
     private final ModelValidator validator;
-    private final IUserDao userDao;
+    private final IUserRepository userRepository;
 
     @Autowired
-    public ProfileService(ModelValidator validator, IUserDao userDao) {
+    public ProfileService(IUserRepository userRepository, ModelValidator validator) {
         this.validator = validator;
-        this.userDao = userDao;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -48,7 +49,7 @@ public class ProfileService implements IProfileService {
         oldUser.setLocation(user.getLocation());
         oldUser.setBio(user.getBio());
 
-        userDao.updateUser(oldUser);
+        userRepository.save(oldUser);
         return oldUser;
     }
 
@@ -64,14 +65,14 @@ public class ProfileService implements IProfileService {
     @Override
     public User updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist {
         User oldUser = getUserById(user.getId());
-        if (userDao.checkIfUsernameDoesntExists(user.getName())) {
-            oldUser.setName(user.getName());
-            validator.validate(oldUser);
-            userDao.updateUser(oldUser);
-            return user;
-        } else {
-            throw new UsernameAlreadyExists(user.getName());
+        oldUser.setName(user.getName());
+        validator.validate(oldUser);
+
+        User savedUser = userRepository.save(oldUser);
+        if (savedUser == null){
+            throw new UsernameAlreadyExists();
         }
+        return savedUser;
     }
 
     /**
@@ -120,11 +121,11 @@ public class ProfileService implements IProfileService {
      * @throws UserDoesntExist Thrown when the userID does not have a corresponding user.
      */
     private User getUserById(Long userID) throws UserDoesntExist {
-        User user = userDao.getUserById(userID);
-        if (user == null) {
-            throw new UserDoesntExist("User with the id:" + userID+ " could not be found.");
+        Optional<User> user = userRepository.findById(userID);
+        if (user.isPresent()) {
+            return user.get();
         }
-        return user;
+        throw new UserDoesntExist("User with the id:" + userID+ " could not be found.");
     }
 }
 

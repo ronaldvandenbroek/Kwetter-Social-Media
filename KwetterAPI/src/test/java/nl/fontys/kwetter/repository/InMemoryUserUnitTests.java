@@ -1,7 +1,8 @@
-package nl.fontys.kwetter.dao;
+package nl.fontys.kwetter.repository;
 
-import nl.fontys.kwetter.dao.memory.UserDaoImp;
-import nl.fontys.kwetter.dao.memory.data.InMemoryCollection;
+import nl.fontys.kwetter.repository.memory.CredentialsRepository;
+import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.repository.memory.data.InMemoryData;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
@@ -16,16 +17,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the In Memory User DAO")
 public class InMemoryUserUnitTests {
-    private UserDaoImp userDao;
+    private UserRepository userRepository;
+    private CredentialsRepository credentialsRepository;
 
     @BeforeEach
     void setUp() {
-        userDao = new UserDaoImp();
+        userRepository = new UserRepository();
+        credentialsRepository = new CredentialsRepository();
     }
 
     @AfterEach
     void tearDown() {
-        InMemoryCollection.resetMemory();
+        InMemoryData.resetMemory();
     }
 
     @Test
@@ -33,7 +36,7 @@ public class InMemoryUserUnitTests {
     void login() {
         Credentials credentials = new Credentials("1@test.nl", "test");
 
-        User user = userDao.login(credentials);
+        User user = credentialsRepository.login(credentials);
 
         assertNotNull(user);
         assertEquals(credentials, user.getCredentials());
@@ -44,7 +47,7 @@ public class InMemoryUserUnitTests {
     void failedLoginWrongUsername() {
         Credentials credentials = new Credentials("wrongEmail@test.nl", "test");
 
-        User user = userDao.login(credentials);
+        User user = credentialsRepository.login(credentials);
 
         assertNull(user);
     }
@@ -55,7 +58,7 @@ public class InMemoryUserUnitTests {
     void failedLoginWrongPassword() {
         Credentials credentials = new Credentials("1@test.nl", "wrongPassword");
 
-        User user = userDao.login(credentials);
+        User user = credentialsRepository.login(credentials);
 
         assertNull(user);
     }
@@ -63,7 +66,7 @@ public class InMemoryUserUnitTests {
     @Test
     @DisplayName("Get all users")
     void getAllUsers() {
-        List<User> users = userDao.getAllUsers();
+        List<User> users = (List<User>) userRepository.findAll();
 
         assertNotNull(users);
         assertEquals(10, users.size());
@@ -76,12 +79,11 @@ public class InMemoryUserUnitTests {
         user.setName("createNewUser");
         Credentials credentials = new Credentials("UniqueEmail@test.nl", "test", user);
 
-        boolean success = userDao.createNewUser(credentials);
-        User loginUser = userDao.login(credentials);
+        credentialsRepository.save(credentials);
+        User loginUser = credentialsRepository.login(credentials);
 
-        assertTrue(success);
         assertEquals(user, loginUser);
-        assertEquals(11, userDao.getAllUsers().size());
+        assertEquals(11, userRepository.count());
     }
 
     @Test
@@ -91,12 +93,11 @@ public class InMemoryUserUnitTests {
         user.setName("createNewUser");
         Credentials credentials = new Credentials("1@test.nl", "wrongPassword", user);
 
-        boolean success = userDao.createNewUser(credentials);
-        User loginUser = userDao.login(credentials);
+        credentialsRepository.save(credentials);
+        User loginUser = credentialsRepository.login(credentials);
 
-        assertFalse(success);
         assertNull(loginUser);
-        assertEquals(10, userDao.getAllUsers().size());
+        assertEquals(10, userRepository.count());
     }
 
     @Test
@@ -104,27 +105,25 @@ public class InMemoryUserUnitTests {
     void failToCreateNewUserNullUser() {
         Credentials credentials = new Credentials("UniqueEmail@test.nl", "test");
 
-        boolean success = userDao.createNewUser(credentials);
-        User loginUser = userDao.login(credentials);
+        credentialsRepository.save(credentials);
+        User loginUser = credentialsRepository.login(credentials);
 
-        assertFalse(success);
         assertNull(loginUser);
-        assertEquals(10, userDao.getAllUsers().size());
+        assertEquals(10, userRepository.count());
     }
 
     @Test
     @DisplayName("Update a user")
     void updateUser() {
         Credentials credentials = new Credentials("1@test.nl", "test");
-        User user = userDao.login(credentials);
+        User user = credentialsRepository.login(credentials);
 
         user.setBio("Dit is een test bio");
 
-        boolean success = userDao.updateUser(user);
+        userRepository.save(user);
 
-        User updatedUser = userDao.login(credentials);
+        User updatedUser = credentialsRepository.login(credentials);
 
-        assertTrue(success);
         assertEquals(user, updatedUser);
         assertEquals("Dit is een test bio", updatedUser.getBio());
     }
@@ -133,14 +132,13 @@ public class InMemoryUserUnitTests {
     @DisplayName("Delete a user")
     void deleteUser() {
         Credentials credentials = new Credentials("1@test.nl", "test");
-        User user = userDao.login(credentials);
+        User user = credentialsRepository.login(credentials);
 
-        boolean success = userDao.deleteUser(user);
+        userRepository.delete(user);
 
-        User deletedUser = userDao.login(credentials);
+        User deletedUser = credentialsRepository.login(credentials);
 
-        assertTrue(success);
         assertNull(deletedUser);
-        assertEquals(9, userDao.getAllUsers().size());
+        assertEquals(9, userRepository.count());
     }
 }
