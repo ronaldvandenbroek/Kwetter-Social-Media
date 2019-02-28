@@ -10,6 +10,8 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.*;
+
 @Data
 @Entity
 @EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials", "bio", "role", "name"})
@@ -23,7 +25,7 @@ public class User {
     private Role role;
 
     @JsonIgnoreProperties("user")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH})
     private Credentials credentials;
 
     @Size(max = 50)

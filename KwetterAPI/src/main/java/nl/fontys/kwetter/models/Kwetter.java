@@ -28,8 +28,10 @@ public class Kwetter {
 
     private int hearts;
 
+    @ElementCollection
     private Set<String> tags;
 
+    @ElementCollection
     private Set<User> mentions;
 
     @JsonIgnoreProperties({"createdKwetters", "reportedKwetters", "heartedKwetters"})
