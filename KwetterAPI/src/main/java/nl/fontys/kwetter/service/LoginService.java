@@ -17,12 +17,12 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @Service
 public class LoginService implements ILoginService {
 
-    private final IUserDao IUserDao;
+    private final IUserDao userDao;
     private final ModelValidator validator;
 
     @Autowired
-    public LoginService(IUserDao IUserDao, ModelValidator validator) {
-        this.IUserDao = IUserDao;
+    public LoginService(IUserDao userDao, ModelValidator validator) {
+        this.userDao = userDao;
         this.validator = validator;
     }
 
@@ -38,7 +38,7 @@ public class LoginService implements ILoginService {
     public User login(Credentials credentials) throws CannotLoginException, InvalidModelException {
         validator.validate(credentials);
 
-        User user = IUserDao.login(credentials);
+        User user = userDao.login(credentials);
         if (user == null) {
             throw new CannotLoginException("No account found matching the credentials");
         }

@@ -20,12 +20,12 @@ import java.util.List;
 public class ProfileService implements IProfileService {
 
     private final ModelValidator validator;
-    private final IUserDao IUserDao;
+    private final IUserDao userDao;
 
     @Autowired
-    public ProfileService(ModelValidator validator, IUserDao IUserDao) {
+    public ProfileService(ModelValidator validator, IUserDao userDao) {
         this.validator = validator;
-        this.IUserDao = IUserDao;
+        this.userDao = userDao;
     }
 
     /**
@@ -48,7 +48,7 @@ public class ProfileService implements IProfileService {
         oldUser.setLocation(user.getLocation());
         oldUser.setBio(user.getBio());
 
-        IUserDao.updateUser(oldUser);
+        userDao.updateUser(oldUser);
         return oldUser;
     }
 
@@ -64,10 +64,10 @@ public class ProfileService implements IProfileService {
     @Override
     public User updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist {
         User oldUser = getUserById(user.getId());
-        if (IUserDao.checkIfUsernameDoesntExists(user.getName())) {
+        if (userDao.checkIfUsernameDoesntExists(user.getName())) {
             oldUser.setName(user.getName());
             validator.validate(oldUser);
-            IUserDao.updateUser(oldUser);
+            userDao.updateUser(oldUser);
             return user;
         } else {
             throw new UsernameAlreadyExists(user.getName());
@@ -120,7 +120,7 @@ public class ProfileService implements IProfileService {
      * @throws UserDoesntExist Thrown when the userID does not have a corresponding user.
      */
     private User getUserById(Long userID) throws UserDoesntExist {
-        User user = IUserDao.getUserById(userID);
+        User user = userDao.getUserById(userID);
         if (user == null) {
             throw new UserDoesntExist("User with the id:" + userID+ " could not be found.");
         }

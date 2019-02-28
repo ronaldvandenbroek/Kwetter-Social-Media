@@ -22,18 +22,18 @@ import java.util.*;
 public class KwetterService implements IKwetterService {
 
     private final ModelValidator validator;
-    private final IUserDao IUserDao;
-    private final IKwetterDao IKwetterDao;
+    private final IUserDao userDao;
+    private final IKwetterDao kwetterDao;
 
     private Calendar calendar;
 
     @Autowired
-    public KwetterService(ModelValidator validator, IUserDao IUserDao, IKwetterDao IKwetterDao) {
+    public KwetterService(ModelValidator validator, IUserDao userDao, IKwetterDao kwetterDao) {
         calendar = Calendar.getInstance();
 
         this.validator = validator;
-        this.IUserDao = IUserDao;
-        this.IKwetterDao = IKwetterDao;
+        this.userDao = userDao;
+        this.kwetterDao = kwetterDao;
     }
 
     /**
@@ -73,8 +73,8 @@ public class KwetterService implements IKwetterService {
 
         validator.validate(kwetter);
 
-        IKwetterDao.createNewKwetter(kwetter);
-        IUserDao.updateUser(owner);
+        kwetterDao.createNewKwetter(kwetter);
+        userDao.updateUser(owner);
         return kwetter;
     }
 
@@ -93,8 +93,8 @@ public class KwetterService implements IKwetterService {
 
         if (kwetter.getOwner().getId().equals(userId)) {
             owner.removeCreatedKwetter(kwetter);
-            IUserDao.updateUser(owner);
-            IKwetterDao.updateKwetter(kwetter);
+            userDao.updateUser(owner);
+            kwetterDao.updateKwetter(kwetter);
         } else {
             throw new KwetterDoesntExist();
         }
@@ -115,8 +115,8 @@ public class KwetterService implements IKwetterService {
 
         user.addHeartedKwetter(kwetter);
 
-        IUserDao.updateUser(user);
-        IKwetterDao.updateKwetter(kwetter);
+        userDao.updateUser(user);
+        kwetterDao.updateKwetter(kwetter);
     }
 
     /**
@@ -134,8 +134,8 @@ public class KwetterService implements IKwetterService {
 
         user.removeHeartedKwetter(kwetter);
 
-        IUserDao.updateUser(user);
-        IKwetterDao.updateKwetter(kwetter);
+        userDao.updateUser(user);
+        kwetterDao.updateKwetter(kwetter);
     }
 
     /**
@@ -153,8 +153,8 @@ public class KwetterService implements IKwetterService {
 
         user.addReportedKwetter(kwetter);
 
-        IUserDao.updateUser(user);
-        IKwetterDao.updateKwetter(kwetter);
+        userDao.updateUser(user);
+        kwetterDao.updateKwetter(kwetter);
     }
 
     /**
@@ -172,8 +172,8 @@ public class KwetterService implements IKwetterService {
 
         user.removeReportedKwetter(kwetter);
 
-        IUserDao.updateUser(user);
-        IKwetterDao.updateKwetter(kwetter);
+        userDao.updateUser(user);
+        kwetterDao.updateKwetter(kwetter);
     }
 
     /**
@@ -233,7 +233,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesntExist Thrown when the userID does not have a corresponding user.
      */
     private User getUserById(Long userID) throws UserDoesntExist {
-        User user = IUserDao.getUserById(userID);
+        User user = userDao.getUserById(userID);
         if (user == null) {
             throw new UserDoesntExist();
         }
@@ -248,7 +248,7 @@ public class KwetterService implements IKwetterService {
      * @throws KwetterDoesntExist Thrown when the kwetterID does not have a corresponding Kwetter.
      */
     private Kwetter getKwetterById(Long kwetterId) throws KwetterDoesntExist {
-        Kwetter kwetter = IKwetterDao.getKwetterById(kwetterId);
+        Kwetter kwetter = kwetterDao.getKwetterById(kwetterId);
         if (kwetter == null) {
             throw new KwetterDoesntExist();
         }
