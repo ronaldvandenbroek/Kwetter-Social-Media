@@ -80,24 +80,11 @@ public class InMemoryUserUnitTests {
         Credentials credentials = new Credentials("UniqueEmail@test.nl", "test", user);
 
         credentialsRepository.save(credentials);
+        userRepository.save(user);
         User loginUser = userRepository.findByCredentials(credentials);
 
         assertEquals(user, loginUser);
         assertEquals(11, userRepository.count());
-    }
-
-    @Test
-    @DisplayName("Fail to create a new user because of an already existing username")
-    void failToCreateNewUserAlreadyExistsUsername() {
-        User user = new User(Role.USER);
-        user.setName("createNewUser");
-        Credentials credentials = new Credentials("1@test.nl", "wrongPassword", user);
-
-        credentialsRepository.save(credentials);
-        User loginUser = userRepository.findByCredentials(credentials);
-
-        assertNull(loginUser);
-        assertEquals(10, userRepository.count());
     }
 
     @Test
@@ -135,6 +122,7 @@ public class InMemoryUserUnitTests {
         User user = userRepository.findByCredentials(credentials);
 
         userRepository.delete(user);
+        credentialsRepository.delete(credentials);
 
         User deletedUser = userRepository.findByCredentials(credentials);
 
