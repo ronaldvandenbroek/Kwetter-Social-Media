@@ -23,6 +23,7 @@ public class InMemoryKwetterUnitTests {
 
     private KwetterRepository kwetterRepository;
     private CredentialsRepository credentialsRepository;
+    private UserRepository userRepository;
     private User user;
     private Credentials credentials;
     private Calendar calendar;
@@ -31,9 +32,10 @@ public class InMemoryKwetterUnitTests {
     void setUp() {
         kwetterRepository = new KwetterRepository();
         credentialsRepository = new CredentialsRepository();
+        userRepository = new UserRepository();
 
         credentials = new Credentials("5@test.nl", "test");
-        user = credentialsRepository.login(credentials);
+        user = userRepository.findByCredentials(credentials);
 
         calendar = Calendar.getInstance();
     }
@@ -50,7 +52,7 @@ public class InMemoryKwetterUnitTests {
 
         Kwetter savedKwetter = kwetterRepository.save(kwetter);
 
-        User updatedUser = credentialsRepository.login(credentials);
+        User updatedUser = userRepository.findByCredentials(credentials);
 
         assertNotNull(savedKwetter);
         assertEquals(11, kwetterRepository.count());
@@ -62,7 +64,7 @@ public class InMemoryKwetterUnitTests {
         Kwetter kwetter = new Kwetter("NewKwetter", user, calendar.getTime());
         kwetterRepository.save(kwetter);
 
-        User updatedUser = credentialsRepository.login(credentials);
+        User updatedUser = userRepository.findByCredentials(credentials);
 
         kwetterRepository.delete(kwetter);
 

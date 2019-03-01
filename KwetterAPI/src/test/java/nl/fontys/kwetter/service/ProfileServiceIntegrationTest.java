@@ -35,7 +35,7 @@ class ProfileServiceIntegrationTest {
         CredentialsRepository credentialsRepository = new CredentialsRepository();
 
         profileService = new ProfileService(userRepository, modelValidator);
-        ILoginService loginService = new LoginService(credentialsRepository, modelValidator);
+        ILoginService loginService = new LoginService(credentialsRepository, userRepository, modelValidator);
 
         String email = "0@test.nl";
         String password = "test";

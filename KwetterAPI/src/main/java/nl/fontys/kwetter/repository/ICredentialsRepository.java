@@ -10,5 +10,5 @@ public interface ICredentialsRepository extends CrudRepository<Credentials, Long
 
     List<Credentials> findAllByEmail(String lastName);
 
-    User login(Credentials credentials);
+//    User login(Credentials credentials);
 }

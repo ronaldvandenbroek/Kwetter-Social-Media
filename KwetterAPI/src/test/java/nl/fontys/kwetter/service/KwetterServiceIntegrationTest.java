@@ -45,7 +45,7 @@ class KwetterServiceIntegrationTest {
         kwetterService = new KwetterService(userRepository, kwetterRepository, modelValidator);
         profileService = new ProfileService(userRepository, modelValidator);
 
-        ILoginService loginService = new LoginService(credentialsRepository, modelValidator);
+        ILoginService loginService = new LoginService(credentialsRepository, userRepository, modelValidator);
 
         String email = "0@test.nl";
         String password = "test";

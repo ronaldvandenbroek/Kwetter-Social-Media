@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.repository.memory;
 
+import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.models.User;
 import org.springframework.stereotype.Repository;
@@ -10,8 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static nl.fontys.kwetter.repository.memory.data.InMemoryData.getNextFreeUserID;
-import static nl.fontys.kwetter.repository.memory.data.InMemoryData.userCollection;
+import static nl.fontys.kwetter.repository.memory.data.InMemoryData.*;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -19,6 +19,12 @@ public class UserRepository implements IUserRepository {
     @Override
     public List<User> findByName(String name) {
         return userCollection().stream().filter(user -> user.getName().equals(name)).collect(Collectors.toList());
+    }
+
+    @Override
+    public User findByCredentials(Credentials loginCredentials) {
+        Optional<Credentials> foundLogin = credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(loginCredentials.getEmail()) && credentials.getPassword().equals(loginCredentials.getPassword())).findFirst();
+        return foundLogin.map(Credentials::getUser).orElse(null);
     }
 
     @Override

@@ -66,6 +66,7 @@ public class ProfileService implements IProfileService {
     public User updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist {
         User oldUser = getUserById(user.getId());
         oldUser.setName(user.getName());
+
         validator.validate(oldUser);
 
         User savedUser = userRepository.save(oldUser);

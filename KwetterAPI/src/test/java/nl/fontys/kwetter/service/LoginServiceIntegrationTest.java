@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.repository.memory.CredentialsRepository;
+import nl.fontys.kwetter.repository.memory.UserRepository;
 import nl.fontys.kwetter.repository.memory.data.InMemoryData;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
@@ -24,8 +25,9 @@ class LoginServiceIntegrationTest {
     void setUp() {
         ModelValidator modelValidator = new ModelValidator();
         CredentialsRepository credentialsRepository = new CredentialsRepository();
+        UserRepository userRepository = new UserRepository();
 
-        loginService = new LoginService(credentialsRepository, modelValidator);
+        loginService = new LoginService(credentialsRepository, userRepository, modelValidator);
     }
 
     @AfterEach
