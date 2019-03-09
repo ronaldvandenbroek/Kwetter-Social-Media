@@ -10,5 +10,7 @@ public interface IUserRepository extends CrudRepository<User, Long> {
 
     List<User> findByName(String name);
 
+    boolean existsByName(String name);
+
     User findByCredentials(Credentials credentials);
 }

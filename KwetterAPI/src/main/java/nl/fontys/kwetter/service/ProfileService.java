@@ -63,17 +63,24 @@ public class ProfileService implements IProfileService {
      * @throws UserDoesntExist       Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesntExist {
-        User oldUser = getUserById(user.getId());
-        oldUser.setName(user.getName());
+    public User updateName(User user) throws UsernameAlreadyExists, UserDoesntExist, InvalidModelException {
+        if (!userRepository.existsByName(user.getName())){
+            User oldUser = getUserById(user.getId());
 
-        validator.validate(oldUser);
+            String oldName = oldUser.getName();
+            oldUser.setName(user.getName());
 
-        User savedUser = userRepository.save(oldUser);
-        if (savedUser == null){
+            try {
+                validator.validate(oldUser);
+                return userRepository.save(oldUser);
+            } catch (InvalidModelException e) {
+                oldUser.setName(oldName);
+                throw e;
+            }
+        }
+        else{
             throw new UsernameAlreadyExists();
         }
-        return savedUser;
     }
 
     /**

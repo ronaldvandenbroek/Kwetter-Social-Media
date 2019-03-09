@@ -22,6 +22,11 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
+    public boolean existsByName(String name) {
+        return userCollection().stream().anyMatch(user -> user.getName().equals(name));
+    }
+
+    @Override
     public User findByCredentials(Credentials loginCredentials) {
         Optional<Credentials> foundLogin = credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(loginCredentials.getEmail()) && credentials.getPassword().equals(loginCredentials.getPassword())).findFirst();
         return foundLogin.map(Credentials::getUser).orElse(null);
