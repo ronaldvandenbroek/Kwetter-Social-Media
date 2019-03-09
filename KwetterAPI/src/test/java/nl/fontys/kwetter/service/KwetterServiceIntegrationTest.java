@@ -1,11 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.repository.ICredentialsRepository;
-import nl.fontys.kwetter.repository.IKwetterRepository;
-import nl.fontys.kwetter.repository.IUserRepository;
-import nl.fontys.kwetter.repository.memory.CredentialsRepository;
-import nl.fontys.kwetter.repository.memory.KwetterRepository;
-import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.repository.memory.data.InMemoryData;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
@@ -17,11 +12,13 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IKwetterService;
 import nl.fontys.kwetter.service.interfaces.ILoginService;
 import nl.fontys.kwetter.service.interfaces.IProfileService;
-import nl.fontys.kwetter.utilities.ModelValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,24 +26,23 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DataJpaTest
+@Import(InMemoryTestConfiguration.class)
 class KwetterServiceIntegrationTest {
 
     private User testUser;
+
+    @Autowired
     private IKwetterService kwetterService;
+
+    @Autowired
     private IProfileService profileService;
+
+    @Autowired
+    private ILoginService loginService;
 
     @BeforeEach
     void setUp() {
-        ModelValidator modelValidator = new ModelValidator();
-        IUserRepository userRepository = new UserRepository();
-        IKwetterRepository kwetterRepository = new KwetterRepository();
-        ICredentialsRepository credentialsRepository = new CredentialsRepository();
-
-        kwetterService = new KwetterService(userRepository, kwetterRepository, modelValidator);
-        profileService = new ProfileService(userRepository, modelValidator);
-
-        ILoginService loginService = new LoginService(credentialsRepository, userRepository, modelValidator);
-
         String email = "0@test.nl";
         String password = "test";
 

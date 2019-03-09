@@ -17,12 +17,10 @@ import java.util.Optional;
 @Service
 public class AdminService implements IAdminService {
 
-    private final IUserRepository userRepository;
-
     @Autowired
-    public AdminService(IUserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private IUserRepository userRepository;
+
+    public AdminService() { }
 
     /**
      * Change the role of a user

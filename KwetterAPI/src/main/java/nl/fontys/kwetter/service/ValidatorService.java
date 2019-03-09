@@ -1,7 +1,8 @@
-package nl.fontys.kwetter.utilities;
+package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.exceptions.InvalidModelException;
-import org.springframework.stereotype.Component;
+import nl.fontys.kwetter.service.interfaces.IValidatorService;
+import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -9,11 +10,11 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
 
-@Component
-public class ModelValidator {
+@Service
+public class ValidatorService implements IValidatorService {
     private Validator validator;
 
-    public ModelValidator() {
+    public ValidatorService() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }

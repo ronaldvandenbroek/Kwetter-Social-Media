@@ -8,7 +8,7 @@ import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IKwetterService;
-import nl.fontys.kwetter.utilities.ModelValidator;
+import nl.fontys.kwetter.service.interfaces.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -21,20 +21,16 @@ import java.util.*;
 @Service
 public class KwetterService implements IKwetterService {
 
-    private final ModelValidator validator;
-    private final IUserRepository userRepository;
-    private final IKwetterRepository kwetterRepository;
-
-    private Calendar calendar;
+    @Autowired
+    private IValidatorService validator;
 
     @Autowired
-    public KwetterService(IUserRepository userRepository, IKwetterRepository kwetterRepository, ModelValidator validator) {
-        calendar = Calendar.getInstance();
+    private IUserRepository userRepository;
 
-        this.validator = validator;
-        this.userRepository = userRepository;
-        this.kwetterRepository = kwetterRepository;
-    }
+    @Autowired
+    private IKwetterRepository kwetterRepository;
+
+    public KwetterService() {}
 
     /**
      * Search for a specific kwetter via the text.
@@ -68,7 +64,7 @@ public class KwetterService implements IKwetterService {
         }
 
         kwetter.setMentions(mentions);
-        kwetter.setDateTime(calendar.getTime());
+        kwetter.setDateTime(Calendar.getInstance().getTime());
         owner.addCreatedKwetter(kwetter);
 
         validator.validate(kwetter);

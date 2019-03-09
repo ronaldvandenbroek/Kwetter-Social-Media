@@ -1,34 +1,32 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.repository.memory.CredentialsRepository;
-import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.repository.memory.data.InMemoryData;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.ILoginService;
-import nl.fontys.kwetter.utilities.ModelValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the Login Service")
+@DataJpaTest
+@Import(InMemoryTestConfiguration.class)
 class LoginServiceIntegrationTest {
 
+    @Autowired
     private ILoginService loginService;
 
     @BeforeEach
-    void setUp() {
-        ModelValidator modelValidator = new ModelValidator();
-        CredentialsRepository credentialsRepository = new CredentialsRepository();
-        UserRepository userRepository = new UserRepository();
-
-        loginService = new LoginService(credentialsRepository, userRepository, modelValidator);
-    }
+    void setUp() {}
 
     @AfterEach
     void tearDown() {

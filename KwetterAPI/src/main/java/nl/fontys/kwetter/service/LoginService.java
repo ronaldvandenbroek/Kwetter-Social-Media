@@ -1,13 +1,12 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.interfaces.ILoginService;
-import nl.fontys.kwetter.utilities.ModelValidator;
+import nl.fontys.kwetter.service.interfaces.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -18,15 +17,13 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @Service
 public class LoginService implements ILoginService {
 
-    private final ICredentialsRepository credentialsRepository;
-    private final IUserRepository userRepository;
-    private final ModelValidator validator;
+    @Autowired
+    private IUserRepository userRepository;
 
     @Autowired
-    public LoginService(ICredentialsRepository credentialsRepository, IUserRepository userRepository, ModelValidator validator) {
-        this.credentialsRepository = credentialsRepository;
-        this.userRepository = userRepository;
-        this.validator = validator;
+    private IValidatorService validator;
+
+    public LoginService() {
     }
 
     /**

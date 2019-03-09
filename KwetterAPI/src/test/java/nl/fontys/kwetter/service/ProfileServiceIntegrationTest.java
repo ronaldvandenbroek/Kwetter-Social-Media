@@ -1,7 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.repository.memory.CredentialsRepository;
-import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.repository.memory.data.InMemoryData;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
@@ -11,32 +10,37 @@ import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.ILoginService;
 import nl.fontys.kwetter.service.interfaces.IProfileService;
-import nl.fontys.kwetter.utilities.ModelValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the ProfileService")
+@DataJpaTest
+@RunWith(SpringRunner.class)
+@Import(InMemoryTestConfiguration.class)
 class ProfileServiceIntegrationTest {
     private static final String TEST_STRING = "This string is longer that the max length allowed for the name bio language website and location. The bio is still a bit longer but this should be enough.";
 
     private User testUser;
+
+    @Autowired
     private IProfileService profileService;
+
+    @Autowired
+    private ILoginService loginService;
 
     @BeforeEach
     void setUp() {
-        ModelValidator modelValidator = new ModelValidator();
-        UserRepository userRepository = new UserRepository();
-        CredentialsRepository credentialsRepository = new CredentialsRepository();
-
-        profileService = new ProfileService(userRepository, modelValidator);
-        ILoginService loginService = new LoginService(credentialsRepository, userRepository, modelValidator);
-
         String email = "0@test.nl";
         String password = "test";
 

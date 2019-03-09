@@ -6,7 +6,7 @@ import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.interfaces.IProfileService;
-import nl.fontys.kwetter.utilities.ModelValidator;
+import nl.fontys.kwetter.service.interfaces.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +20,13 @@ import java.util.Optional;
 @Service
 public class ProfileService implements IProfileService {
 
-    private final ModelValidator validator;
-    private final IUserRepository userRepository;
+    @Autowired
+    private IValidatorService validator;
 
     @Autowired
-    public ProfileService(IUserRepository userRepository, ModelValidator validator) {
-        this.validator = validator;
-        this.userRepository = userRepository;
+    private IUserRepository userRepository;
+
+    public ProfileService() {
     }
 
     /**
