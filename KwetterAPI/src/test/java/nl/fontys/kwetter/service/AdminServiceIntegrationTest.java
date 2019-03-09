@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
+import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
+import nl.fontys.kwetter.configuration.H2TestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("Testing the admin services")
 @DataJpaTest
-@Import(InMemoryTestConfiguration.class)
+@Import({H2TestConfiguration.class, DataLoaderTestConfiguration.class})
+@Transactional
 class AdminServiceIntegrationTest {
 
     private User testUser;
@@ -37,7 +40,7 @@ class AdminServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        String email = "0@test.nl";
+        String email = "1@test.nl";
         String password = "test";
 
         try {

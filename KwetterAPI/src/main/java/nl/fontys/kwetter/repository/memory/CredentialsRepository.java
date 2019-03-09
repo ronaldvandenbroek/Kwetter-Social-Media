@@ -1,8 +1,7 @@
 package nl.fontys.kwetter.repository.memory;
 
-import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.ICredentialsRepository;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static nl.fontys.kwetter.repository.memory.data.InMemoryData.credentialsCollection;
+import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.credentialsCollection;
 
 @Repository
 public class CredentialsRepository implements ICredentialsRepository {

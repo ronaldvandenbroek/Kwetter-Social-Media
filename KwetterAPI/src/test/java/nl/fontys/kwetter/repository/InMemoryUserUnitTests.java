@@ -1,12 +1,10 @@
 package nl.fontys.kwetter.repository;
 
-import nl.fontys.kwetter.repository.memory.CredentialsRepository;
-import nl.fontys.kwetter.repository.memory.UserRepository;
-import nl.fontys.kwetter.repository.memory.data.InMemoryData;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
-import org.junit.jupiter.api.AfterEach;
+import nl.fontys.kwetter.repository.memory.CredentialsRepository;
+import nl.fontys.kwetter.repository.memory.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,11 +22,6 @@ public class InMemoryUserUnitTests {
     void setUp() {
         userRepository = new UserRepository();
         credentialsRepository = new CredentialsRepository();
-    }
-
-    @AfterEach
-    void tearDown() {
-        InMemoryData.resetMemory();
     }
 
     @Test

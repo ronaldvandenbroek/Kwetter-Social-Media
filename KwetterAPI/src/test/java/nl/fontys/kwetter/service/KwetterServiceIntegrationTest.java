@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.repository.memory.data.InMemoryData;
+import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
+import nl.fontys.kwetter.configuration.H2TestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.KwetterDoesntExist;
@@ -9,13 +9,13 @@ import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,7 +24,8 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@Import(InMemoryTestConfiguration.class)
+@Import({H2TestConfiguration.class, DataLoaderTestConfiguration.class})
+@Transactional
 class KwetterServiceIntegrationTest {
 
     private User testUser;
@@ -40,7 +41,8 @@ class KwetterServiceIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        String email = "0@test.nl";
+
+        String email = "1@test.nl";
         String password = "test";
 
         try {
@@ -48,11 +50,6 @@ class KwetterServiceIntegrationTest {
         } catch (CannotLoginException | InvalidModelException e) {
             e.printStackTrace();
         }
-    }
-
-    @AfterEach
-    void tearDown() {
-        InMemoryData.resetMemory();
     }
 
     @Test
@@ -142,7 +139,7 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can heart a kwetter")
     void heartKwetter() {
         try {
-            kwetterService.heartKwetter(testUser.getId(), 0L);
+            kwetterService.heartKwetter(testUser.getId(), 1L);
 
             User user = profileService.getFullProfile(testUser.getId());
 
@@ -159,12 +156,14 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can remove a heart from a kwetter")
     void removeHeartKwetter() {
         try {
-            kwetterService.heartKwetter(testUser.getId(), 0L);
-
-            kwetterService.removeHeartKwetter(testUser.getId(), 0L);
-
+            kwetterService.heartKwetter(testUser.getId(), 1L);
             User user = profileService.getFullProfile(testUser.getId());
+            assertEquals(10, user.getCreatedKwetters().size());
 
+            kwetterService.removeHeartKwetter(testUser.getId(), 1L);
+            user = profileService.getFullProfile(testUser.getId());
+
+            assertEquals(10, user.getCreatedKwetters().size());
             assertEquals(0, user.getHeartedKwetters().size());
 
         } catch (KwetterDoesntExist | UserDoesntExist e) {
@@ -176,7 +175,7 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can report a kwetter")
     void reportKwetter() {
         try {
-            kwetterService.reportKwetter(testUser.getId(), 0L);
+            kwetterService.reportKwetter(testUser.getId(), 1L);
 
             User user = profileService.getFullProfile(testUser.getId());
 
@@ -193,9 +192,9 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can remove a report from a kwetter")
     void removeReportedKwetter() {
         try {
-            kwetterService.reportKwetter(testUser.getId(), 0L);
+            kwetterService.reportKwetter(testUser.getId(), 1L);
 
-            kwetterService.removeReportKwetter(testUser.getId(), 0L);
+            kwetterService.removeReportKwetter(testUser.getId(), 1L);
 
             User user = profileService.getFullProfile(testUser.getId());
 

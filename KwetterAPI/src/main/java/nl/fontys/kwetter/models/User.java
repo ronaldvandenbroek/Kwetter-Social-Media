@@ -19,13 +19,13 @@ import static javax.persistence.CascadeType.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Role role;
 
     @JsonIgnoreProperties("user")
-    @OneToOne(fetch = FetchType.LAZY, cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {PERSIST, MERGE, REMOVE, REFRESH, DETACH})
     private Credentials credentials;
 
     @Size(max = 50)
@@ -54,14 +54,14 @@ public class User {
     private Set<Kwetter> reportedKwetters;
 
     @JsonIgnoreProperties({"owner", "mentions"})
-    @ManyToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Kwetter> heartedKwetters;
 
     @JsonIgnoreProperties({"usersFollowed", "followedByUsers"})
     @ManyToMany
     @JoinTable(name = "follows",
-            joinColumns = { @JoinColumn(name = "follower_id") },
-            inverseJoinColumns = { @JoinColumn(name = "followed_id") })
+            joinColumns = {@JoinColumn(name = "follower_id")},
+            inverseJoinColumns = {@JoinColumn(name = "followed_id")})
     private Set<User> usersFollowed;
 
     @JsonIgnoreProperties({"usersFollowed", "followedByUsers"})

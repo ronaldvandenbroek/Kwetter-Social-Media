@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.repository.memory;
 
 import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.IUserRepository;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static nl.fontys.kwetter.repository.memory.data.InMemoryData.*;
+import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.*;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -35,7 +35,7 @@ public class UserRepository implements IUserRepository {
     @Override
     public <S extends User> S save(S s) {
         //Check if new user
-        if (s.getId() == null){
+        if (s.getId() == null) {
             s.setId(getNextFreeUserID());
             if (userCollection().stream().anyMatch(user -> user.getName().equals(s.getName()))) {
                 return null;

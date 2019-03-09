@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.repository.memory;
 
-import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.models.Kwetter;
+import nl.fontys.kwetter.repository.IKwetterRepository;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static nl.fontys.kwetter.repository.memory.data.InMemoryData.*;
+import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.getNextFreeKwetterID;
+import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.kwetterCollection;
 
 @Repository
 public class KwetterRepository implements IKwetterRepository {
@@ -22,7 +23,7 @@ public class KwetterRepository implements IKwetterRepository {
 
     @Override
     public <S extends Kwetter> S save(S s) {
-        if (s.getId() == null){
+        if (s.getId() == null) {
             s.setId(getNextFreeKwetterID());
         }
 

@@ -1,22 +1,20 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.repository.memory.data.InMemoryData;
+import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
+import nl.fontys.kwetter.configuration.H2TestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the ProfileService")
 @DataJpaTest
-@RunWith(SpringRunner.class)
-@Import(InMemoryTestConfiguration.class)
+@Import({H2TestConfiguration.class, DataLoaderTestConfiguration.class})
+@Transactional
 class ProfileServiceIntegrationTest {
     private static final String TEST_STRING = "This string is longer that the max length allowed for the name bio language website and location. The bio is still a bit longer but this should be enough.";
 
@@ -37,9 +35,10 @@ class ProfileServiceIntegrationTest {
     @Autowired
     private ILoginService loginService;
 
+
     @BeforeEach
     void setUp() {
-        String email = "0@test.nl";
+        String email = "1@test.nl";
         String password = "test";
 
         try {
@@ -47,11 +46,6 @@ class ProfileServiceIntegrationTest {
         } catch (CannotLoginException | InvalidModelException e) {
             e.printStackTrace();
         }
-    }
-
-    @AfterEach
-    void tearDown() {
-        InMemoryData.resetMemory();
     }
 
     @Test
@@ -133,7 +127,7 @@ class ProfileServiceIntegrationTest {
 
         try {
             User user = profileService.getFullProfile(testUser.getId());
-            assertEquals("0Test", user.getName());
+            assertEquals("1Test", user.getName());
         } catch (UserDoesntExist e) {
             fail("This exception should not have been thrown");
         }
@@ -152,7 +146,7 @@ class ProfileServiceIntegrationTest {
 
         try {
             User user = profileService.getFullProfile(testUser.getId());
-            assertEquals("0Test", user.getName());
+            assertEquals("1Test", user.getName());
         } catch (UserDoesntExist e) {
             fail("This exception should not have been thrown");
         }

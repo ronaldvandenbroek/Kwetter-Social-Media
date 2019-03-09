@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.configuration;
 
+import nl.fontys.kwetter.repository.memory.CredentialsRepository;
 import nl.fontys.kwetter.repository.memory.KwetterRepository;
 import nl.fontys.kwetter.repository.memory.UserRepository;
 import nl.fontys.kwetter.service.implementation.*;
@@ -10,22 +11,27 @@ import org.springframework.context.annotation.Bean;
 public class InMemoryTestConfiguration {
 
     @Bean
-    public KwetterRepository kwetterRepository(){
+    public KwetterRepository kwetterRepository() {
         return new KwetterRepository();
     }
 
     @Bean
-    public UserRepository userRepository(){
+    public UserRepository userRepository() {
         return new UserRepository();
     }
 
     @Bean
-    public KwetterService kwetterService(){
+    public CredentialsRepository credentialsRepository() {
+        return new CredentialsRepository();
+    }
+
+    @Bean
+    public KwetterService kwetterService() {
         return new KwetterService();
     }
 
     @Bean
-    public ValidatorService validatorService(){
+    public ValidatorService validatorService() {
         return new ValidatorService();
     }
 

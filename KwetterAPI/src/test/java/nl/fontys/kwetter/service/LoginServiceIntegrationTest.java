@@ -1,36 +1,28 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.repository.memory.data.InMemoryData;
+import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
+import nl.fontys.kwetter.configuration.H2TestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the Login Service")
 @DataJpaTest
-@Import(InMemoryTestConfiguration.class)
+@Import({H2TestConfiguration.class, DataLoaderTestConfiguration.class})
+@Transactional
 class LoginServiceIntegrationTest {
 
     @Autowired
     private ILoginService loginService;
-
-    @BeforeEach
-    void setUp() {}
-
-    @AfterEach
-    void tearDown() {
-        InMemoryData.resetMemory();
-    }
 
     @Test
     @DisplayName("Valid login")
