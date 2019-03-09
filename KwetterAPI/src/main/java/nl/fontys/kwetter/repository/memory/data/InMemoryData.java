@@ -74,10 +74,16 @@ public class InMemoryData {
     }
 
     public static Long getNextFreeUserID() {
+        if (userID == null) {
+            createMemory();
+        }
         return userID++;
     }
 
     public static Long getNextFreeKwetterID() {
+        if (kwetterID == null) {
+            createMemory();
+        }
         return kwetterID++;
     }
 

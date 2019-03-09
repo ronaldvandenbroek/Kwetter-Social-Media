@@ -21,11 +21,11 @@ public class CredentialsRepository implements ICredentialsRepository {
         return credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(lastName)).collect(Collectors.toList());
     }
 
-    @Override
-    public User login(Credentials loginCredentials) {
-        Optional<Credentials> foundLogin = credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(loginCredentials.getEmail()) && credentials.getPassword().equals(loginCredentials.getPassword())).findFirst();
-        return foundLogin.map(Credentials::getUser).orElse(null);
-    }
+//    @Override
+//    public User login(Credentials loginCredentials) {
+//        Optional<Credentials> foundLogin = credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(loginCredentials.getEmail()) && credentials.getPassword().equals(loginCredentials.getPassword())).findFirst();
+//        return foundLogin.map(Credentials::getUser).orElse(null);
+//    }
 
     @Override
     public <S extends Credentials> S save(S s) {
