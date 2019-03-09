@@ -1,5 +1,7 @@
 package nl.fontys.kwetter.repository;
 
+import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
@@ -7,9 +9,14 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.CredentialsRepository;
 import nl.fontys.kwetter.repository.memory.KwetterRepository;
 import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.List;
@@ -17,20 +24,27 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the In Memory Kwetter DAO")
+@DataJpaTest
+@Import({InMemoryTestConfiguration.class, DataLoaderTestConfiguration.class})
+@Transactional
 public class InMemoryKwetterUnitTests {
 
+    @Autowired
     private KwetterRepository kwetterRepository;
-    private CredentialsRepository credentialsRepository;
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private IInMemoryDatabaseManager inMemoryDatabaseManager;
+
     private User user;
     private Credentials credentials;
     private Calendar calendar;
 
     @BeforeEach
     void setUp() {
-        kwetterRepository = new KwetterRepository();
-        credentialsRepository = new CredentialsRepository();
-        userRepository = new UserRepository();
+        inMemoryDatabaseManager.reset();
 
         credentials = new Credentials("5@test.nl", "test");
         user = userRepository.findByCredentials(credentials);
@@ -80,7 +94,7 @@ public class InMemoryKwetterUnitTests {
     @Test
     @DisplayName("Get all kwetters from a user")
     void getAllCreatedKwetters() {
-        User user = new User(Role.USER, 0L);
+        User user = new User(Role.USER, 1L);
 
         assertEquals(0, user.getCreatedKwetters().size());
 

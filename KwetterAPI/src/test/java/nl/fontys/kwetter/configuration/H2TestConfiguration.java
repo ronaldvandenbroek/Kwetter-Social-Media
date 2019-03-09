@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.configuration;
 
+import nl.fontys.kwetter.repository.memory.data.manager.InactiveInMemoryDatabaseManager;
 import nl.fontys.kwetter.service.implementation.*;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -30,5 +31,10 @@ public class H2TestConfiguration {
     @Bean
     public LoginService loginService() {
         return new LoginService();
+    }
+
+    @Bean
+    public InactiveInMemoryDatabaseManager inMemoryDatabaseManager(){
+        return new InactiveInMemoryDatabaseManager();
     }
 }

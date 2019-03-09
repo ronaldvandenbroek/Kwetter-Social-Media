@@ -1,25 +1,44 @@
 package nl.fontys.kwetter.repository;
 
+import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.CredentialsRepository;
 import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the In Memory User DAO")
+@DataJpaTest
+@Import({InMemoryTestConfiguration.class, DataLoaderTestConfiguration.class})
+@Transactional
 public class InMemoryUserUnitTests {
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private CredentialsRepository credentialsRepository;
+
+    @Autowired
+    private IInMemoryDatabaseManager inMemoryDatabaseManager;
 
     @BeforeEach
     void setUp() {
+        inMemoryDatabaseManager.reset();
+
         userRepository = new UserRepository();
         credentialsRepository = new CredentialsRepository();
     }

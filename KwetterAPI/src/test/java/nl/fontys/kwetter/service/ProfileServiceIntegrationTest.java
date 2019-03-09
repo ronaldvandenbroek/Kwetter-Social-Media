@@ -2,12 +2,14 @@ package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
 import nl.fontys.kwetter.configuration.H2TestConfiguration;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,9 +37,13 @@ class ProfileServiceIntegrationTest {
     @Autowired
     private ILoginService loginService;
 
+    @Autowired
+    private IInMemoryDatabaseManager inMemoryDatabaseManager;
 
     @BeforeEach
     void setUp() {
+        inMemoryDatabaseManager.reset();
+
         String email = "1@test.nl";
         String password = "test";
 

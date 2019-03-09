@@ -36,4 +36,12 @@ public class InMemoryDatabase {
     public static Long getNextFreeKwetterID() {
         return kwetterID++;
     }
+
+    public static void clear(){
+        allUsers = new ArrayList<>();
+        allCredentials = new ArrayList<>();
+        allKwetters = new ArrayList<>();
+        userID = 1L;
+        kwetterID = 1L;
+    }
 }
