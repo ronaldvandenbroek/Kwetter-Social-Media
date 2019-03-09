@@ -1,9 +1,6 @@
 package nl.fontys.kwetter.configuration;
 
-import nl.fontys.kwetter.service.AdminService;
-import nl.fontys.kwetter.service.LoginService;
-import nl.fontys.kwetter.service.ProfileService;
-import nl.fontys.kwetter.service.ValidatorService;
+import nl.fontys.kwetter.service.*;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -13,6 +10,11 @@ public class H2TestConfiguration {
     @Bean
     public ValidatorService validatorService(){
         return new ValidatorService();
+    }
+
+    @Bean
+    public KwetterService kwetterService(){
+        return new KwetterService();
     }
 
     @Bean
