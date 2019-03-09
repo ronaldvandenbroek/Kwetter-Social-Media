@@ -8,8 +8,6 @@ import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.service.interfaces.ILoginService;
-import nl.fontys.kwetter.service.interfaces.IProfileService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

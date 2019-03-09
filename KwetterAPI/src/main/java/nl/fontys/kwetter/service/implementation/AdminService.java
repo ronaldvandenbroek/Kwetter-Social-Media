@@ -1,10 +1,10 @@
-package nl.fontys.kwetter.service;
+package nl.fontys.kwetter.service.implementation;
 
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.service.interfaces.IAdminService;
+import nl.fontys.kwetter.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

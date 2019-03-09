@@ -5,7 +5,7 @@ import nl.fontys.kwetter.exceptions.KwetterDoesntExist;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.LongRequest;
-import nl.fontys.kwetter.service.interfaces.IKwetterService;
+import nl.fontys.kwetter.service.IKwetterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
-package nl.fontys.kwetter.service;
+package nl.fontys.kwetter.service.implementation;
 
 import nl.fontys.kwetter.exceptions.InvalidModelException;
-import nl.fontys.kwetter.service.interfaces.IValidatorService;
+import nl.fontys.kwetter.service.IValidatorService;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;

@@ -1,12 +1,12 @@
-package nl.fontys.kwetter.service;
+package nl.fontys.kwetter.service.implementation;
 
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.IUserRepository;
-import nl.fontys.kwetter.service.interfaces.ILoginService;
-import nl.fontys.kwetter.service.interfaces.IValidatorService;
+import nl.fontys.kwetter.service.ILoginService;
+import nl.fontys.kwetter.service.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;

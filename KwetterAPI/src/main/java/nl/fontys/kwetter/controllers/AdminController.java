@@ -2,7 +2,7 @@ package nl.fontys.kwetter.controllers;
 
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.service.interfaces.IAdminService;
+import nl.fontys.kwetter.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

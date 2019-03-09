@@ -4,7 +4,7 @@ import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.service.interfaces.IProfileService;
+import nl.fontys.kwetter.service.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

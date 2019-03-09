@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.service.interfaces;
+package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 
