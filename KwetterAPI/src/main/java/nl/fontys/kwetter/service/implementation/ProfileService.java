@@ -1,10 +1,10 @@
 package nl.fontys.kwetter.service.implementation;
 
-import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IProfileService;
 import nl.fontys.kwetter.service.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,7 @@ public class ProfileService implements IProfileService {
      */
     @Override
     public User updateName(User user) throws UsernameAlreadyExists, UserDoesntExist, InvalidModelException {
-        if (!userRepository.existsByName(user.getName())){
+        if (!userRepository.existsByName(user.getName())) {
             User oldUser = getUserById(user.getId());
 
             String oldName = oldUser.getName();
@@ -77,8 +77,7 @@ public class ProfileService implements IProfileService {
                 oldUser.setName(oldName);
                 throw e;
             }
-        }
-        else{
+        } else {
             throw new UsernameAlreadyExists();
         }
     }
@@ -133,7 +132,7 @@ public class ProfileService implements IProfileService {
         if (user.isPresent()) {
             return user.get();
         }
-        throw new UserDoesntExist("User with the id:" + userID+ " could not be found.");
+        throw new UserDoesntExist("User with the id:" + userID + " could not be found.");
     }
 }
 

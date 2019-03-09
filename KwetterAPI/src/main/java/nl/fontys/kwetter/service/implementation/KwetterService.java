@@ -1,12 +1,12 @@
 package nl.fontys.kwetter.service.implementation;
 
-import nl.fontys.kwetter.repository.IKwetterRepository;
-import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.KwetterDoesntExist;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.IKwetterRepository;
+import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,8 @@ public class KwetterService implements IKwetterService {
     @Autowired
     private IKwetterRepository kwetterRepository;
 
-    public KwetterService() {}
+    public KwetterService() {
+    }
 
     /**
      * Search for a specific kwetter via the text.

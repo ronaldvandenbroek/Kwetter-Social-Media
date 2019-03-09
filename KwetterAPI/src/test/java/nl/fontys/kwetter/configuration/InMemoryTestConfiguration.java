@@ -52,7 +52,7 @@ public class InMemoryTestConfiguration {
     }
 
     @Bean
-    public InMemoryDatabaseManager inMemoryDatabaseManager(){
+    public InMemoryDatabaseManager inMemoryDatabaseManager() {
         return new InMemoryDatabaseManager();
     }
 }

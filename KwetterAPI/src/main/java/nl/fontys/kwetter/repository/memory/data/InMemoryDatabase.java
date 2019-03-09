@@ -37,7 +37,7 @@ public class InMemoryDatabase {
         return kwetterID++;
     }
 
-    public static void clear(){
+    public static void clear() {
         allUsers = new ArrayList<>();
         allCredentials = new ArrayList<>();
         allKwetters = new ArrayList<>();

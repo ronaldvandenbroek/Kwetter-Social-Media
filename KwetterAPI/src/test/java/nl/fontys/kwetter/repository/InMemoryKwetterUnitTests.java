@@ -6,7 +6,6 @@ import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.repository.memory.CredentialsRepository;
 import nl.fontys.kwetter.repository.memory.KwetterRepository;
 import nl.fontys.kwetter.repository.memory.UserRepository;
 import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;

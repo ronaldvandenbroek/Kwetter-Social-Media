@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Bean;
 public class H2TestConfiguration {
 
     @Bean
-    public ValidatorService validatorService(){
+    public ValidatorService validatorService() {
         return new ValidatorService();
     }
 
     @Bean
-    public KwetterService kwetterService(){
+    public KwetterService kwetterService() {
         return new KwetterService();
     }
 
@@ -34,7 +34,7 @@ public class H2TestConfiguration {
     }
 
     @Bean
-    public InactiveInMemoryDatabaseManager inMemoryDatabaseManager(){
+    public InactiveInMemoryDatabaseManager inMemoryDatabaseManager() {
         return new InactiveInMemoryDatabaseManager();
     }
 }

@@ -28,9 +28,10 @@ public class InMemoryDatabaseManager implements IInMemoryDatabaseManager {
     @Autowired
     ICredentialsRepository credentialsRepository;
 
-    public InMemoryDatabaseManager(){}
+    public InMemoryDatabaseManager() {
+    }
 
-    public void reset(){
+    public void reset() {
         InMemoryDatabase.clear();
 
         Collection<User> presetUsers = new ArrayList<>();

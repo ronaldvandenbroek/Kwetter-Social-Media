@@ -25,7 +25,7 @@ public class Credentials {
     private String password;
 
     @JsonIgnoreProperties("credentials")
-    @OneToOne(mappedBy = "credentials",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "credentials", fetch = FetchType.LAZY)
     private User user;
 
     public Credentials() {

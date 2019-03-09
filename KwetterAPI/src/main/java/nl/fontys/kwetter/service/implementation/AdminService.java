@@ -1,9 +1,9 @@
 package nl.fontys.kwetter.service.implementation;
 
-import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,8 @@ public class AdminService implements IAdminService {
     @Autowired
     private IUserRepository userRepository;
 
-    public AdminService() { }
+    public AdminService() {
+    }
 
     /**
      * Change the role of a user

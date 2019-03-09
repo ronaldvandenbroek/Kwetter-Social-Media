@@ -2,7 +2,6 @@ package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
 import nl.fontys.kwetter.configuration.H2TestConfiguration;
-import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;

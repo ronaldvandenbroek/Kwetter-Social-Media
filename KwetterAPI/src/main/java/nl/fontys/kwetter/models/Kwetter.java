@@ -17,7 +17,7 @@ import java.util.Set;
 public class Kwetter {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(max = 140)
