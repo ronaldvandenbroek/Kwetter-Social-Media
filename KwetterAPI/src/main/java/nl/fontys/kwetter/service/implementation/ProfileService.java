@@ -120,6 +120,34 @@ public class ProfileService implements IProfileService {
         return getUserById(userID);
     }
 
+    @Override
+    public void followUser(Long userID, Long followUserId) throws UserDoesntExist {
+        Optional<User> user = userRepository.findById(userID);
+        Optional<User> followed = userRepository.findById(followUserId);
+
+        if (user.isPresent() && followed.isPresent()){
+            user.get().follow(followed.get());
+            userRepository.save(user.get());
+        }
+        else{
+            throw new UserDoesntExist("User could not be followed.");
+        }
+    }
+
+    @Override
+    public void unFollowUser(Long userID, Long followUserId) throws UserDoesntExist {
+        Optional<User> user = userRepository.findById(userID);
+        Optional<User> followed = userRepository.findById(followUserId);
+
+        if (user.isPresent() && followed.isPresent()){
+            user.get().removeFollow(followed.get());
+            userRepository.save(user.get());
+        }
+        else{
+            throw new UserDoesntExist("User could not be followed.");
+        }
+    }
+
     /**
      * Get the user via its Id
      *

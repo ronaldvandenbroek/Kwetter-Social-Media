@@ -24,12 +24,16 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Testing the Kwetter Service")
 @DataJpaTest
 @Import({H2TestConfiguration.class, DataLoaderTestConfiguration.class})
 @Transactional
 class KwetterServiceIntegrationTest {
 
     private User testUser;
+
+    @Autowired
+    private IAdminService adminService;
 
     @Autowired
     private IKwetterService kwetterService;
@@ -55,6 +59,10 @@ class KwetterServiceIntegrationTest {
         } catch (CannotLoginException | InvalidModelException e) {
             e.printStackTrace();
         }
+
+        List<Credentials> credentials = adminService.getAllCredentials();
+        List<User> users = adminService.getAllUsers();
+        List<Kwetter> kwetters = adminService.getAllKwetters();
     }
 
     @Test
@@ -123,22 +131,23 @@ class KwetterServiceIntegrationTest {
         assertThrows(InvalidModelException.class, () -> kwetterService.createKwetter(testUser.getId(), kwetter));
     }
 
-//    @Test
-//    void removeKwetter() {
-//        try {
-//            User user = profileService.getFullProfile(testUser.getId());
-//            int size = user.getCreatedKwetters().size();
-//
-//            kwetterService.removeKwetter(0L, 0L);
-//
-//            User user2 = profileService.getFullProfile(testUser.getId());
-//            int size2 = user2.getCreatedKwetters().size();
-//
-//            assertTrue(true);
-//        } catch (KwetterDoesntExist | UserDoesntExist kwetterDoesntExist) {
-//            fail("This exception should not have been thrown");
-//        }
-//    }
+    @Test
+    @DisplayName("User can remove a kwetter")
+    void removeKwetter() {
+        try {
+
+            User user = profileService.getFullProfile(testUser.getId());
+            assertEquals(10, user.getCreatedKwetters().size());
+
+            kwetterService.removeKwetter(1L, 1L);
+
+            User user2 = profileService.getFullProfile(testUser.getId());
+
+            assertEquals(9, user2.getCreatedKwetters().size());
+        } catch (KwetterDoesntExist | UserDoesntExist kwetterDoesntExist) {
+            fail("This exception should not have been thrown");
+        }
+    }
 
     @Test
     @DisplayName("User can heart a kwetter")

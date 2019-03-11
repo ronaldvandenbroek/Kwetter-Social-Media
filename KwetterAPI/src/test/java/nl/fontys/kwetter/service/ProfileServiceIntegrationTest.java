@@ -7,6 +7,7 @@ import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.Credentials;
+import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -175,7 +176,7 @@ class ProfileServiceIntegrationTest {
         try {
             List<User> followers = profileService.getFollowers(testUser.getId());
             assertNotNull(followers);
-            assertEquals(0, followers.size());
+            assertEquals(1, followers.size());
         } catch (UserDoesntExist e) {
             fail("This exception should not have been thrown");
         }

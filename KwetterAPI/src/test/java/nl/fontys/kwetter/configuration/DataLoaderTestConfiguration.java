@@ -34,21 +34,27 @@ public class DataLoaderTestConfiguration {
             for (int i = 1; i < 11; i++) {
                 User user = new User(Role.USER);
                 user.setName(i + "Test");
+                userRepository.save(user);
 
                 Credentials credentials = new Credentials(i + "@test.nl", "test", user);
 
                 presetCredentials.add(credentials);
                 presetUsers.add(user);
 
-                userRepository.save(user);
                 credentialsRepository.save(credentials);
             }
 
             //Follow everyone via the first user
             Iterator<User> userIterator = presetUsers.iterator();
             User user = userIterator.next();
+            boolean followBack = false;
             while (userIterator.hasNext()) {
-                user.follow(userIterator.next());
+                User nextUser = userIterator.next();
+                if (!followBack){
+                    nextUser.follow(user);
+                    followBack = true;
+                }
+                user.follow(nextUser);
             }
             userRepository.save(user);
 

@@ -25,7 +25,7 @@ public class User {
     private Role role;
 
     @JsonIgnoreProperties("user")
-    @OneToOne(fetch = FetchType.LAZY, cascade = {PERSIST, MERGE, REMOVE, REFRESH, DETACH})
+    @OneToOne(fetch = FetchType.LAZY)
     private Credentials credentials;
 
     @Size(max = 50)
@@ -46,26 +46,26 @@ public class User {
     private byte[] photo;
 
     @JsonIgnoreProperties({"owner", "mentions"})
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = {PERSIST})
     private Set<Kwetter> createdKwetters;
 
     @JsonIgnoreProperties({"owner", "mentions"})
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = PERSIST)
     private Set<Kwetter> reportedKwetters;
 
     @JsonIgnoreProperties({"owner", "mentions"})
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = PERSIST)
     private Set<Kwetter> heartedKwetters;
 
     @JsonIgnoreProperties({"usersFollowed", "followedByUsers"})
-    @ManyToMany
+    @ManyToMany(cascade = PERSIST)
     @JoinTable(name = "follows",
             joinColumns = {@JoinColumn(name = "follower_id")},
             inverseJoinColumns = {@JoinColumn(name = "followed_id")})
     private Set<User> usersFollowed;
 
     @JsonIgnoreProperties({"usersFollowed", "followedByUsers"})
-    @ManyToMany
+    @ManyToMany(cascade = PERSIST)
     private Set<User> followedByUsers;
 
     public User() {

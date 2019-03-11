@@ -1,8 +1,12 @@
 package nl.fontys.kwetter.service.implementation;
 
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
+import nl.fontys.kwetter.models.Credentials;
+import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.ICredentialsRepository;
+import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,12 @@ public class AdminService implements IAdminService {
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private IKwetterRepository kwetterRepository;
+
+    @Autowired
+    private ICredentialsRepository credentialsRepository;
 
     public AdminService() {
     }
@@ -46,6 +56,16 @@ public class AdminService implements IAdminService {
     @Override
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
+    }
+
+    @Override
+    public List<Kwetter> getAllKwetters() {
+        return (List<Kwetter>) kwetterRepository.findAll();
+    }
+
+    @Override
+    public List<Credentials> getAllCredentials() {
+        return (List<Credentials>) credentialsRepository.findAll();
     }
 
     /**

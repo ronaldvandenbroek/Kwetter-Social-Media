@@ -86,15 +86,11 @@ public class KwetterService implements IKwetterService {
     @Override
     public void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesntExist, UserDoesntExist {
         Kwetter kwetter = getKwetterById(kwetterId);
-        User owner = getUserById(kwetter.getOwner().getId());
+        User user = getUserById(userId);
 
-        if (kwetter.getOwner().getId().equals(userId)) {
-            owner.removeCreatedKwetter(kwetter);
-            userRepository.save(owner);
-            kwetterRepository.save(kwetter);
-        } else {
-            throw new KwetterDoesntExist();
-        }
+        user.removeCreatedKwetter(kwetter);
+
+        kwetterRepository.delete(kwetter);
     }
 
     /**

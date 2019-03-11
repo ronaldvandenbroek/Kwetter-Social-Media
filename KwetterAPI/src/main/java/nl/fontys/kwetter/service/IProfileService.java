@@ -17,4 +17,8 @@ public interface IProfileService {
     List<User> getFollowing(Long userID) throws UserDoesntExist;
 
     User getFullProfile(Long userID) throws UserDoesntExist;
+
+    void followUser(Long userID, Long followUserId) throws UserDoesntExist;
+
+    void unFollowUser(Long userID, Long followUserId) throws UserDoesntExist;
 }

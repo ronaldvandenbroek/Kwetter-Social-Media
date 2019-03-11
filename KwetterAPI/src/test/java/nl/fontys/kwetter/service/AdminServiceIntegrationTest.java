@@ -22,7 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-@DisplayName("Testing the admin services")
+@DisplayName("Testing the Admin Service")
 @DataJpaTest
 @Import({H2TestConfiguration.class, DataLoaderTestConfiguration.class})
 @Transactional
