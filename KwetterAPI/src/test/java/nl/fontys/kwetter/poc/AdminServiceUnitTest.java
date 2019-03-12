@@ -38,7 +38,6 @@ public class AdminServiceUnitTest {
 
     @BeforeEach
     void setUp() {
-
         when(userRepository.findAll()).thenReturn(new ArrayList<>());
         when(credentialsRepository.findAll()).thenReturn(new ArrayList<>());
         when(kwetterRepository.findAll()).thenReturn(new ArrayList<>());
