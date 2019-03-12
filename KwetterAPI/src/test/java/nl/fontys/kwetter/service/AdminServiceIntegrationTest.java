@@ -2,12 +2,14 @@ package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
 import nl.fontys.kwetter.configuration.H2TestConfiguration;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesntExist;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.memory.data.InMemoryDatabase;
 import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,16 +58,19 @@ class AdminServiceIntegrationTest {
             e.printStackTrace();
             fail("This exception should not have been thrown");
         }
+
+        Collection<User> users = InMemoryDatabase.userCollection();
     }
 
     @Test
     @DisplayName("Change the role of a user")
     void changeRole() {
         try {
-            adminService.changeRole(testUser.getId(), Role.MODERATOR);
+            User changedUser = adminService.changeRole(testUser.getId(), Role.MODERATOR);
 
             User moderator = profileService.getFullProfile(testUser.getId());
 
+            assertEquals(Role.MODERATOR, changedUser.getRole());
             assertEquals(Role.MODERATOR, moderator.getRole());
         } catch (UserDoesntExist e) {
             fail("This exception should not have been thrown");

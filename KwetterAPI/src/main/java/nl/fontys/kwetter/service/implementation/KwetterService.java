@@ -230,7 +230,7 @@ public class KwetterService implements IKwetterService {
         if (user.isPresent()) {
             return user.get();
         }
-        throw new UserDoesntExist();
+        throw new UserDoesntExist("User with the id:" + userID + " could not be found.");
     }
 
     /**

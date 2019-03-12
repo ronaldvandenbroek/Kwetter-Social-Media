@@ -41,11 +41,12 @@ public class AdminService implements IAdminService {
      * @throws UserDoesntExist Thrown if the user cannot be found.
      */
     @Override
-    public void changeRole(Long userId, Role role) throws UserDoesntExist {
+    public User changeRole(Long userId, Role role) throws UserDoesntExist {
         User user = getUserById(userId);
         user.setRole(role);
 
         userRepository.save(user);
+        return user;
     }
 
     /**
@@ -80,6 +81,6 @@ public class AdminService implements IAdminService {
         if (user.isPresent()) {
             return user.get();
         }
-        throw new UserDoesntExist();
+        throw new UserDoesntExist("User with the id:" + userID + " could not be found.");
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IAdminService {
 
-    void changeRole(Long userId, Role role) throws UserDoesntExist;
+    User changeRole(Long userId, Role role) throws UserDoesntExist;
 
     List<User> getAllUsers();
 
