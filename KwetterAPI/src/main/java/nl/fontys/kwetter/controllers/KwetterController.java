@@ -24,7 +24,7 @@ public class KwetterController {
         this.kwetterService = kwetterService;
     }
 
-    @PostMapping("/searchFor")
+    @PostMapping("/search_for")
     public ResponseEntity<Kwetter> searchForKwetter(@RequestBody String searchTerm) {
         Kwetter kwetter = kwetterService.searchForKwetter(searchTerm);
         return ResponseEntity.ok(kwetter);
@@ -48,7 +48,7 @@ public class KwetterController {
         return ResponseEntity.ok("Hearted kwetter");
     }
 
-    @PostMapping("/removeHeart/{id}")
+    @PostMapping("/remove_heart/{id}")
     public ResponseEntity removeHeartKwetter(@PathVariable Long id, @RequestBody LongRequest longRequest) throws KwetterDoesNotExist, UserDoesNotExist {
         kwetterService.removeHeartKwetter(id, longRequest.getId());
         return ResponseEntity.ok("Removed Heart from kwetter");
@@ -60,7 +60,7 @@ public class KwetterController {
         return ResponseEntity.ok("Report kwetter");
     }
 
-    @PostMapping("/removeReport/{id}")
+    @PostMapping("/remove_report/{id}")
     public ResponseEntity removeReportKwetter(@PathVariable Long id, @RequestBody LongRequest longRequest) throws KwetterDoesNotExist, UserDoesNotExist {
         kwetterService.removeReportKwetter(id, longRequest.getId());
         return ResponseEntity.ok("Removed Report from kwetter");
@@ -72,7 +72,7 @@ public class KwetterController {
         return ResponseEntity.ok(mentionedKwetters);
     }
 
-    @GetMapping("/mostRecent/{id}")
+    @GetMapping("/most_recent/{id}")
     public ResponseEntity<List<Kwetter>> getMostRecentKwetters(@PathVariable Long id) throws UserDoesNotExist {
         List<Kwetter> recentKwetters = kwetterService.getMostRecentKwetters(id);
         return ResponseEntity.ok(recentKwetters);
@@ -84,7 +84,7 @@ public class KwetterController {
         return ResponseEntity.ok(heartedKwetters);
     }
 
-    @GetMapping("/timeLine/{id}")
+    @GetMapping("/timeline/{id}")
     public ResponseEntity<List<Kwetter>> getTimeLine(@PathVariable Long id) throws UserDoesNotExist {
         List<Kwetter> timelineKwetters = kwetterService.getTimeline(id);
         return ResponseEntity.ok(timelineKwetters);

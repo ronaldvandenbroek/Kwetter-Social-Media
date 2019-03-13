@@ -21,13 +21,13 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @PostMapping("/changeRole")
+    @PostMapping("/change_role")
     public ResponseEntity changeRole(@RequestBody User user) throws UserDoesNotExist {
         adminService.changeRole(user.getId(), user.getRole());
         return ResponseEntity.ok("Changed user role");
     }
 
-    @GetMapping("/getAllUsers")
+    @GetMapping("/get_all_users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> allUsers = adminService.getAllUsers();
         return ResponseEntity.ok(allUsers);

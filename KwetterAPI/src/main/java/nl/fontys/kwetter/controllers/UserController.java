@@ -23,31 +23,31 @@ public class UserController {
         this.profileService = profileService;
     }
 
-    @PostMapping("/updateUser")
+    @PostMapping("/update_body")
     public ResponseEntity<User> updateUser(User user) throws UserDoesNotExist, InvalidModelException {
         User updatedUser = profileService.updateUser(user);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @PostMapping("/updateName")
+    @PostMapping("/update_name")
     public ResponseEntity<User> updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesNotExist {
         User updatedUser = profileService.updateName(user);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @GetMapping("/getFollowers/{id}")
+    @GetMapping("/followers/{id}")
     public ResponseEntity<List<User>> getFollowers(@PathVariable Long id) throws UserDoesNotExist {
         List<User> followers = profileService.getFollowers(id);
         return ResponseEntity.ok(followers);
     }
 
-    @GetMapping("/getFollowing/{id}")
+    @GetMapping("/following/{id}")
     public ResponseEntity<List<User>> getFollowing(@PathVariable Long id) throws UserDoesNotExist {
         List<User> following = profileService.getFollowing(id);
         return ResponseEntity.ok(following);
     }
 
-    @GetMapping("/getProfile/{id}")
+    @GetMapping("/profile/{id}")
     public ResponseEntity<User> getProfile(@PathVariable Long id) throws UserDoesNotExist {
         User user = profileService.getFullProfile(id);
         return ResponseEntity.ok(user);

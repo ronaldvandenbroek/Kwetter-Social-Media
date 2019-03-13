@@ -32,7 +32,7 @@ public class LoginController {
         return ResponseEntity.ok("Test");
     }
 
-    @GetMapping("/failTest")
+    @GetMapping("/test_fail")
     public ResponseEntity<String> failTest() throws CannotLoginException {
         throw new CannotLoginException("Exception test");
     }
