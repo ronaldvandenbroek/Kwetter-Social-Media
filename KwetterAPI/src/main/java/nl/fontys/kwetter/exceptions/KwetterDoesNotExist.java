@@ -4,12 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class UserDoesntExist extends Exception {
+public class KwetterDoesNotExist extends Exception {
 
-    public UserDoesntExist() {
+    public KwetterDoesNotExist() {
     }
 
-    public UserDoesntExist(String message) {
+    public KwetterDoesNotExist(String message) {
         super(message);
     }
 }

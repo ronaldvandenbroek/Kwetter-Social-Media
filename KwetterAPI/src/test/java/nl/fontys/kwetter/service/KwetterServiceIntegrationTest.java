@@ -4,8 +4,8 @@ import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
 import nl.fontys.kwetter.configuration.H2TestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
-import nl.fontys.kwetter.exceptions.KwetterDoesntExist;
-import nl.fontys.kwetter.exceptions.UserDoesntExist;
+import nl.fontys.kwetter.exceptions.KwetterDoesNotExist;
+import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
@@ -92,7 +92,7 @@ class KwetterServiceIntegrationTest {
             assertEquals(11, latestKwetters.size());
             //assertEquals(2, kwetter.getMentions().size());
             assertEquals(2, kwetter.getTags().size());
-        } catch (UserDoesntExist | InvalidModelException e) {
+        } catch (UserDoesNotExist | InvalidModelException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -115,7 +115,7 @@ class KwetterServiceIntegrationTest {
             assertEquals(11, latestKwetters.size());
             assertEquals(0, latestKwetters.get(0).getMentions().size());
             assertEquals(0, latestKwetters.get(0).getTags().size());
-        } catch (UserDoesntExist | InvalidModelException e) {
+        } catch (UserDoesNotExist | InvalidModelException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -144,7 +144,7 @@ class KwetterServiceIntegrationTest {
             User user2 = profileService.getFullProfile(testUser.getId());
 
             assertEquals(9, user2.getCreatedKwetters().size());
-        } catch (KwetterDoesntExist | UserDoesntExist kwetterDoesntExist) {
+        } catch (KwetterDoesNotExist | UserDoesNotExist kwetterDoesNotExist) {
             fail("This exception should not have been thrown");
         }
     }
@@ -161,7 +161,7 @@ class KwetterServiceIntegrationTest {
             Kwetter kwetter = user.getHeartedKwetters().iterator().next();
             assertEquals(1, kwetter.getHearts());
 
-        } catch (KwetterDoesntExist | UserDoesntExist e) {
+        } catch (KwetterDoesNotExist | UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -180,7 +180,7 @@ class KwetterServiceIntegrationTest {
             assertEquals(10, user.getCreatedKwetters().size());
             assertEquals(0, user.getHeartedKwetters().size());
 
-        } catch (KwetterDoesntExist | UserDoesntExist e) {
+        } catch (KwetterDoesNotExist | UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -197,7 +197,7 @@ class KwetterServiceIntegrationTest {
             Kwetter kwetter = user.getReportedKwetters().iterator().next();
             assertEquals(1, kwetter.getReports());
 
-        } catch (KwetterDoesntExist | UserDoesntExist e) {
+        } catch (KwetterDoesNotExist | UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -214,7 +214,7 @@ class KwetterServiceIntegrationTest {
 
             assertEquals(0, user.getReportedKwetters().size());
 
-        } catch (KwetterDoesntExist | UserDoesntExist e) {
+        } catch (KwetterDoesNotExist | UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }

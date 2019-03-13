@@ -2,10 +2,9 @@ package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
 import nl.fontys.kwetter.configuration.H2TestConfiguration;
-import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
-import nl.fontys.kwetter.exceptions.UserDoesntExist;
+import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
@@ -72,7 +71,7 @@ class AdminServiceIntegrationTest {
 
             assertEquals(Role.MODERATOR, changedUser.getRole());
             assertEquals(Role.MODERATOR, moderator.getRole());
-        } catch (UserDoesntExist e) {
+        } catch (UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }

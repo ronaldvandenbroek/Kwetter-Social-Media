@@ -3,6 +3,7 @@ package nl.fontys.kwetter.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.boot.CommandLineRunner;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +16,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"reports", "hearts", "tags", "mentions"})
 @Entity
-public class Kwetter implements Serializable {
+public class Kwetter implements Serializable, Comparable<Kwetter> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,5 +109,10 @@ public class Kwetter implements Serializable {
 
     public void removeOwner() {
         owner = null;
+    }
+
+    @Override
+    public int compareTo(Kwetter kwetter) {
+        return getDateTime().compareTo(kwetter.getDateTime());
     }
 }

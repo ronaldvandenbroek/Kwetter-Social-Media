@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service.implementation;
 
-import nl.fontys.kwetter.exceptions.UserDoesntExist;
+import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
@@ -38,10 +38,10 @@ public class AdminService implements IAdminService {
      *
      * @param userId Id of the User
      * @param role   New Role of the User
-     * @throws UserDoesntExist Thrown if the user cannot be found.
+     * @throws UserDoesNotExist Thrown if the user cannot be found.
      */
     @Override
-    public User changeRole(Long userId, Role role) throws UserDoesntExist {
+    public User changeRole(Long userId, Role role) throws UserDoesNotExist {
         User user = getUserById(userId);
         user.setRole(role);
 
@@ -74,13 +74,13 @@ public class AdminService implements IAdminService {
      *
      * @param userID Id of the User
      * @return The User
-     * @throws UserDoesntExist Thrown when the userID does not have a corresponding user.
+     * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
      */
-    private User getUserById(Long userID) throws UserDoesntExist {
+    private User getUserById(Long userID) throws UserDoesNotExist {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()) {
             return user.get();
         }
-        throw new UserDoesntExist("User with the id:" + userID + " could not be found.");
+        throw new UserDoesNotExist("User with the id:" + userID + " could not be found.");
     }
 }

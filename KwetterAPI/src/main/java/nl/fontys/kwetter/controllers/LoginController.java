@@ -6,11 +6,12 @@ import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping(path = "login", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LoginController {
 
     private final ILoginService loginService;

@@ -4,10 +4,9 @@ import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
 import nl.fontys.kwetter.configuration.H2TestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
-import nl.fontys.kwetter.exceptions.UserDoesntExist;
+import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -76,7 +75,7 @@ class ProfileServiceIntegrationTest {
             assertEquals(location, user.getLocation());
             assertEquals(website, user.getWebsite());
             assertEquals(language, user.getLanguage());
-        } catch (InvalidModelException | UserDoesntExist e) {
+        } catch (InvalidModelException | UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -99,7 +98,7 @@ class ProfileServiceIntegrationTest {
             assertNull(user.getWebsite());
             assertNull(user.getBio());
             assertNull(user.getLanguage());
-        } catch (UserDoesntExist e) {
+        } catch (UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -117,7 +116,7 @@ class ProfileServiceIntegrationTest {
             User user = profileService.updateName(newUser);
             assertNotNull(user);
             assertEquals(name, user.getName());
-        } catch (InvalidModelException | UsernameAlreadyExists | UserDoesntExist e) {
+        } catch (InvalidModelException | UsernameAlreadyExists | UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -134,7 +133,7 @@ class ProfileServiceIntegrationTest {
         try {
             User user = profileService.getFullProfile(testUser.getId());
             assertEquals("1Test", user.getName());
-        } catch (UserDoesntExist e) {
+        } catch (UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -153,7 +152,7 @@ class ProfileServiceIntegrationTest {
         try {
             User user = profileService.getFullProfile(testUser.getId());
             assertEquals("1Test", user.getName());
-        } catch (UserDoesntExist e) {
+        } catch (UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -165,7 +164,7 @@ class ProfileServiceIntegrationTest {
             List<User> followers = profileService.getFollowing(testUser.getId());
             assertNotNull(followers);
             assertEquals(9, followers.size());
-        } catch (UserDoesntExist e) {
+        } catch (UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -177,7 +176,7 @@ class ProfileServiceIntegrationTest {
             List<User> followers = profileService.getFollowers(testUser.getId());
             assertNotNull(followers);
             assertEquals(1, followers.size());
-        } catch (UserDoesntExist e) {
+        } catch (UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -188,7 +187,7 @@ class ProfileServiceIntegrationTest {
         try {
             User user = profileService.getFullProfile(testUser.getId());
             assertNotNull(user);
-        } catch (UserDoesntExist e) {
+        } catch (UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }
     }
