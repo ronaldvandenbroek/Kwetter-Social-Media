@@ -128,6 +128,7 @@ public class ProfileService implements IProfileService {
         if (user.isPresent() && followed.isPresent()) {
             user.get().follow(followed.get());
             userRepository.save(user.get());
+            userRepository.save(followed.get());
         } else {
             throw new UserDoesNotExist("User could not be followed.");
         }
@@ -141,6 +142,7 @@ public class ProfileService implements IProfileService {
         if (user.isPresent() && followed.isPresent()) {
             user.get().removeFollow(followed.get());
             userRepository.save(user.get());
+            userRepository.save(followed.get());
         } else {
             throw new UserDoesNotExist("User could not be followed.");
         }

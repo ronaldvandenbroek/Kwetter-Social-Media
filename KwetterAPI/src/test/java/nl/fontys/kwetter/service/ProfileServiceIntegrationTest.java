@@ -191,4 +191,20 @@ class ProfileServiceIntegrationTest {
             fail("This exception should not have been thrown");
         }
     }
+
+    @Test
+    @DisplayName("A user can follow and unfollow another user")
+    void followAndUnfollow() throws UserDoesNotExist {
+        profileService.followUser(2L, 3L);
+        List<User> following2 = profileService.getFollowing(2L);
+        List<User> followers3 = profileService.getFollowers(3L);
+        assertEquals(1, following2.size());
+        assertEquals(1, followers3.size());
+
+        profileService.unFollowUser(2L, 3L);
+        List<User> following2afterUnfollow = profileService.getFollowing(2L);
+        List<User> followers3afterUnfollow = profileService.getFollowers(3L);
+        assertEquals(0, following2afterUnfollow.size());
+        assertEquals(0, followers3afterUnfollow.size());
+    }
 }
