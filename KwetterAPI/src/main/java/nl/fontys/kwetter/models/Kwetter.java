@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"reports", "hearts", "tags", "mentions"})
 @Entity
-public class Kwetter {
+public class Kwetter implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

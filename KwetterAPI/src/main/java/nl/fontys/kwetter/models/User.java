@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import static javax.persistence.CascadeType.*;
 @Entity
 @EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials", "bio", "role", "name"})
 @ToString(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials"})
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,6 +70,11 @@ public class User {
     private Set<User> followedByUsers;
 
     public User() {
+        createdKwetters = new HashSet<>();
+        reportedKwetters = new HashSet<>();
+        heartedKwetters = new HashSet<>();
+        usersFollowed = new HashSet<>();
+        followedByUsers = new HashSet<>();
     }
 
     public User(User toBeClonedUser) {
@@ -89,13 +95,8 @@ public class User {
     }
 
     public User(Role role) {
+        this();
         this.role = role;
-
-        createdKwetters = new HashSet<>();
-        reportedKwetters = new HashSet<>();
-        heartedKwetters = new HashSet<>();
-        usersFollowed = new HashSet<>();
-        followedByUsers = new HashSet<>();
     }
 
     public User(Role role, Long tempId) {

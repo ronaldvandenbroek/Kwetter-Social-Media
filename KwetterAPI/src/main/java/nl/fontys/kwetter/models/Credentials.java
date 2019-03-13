@@ -7,11 +7,12 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode(exclude = {"user"})
 @Entity
-public class Credentials {
+public class Credentials implements Serializable {
 
     @NotNull(message = "Email cannot be null")
     @Email(message = "Email should be valid")

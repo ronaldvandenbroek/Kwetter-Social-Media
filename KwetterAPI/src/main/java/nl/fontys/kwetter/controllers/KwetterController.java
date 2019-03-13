@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("kwetter")
 public class KwetterController {
 
     private final IKwetterService kwetterService;
@@ -28,55 +29,55 @@ public class KwetterController {
         return ResponseEntity.ok(kwetter);
     }
 
-    @PostMapping("/createKwetter/{id}")
+    @PostMapping("/create/{id}")
     public ResponseEntity<Kwetter> createKwetter(@PathVariable Long id, @RequestBody Kwetter kwetter) throws UserDoesntExist, InvalidModelException {
         Kwetter createdKwetter = kwetterService.createKwetter(id, kwetter);
         return ResponseEntity.ok(createdKwetter);
     }
 
-    @PostMapping("/removeKwetter/{id}")
+    @PostMapping("/remove/{id}")
     public ResponseEntity removeKwetter(@PathVariable Long id, @RequestBody LongRequest longRequest) throws KwetterDoesntExist, UserDoesntExist {
         kwetterService.removeKwetter(id, longRequest.getId());
         return ResponseEntity.ok("Removed kwetter");
     }
 
-    @PostMapping("/heartKwetter/{id}")
+    @PostMapping("/heart/{id}")
     public ResponseEntity heartKwetter(@PathVariable Long id, @RequestBody LongRequest longRequest) throws KwetterDoesntExist, UserDoesntExist {
         kwetterService.heartKwetter(id, longRequest.getId());
         return ResponseEntity.ok("Hearted kwetter");
     }
 
-    @PostMapping("/removeHeartKwetter/{id}")
+    @PostMapping("/removeHeart/{id}")
     public ResponseEntity removeHeartKwetter(@PathVariable Long id, @RequestBody LongRequest longRequest) throws KwetterDoesntExist, UserDoesntExist {
         kwetterService.removeHeartKwetter(id, longRequest.getId());
         return ResponseEntity.ok("Removed Heart from kwetter");
     }
 
-    @PostMapping("/reportKwetter/{id}")
+    @PostMapping("/report/{id}")
     public ResponseEntity reportKwetter(@PathVariable Long id, @RequestBody LongRequest longRequest) throws KwetterDoesntExist, UserDoesntExist {
         kwetterService.reportKwetter(id, longRequest.getId());
         return ResponseEntity.ok("Report kwetter");
     }
 
-    @PostMapping("/removeReportKwetter/{id}")
+    @PostMapping("/removeReport/{id}")
     public ResponseEntity removeReportKwetter(@PathVariable Long id, @RequestBody LongRequest longRequest) throws KwetterDoesntExist, UserDoesntExist {
         kwetterService.removeReportKwetter(id, longRequest.getId());
         return ResponseEntity.ok("Removed Report from kwetter");
     }
 
-    @GetMapping("/getMentionedKwetters/{id}")
+    @GetMapping("/getMentioned/{id}")
     public ResponseEntity<List<Kwetter>> getMentionedKwetters(@PathVariable Long id) throws UserDoesntExist {
         List<Kwetter> mentionedKwetters = kwetterService.getMentionedKwetters(id);
         return ResponseEntity.ok(mentionedKwetters);
     }
 
-    @GetMapping("/getMostRecentKwetters/{id}")
+    @GetMapping("/getMostRecent/{id}")
     public ResponseEntity<List<Kwetter>> getMostRecentKwetters(@PathVariable Long id) throws UserDoesntExist {
         List<Kwetter> recentKwetters = kwetterService.getMostRecentKwetters(id);
         return ResponseEntity.ok(recentKwetters);
     }
 
-    @GetMapping("/getHeartedKwetters/{id}")
+    @GetMapping("/getHearted/{id}")
     public ResponseEntity<List<Kwetter>> getHeartedKwetters(@PathVariable Long id) throws UserDoesntExist {
         List<Kwetter> heartedKwetters = kwetterService.getHeartedKwetters(id);
         return ResponseEntity.ok(heartedKwetters);
