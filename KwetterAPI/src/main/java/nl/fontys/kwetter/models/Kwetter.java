@@ -3,7 +3,6 @@ package nl.fontys.kwetter.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.boot.CommandLineRunner;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

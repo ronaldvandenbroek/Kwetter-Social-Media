@@ -1,14 +1,12 @@
 package nl.fontys.kwetter.exceptions;
 
-import lombok.Data;
-import nl.fontys.kwetter.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UserDoesNotExist extends Exception {
 
-    public UserDoesNotExist(){
+    public UserDoesNotExist() {
         super();
     }
 

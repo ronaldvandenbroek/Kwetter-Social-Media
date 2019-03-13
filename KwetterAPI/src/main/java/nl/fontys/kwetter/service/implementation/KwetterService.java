@@ -51,7 +51,7 @@ public class KwetterService implements IKwetterService {
      * @param kwetter The kwetter to be created
      * @return The created kwetter
      * @throws InvalidModelException Thrown when an invalid input is given for the model.
-     * @throws UserDoesNotExist       Thrown when the userID does not have a corresponding user.
+     * @throws UserDoesNotExist      Thrown when the userID does not have a corresponding user.
      */
     @Override
     public Kwetter createKwetter(Long userId, Kwetter kwetter) throws UserDoesNotExist, InvalidModelException {

@@ -4,6 +4,8 @@ mvn clean install
 
 Running the server:
 .\payara-5.184\payara5\bin\asadmin start-domain --verbose
+.\payara-5.184\payara5\bin\asadmin stop-domain
+
 
 Deploying:
 .\payara-5.184\payara5\bin\asadmin deploy C:\Users\ronal\Documents\GitHub\JEA6\KwetterAPI\target\kwetter-1.0.war
@@ -12,5 +14,8 @@ UnDeploying:
 .\payara-5.184\payara5\bin\asadmin undeploy kwetter-1.0
 
 ReDeploying:
-redeploy --name Kwetter-1.0
+redeploy --name kwetter-1.0
+
+Fix batch size
+.\payara-5.184\payara5\bin\asadmin set-payara-executor-service-configuration --threadpoolexecutorqueuesize 1000
 

@@ -35,7 +35,7 @@ public class ProfileService implements IProfileService {
      * @param user User with the updated user bio
      * @return The updated user
      * @throws InvalidModelException Thrown when an invalid input is given for the model.
-     * @throws UserDoesNotExist       Thrown when the userID does not have a corresponding user.
+     * @throws UserDoesNotExist      Thrown when the userID does not have a corresponding user.
      */
     @Override
     public User updateUser(User user) throws InvalidModelException, UserDoesNotExist {
@@ -60,7 +60,7 @@ public class ProfileService implements IProfileService {
      * @return The updated user
      * @throws UsernameAlreadyExists Thrown if the chosen name already exists.
      * @throws InvalidModelException Thrown when an invalid input is given for the model.
-     * @throws UserDoesNotExist       Thrown when the userID does not have a corresponding user.
+     * @throws UserDoesNotExist      Thrown when the userID does not have a corresponding user.
      */
     @Override
     public User updateName(User user) throws UsernameAlreadyExists, UserDoesNotExist, InvalidModelException {
@@ -125,11 +125,10 @@ public class ProfileService implements IProfileService {
         Optional<User> user = userRepository.findById(userID);
         Optional<User> followed = userRepository.findById(followUserId);
 
-        if (user.isPresent() && followed.isPresent()){
+        if (user.isPresent() && followed.isPresent()) {
             user.get().follow(followed.get());
             userRepository.save(user.get());
-        }
-        else{
+        } else {
             throw new UserDoesNotExist("User could not be followed.");
         }
     }
@@ -139,11 +138,10 @@ public class ProfileService implements IProfileService {
         Optional<User> user = userRepository.findById(userID);
         Optional<User> followed = userRepository.findById(followUserId);
 
-        if (user.isPresent() && followed.isPresent()){
+        if (user.isPresent() && followed.isPresent()) {
             user.get().removeFollow(followed.get());
             userRepository.save(user.get());
-        }
-        else{
+        } else {
             throw new UserDoesNotExist("User could not be followed.");
         }
     }

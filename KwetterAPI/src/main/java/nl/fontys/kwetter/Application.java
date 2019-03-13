@@ -63,7 +63,7 @@ public class Application extends SpringBootServletInitializer {
             boolean followBack = false;
             while (userIterator.hasNext()) {
                 User nextUser = userIterator.next();
-                if (!followBack){
+                if (!followBack) {
                     nextUser.follow(user);
                     secondUser = nextUser;
                     followBack = true;
