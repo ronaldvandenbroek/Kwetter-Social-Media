@@ -22,6 +22,11 @@ public class KwetterRepository implements IKwetterRepository {
     }
 
     @Override
+    public List<Kwetter> findAllByTextContains(String text) {
+        return kwetterCollection().stream().filter(kwetter -> kwetter.getText().contains(text)).collect(Collectors.toList());
+    }
+
+    @Override
     public <S extends Kwetter> S save(S s) {
         if (s.getId() == null) {
             s.setId(getNextFreeKwetterID());

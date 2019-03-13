@@ -8,4 +8,6 @@ import java.util.List;
 public interface IKwetterRepository extends CrudRepository<Kwetter, Long> {
 
     List<Kwetter> findAllByOwnerId(Long ownerId);
+
+    List<Kwetter> findAllByTextContains(String text);
 }

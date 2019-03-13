@@ -218,4 +218,13 @@ class KwetterServiceIntegrationTest {
             fail("This exception should not have been thrown");
         }
     }
+
+    @Test
+    @DisplayName("Search for a kwetter")
+    void searchForAKwetter() {
+        String text = "1";
+
+        List<Kwetter> kwetters = kwetterService.searchForKwetter(text);
+        assertEquals(2, kwetters.size());
+    }
 }

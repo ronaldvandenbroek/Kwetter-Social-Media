@@ -8,7 +8,7 @@ import nl.fontys.kwetter.models.Kwetter;
 import java.util.List;
 
 public interface IKwetterService {
-    Kwetter searchForKwetter(String searchTerm);
+    List<Kwetter> searchForKwetter(String searchTerm);
 
     Kwetter createKwetter(Long userId, Kwetter kwetter) throws UserDoesNotExist, InvalidModelException;
 

@@ -25,8 +25,8 @@ public class KwetterController {
     }
 
     @PostMapping("/search_for")
-    public ResponseEntity<Kwetter> searchForKwetter(@RequestBody String searchTerm) {
-        Kwetter kwetter = kwetterService.searchForKwetter(searchTerm);
+    public ResponseEntity<List<Kwetter>> searchForKwetter(@RequestBody String searchTerm) {
+        List<Kwetter> kwetter = kwetterService.searchForKwetter(searchTerm);
         return ResponseEntity.ok(kwetter);
     }
 

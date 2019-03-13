@@ -40,8 +40,8 @@ public class KwetterService implements IKwetterService {
      * @return The corresponding Kwetter
      */
     @Override
-    public Kwetter searchForKwetter(String searchTerm) {
-        throw new NotImplementedException();
+    public List<Kwetter> searchForKwetter(String searchTerm) {
+        return kwetterRepository.findAllByTextContains(searchTerm);
     }
 
     /**
