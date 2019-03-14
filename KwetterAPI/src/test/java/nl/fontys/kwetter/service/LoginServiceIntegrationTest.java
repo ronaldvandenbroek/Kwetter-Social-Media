@@ -1,7 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
-import nl.fontys.kwetter.configuration.H2TestConfiguration;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.models.Credentials;
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the Login Service")
 @DataJpaTest
-@Import({H2TestConfiguration.class, DataLoaderTestConfiguration.class})
+@Import(InMemoryTestConfiguration.class)
 @Transactional
 class LoginServiceIntegrationTest {
 

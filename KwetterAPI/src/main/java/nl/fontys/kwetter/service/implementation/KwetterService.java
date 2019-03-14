@@ -21,16 +21,15 @@ import java.util.*;
 @Service
 public class KwetterService implements IKwetterService {
 
-    @Autowired
     private IValidatorService validator;
-
-    @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
     private IKwetterRepository kwetterRepository;
 
-    public KwetterService() {
+    @Autowired
+    public KwetterService(IValidatorService validator, IUserRepository userRepository, IKwetterRepository kwetterRepository) {
+        this.validator = validator;
+        this.userRepository = userRepository;
+        this.kwetterRepository = kwetterRepository;
     }
 
     /**
@@ -91,6 +90,7 @@ public class KwetterService implements IKwetterService {
         user.removeCreatedKwetter(kwetter);
 
         kwetterRepository.delete(kwetter);
+        userRepository.save(user);
     }
 
     /**

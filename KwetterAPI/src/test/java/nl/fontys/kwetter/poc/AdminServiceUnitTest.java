@@ -6,7 +6,6 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
-import nl.fontys.kwetter.service.IAdminService;
 import nl.fontys.kwetter.service.implementation.AdminService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,10 +33,11 @@ public class AdminServiceUnitTest {
     private ICredentialsRepository credentialsRepository;
 
     @InjectMocks
-    private IAdminService adminService = new AdminService();
+    private AdminService adminService;
 
     @BeforeEach
     void setUp() {
+        //adminService = new AdminService();
         when(userRepository.findAll()).thenReturn(new ArrayList<>());
         when(credentialsRepository.findAll()).thenReturn(new ArrayList<>());
         when(kwetterRepository.findAll()).thenReturn(new ArrayList<>());

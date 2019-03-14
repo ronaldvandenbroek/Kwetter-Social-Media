@@ -19,16 +19,15 @@ import java.util.Iterator;
 @Service
 public class InMemoryDatabaseManager implements IInMemoryDatabaseManager {
 
-    @Autowired
-    IKwetterRepository kwetterRepository;
+    private IKwetterRepository kwetterRepository;
+    private IUserRepository userRepository;
+    private ICredentialsRepository credentialsRepository;
 
     @Autowired
-    IUserRepository userRepository;
-
-    @Autowired
-    ICredentialsRepository credentialsRepository;
-
-    public InMemoryDatabaseManager() {
+    public InMemoryDatabaseManager(IUserRepository userRepository, IKwetterRepository kwetterRepository, ICredentialsRepository credentialsRepository) {
+        this.kwetterRepository = kwetterRepository;
+        this.userRepository = userRepository;
+        this.credentialsRepository = credentialsRepository;
     }
 
     public void reset() {

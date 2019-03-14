@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.repository.memory;
 
 import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.repository.ICredentialsRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.credentialsCollection;
 
 @Repository
-public class CredentialsRepository implements ICredentialsRepository {
+@Profile("memory")
+public class InMemoryCredentialsRepository implements IInMemoryCredentialsRepository {
 
     @Override
     public List<Credentials> findAllByEmail(String lastName) {

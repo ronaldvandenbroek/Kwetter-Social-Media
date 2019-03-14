@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.repository.memory;
 
 import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.repository.IKwetterRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -14,7 +14,8 @@ import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.getNextF
 import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.kwetterCollection;
 
 @Repository
-public class KwetterRepository implements IKwetterRepository {
+@Profile("memory")
+public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
     public List<Kwetter> findAllByOwnerId(Long ownerId) {

@@ -20,13 +20,13 @@ import java.util.Optional;
 @Service
 public class ProfileService implements IProfileService {
 
-    @Autowired
+    private IUserRepository userRepository;
     private IValidatorService validator;
 
     @Autowired
-    private IUserRepository userRepository;
-
-    public ProfileService() {
+    public ProfileService(IValidatorService validator, IUserRepository userRepository) {
+        this.validator = validator;
+        this.userRepository = userRepository;
     }
 
     /**

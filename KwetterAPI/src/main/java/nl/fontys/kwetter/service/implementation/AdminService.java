@@ -21,16 +21,15 @@ import java.util.Optional;
 @Service
 public class AdminService implements IAdminService {
 
-    @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
     private IKwetterRepository kwetterRepository;
-
-    @Autowired
     private ICredentialsRepository credentialsRepository;
 
-    public AdminService() {
+    @Autowired
+    public AdminService(IUserRepository userRepository, IKwetterRepository kwetterRepository, ICredentialsRepository credentialsRepository) {
+        this.userRepository = userRepository;
+        this.kwetterRepository = kwetterRepository;
+        this.credentialsRepository = credentialsRepository;
     }
 
     /**

@@ -2,12 +2,11 @@ package nl.fontys.kwetter.poc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.fontys.kwetter.controllers.KwetterController;
-import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.repository.memory.CredentialsRepository;
-import nl.fontys.kwetter.repository.memory.KwetterRepository;
-import nl.fontys.kwetter.repository.memory.UserRepository;
+import nl.fontys.kwetter.repository.ICredentialsRepository;
+import nl.fontys.kwetter.repository.IKwetterRepository;
+import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.implementation.KwetterService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,13 +34,13 @@ public class KwetterControllerUnitTest {
     private KwetterService kwetterService;
 
     @MockBean
-    private KwetterRepository kwetterRepository;
+    private IKwetterRepository kwetterRepository;
 
     @MockBean
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     @MockBean
-    private CredentialsRepository credentialsRepository;
+    private ICredentialsRepository credentialsRepository;
 
     @Test
     public void createKwetter() {

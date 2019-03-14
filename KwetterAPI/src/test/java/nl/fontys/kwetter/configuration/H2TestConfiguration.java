@@ -1,40 +1,57 @@
 package nl.fontys.kwetter.configuration;
 
-import nl.fontys.kwetter.repository.memory.data.manager.InactiveInMemoryDatabaseManager;
+import nl.fontys.kwetter.repository.memory.*;
+import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
+import nl.fontys.kwetter.repository.memory.data.manager.InMemoryDatabaseManager;
+import nl.fontys.kwetter.service.*;
 import nl.fontys.kwetter.service.implementation.*;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @TestConfiguration
 public class H2TestConfiguration {
+    @Bean
+    public IInMemoryKwetterRepository kwetterRepository() {
+        return new InMemoryKwetterRepository();
+    }
 
     @Bean
-    public ValidatorService validatorService() {
+    public IInMemoryUserRepository userRepository() {
+        return new InMemoryUserRepository();
+    }
+
+    @Bean
+    public IInMemoryCredentialsRepository credentialsRepository() {
+        return new InMemoryCredentialsRepository();
+    }
+
+    @Bean
+    public IValidatorService validatorService() {
         return new ValidatorService();
     }
 
     @Bean
-    public KwetterService kwetterService() {
-        return new KwetterService();
+    public IAdminService adminService() {
+        return new AdminService(userRepository(), kwetterRepository(), credentialsRepository());
     }
 
     @Bean
-    public AdminService adminService() {
-        return new AdminService();
+    public IProfileService profileService() {
+        return new ProfileService(validatorService(), userRepository());
     }
 
     @Bean
-    public ProfileService profileService() {
-        return new ProfileService();
+    public ILoginService loginService() {
+        return new LoginService(validatorService(), userRepository());
     }
 
     @Bean
-    public LoginService loginService() {
-        return new LoginService();
+    public IKwetterService kwetterService() {
+        return new KwetterService(validatorService(), userRepository(), kwetterRepository());
     }
 
     @Bean
-    public InactiveInMemoryDatabaseManager inMemoryDatabaseManager() {
-        return new InactiveInMemoryDatabaseManager();
+    public IInMemoryDatabaseManager inMemoryDatabaseManager() {
+        return new InMemoryDatabaseManager(userRepository(), kwetterRepository(), credentialsRepository());
     }
 }

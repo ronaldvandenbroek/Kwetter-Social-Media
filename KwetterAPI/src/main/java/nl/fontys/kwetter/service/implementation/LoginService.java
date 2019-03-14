@@ -17,13 +17,13 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 @Service
 public class LoginService implements ILoginService {
 
-    @Autowired
     private IUserRepository userRepository;
-
-    @Autowired
     private IValidatorService validator;
 
-    public LoginService() {
+    @Autowired
+    public LoginService(IValidatorService validator, IUserRepository userRepository) {
+        this.validator = validator;
+        this.userRepository = userRepository;
     }
 
     /**

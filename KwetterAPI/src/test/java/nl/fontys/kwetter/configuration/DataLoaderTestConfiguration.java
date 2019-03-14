@@ -1,20 +1,6 @@
 package nl.fontys.kwetter.configuration;
 
-import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.Role;
-import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.repository.ICredentialsRepository;
-import nl.fontys.kwetter.repository.IKwetterRepository;
-import nl.fontys.kwetter.repository.IUserRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
 
 @TestConfiguration
 public class DataLoaderTestConfiguration {

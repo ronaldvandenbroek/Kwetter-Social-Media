@@ -1,13 +1,10 @@
 package nl.fontys.kwetter.repository;
 
-import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.repository.memory.KwetterRepository;
-import nl.fontys.kwetter.repository.memory.UserRepository;
 import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,15 +21,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the In Memory Kwetter DAO")
 @DataJpaTest
-@Import({InMemoryTestConfiguration.class, DataLoaderTestConfiguration.class})
+@Import(InMemoryTestConfiguration.class)
 @Transactional
 public class InMemoryKwetterUnitTests {
 
     @Autowired
-    private KwetterRepository kwetterRepository;
+    private IKwetterRepository kwetterRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     @Autowired
     private IInMemoryDatabaseManager inMemoryDatabaseManager;

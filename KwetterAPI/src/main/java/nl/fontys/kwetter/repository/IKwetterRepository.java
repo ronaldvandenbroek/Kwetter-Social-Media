@@ -1,11 +1,12 @@
 package nl.fontys.kwetter.repository;
 
 import nl.fontys.kwetter.models.Kwetter;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 
-public interface IKwetterRepository extends CrudRepository<Kwetter, Long> {
+@NoRepositoryBean
+public interface IKwetterRepository extends IBaseRepository<Kwetter> {
 
     List<Kwetter> findAllByOwnerId(Long ownerId);
 

@@ -1,7 +1,6 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.configuration.DataLoaderTestConfiguration;
-import nl.fontys.kwetter.configuration.H2TestConfiguration;
+import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
@@ -23,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the ProfileService")
 @DataJpaTest
-@Import({H2TestConfiguration.class, DataLoaderTestConfiguration.class})
+@Import(InMemoryTestConfiguration.class)
 @Transactional
 class ProfileServiceIntegrationTest {
     private static final String TEST_STRING = "This string is longer that the max length allowed for the name bio language website and location. The bio is still a bit longer but this should be enough.";
