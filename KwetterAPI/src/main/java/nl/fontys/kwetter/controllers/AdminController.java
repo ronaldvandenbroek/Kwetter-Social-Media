@@ -2,12 +2,14 @@ package nl.fontys.kwetter.controllers;
 
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.memory.data.InMemoryDatabase;
 import nl.fontys.kwetter.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,6 +32,12 @@ public class AdminController {
     @GetMapping("/get_all_users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> allUsers = adminService.getAllUsers();
+        return ResponseEntity.ok(allUsers);
+    }
+
+    @GetMapping("/in_memory_users")
+    public ResponseEntity<List<User>> getInMemoryUsers() {
+        List<User> allUsers = new ArrayList<>(InMemoryDatabase.userCollection());
         return ResponseEntity.ok(allUsers);
     }
 }

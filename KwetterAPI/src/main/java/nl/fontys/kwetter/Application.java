@@ -7,6 +7,9 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
+import nl.fontys.kwetter.repository.memory.CredentialsRepository;
+import nl.fontys.kwetter.repository.memory.KwetterRepository;
+import nl.fontys.kwetter.repository.memory.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +22,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 
-@SpringBootApplication
+@SpringBootApplication//(exclude = {CredentialsRepository.class, KwetterRepository.class, UserRepository.class})
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
