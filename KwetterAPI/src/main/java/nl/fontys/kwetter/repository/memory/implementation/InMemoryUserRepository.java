@@ -1,7 +1,8 @@
-package nl.fontys.kwetter.repository.memory;
+package nl.fontys.kwetter.repository.memory.implementation;
 
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.repository.memory.IInMemoryUserRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.*;
+import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.*;
 
 @Repository
 @Profile("memory")

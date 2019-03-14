@@ -1,8 +1,11 @@
 package nl.fontys.kwetter.configuration;
 
 import nl.fontys.kwetter.repository.memory.*;
-import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
-import nl.fontys.kwetter.repository.memory.data.manager.InMemoryDatabaseManager;
+import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
+import nl.fontys.kwetter.repository.memory.implementation.data.manager.InMemoryDatabaseManager;
+import nl.fontys.kwetter.repository.memory.implementation.InMemoryCredentialsRepository;
+import nl.fontys.kwetter.repository.memory.implementation.InMemoryKwetterRepository;
+import nl.fontys.kwetter.repository.memory.implementation.InMemoryUserRepository;
 import nl.fontys.kwetter.service.*;
 import nl.fontys.kwetter.service.implementation.*;
 import org.springframework.boot.test.context.TestConfiguration;

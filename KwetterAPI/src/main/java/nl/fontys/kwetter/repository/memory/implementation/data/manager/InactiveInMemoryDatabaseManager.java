@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.repository.memory.data.manager;
+package nl.fontys.kwetter.repository.memory.implementation.data.manager;
 
 import org.springframework.stereotype.Service;
 

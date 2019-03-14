@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.repository.memory.data.manager;
+package nl.fontys.kwetter.repository.memory.implementation.data.manager;
 
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
@@ -7,7 +7,7 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
-import nl.fontys.kwetter.repository.memory.data.InMemoryDatabase;
+import nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

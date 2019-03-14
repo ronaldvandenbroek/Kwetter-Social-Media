@@ -4,7 +4,7 @@ import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.repository.memory.data.manager.IInMemoryDatabaseManager;
+import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

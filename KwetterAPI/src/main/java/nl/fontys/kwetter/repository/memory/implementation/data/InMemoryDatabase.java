@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.repository.memory.data;
+package nl.fontys.kwetter.repository.memory.implementation.data;
 
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;

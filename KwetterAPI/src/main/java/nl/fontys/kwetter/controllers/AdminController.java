@@ -2,7 +2,7 @@ package nl.fontys.kwetter.controllers;
 
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.User;
-import nl.fontys.kwetter.repository.memory.data.InMemoryDatabase;
+import nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase;
 import nl.fontys.kwetter.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

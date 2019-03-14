@@ -1,6 +1,7 @@
-package nl.fontys.kwetter.repository.memory;
+package nl.fontys.kwetter.repository.memory.implementation;
 
 import nl.fontys.kwetter.models.Kwetter;
+import nl.fontys.kwetter.repository.memory.IInMemoryKwetterRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -10,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.getNextFreeKwetterID;
-import static nl.fontys.kwetter.repository.memory.data.InMemoryDatabase.kwetterCollection;
+import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.getNextFreeKwetterID;
+import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.kwetterCollection;
 
 @Repository
 @Profile("memory")
