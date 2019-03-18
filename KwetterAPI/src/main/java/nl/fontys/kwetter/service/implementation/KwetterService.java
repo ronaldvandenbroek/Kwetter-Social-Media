@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.service.implementation;
 
+import nl.fontys.kwetter.exceptions.CouldNotDelete;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.KwetterDoesNotExist;
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
@@ -53,7 +54,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist      Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public Kwetter createKwetter(Long userId, Kwetter kwetter) throws UserDoesNotExist, InvalidModelException {
+    public Kwetter createKwetter(UUID userId, Kwetter kwetter) throws UserDoesNotExist, InvalidModelException {
         User owner = getUserById(userId);
 
         Set<User> mentions = new HashSet<>();
@@ -83,14 +84,16 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist    Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
+    public void removeKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist, CouldNotDelete {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
-        user.removeCreatedKwetter(kwetter);
+        if (!user.removeCreatedKwetter(kwetter)) {
+            throw new CouldNotDelete(user.getId() + " " + kwetter.getId());
+        }
 
-        kwetterRepository.delete(kwetter);
         userRepository.save(user);
+        kwetterRepository.delete(kwetter);
     }
 
     /**
@@ -102,7 +105,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist    Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void heartKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
+    public void heartKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -121,7 +124,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist    Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeHeartKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
+    public void removeHeartKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -140,7 +143,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist    Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void reportKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
+    public void reportKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -159,7 +162,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist    Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeReportKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
+    public void removeReportKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -177,7 +180,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getMentionedKwetters(Long userId) throws UserDoesNotExist {
+    public List<Kwetter> getMentionedKwetters(UUID userId) throws UserDoesNotExist {
         User user = getUserById(userId);
         throw new NotImplementedException();
     }
@@ -190,7 +193,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getMostRecentKwetters(Long userId) throws UserDoesNotExist {
+    public List<Kwetter> getMostRecentKwetters(UUID userId) throws UserDoesNotExist {
         User user = getUserById(userId);
 
         List<Kwetter> a = new ArrayList<>(user.getCreatedKwetters());
@@ -206,11 +209,10 @@ public class KwetterService implements IKwetterService {
     }
 
     @Override
-    public List<Kwetter> getTimeline(Long userId) throws UserDoesNotExist {
+    public List<Kwetter> getTimeline(UUID userId) throws UserDoesNotExist {
         User user = getUserById(userId);
 
-        List<Kwetter> kwetters = new ArrayList<>();
-        kwetters.addAll(user.getCreatedKwetters());
+        List<Kwetter> kwetters = new ArrayList<>(user.getCreatedKwetters());
         for (User follower : user.getUsersFollowed()) {
             kwetters.addAll(follower.getCreatedKwetters());
         }
@@ -226,7 +228,7 @@ public class KwetterService implements IKwetterService {
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getHeartedKwetters(Long userId) throws UserDoesNotExist {
+    public List<Kwetter> getHeartedKwetters(UUID userId) throws UserDoesNotExist {
         User user = getUserById(userId);
         return new ArrayList<>(user.getHeartedKwetters());
     }
@@ -238,7 +240,7 @@ public class KwetterService implements IKwetterService {
      * @return The User
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
      */
-    private User getUserById(Long userID) throws UserDoesNotExist {
+    private User getUserById(UUID userID) throws UserDoesNotExist {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()) {
             return user.get();
@@ -253,7 +255,7 @@ public class KwetterService implements IKwetterService {
      * @return The Kwetter
      * @throws KwetterDoesNotExist Thrown when the kwetterID does not have a corresponding Kwetter.
      */
-    private Kwetter getKwetterById(Long kwetterId) throws KwetterDoesNotExist {
+    private Kwetter getKwetterById(UUID kwetterId) throws KwetterDoesNotExist {
         Optional<Kwetter> kwetter = kwetterRepository.findById(kwetterId);
         if (kwetter.isPresent()) {
             return kwetter.get();

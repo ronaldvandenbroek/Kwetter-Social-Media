@@ -2,26 +2,25 @@ package nl.fontys.kwetter.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import static javax.persistence.CascadeType.PERSIST;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials", "bio", "role", "name"})
 @ToString(exclude = {"createdKwetters", "reportedKwetters", "heartedKwetters", "usersFollowed", "followedByUsers", "credentials"})
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id = UUID.randomUUID();
 
     private Role role;
 
@@ -99,11 +98,6 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public User(Role role, Long tempId) {
-        this(role);
-        this.id = tempId;
-    }
-
     public void addCreatedKwetter(Kwetter createdKwetter) {
         createdKwetters.add(createdKwetter);
     }
@@ -165,5 +159,20 @@ public class User implements Serializable {
 
     public void removeFollowedBy(User following) {
         followedByUsers.remove(following);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return id == user.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

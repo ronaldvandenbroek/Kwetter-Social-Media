@@ -3,7 +3,6 @@ package nl.fontys.kwetter.repository;
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +57,7 @@ public class InMemoryKwetterUnitTests {
         User updatedUser = userRepository.findByCredentials(credentials);
 
         assertNotNull(savedKwetter);
-        assertEquals(11, kwetterRepository.count());
+        assertEquals(12, kwetterRepository.count());
     }
 
     @Test
@@ -72,8 +71,8 @@ public class InMemoryKwetterUnitTests {
         kwetterRepository.delete(kwetter);
 
 
-        assertFalse(updatedUser.getCreatedKwetters().contains(kwetter));
-        assertEquals(10, kwetterRepository.count());
+        assertFalse(updatedUser.getCreatedKwetters().contains(kwetter.getId()));
+        assertEquals(11, kwetterRepository.count());
         assertEquals(0, kwetterRepository.findAllByOwnerId(kwetter.getOwner().getId()).size());
     }
 
@@ -84,15 +83,13 @@ public class InMemoryKwetterUnitTests {
 
         kwetterRepository.delete(kwetter);
 
-        assertEquals(10, kwetterRepository.count());
+        assertEquals(11, kwetterRepository.count());
     }
 
     @Test
     @DisplayName("Get all kwetters from a user")
     void getAllCreatedKwetters() {
-        User user = new User(Role.USER, 1L);
-
-        assertEquals(0, user.getCreatedKwetters().size());
+        User user = userRepository.findByName("1Test").get(0);
 
         List<Kwetter> createdKwetters = kwetterRepository.findAllByOwnerId(user.getId());
 

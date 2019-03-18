@@ -2,24 +2,19 @@ package nl.fontys.kwetter.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
-@EqualsAndHashCode(exclude = {"reports", "hearts", "tags", "mentions"})
 @Entity
 public class Kwetter implements Serializable, Comparable<Kwetter> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id = UUID.randomUUID();
 
     @Size(max = 140)
     @NotNull
@@ -57,11 +52,6 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
         this.mentions = toBeClonedKwetter.getMentions();
         this.owner = toBeClonedKwetter.getOwner();
         this.dateTime = toBeClonedKwetter.getDateTime();
-    }
-
-    public Kwetter(String text, User owner, Date dateTime, Long tempId) {
-        this(text, new HashSet<>(), new HashSet<>(), owner, dateTime);
-        this.id = tempId;
     }
 
     public Kwetter(String text, User owner, Date dateTime) {
@@ -113,5 +103,20 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
     @Override
     public int compareTo(Kwetter kwetter) {
         return getDateTime().compareTo(kwetter.getDateTime());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Kwetter)) {
+            return false;
+        }
+        Kwetter kwetter = (Kwetter) o;
+        return id == kwetter.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

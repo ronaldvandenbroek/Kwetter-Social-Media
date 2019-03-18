@@ -16,8 +16,8 @@ class ModelAssociationUnitTests {
 
     @BeforeEach
     void setUp() {
-        user = new User(Role.USER, 0L);
-        secondUser = new User(Role.USER, 1L);
+        user = new User(Role.USER);
+        secondUser = new User(Role.USER);
         kwetter = new Kwetter("Test", user, Calendar.getInstance().getTime());
     }
 

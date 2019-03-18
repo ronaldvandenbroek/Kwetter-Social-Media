@@ -7,10 +7,11 @@ import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface IAdminService {
 
-    User changeRole(Long userId, Role role) throws UserDoesNotExist;
+    User changeRole(UUID userId, Role role) throws UserDoesNotExist;
 
     List<User> getAllUsers();
 

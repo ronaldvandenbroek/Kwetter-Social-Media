@@ -47,14 +47,13 @@ public class KwetterControllerUnitTest {
         ObjectMapper mapper = new ObjectMapper();
 
         User user = new User();
-        user.setId(0L);
         user.setName("TestUser");
 
         Kwetter kwetter = new Kwetter("Test", user, Calendar.getInstance().getTime());
         try {
-            when(kwetterService.createKwetter(0L, kwetter)).thenReturn(kwetter);
+            when(kwetterService.createKwetter(user.getId(), kwetter)).thenReturn(kwetter);
 
-            mvc.perform(post("/kwetter/create/0")
+            mvc.perform(post("/kwetter/create/" + user.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(mapper.writeValueAsString(kwetter))
                     .accept(MediaType.APPLICATION_JSON))

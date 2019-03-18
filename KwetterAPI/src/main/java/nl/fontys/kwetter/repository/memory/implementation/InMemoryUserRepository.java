@@ -10,9 +10,11 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.*;
+import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.credentialsCollection;
+import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.userCollection;
 
 @Repository
 @Profile("memory")
@@ -38,7 +40,6 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
     public <S extends User> S save(S s) {
         //Check if new user
         if (s.getId() == null) {
-            s.setId(getNextFreeUserID());
             if (userCollection().stream().anyMatch(user -> user.getName().equals(s.getName()))) {
                 return null;
             }
@@ -56,12 +57,12 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(UUID id) {
         return userCollection().stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
     @Override
-    public boolean existsById(Long aLong) {
+    public boolean existsById(UUID aLong) {
         throw new NotImplementedException();
     }
 
@@ -71,7 +72,7 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
     }
 
     @Override
-    public Iterable<User> findAllById(Iterable<Long> iterable) {
+    public Iterable<User> findAllById(Iterable<UUID> iterable) {
         throw new NotImplementedException();
     }
 
@@ -81,7 +82,7 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
     }
 
     @Override
-    public void deleteById(Long aLong) {
+    public void deleteById(UUID aLong) {
         throw new NotImplementedException();
     }
 

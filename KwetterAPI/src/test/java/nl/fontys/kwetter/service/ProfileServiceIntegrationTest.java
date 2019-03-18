@@ -194,16 +194,24 @@ class ProfileServiceIntegrationTest {
     @Test
     @DisplayName("A user can follow and unfollow another user")
     void followAndUnfollow() throws UserDoesNotExist {
-        profileService.followUser(2L, 3L);
-        List<User> following2 = profileService.getFollowing(2L);
-        List<User> followers3 = profileService.getFollowers(3L);
-        assertEquals(1, following2.size());
-        assertEquals(1, followers3.size());
+        try {
+            User user2 = loginService.login(new Credentials("2@test.nl", "test"));
+            User user3 = loginService.login(new Credentials("3@test.nl", "test"));
 
-        profileService.unFollowUser(2L, 3L);
-        List<User> following2afterUnfollow = profileService.getFollowing(2L);
-        List<User> followers3afterUnfollow = profileService.getFollowers(3L);
-        assertEquals(0, following2afterUnfollow.size());
-        assertEquals(0, followers3afterUnfollow.size());
+            profileService.followUser(user2.getId(), user3.getId());
+            List<User> following2 = profileService.getFollowing(user2.getId());
+            List<User> followers3 = profileService.getFollowers(user3.getId());
+            assertEquals(2, following2.size());
+            assertEquals(2, followers3.size());
+
+            profileService.unFollowUser(user2.getId(), user3.getId());
+            List<User> following2afterUnfollow = profileService.getFollowing(user2.getId());
+            List<User> followers3afterUnfollow = profileService.getFollowers(user3.getId());
+            assertEquals(1, following2afterUnfollow.size());
+            assertEquals(1, followers3afterUnfollow.size());
+
+        } catch (CannotLoginException | InvalidModelException e) {
+            e.printStackTrace();
+        }
     }
 }

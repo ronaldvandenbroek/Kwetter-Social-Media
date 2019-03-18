@@ -46,13 +46,15 @@ public class AdminServiceUnitTest {
     @DisplayName("Change the role of a user")
     @Test
     void changeTheRoleOfAUser() {
-        when(userRepository.findById(0L)).thenReturn(Optional.of(new User(Role.USER)));
+        User user = new User(Role.USER);
+
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
         try {
-            User user = adminService.changeRole(0L, Role.MODERATOR);
+            User changedRoleUser = adminService.changeRole(user.getId(), Role.MODERATOR);
 
-            assertNotNull(user);
-            assertEquals(Role.MODERATOR, user.getRole());
+            assertNotNull(changedRoleUser);
+            assertEquals(Role.MODERATOR, changedRoleUser.getRole());
         } catch (UserDoesNotExist userDoesNotExist) {
             fail("This exception should not have been thrown");
         }
@@ -61,12 +63,12 @@ public class AdminServiceUnitTest {
     @DisplayName("User does not exist while changing the role")
     @Test
     void failToChangeTheRoleOfAUser() {
-        when(userRepository.findById(0L)).thenReturn(Optional.empty());
+        User user = new User(Role.USER);
 
-        try {
-            adminService.changeRole(0L, Role.MODERATOR);
-        } catch (UserDoesNotExist userDoesNotExist) {
-            assertEquals("User with the id:0 could not be found.", userDoesNotExist.getMessage());
-        }
+        when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
+
+
+        assertThrows(UserDoesNotExist.class, () -> adminService.changeRole(user.getId(), Role.MODERATOR));
     }
 }
+

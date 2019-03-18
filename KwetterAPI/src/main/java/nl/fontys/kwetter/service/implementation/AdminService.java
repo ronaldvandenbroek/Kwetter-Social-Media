@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Service for handling model operations regarding the administrative tasks.
@@ -40,7 +41,7 @@ public class AdminService implements IAdminService {
      * @throws UserDoesNotExist Thrown if the user cannot be found.
      */
     @Override
-    public User changeRole(Long userId, Role role) throws UserDoesNotExist {
+    public User changeRole(UUID userId, Role role) throws UserDoesNotExist {
         User user = getUserById(userId);
         user.setRole(role);
 
@@ -75,7 +76,7 @@ public class AdminService implements IAdminService {
      * @return The User
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
      */
-    private User getUserById(Long userID) throws UserDoesNotExist {
+    private User getUserById(UUID userID) throws UserDoesNotExist {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()) {
             return user.get();

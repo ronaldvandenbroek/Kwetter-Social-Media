@@ -1,32 +1,34 @@
 package nl.fontys.kwetter.service;
 
+import nl.fontys.kwetter.exceptions.CouldNotDelete;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.KwetterDoesNotExist;
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.Kwetter;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface IKwetterService {
     List<Kwetter> searchForKwetter(String searchTerm);
 
-    Kwetter createKwetter(Long userId, Kwetter kwetter) throws UserDoesNotExist, InvalidModelException;
+    Kwetter createKwetter(UUID userId, Kwetter kwetter) throws UserDoesNotExist, InvalidModelException;
 
-    void removeKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
+    void removeKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist, CouldNotDelete;
 
-    void heartKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
+    void heartKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
 
-    void removeHeartKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
+    void removeHeartKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
 
-    void reportKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
+    void reportKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
 
-    void removeReportKwetter(Long userId, Long kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
+    void removeReportKwetter(UUID userId, UUID kwetterId) throws KwetterDoesNotExist, UserDoesNotExist;
 
-    List<Kwetter> getMentionedKwetters(Long userId) throws UserDoesNotExist;
+    List<Kwetter> getMentionedKwetters(UUID userId) throws UserDoesNotExist;
 
-    List<Kwetter> getMostRecentKwetters(Long userId) throws UserDoesNotExist;
+    List<Kwetter> getMostRecentKwetters(UUID userId) throws UserDoesNotExist;
 
-    List<Kwetter> getTimeline(Long userId) throws UserDoesNotExist;
+    List<Kwetter> getTimeline(UUID userId) throws UserDoesNotExist;
 
-    List<Kwetter> getHeartedKwetters(Long userId) throws UserDoesNotExist;
+    List<Kwetter> getHeartedKwetters(UUID userId) throws UserDoesNotExist;
 }

@@ -9,6 +9,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.credentialsCollection;
@@ -42,12 +43,12 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
     }
 
     @Override
-    public Optional<Credentials> findById(Long aLong) {
+    public Optional<Credentials> findById(UUID aLong) {
         throw new NotImplementedException();
     }
 
     @Override
-    public boolean existsById(Long aLong) {
+    public boolean existsById(UUID aLong) {
         throw new NotImplementedException();
     }
 
@@ -57,7 +58,7 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
     }
 
     @Override
-    public Iterable<Credentials> findAllById(Iterable<Long> iterable) {
+    public Iterable<Credentials> findAllById(Iterable<UUID> iterable) {
         throw new NotImplementedException();
     }
 
@@ -67,7 +68,7 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
     }
 
     @Override
-    public void deleteById(Long aLong) {
+    public void deleteById(UUID aLong) {
         throw new NotImplementedException();
     }
 

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,19 +37,19 @@ public class UserController {
     }
 
     @GetMapping("/followers/{id}")
-    public ResponseEntity<List<User>> getFollowers(@PathVariable Long id) throws UserDoesNotExist {
+    public ResponseEntity<List<User>> getFollowers(@PathVariable UUID id) throws UserDoesNotExist {
         List<User> followers = profileService.getFollowers(id);
         return ResponseEntity.ok(followers);
     }
 
     @GetMapping("/following/{id}")
-    public ResponseEntity<List<User>> getFollowing(@PathVariable Long id) throws UserDoesNotExist {
+    public ResponseEntity<List<User>> getFollowing(@PathVariable UUID id) throws UserDoesNotExist {
         List<User> following = profileService.getFollowing(id);
         return ResponseEntity.ok(following);
     }
 
     @GetMapping("/profile/{id}")
-    public ResponseEntity<User> getProfile(@PathVariable Long id) throws UserDoesNotExist {
+    public ResponseEntity<User> getProfile(@PathVariable UUID id) throws UserDoesNotExist {
         User user = profileService.getFullProfile(id);
         return ResponseEntity.ok(user);
     }

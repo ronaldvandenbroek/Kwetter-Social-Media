@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Service for handling model operations regarding the profile.
@@ -90,7 +91,7 @@ public class ProfileService implements IProfileService {
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public List<User> getFollowers(Long userID) throws UserDoesNotExist {
+    public List<User> getFollowers(UUID userID) throws UserDoesNotExist {
         User user = getUserById(userID);
         return new ArrayList<>(user.getFollowedByUsers());
     }
@@ -103,7 +104,7 @@ public class ProfileService implements IProfileService {
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public List<User> getFollowing(Long userID) throws UserDoesNotExist {
+    public List<User> getFollowing(UUID userID) throws UserDoesNotExist {
         User user = getUserById(userID);
         return new ArrayList<>(user.getUsersFollowed());
     }
@@ -116,12 +117,12 @@ public class ProfileService implements IProfileService {
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User getFullProfile(Long userID) throws UserDoesNotExist {
+    public User getFullProfile(UUID userID) throws UserDoesNotExist {
         return getUserById(userID);
     }
 
     @Override
-    public void followUser(Long userID, Long followUserId) throws UserDoesNotExist {
+    public void followUser(UUID userID, UUID followUserId) throws UserDoesNotExist {
         Optional<User> user = userRepository.findById(userID);
         Optional<User> followed = userRepository.findById(followUserId);
 
@@ -135,7 +136,7 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public void unFollowUser(Long userID, Long followUserId) throws UserDoesNotExist {
+    public void unFollowUser(UUID userID, UUID followUserId) throws UserDoesNotExist {
         Optional<User> user = userRepository.findById(userID);
         Optional<User> followed = userRepository.findById(followUserId);
 
@@ -155,7 +156,7 @@ public class ProfileService implements IProfileService {
      * @return The User
      * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
      */
-    private User getUserById(Long userID) throws UserDoesNotExist {
+    private User getUserById(UUID userID) throws UserDoesNotExist {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()) {
             return user.get();

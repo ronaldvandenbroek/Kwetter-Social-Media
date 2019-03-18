@@ -9,9 +9,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.getNextFreeKwetterID;
 import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.kwetterCollection;
 
 @Repository
@@ -19,7 +19,7 @@ import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDa
 public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
-    public List<Kwetter> findAllByOwnerId(Long ownerId) {
+    public List<Kwetter> findAllByOwnerId(UUID ownerId) {
         return kwetterCollection().stream().filter(kwetter -> kwetter.getOwner().getId().equals(ownerId)).collect(Collectors.toList());
     }
 
@@ -30,10 +30,6 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
     public <S extends Kwetter> S save(S s) {
-        if (s.getId() == null) {
-            s.setId(getNextFreeKwetterID());
-        }
-
         kwetterCollection().removeIf(kwetter -> kwetter.getId().equals(s.getId()));
         kwetterCollection().add(s);
         Optional<Kwetter> first = kwetterCollection().stream().filter(kwetter -> kwetter.getId().equals(s.getId())).findFirst();
@@ -46,12 +42,12 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
     }
 
     @Override
-    public Optional<Kwetter> findById(Long id) {
+    public Optional<Kwetter> findById(UUID id) {
         return kwetterCollection().stream().filter(kwetter -> kwetter.getId().equals(id)).findFirst();
     }
 
     @Override
-    public boolean existsById(Long aLong) {
+    public boolean existsById(UUID aLong) {
         throw new NotImplementedException();
     }
 
@@ -61,7 +57,7 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
     }
 
     @Override
-    public Iterable<Kwetter> findAllById(Iterable<Long> iterable) {
+    public Iterable<Kwetter> findAllById(Iterable<UUID> iterable) {
         throw new NotImplementedException();
     }
 
@@ -71,7 +67,7 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
     }
 
     @Override
-    public void deleteById(Long aLong) {
+    public void deleteById(UUID aLong) {
         throw new NotImplementedException();
     }
 
