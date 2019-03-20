@@ -2,6 +2,7 @@ package nl.fontys.kwetter.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,8 @@ import java.util.*;
 public class Kwetter implements Serializable, Comparable<Kwetter> {
 
     @Id
+    @Column(name = "id", updatable = false, nullable = false, unique=true, columnDefinition = "varchar(64)")
+    @Type(type="uuid-char")
     private UUID id = UUID.randomUUID();
 
     @Size(max = 140)

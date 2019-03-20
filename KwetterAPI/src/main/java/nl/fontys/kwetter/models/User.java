@@ -3,6 +3,7 @@ package nl.fontys.kwetter.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -20,6 +21,8 @@ import static javax.persistence.CascadeType.PERSIST;
 public class User implements Serializable {
 
     @Id
+    @Type(type="uuid-char")
+    @Column(name = "id", updatable = false, nullable = false, unique=true, columnDefinition = "varchar(64)")
     private UUID id = UUID.randomUUID();
 
     private Role role;

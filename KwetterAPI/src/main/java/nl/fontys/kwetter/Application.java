@@ -11,20 +11,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
+import javax.faces.webapp.FacesServlet;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
 
-@SpringBootApplication//(exclude = {CredentialsRepository.class, KwetterRepository.class, UserRepository.class})
-//@EnableJpaRepositories(
-//        excludeFilters = {@ComponentScan.Filter(
-//                type = FilterType.ASSIGNABLE_TYPE,
-//                classes = {CredentialsRepository.class, KwetterRepository.class, UserRepository.class})
-//})
+@SpringBootApplication
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -95,5 +92,11 @@ public class Application extends SpringBootServletInitializer {
                 kwetterRepository.save(kwetter);
             }
         };
+    }
+
+    @Bean
+    public ServletRegistrationBean<FacesServlet> servletRegistrationBean() {
+        FacesServlet servlet = new FacesServlet();
+        return new ServletRegistrationBean<>(servlet, "*.jsf");
     }
 }
