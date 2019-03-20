@@ -34,7 +34,7 @@ class LoginServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("Valid login")
+    @DisplayName("Valid jsfLogin")
     void login() {
         String email = "1@test.nl";
         String password = "test";

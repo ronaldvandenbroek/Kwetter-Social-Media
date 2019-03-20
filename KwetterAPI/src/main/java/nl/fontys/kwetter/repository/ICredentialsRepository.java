@@ -10,5 +10,5 @@ public interface ICredentialsRepository extends IBaseRepository<Credentials> {
 
     List<Credentials> findAllByEmail(String lastName);
 
-//    User login(Credentials credentials);
+//    User jsfLogin(Credentials credentials);
 }

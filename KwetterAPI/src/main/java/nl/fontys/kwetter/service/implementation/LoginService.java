@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
- * Service for handling model operations regarding the login process.
+ * Service for handling model operations regarding the jsfLogin process.
  */
 @Service
 public class LoginService implements ILoginService {

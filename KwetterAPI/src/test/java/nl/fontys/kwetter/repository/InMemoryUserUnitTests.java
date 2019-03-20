@@ -38,7 +38,7 @@ public class InMemoryUserUnitTests {
     }
 
     @Test
-    @DisplayName("A user can login via a username and password")
+    @DisplayName("A user can jsfLogin via a username and password")
     void login() {
         Credentials credentials = new Credentials("1@test.nl", "test");
 
@@ -49,7 +49,7 @@ public class InMemoryUserUnitTests {
     }
 
     @Test
-    @DisplayName("A user can't login via a wrong username")
+    @DisplayName("A user can't jsfLogin via a wrong username")
     void failedLoginWrongUsername() {
         Credentials credentials = new Credentials("wrongEmail@test.nl", "test");
 
@@ -60,7 +60,7 @@ public class InMemoryUserUnitTests {
 
 
     @Test
-    @DisplayName("A user can't login via a wrong password")
+    @DisplayName("A user can't jsfLogin via a wrong password")
     void failedLoginWrongPassword() {
         Credentials credentials = new Credentials("1@test.nl", "wrongPassword");
 

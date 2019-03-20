@@ -24,7 +24,7 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
     }
 
 //    @Override
-//    public User login(Credentials loginCredentials) {
+//    public User jsfLogin(Credentials loginCredentials) {
 //        Optional<Credentials> foundLogin = credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(loginCredentials.getEmail()) && credentials.getPassword().equals(loginCredentials.getPassword())).findFirst();
 //        return foundLogin.map(Credentials::getUser).orElse(null);
 //    }

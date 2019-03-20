@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.controllers;
+package nl.fontys.kwetter.controllers.rest;
 
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
