@@ -3,6 +3,7 @@ package nl.fontys.kwetter.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import javax.inject.Named;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 @Data
 @Entity
+@Named
 public class Credentials implements Serializable {
 
     @NotNull(message = "Email cannot be null")
@@ -54,5 +56,9 @@ public class Credentials implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(email, password);
+    }
+
+    public String showCredentials(){
+        return email + " this is your password: " + password;
     }
 }

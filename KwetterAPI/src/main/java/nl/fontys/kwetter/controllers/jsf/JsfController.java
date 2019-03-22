@@ -9,7 +9,7 @@ public class JsfController {
 
     public String loadTodoPage() {
         checkPermission();
-        return "/todo.xhtml";
+        return "/login.xhtml";
     }
 
     private void checkPermission() {
