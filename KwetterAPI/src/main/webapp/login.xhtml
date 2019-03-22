@@ -2,35 +2,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:head>
-    <title>PrimeFaces Hello World Example</title>
+    <title>Login</title>
+    <h:outputStylesheet name="/css/login.css" />
 </h:head>
 
 <h:body>
-    <h:form id="helloworld-form">
+    <h:form prependId="false">
 
-        <p:panel header="PrimeFaces Hello World Example">
-            <h:panelGrid columns="2" cellpadding="4">
-                <h:outputText value="Email: " />
-                <p:inputText id="email" value="#{credentials.email}" />
+        <p:panelGrid columns="1" styleClass="ui-fluid center ui-noborder">
+            <h2>Please login</h2>
 
-                <h:outputText value="Password: " />
-                <p:inputText id="password" value="#{credentials.password}" />
+            <p:outputLabel value="Login failed!" styleClass="red"
+                           rendered="${!empty param['error']}" />
 
-                <p:commandButton id="submit" value="Submit"
-                                 update="greeting-panel"
-                                 oncomplete="PF('greetingDialog').show()" />
-            </h:panelGrid>
-        </p:panel>
+            <p:inputText id="username" placeholder="User name" />
+            <p:password id="password" placeholder="Password" />
 
-        <p:dialog header="Greeting" widgetVar="greetingDialog"
-                  modal="true" resizable="false">
-            <h:panelGrid id="greeting-panel" columns="1" cellpadding="4">
-                <h:outputText value="#{credentials.showCredentials()}" />
-            </h:panelGrid>
-        </p:dialog>
+            <p:commandButton value="Login" ajax="false" />
+        </p:panelGrid>
 
     </h:form>
 </h:body>

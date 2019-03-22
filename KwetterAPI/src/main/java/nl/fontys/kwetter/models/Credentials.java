@@ -2,6 +2,8 @@ package nl.fontys.kwetter.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.inject.Named;
 import javax.persistence.*;
@@ -59,6 +61,9 @@ public class Credentials implements Serializable {
     }
 
     public String showCredentials(){
-        return email + " this is your password: " + password;
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return authentication.getName() + " is your name!!!";
     }
 }
