@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.poc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.fontys.kwetter.controllers.rest.KwetterController;
+import nl.fontys.kwetter.controllers.KwetterController;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.ICredentialsRepository;

@@ -21,8 +21,8 @@ import static javax.persistence.CascadeType.PERSIST;
 public class User implements Serializable {
 
     @Id
-    @Type(type="uuid-char")
-    @Column(name = "id", updatable = false, nullable = false, unique=true, columnDefinition = "varchar(64)")
+    @Type(type = "uuid-char")
+    @Column(name = "id", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
     private UUID id = UUID.randomUUID();
 
     @JsonIgnoreProperties("user")

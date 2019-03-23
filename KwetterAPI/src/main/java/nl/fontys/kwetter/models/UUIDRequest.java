@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 public class UUIDRequest implements Serializable {
 
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     private UUID id;
 
     public UUIDRequest() {

@@ -14,4 +14,6 @@ public interface IUserRepository extends IBaseUUIDRepository<User> {
     boolean existsByName(String name);
 
     User findByCredentials(Credentials credentials);
+
+    User findByCredentials_Email(String email);
 }

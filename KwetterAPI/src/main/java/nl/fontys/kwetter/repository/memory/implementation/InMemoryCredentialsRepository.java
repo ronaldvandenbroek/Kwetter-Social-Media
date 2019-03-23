@@ -7,13 +7,9 @@ import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.credentialsCollection;
-import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.userCollection;
 
 @Repository
 @Profile("memory")

@@ -7,7 +7,6 @@ import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface IAdminService {
 

@@ -8,6 +8,8 @@ import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -24,6 +26,17 @@ public class LoginService implements ILoginService {
     public LoginService(IValidatorService validator, IUserRepository userRepository) {
         this.validator = validator;
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public User autoLogin() throws CannotLoginException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByCredentials_Email(authentication.getName());
+
+        if (user == null) {
+            throw new CannotLoginException("No account found matching the credentials");
+        }
+        return user;
     }
 
     /**

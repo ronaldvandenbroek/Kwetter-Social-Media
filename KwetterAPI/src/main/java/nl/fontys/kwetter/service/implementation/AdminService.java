@@ -36,7 +36,7 @@ public class AdminService implements IAdminService {
      * Change the role of a user
      *
      * @param credentialsEmail Email of the User
-     * @param role   New Role of the User
+     * @param role             New Role of the User
      * @throws UserDoesNotExist Thrown if the user cannot be found.
      */
     @Override

@@ -37,6 +37,12 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
     }
 
     @Override
+    public User findByCredentials_Email(String email) {
+        Optional<Credentials> foundLogin = credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(email)).findFirst();
+        return foundLogin.map(Credentials::getUser).orElse(null);
+    }
+
+    @Override
     public <S extends User> S save(S s) {
         //Check if new user
         if (s.getId() == null) {

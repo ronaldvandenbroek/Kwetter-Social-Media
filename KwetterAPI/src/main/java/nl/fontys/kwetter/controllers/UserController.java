@@ -1,13 +1,16 @@
-package nl.fontys.kwetter.controllers.rest;
+package nl.fontys.kwetter.controllers;
 
+import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
 import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,19 +22,30 @@ public class UserController {
 
     private final IProfileService profileService;
 
+    private final ILoginService loginService;
+
     @Autowired
-    public UserController(IProfileService profileService) {
+    public UserController(IProfileService profileService, ILoginService loginService) {
         this.profileService = profileService;
+        this.loginService = loginService;
     }
 
     @PostMapping("/update_body")
-    public ResponseEntity<User> updateUser(User user) throws UserDoesNotExist, InvalidModelException {
+    public ResponseEntity<User> updateUser(User user) throws UserDoesNotExist, InvalidModelException, CannotLoginException {
+        User login = loginService.autoLogin();
+        if (user.getId() != login.getId()) {
+            throw new AccessDeniedException("Trying to update a different user");
+        }
         User updatedUser = profileService.updateUser(user);
         return ResponseEntity.ok(updatedUser);
     }
 
     @PostMapping("/update_name")
-    public ResponseEntity<User> updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesNotExist {
+    public ResponseEntity<User> updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesNotExist, CannotLoginException {
+        User login = loginService.autoLogin();
+        if (user.getId() != login.getId()) {
+            throw new AccessDeniedException("Trying to update a different user");
+        }
         User updatedUser = profileService.updateName(user);
         return ResponseEntity.ok(updatedUser);
     }

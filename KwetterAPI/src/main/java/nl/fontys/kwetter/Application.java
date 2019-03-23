@@ -49,7 +49,7 @@ public class Application extends SpringBootServletInitializer {
                 userRepository.save(user);
 
                 Role role = Role.ROLE_USER;
-                if (i == 1){
+                if (i == 1) {
                     role = Role.ROLE_ADMIN;
                 }
 

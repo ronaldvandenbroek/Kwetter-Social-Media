@@ -15,8 +15,8 @@ import java.util.*;
 public class Kwetter implements Serializable, Comparable<Kwetter> {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false, unique=true, columnDefinition = "varchar(64)")
-    @Type(type="uuid-char")
+    @Column(name = "id", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
+    @Type(type = "uuid-char")
     private UUID id = UUID.randomUUID();
 
     @Size(max = 140)
