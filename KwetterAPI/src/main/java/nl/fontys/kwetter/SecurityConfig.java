@@ -1,16 +1,54 @@
 package nl.fontys.kwetter;
 
+import nl.fontys.kwetter.models.Credentials;
+import nl.fontys.kwetter.service.IAdminService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final IAdminService adminService;
+
+    Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+
+    @Autowired
+    public SecurityConfig(IAdminService adminService) {
+        this.adminService = adminService;
+    }
+
+    @Bean
+    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         // require all requests to be authenticated except for the resources
         http.authorizeRequests().antMatchers("/javax.faces.resource/**")
                 .permitAll().anyRequest().authenticated();
@@ -27,8 +65,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception {
 
-        auth.inMemoryAuthentication().withUser("john")
-                .password("{noop}1234").roles("USER").and()
-                .withUser("jane").password("{noop}1234").roles("ADMIN");
+
+        auth.userDetailsService(username -> {
+            try {
+                logger.info("Login attempt for " + username);
+                List<Credentials> allCredentials = adminService.getAllCredentials();
+                for (Credentials credentials : allCredentials) {
+                    if (username.equals(credentials.getEmail())) {
+                        logger.info("Login successful for " + username);
+                        return createSecurityUser(credentials);
+                    }
+                }
+                throw new UsernameNotFoundException("Invalid username");
+            } catch (Exception e) {
+                throw new UsernameNotFoundException("Invalid username");
+            }
+        });
+    }
+
+    private User createSecurityUser(Credentials credentials) {
+        Set<SimpleGrantedAuthority> securityRoles = Collections.singleton(new SimpleGrantedAuthority(credentials.getRole().toString()));
+        User user = new User(credentials.getEmail(), "{noop}" + credentials.getPassword(), securityRoles);
+        return user;
+
+
+
     }
 }

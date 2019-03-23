@@ -4,6 +4,7 @@ import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.*;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
+import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +54,7 @@ class KwetterServiceIntegrationTest {
         String password = "test";
 
         try {
-            testUser = loginService.login(new Credentials(email, password));
+            testUser = loginService.login(new Credentials(email, password, Role.ROLE_USER));
             testKwetter = testUser.getCreatedKwetters().iterator().next();
         } catch (CannotLoginException | InvalidModelException e) {
             e.printStackTrace();

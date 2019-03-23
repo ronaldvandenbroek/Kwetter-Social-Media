@@ -44,11 +44,16 @@ public class Application extends SpringBootServletInitializer {
 
             //Create 10 allUsers
             for (int i = 1; i < 11; i++) {
-                User user = new User(Role.USER);
+                User user = new User();
                 user.setName(i + "Test");
                 userRepository.save(user);
 
-                Credentials credentials = new Credentials(i + "@test.nl", "test", user);
+                Role role = Role.ROLE_USER;
+                if (i == 1){
+                    role = Role.ROLE_ADMIN;
+                }
+
+                Credentials credentials = new Credentials(i + "@test.nl", "test", role, user);
 
                 presetCredentials.add(credentials);
                 presetUsers.add(user);
@@ -59,6 +64,8 @@ public class Application extends SpringBootServletInitializer {
             //Follow everyone via the first user
             Iterator<User> userIterator = presetUsers.iterator();
             User user = userIterator.next();
+
+
             User secondUser = null;
             boolean followBack = false;
             while (userIterator.hasNext()) {
@@ -91,10 +98,4 @@ public class Application extends SpringBootServletInitializer {
             }
         };
     }
-
-//    @Bean
-//    public ServletRegistrationBean<FacesServlet> servletRegistrationBean() {
-//        FacesServlet servlet = new FacesServlet();
-//        return new ServletRegistrationBean<>(servlet, "*.jsf");
-//    }
 }

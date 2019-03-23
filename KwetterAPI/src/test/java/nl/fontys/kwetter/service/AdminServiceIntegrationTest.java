@@ -1,8 +1,6 @@
 package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.exceptions.CannotLoginException;
-import nl.fontys.kwetter.exceptions.InvalidModelException;
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
@@ -29,16 +27,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 @Transactional
 class AdminServiceIntegrationTest {
 
-    private User testUser;
+    private Credentials testCredentials;
 
     @Autowired
     private IAdminService adminService;
-
-    @Autowired
-    private IProfileService profileService;
-
-    @Autowired
-    private ILoginService loginService;
 
     @Autowired
     private IInMemoryDatabaseManager inMemoryDatabaseManager;
@@ -50,12 +42,7 @@ class AdminServiceIntegrationTest {
         String email = "1@test.nl";
         String password = "test";
 
-        try {
-            testUser = loginService.login(new Credentials(email, password));
-        } catch (CannotLoginException | InvalidModelException e) {
-            e.printStackTrace();
-            fail("This exception should not have been thrown");
-        }
+        testCredentials = new Credentials(email, password, Role.ROLE_USER);
 
         Collection<User> users = InMemoryDatabase.userCollection();
     }
@@ -64,12 +51,12 @@ class AdminServiceIntegrationTest {
     @DisplayName("Change the role of a user")
     void changeRole() {
         try {
-            User changedUser = adminService.changeRole(testUser.getId(), Role.MODERATOR);
+            Credentials changedCredentials = adminService.changeRole(testCredentials.getEmail(), Role.ROLE_MOD);
 
-            User moderator = profileService.getFullProfile(testUser.getId());
+            Credentials moderator = adminService.getFullCredentials(testCredentials.getEmail());
 
-            assertEquals(Role.MODERATOR, changedUser.getRole());
-            assertEquals(Role.MODERATOR, moderator.getRole());
+            assertEquals(Role.ROLE_MOD, changedCredentials.getRole());
+            assertEquals(Role.ROLE_MOD, moderator.getRole());
         } catch (UserDoesNotExist e) {
             fail("This exception should not have been thrown");
         }

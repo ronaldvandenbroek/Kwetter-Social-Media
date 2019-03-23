@@ -20,10 +20,14 @@ public class Credentials implements Serializable {
     @NotNull(message = "Email cannot be null")
     @Email(message = "Email should be valid")
     @Id
+    @Column(name = "email", updatable = false, nullable = false, unique = true)
     private String email;
 
     @NotNull(message = "Password cannot be null")
+    @Column(name = "password", updatable = false, nullable = false, unique = false)
     private String password;
+
+    private Role role;
 
     @JsonIgnoreProperties("credentials")
     @OneToOne(mappedBy = "credentials", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -37,9 +41,16 @@ public class Credentials implements Serializable {
         this.password = password;
     }
 
-    public Credentials(String email, String password, User user) {
+    public Credentials(String email, String password, Role role) {
         this.email = email;
         this.password = password;
+        this.role = role;
+    }
+
+    public Credentials(String email, String password, Role role, User user) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
         this.user = user;
 
         user.setCredentials(this);
@@ -60,8 +71,7 @@ public class Credentials implements Serializable {
         return Objects.hash(email, password);
     }
 
-    public String showCredentials(){
-
+    public String showCredentials() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return authentication.getName() + " is your name!!!";

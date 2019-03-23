@@ -1,6 +1,7 @@
 package nl.fontys.kwetter.controllers.rest;
 
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
+import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase;
 import nl.fontys.kwetter.service.IAdminService;
@@ -24,8 +25,8 @@ public class AdminController {
     }
 
     @PostMapping("/change_role")
-    public ResponseEntity changeRole(@RequestBody User user) throws UserDoesNotExist {
-        adminService.changeRole(user.getId(), user.getRole());
+    public ResponseEntity changeRole(@RequestBody Credentials credentials) throws UserDoesNotExist {
+        adminService.changeRole(credentials.getEmail(), credentials.getRole());
         return ResponseEntity.ok("Changed user role");
     }
 

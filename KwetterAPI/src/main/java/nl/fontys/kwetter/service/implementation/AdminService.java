@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Service for handling model operations regarding the administrative tasks.
@@ -36,17 +35,22 @@ public class AdminService implements IAdminService {
     /**
      * Change the role of a user
      *
-     * @param userId Id of the User
+     * @param credentialsEmail Email of the User
      * @param role   New Role of the User
      * @throws UserDoesNotExist Thrown if the user cannot be found.
      */
     @Override
-    public User changeRole(UUID userId, Role role) throws UserDoesNotExist {
-        User user = getUserById(userId);
-        user.setRole(role);
+    public Credentials changeRole(String credentialsEmail, Role role) throws UserDoesNotExist {
+        Credentials credentials = getCredentialsById(credentialsEmail);
+        credentials.setRole(role);
 
-        userRepository.save(user);
-        return user;
+        credentialsRepository.save(credentials);
+        return credentials;
+    }
+
+    @Override
+    public Credentials getFullCredentials(String email) throws UserDoesNotExist {
+        return getCredentialsById(email);
     }
 
     /**
@@ -69,18 +73,11 @@ public class AdminService implements IAdminService {
         return (List<Credentials>) credentialsRepository.findAll();
     }
 
-    /**
-     * Get the user via its Id
-     *
-     * @param userID Id of the User
-     * @return The User
-     * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
-     */
-    private User getUserById(UUID userID) throws UserDoesNotExist {
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isPresent()) {
-            return user.get();
+    private Credentials getCredentialsById(String email) throws UserDoesNotExist {
+        Optional<Credentials> credentials = credentialsRepository.findById(email);
+        if (credentials.isPresent()) {
+            return credentials.get();
         }
-        throw new UserDoesNotExist("User with the id:" + userID + " could not be found.");
+        throw new UserDoesNotExist("Credentials with the id: " + email + " could not be found.");
     }
 }

@@ -13,21 +13,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.credentialsCollection;
+import static nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase.userCollection;
 
 @Repository
 @Profile("memory")
 public class InMemoryCredentialsRepository implements IInMemoryCredentialsRepository {
-
-    @Override
-    public List<Credentials> findAllByEmail(String lastName) {
-        return credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(lastName)).collect(Collectors.toList());
-    }
-
-//    @Override
-//    public User jsfLogin(Credentials loginCredentials) {
-//        Optional<Credentials> foundLogin = credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(loginCredentials.getEmail()) && credentials.getPassword().equals(loginCredentials.getPassword())).findFirst();
-//        return foundLogin.map(Credentials::getUser).orElse(null);
-//    }
 
     @Override
     public <S extends Credentials> S save(S s) {
@@ -43,12 +33,12 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
     }
 
     @Override
-    public Optional<Credentials> findById(UUID aLong) {
-        throw new NotImplementedException();
+    public Optional<Credentials> findById(String s) {
+        return credentialsCollection().stream().filter(credentials -> credentials.getEmail().equals(s)).findFirst();
     }
 
     @Override
-    public boolean existsById(UUID aLong) {
+    public boolean existsById(String s) {
         throw new NotImplementedException();
     }
 
@@ -58,7 +48,7 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
     }
 
     @Override
-    public Iterable<Credentials> findAllById(Iterable<UUID> iterable) {
+    public Iterable<Credentials> findAllById(Iterable<String> iterable) {
         throw new NotImplementedException();
     }
 
@@ -68,7 +58,7 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
     }
 
     @Override
-    public void deleteById(UUID aLong) {
+    public void deleteById(String s) {
         throw new NotImplementedException();
     }
 

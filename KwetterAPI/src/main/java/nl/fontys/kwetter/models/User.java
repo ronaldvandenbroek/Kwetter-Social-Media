@@ -25,8 +25,6 @@ public class User implements Serializable {
     @Column(name = "id", updatable = false, nullable = false, unique=true, columnDefinition = "varchar(64)")
     private UUID id = UUID.randomUUID();
 
-    private Role role;
-
     @JsonIgnoreProperties("user")
     @OneToOne(fetch = FetchType.LAZY)
     private Credentials credentials;
@@ -81,7 +79,6 @@ public class User implements Serializable {
 
     public User(User toBeClonedUser) {
         this.id = toBeClonedUser.getId();
-        this.role = toBeClonedUser.getRole();
         this.credentials = toBeClonedUser.getCredentials();
         this.name = toBeClonedUser.getName();
         this.bio = toBeClonedUser.getBio();
@@ -94,11 +91,6 @@ public class User implements Serializable {
         this.heartedKwetters = toBeClonedUser.getHeartedKwetters();
         this.usersFollowed = toBeClonedUser.getUsersFollowed();
         this.followedByUsers = toBeClonedUser.getFollowedByUsers();
-    }
-
-    public User(Role role) {
-        this();
-        this.role = role;
     }
 
     public void addCreatedKwetter(Kwetter createdKwetter) {

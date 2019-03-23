@@ -40,7 +40,7 @@ public class InMemoryUserUnitTests {
     @Test
     @DisplayName("A user can jsfLogin via a username and password")
     void login() {
-        Credentials credentials = new Credentials("1@test.nl", "test");
+        Credentials credentials = new Credentials("1@test.nl", "test", Role.ROLE_USER);
 
         User user = userRepository.findByCredentials(credentials);
 
@@ -51,7 +51,7 @@ public class InMemoryUserUnitTests {
     @Test
     @DisplayName("A user can't jsfLogin via a wrong username")
     void failedLoginWrongUsername() {
-        Credentials credentials = new Credentials("wrongEmail@test.nl", "test");
+        Credentials credentials = new Credentials("wrongEmail@test.nl", "test", Role.ROLE_USER);
 
         User user = userRepository.findByCredentials(credentials);
 
@@ -62,7 +62,7 @@ public class InMemoryUserUnitTests {
     @Test
     @DisplayName("A user can't jsfLogin via a wrong password")
     void failedLoginWrongPassword() {
-        Credentials credentials = new Credentials("1@test.nl", "wrongPassword");
+        Credentials credentials = new Credentials("1@test.nl", "wrongPassword", Role.ROLE_USER);
 
         User user = userRepository.findByCredentials(credentials);
 
@@ -81,9 +81,9 @@ public class InMemoryUserUnitTests {
     @Test
     @DisplayName("Create a new user")
     void createNewUser() {
-        User user = new User(Role.USER);
+        User user = new User();
         user.setName("createNewUser");
-        Credentials credentials = new Credentials("UniqueEmail@test.nl", "test", user);
+        Credentials credentials = new Credentials("UniqueEmail@test.nl", "test", Role.ROLE_USER, user);
 
         credentialsRepository.save(credentials);
         userRepository.save(user);
@@ -96,7 +96,7 @@ public class InMemoryUserUnitTests {
     @Test
     @DisplayName("Fail to create a new user because the user is null")
     void failToCreateNewUserNullUser() {
-        Credentials credentials = new Credentials("UniqueEmail@test.nl", "test");
+        Credentials credentials = new Credentials("UniqueEmail@test.nl", "test", Role.ROLE_USER);
 
         credentialsRepository.save(credentials);
         User loginUser = userRepository.findByCredentials(credentials);
@@ -108,7 +108,7 @@ public class InMemoryUserUnitTests {
     @Test
     @DisplayName("Update a user")
     void updateUser() {
-        Credentials credentials = new Credentials("1@test.nl", "test");
+        Credentials credentials = new Credentials("1@test.nl", "test", Role.ROLE_USER);
         User user = userRepository.findByCredentials(credentials);
 
         user.setBio("Dit is een test bio");
@@ -124,7 +124,7 @@ public class InMemoryUserUnitTests {
     @Test
     @DisplayName("Delete a user")
     void deleteUser() {
-        Credentials credentials = new Credentials("1@test.nl", "test");
+        Credentials credentials = new Credentials("1@test.nl", "test", Role.ROLE_USER);
         User user = userRepository.findByCredentials(credentials);
 
         userRepository.delete(user);

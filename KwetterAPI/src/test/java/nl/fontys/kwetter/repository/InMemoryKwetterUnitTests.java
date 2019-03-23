@@ -3,6 +3,7 @@ package nl.fontys.kwetter.repository;
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
+import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +42,7 @@ public class InMemoryKwetterUnitTests {
     void setUp() {
         inMemoryDatabaseManager.reset();
 
-        credentials = new Credentials("5@test.nl", "test");
+        credentials = new Credentials("5@test.nl", "test", Role.ROLE_USER);
         user = userRepository.findByCredentials(credentials);
 
         calendar = Calendar.getInstance();
@@ -69,7 +70,6 @@ public class InMemoryKwetterUnitTests {
         User updatedUser = userRepository.findByCredentials(credentials);
 
         kwetterRepository.delete(kwetter);
-
 
         assertFalse(updatedUser.getCreatedKwetters().contains(kwetter.getId()));
         assertEquals(11, kwetterRepository.count());

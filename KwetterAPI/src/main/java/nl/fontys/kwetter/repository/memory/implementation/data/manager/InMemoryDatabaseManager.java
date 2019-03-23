@@ -39,11 +39,11 @@ public class InMemoryDatabaseManager implements IInMemoryDatabaseManager {
 
         //Create 10 allUsers
         for (int i = 1; i < 11; i++) {
-            User user = new User(Role.USER);
+            User user = new User();
             user.setName(i + "Test");
             userRepository.save(user);
 
-            Credentials credentials = new Credentials(i + "@test.nl", "test", user);
+            Credentials credentials = new Credentials(i + "@test.nl", "test", Role.ROLE_USER, user);
 
             presetCredentials.add(credentials);
             presetUsers.add(user);

@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.poc;
 
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
+import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
-import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
@@ -37,7 +37,6 @@ public class AdminServiceUnitTest {
 
     @BeforeEach
     void setUp() {
-        //adminService = new AdminService();
         when(userRepository.findAll()).thenReturn(new ArrayList<>());
         when(credentialsRepository.findAll()).thenReturn(new ArrayList<>());
         when(kwetterRepository.findAll()).thenReturn(new ArrayList<>());
@@ -46,15 +45,15 @@ public class AdminServiceUnitTest {
     @DisplayName("Change the role of a user")
     @Test
     void changeTheRoleOfAUser() {
-        User user = new User(Role.USER);
+        Credentials credentials = new Credentials("test@test.nl", "test", Role.ROLE_USER);
 
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        when(credentialsRepository.findById(credentials.getEmail())).thenReturn(Optional.of(credentials));
 
         try {
-            User changedRoleUser = adminService.changeRole(user.getId(), Role.MODERATOR);
+            Credentials changedRoleCredentials = adminService.changeRole(credentials.getEmail(), Role.ROLE_MOD);
 
-            assertNotNull(changedRoleUser);
-            assertEquals(Role.MODERATOR, changedRoleUser.getRole());
+            assertNotNull(changedRoleCredentials);
+            assertEquals(Role.ROLE_MOD, changedRoleCredentials.getRole());
         } catch (UserDoesNotExist userDoesNotExist) {
             fail("This exception should not have been thrown");
         }
@@ -63,12 +62,11 @@ public class AdminServiceUnitTest {
     @DisplayName("User does not exist while changing the role")
     @Test
     void failToChangeTheRoleOfAUser() {
-        User user = new User(Role.USER);
+        Credentials credentials = new Credentials("test@test.nl", "test", Role.ROLE_USER);
 
-        when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
+        when(credentialsRepository.findById(credentials.getEmail())).thenReturn(Optional.empty());
 
-
-        assertThrows(UserDoesNotExist.class, () -> adminService.changeRole(user.getId(), Role.MODERATOR));
+        assertThrows(UserDoesNotExist.class, () -> adminService.changeRole(credentials.getEmail(), Role.ROLE_MOD));
     }
 }
 

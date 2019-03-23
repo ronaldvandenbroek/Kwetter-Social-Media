@@ -6,5 +6,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.UUID;
 
 @NoRepositoryBean
-public interface IBaseRepository<T> extends CrudRepository<T, UUID> {
+public interface IBaseUUIDRepository<T> extends CrudRepository<T, UUID> {
 }

@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.models;
 
 public enum Role {
-    USER,
-    MODERATOR,
-    ADMINISTRATOR
+    ROLE_USER,
+    ROLE_MOD,
+    ROLE_ADMIN
 }

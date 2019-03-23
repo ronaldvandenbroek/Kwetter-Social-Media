@@ -11,7 +11,9 @@ import java.util.UUID;
 
 public interface IAdminService {
 
-    User changeRole(UUID userId, Role role) throws UserDoesNotExist;
+    Credentials changeRole(String credentialsEmail, Role role) throws UserDoesNotExist;
+
+    Credentials getFullCredentials(String email) throws UserDoesNotExist;
 
     List<User> getAllUsers();
 

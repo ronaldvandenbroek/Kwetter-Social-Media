@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 @NoRepositoryBean
-public interface IKwetterRepository extends IBaseRepository<Kwetter> {
+public interface IKwetterRepository extends IBaseUUIDRepository<Kwetter> {
 
     List<Kwetter> findAllByOwnerId(UUID ownerId);
 

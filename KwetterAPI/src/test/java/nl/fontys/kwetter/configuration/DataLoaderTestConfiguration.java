@@ -17,7 +17,7 @@ public class DataLoaderTestConfiguration {
 //
 //            //Create 10 allUsers
 //            for (int i = 1; i < 11; i++) {
-//                User user = new User(Role.USER);
+//                User user = new User(Role.ROLE_USER);
 //                user.setName(i + "Test");
 //                userRepository.save(user);
 //

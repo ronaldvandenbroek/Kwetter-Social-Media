@@ -16,8 +16,8 @@ class ModelAssociationUnitTests {
 
     @BeforeEach
     void setUp() {
-        user = new User(Role.USER);
-        secondUser = new User(Role.USER);
+        user = new User();
+        secondUser = new User();
         kwetter = new Kwetter("Test", user, Calendar.getInstance().getTime());
     }
 
@@ -174,7 +174,7 @@ class ModelAssociationUnitTests {
     @Test
     @DisplayName("Set user credentials")
     void setCredentials() {
-        Credentials credentials = new Credentials("test@test.nl", "Test", user);
+        Credentials credentials = new Credentials("test@test.nl", "Test", Role.ROLE_USER, user);
 
         assertEquals(credentials, user.getCredentials());
     }
