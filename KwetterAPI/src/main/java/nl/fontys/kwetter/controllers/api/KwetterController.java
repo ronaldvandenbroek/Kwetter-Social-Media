@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.controllers;
+package nl.fontys.kwetter.controllers.api;
 
 import nl.fontys.kwetter.exceptions.*;
 import nl.fontys.kwetter.models.Kwetter;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "kwetter", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/kwetter", produces = MediaType.APPLICATION_JSON_VALUE)
 public class KwetterController {
 
     private final IKwetterService kwetterService;

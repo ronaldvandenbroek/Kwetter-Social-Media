@@ -170,4 +170,9 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString(){
+        return String.format("%s %s %s %s", id, name, credentials.getEmail(), credentials.getRole());
+    }
 }

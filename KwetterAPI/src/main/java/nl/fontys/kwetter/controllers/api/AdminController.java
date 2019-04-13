@@ -1,8 +1,9 @@
-package nl.fontys.kwetter.controllers;
+package nl.fontys.kwetter.controllers.api;
 
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.Credentials;
+import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase;
 import nl.fontys.kwetter.service.IAdminService;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "admin", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminController {
 
     private final IAdminService adminService;
@@ -38,6 +39,13 @@ public class AdminController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> allUsers = adminService.getAllUsers();
         return ResponseEntity.ok(allUsers);
+    }
+
+    @GetMapping("/get_all_kwetters")
+    @PreAuthorize("hasRole('ROLE_MOD') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<Kwetter>> getAllKwetters() {
+        List<Kwetter> allKwetters = adminService.getAllKwetters();
+        return ResponseEntity.ok(allKwetters);
     }
 
     @GetMapping("/in_memory_users")

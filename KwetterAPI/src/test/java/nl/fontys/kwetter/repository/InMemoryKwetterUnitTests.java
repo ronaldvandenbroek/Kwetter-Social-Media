@@ -77,7 +77,7 @@ public class InMemoryKwetterUnitTests {
     }
 
     @Test
-    @DisplayName("Fail to delete a kwetter because it does not exist")
+    @DisplayName("Fail to deleteKwetter a kwetter because it does not exist")
     void failToDeleteKwetterNonExistent() {
         Kwetter kwetter = new Kwetter("NewKwetter", user, calendar.getTime());
 
