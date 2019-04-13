@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/admin", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "http://localhost:4200")
 public class AdminController {
 
     private final IAdminService adminService;
