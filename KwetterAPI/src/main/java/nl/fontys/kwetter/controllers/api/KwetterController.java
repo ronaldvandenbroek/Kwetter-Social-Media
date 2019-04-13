@@ -17,6 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/kwetter", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "http://localhost:4200")
 public class KwetterController {
 
     private final IKwetterService kwetterService;

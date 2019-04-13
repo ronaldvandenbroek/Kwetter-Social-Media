@@ -18,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     private final IProfileService profileService;
