@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.controllers.api;
+package nl.fontys.kwetter.controllers.api.session;
 
 import nl.fontys.kwetter.exceptions.*;
 import nl.fontys.kwetter.models.Kwetter;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-@RequestMapping(path = "/api/kwetter", produces = MediaType.APPLICATION_JSON_VALUE)
+@RestController("sessionKwetterController")
+@RequestMapping(path = "/api/session/kwetter", produces = MediaType.APPLICATION_JSON_VALUE)
 public class KwetterController {
 
     private final IKwetterService kwetterService;

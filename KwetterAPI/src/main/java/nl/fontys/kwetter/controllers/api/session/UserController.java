@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.controllers.api;
+package nl.fontys.kwetter.controllers.api.session;
 
 import nl.fontys.kwetter.exceptions.CannotLoginException;
 import nl.fontys.kwetter.exceptions.InvalidModelException;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-@RequestMapping(path = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@RestController("sessionUserController")
+@RequestMapping(path = "/api/session/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
     private final IProfileService profileService;

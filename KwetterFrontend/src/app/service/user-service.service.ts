@@ -10,9 +10,12 @@ export class UserService {
   private headers: HttpHeaders;
  
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/kwetter-1.0/api/admin/get_all_users';
+    this.usersUrl = 'http://localhost:8080/kwetter-1.0/api/token/admin/get_all_users';
     let headers = new HttpHeaders();
-    this.headers = headers.set('Access-Control-Allow-Headers', '*')
+    this.headers = headers
+    .set('Access-Control-Allow-Headers', '*')
+    .set('Access-Control-Allow-Methods', 'DELETE, POST, GET, OPTIONS')
+    .set('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
   }
  
   public findAll(): Observable<User[]> {
