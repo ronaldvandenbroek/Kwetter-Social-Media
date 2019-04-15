@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.controllers.api.token;
 
 import nl.fontys.kwetter.exceptions.LoginException;
-import nl.fontys.kwetter.exceptions.UserDoesNotExist;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
@@ -27,7 +27,7 @@ public class AdminController {
     }
 
     @PostMapping("/change_role")
-    public ResponseEntity changeRole(@RequestBody Credentials credentials) throws UserDoesNotExist {
+    public ResponseEntity changeRole(@RequestBody Credentials credentials) throws ModelNotFoundException {
         adminService.changeRole(credentials.getEmail(), credentials.getRole());
         return ResponseEntity.ok("Changed user role");
     }
