@@ -1,12 +1,11 @@
 package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.exceptions.CannotLoginException;
-import nl.fontys.kwetter.exceptions.InvalidModelException;
-import nl.fontys.kwetter.exceptions.UserDoesNotExist;
-import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
+import nl.fontys.kwetter.exceptions.LoginException;
+import nl.fontys.kwetter.exceptions.ModelInvalidException;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
 import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +47,7 @@ class ProfileServiceIntegrationTest {
 
         try {
             testUser = loginService.login(new Credentials(email, password));
-        } catch (CannotLoginException | InvalidModelException e) {
+        } catch (LoginException | ModelInvalidException e) {
             e.printStackTrace();
         }
     }
@@ -75,7 +74,7 @@ class ProfileServiceIntegrationTest {
             assertEquals(location, user.getLocation());
             assertEquals(website, user.getWebsite());
             assertEquals(language, user.getLanguage());
-        } catch (InvalidModelException | UserDoesNotExist e) {
+        } catch (ModelInvalidException | ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -90,7 +89,7 @@ class ProfileServiceIntegrationTest {
         newUser.setBio(TEST_STRING);
         newUser.setLanguage(TEST_STRING);
 
-        assertThrows(InvalidModelException.class, () -> profileService.updateUser(newUser));
+        assertThrows(ModelInvalidException.class, () -> profileService.updateUser(newUser));
 
         try {
             User user = profileService.getFullProfile(testUser.getId());
@@ -98,7 +97,7 @@ class ProfileServiceIntegrationTest {
             assertNull(user.getWebsite());
             assertNull(user.getBio());
             assertNull(user.getLanguage());
-        } catch (UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -116,7 +115,7 @@ class ProfileServiceIntegrationTest {
             User user = profileService.updateName(newUser);
             assertNotNull(user);
             assertEquals(name, user.getName());
-        } catch (InvalidModelException | UsernameAlreadyExists | UserDoesNotExist e) {
+        } catch (ModelInvalidException | UsernameAlreadyExistsException | ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -128,12 +127,12 @@ class ProfileServiceIntegrationTest {
         newUser.setId(testUser.getId());
         newUser.setName(TEST_STRING);
 
-        assertThrows(InvalidModelException.class, () -> profileService.updateName(newUser));
+        assertThrows(ModelInvalidException.class, () -> profileService.updateName(newUser));
 
         try {
             User user = profileService.getFullProfile(testUser.getId());
             assertEquals("1Test", user.getName());
-        } catch (UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -147,12 +146,12 @@ class ProfileServiceIntegrationTest {
         newUser.setId(testUser.getId());
         newUser.setName(name);
 
-        assertThrows(UsernameAlreadyExists.class, () -> profileService.updateName(newUser));
+        assertThrows(UsernameAlreadyExistsException.class, () -> profileService.updateName(newUser));
 
         try {
             User user = profileService.getFullProfile(testUser.getId());
             assertEquals("1Test", user.getName());
-        } catch (UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -164,7 +163,7 @@ class ProfileServiceIntegrationTest {
             List<User> followers = profileService.getFollowing(testUser.getId());
             assertNotNull(followers);
             assertEquals(9, followers.size());
-        } catch (UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -176,7 +175,7 @@ class ProfileServiceIntegrationTest {
             List<User> followers = profileService.getFollowers(testUser.getId());
             assertNotNull(followers);
             assertEquals(1, followers.size());
-        } catch (UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -187,14 +186,14 @@ class ProfileServiceIntegrationTest {
         try {
             User user = profileService.getFullProfile(testUser.getId());
             assertNotNull(user);
-        } catch (UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
 
     @Test
     @DisplayName("A user can follow and unfollow another user")
-    void followAndUnfollow() throws UserDoesNotExist {
+    void followAndUnfollow() {
         try {
             User user2 = loginService.login(new Credentials("2@test.nl", "test"));
             User user3 = loginService.login(new Credentials("3@test.nl", "test"));
@@ -211,8 +210,8 @@ class ProfileServiceIntegrationTest {
             assertEquals(1, following2afterUnfollow.size());
             assertEquals(1, followers3afterUnfollow.size());
 
-        } catch (CannotLoginException | InvalidModelException e) {
-            e.printStackTrace();
+        } catch (LoginException | ModelInvalidException | ModelNotFoundException e) {
+            fail("This exception should not have been thrown");
         }
     }
 }

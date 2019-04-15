@@ -1,10 +1,9 @@
 package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.exceptions.CannotLoginException;
-import nl.fontys.kwetter.exceptions.InvalidModelException;
+import nl.fontys.kwetter.exceptions.LoginException;
+import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +46,7 @@ class LoginServiceIntegrationTest {
             assertEquals(email, user.getCredentials().getEmail());
             assertEquals(password, user.getCredentials().getPassword());
             assertEquals(username, user.getName());
-        } catch (CannotLoginException | InvalidModelException e) {
+        } catch (LoginException | ModelInvalidException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -58,7 +57,7 @@ class LoginServiceIntegrationTest {
         String email = "WrongEmail@test.nl";
         String password = "test";
 
-        assertThrows(CannotLoginException.class, () -> loginService.login(new Credentials(email, password)));
+        assertThrows(LoginException.class, () -> loginService.login(new Credentials(email, password)));
     }
 
     @Test
@@ -67,7 +66,7 @@ class LoginServiceIntegrationTest {
         String email = null;
         String password = "test";
 
-        assertThrows(InvalidModelException.class, () -> loginService.login(new Credentials(email, password)));
+        assertThrows(ModelInvalidException.class, () -> loginService.login(new Credentials(email, password)));
     }
 
     @Test
@@ -76,7 +75,7 @@ class LoginServiceIntegrationTest {
         String email = "NotAnEmail";
         String password = "test";
 
-        assertThrows(InvalidModelException.class, () -> loginService.login(new Credentials(email, password)));
+        assertThrows(ModelInvalidException.class, () -> loginService.login(new Credentials(email, password)));
     }
 
     @Test
@@ -85,6 +84,6 @@ class LoginServiceIntegrationTest {
         String email = "1@test.nl";
         String password = null;
 
-        assertThrows(InvalidModelException.class, () -> loginService.login(new Credentials(email, password)));
+        assertThrows(ModelInvalidException.class, () -> loginService.login(new Credentials(email, password)));
     }
 }

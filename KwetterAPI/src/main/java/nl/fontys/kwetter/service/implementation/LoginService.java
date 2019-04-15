@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.service.implementation;
 
-import nl.fontys.kwetter.exceptions.CannotLoginException;
-import nl.fontys.kwetter.exceptions.InvalidModelException;
+import nl.fontys.kwetter.exceptions.LoginException;
+import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.IUserRepository;
@@ -29,12 +29,12 @@ public class LoginService implements ILoginService {
     }
 
     @Override
-    public User autoLogin() throws CannotLoginException {
+    public User autoLogin() throws LoginException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByCredentials_Email(authentication.getName());
 
         if (user == null) {
-            throw new CannotLoginException("No account found matching the credentials");
+            throw new LoginException("No account found matching the credentials");
         }
         return user;
     }
@@ -44,16 +44,16 @@ public class LoginService implements ILoginService {
      *
      * @param credentials The users credentials
      * @return The logged in user
-     * @throws CannotLoginException  Thrown if the credentials are not correct.
-     * @throws InvalidModelException Thrown if the credentials are not valid.
+     * @throws LoginException  Thrown if the credentials are not correct.
+     * @throws ModelInvalidException Thrown if the credentials are not valid.
      */
     @Override
-    public User login(Credentials credentials) throws CannotLoginException, InvalidModelException {
+    public User login(Credentials credentials) throws LoginException, ModelInvalidException {
         validator.validate(credentials);
 
         User user = userRepository.findByCredentials(credentials);
         if (user == null) {
-            throw new CannotLoginException("No account found matching the credentials");
+            throw new LoginException("No account found matching the credentials");
         }
         return user;
     }

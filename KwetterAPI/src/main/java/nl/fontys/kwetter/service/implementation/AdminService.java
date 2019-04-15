@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.service.implementation;
 
-import nl.fontys.kwetter.exceptions.UserDoesNotExist;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
@@ -37,10 +37,10 @@ public class AdminService implements IAdminService {
      *
      * @param credentialsEmail Email of the User
      * @param role             New Role of the User
-     * @throws UserDoesNotExist Thrown if the user cannot be found.
+     * @throws ModelNotFoundException Thrown if the user cannot be found.
      */
     @Override
-    public Credentials changeRole(String credentialsEmail, Role role) throws UserDoesNotExist {
+    public Credentials changeRole(String credentialsEmail, Role role) throws ModelNotFoundException {
         Credentials credentials = getCredentialsById(credentialsEmail);
         credentials.setRole(role);
 
@@ -49,7 +49,7 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Credentials getFullCredentials(String email) throws UserDoesNotExist {
+    public Credentials getFullCredentials(String email) throws ModelNotFoundException {
         return getCredentialsById(email);
     }
 
@@ -73,11 +73,11 @@ public class AdminService implements IAdminService {
         return (List<Credentials>) credentialsRepository.findAll();
     }
 
-    private Credentials getCredentialsById(String email) throws UserDoesNotExist {
+    private Credentials getCredentialsById(String email) throws ModelNotFoundException {
         Optional<Credentials> credentials = credentialsRepository.findById(email);
         if (credentials.isPresent()) {
             return credentials.get();
         }
-        throw new UserDoesNotExist("Credentials with the id: " + email + " could not be found.");
+        throw new ModelNotFoundException("Credentials with the id: " + email + " could not be found.");
     }
 }

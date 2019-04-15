@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.exceptions.UserDoesNotExist;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
@@ -57,7 +57,7 @@ class AdminServiceIntegrationTest {
 
             assertEquals(Role.ROLE_MOD, changedCredentials.getRole());
             assertEquals(Role.ROLE_MOD, moderator.getRole());
-        } catch (UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }

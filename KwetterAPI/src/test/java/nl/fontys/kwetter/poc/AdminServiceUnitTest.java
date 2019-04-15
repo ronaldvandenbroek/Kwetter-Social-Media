@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.poc;
 
-import nl.fontys.kwetter.exceptions.UserDoesNotExist;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.repository.ICredentialsRepository;
@@ -54,7 +54,7 @@ public class AdminServiceUnitTest {
 
             assertNotNull(changedRoleCredentials);
             assertEquals(Role.ROLE_MOD, changedRoleCredentials.getRole());
-        } catch (UserDoesNotExist userDoesNotExist) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -66,7 +66,7 @@ public class AdminServiceUnitTest {
 
         when(credentialsRepository.findById(credentials.getEmail())).thenReturn(Optional.empty());
 
-        assertThrows(UserDoesNotExist.class, () -> adminService.changeRole(credentials.getEmail(), Role.ROLE_MOD));
+        assertThrows(ModelNotFoundException.class, () -> adminService.changeRole(credentials.getEmail(), Role.ROLE_MOD));
     }
 }
 

@@ -1,7 +1,6 @@
 package nl.fontys.kwetter.controllers.jsf;
 
-import nl.fontys.kwetter.exceptions.CouldNotDelete;
-import nl.fontys.kwetter.exceptions.KwetterDoesNotExist;
+import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
 import nl.fontys.kwetter.exceptions.UserDoesNotExist;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
@@ -51,7 +50,7 @@ public class JsfAdminController {
         reload();
     }
 
-    public void deleteKwetter(Kwetter kwetter) throws CouldNotDelete, KwetterDoesNotExist, UserDoesNotExist, IOException {
+    public void deleteKwetter(Kwetter kwetter) throws CouldNotDeleteModelException, ModelNotFound, UserDoesNotExist, IOException {
         logger.info("Deleted kwetter: " + kwetter.toString());
         kwetterService.removeKwetter(kwetter.getOwner().getId(), kwetter.getId());
         reload();

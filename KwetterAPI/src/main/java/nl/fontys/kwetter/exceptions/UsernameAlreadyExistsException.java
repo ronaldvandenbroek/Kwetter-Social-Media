@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.GONE)
-public class UsernameAlreadyExists extends Exception {
-    public UsernameAlreadyExists() {
+public class UsernameAlreadyExistsException extends Exception {
+    public UsernameAlreadyExistsException() {
     }
 
-    public UsernameAlreadyExists(String message) {
+    public UsernameAlreadyExistsException(String message) {
         super(message);
     }
 }

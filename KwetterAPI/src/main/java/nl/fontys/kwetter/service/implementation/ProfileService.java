@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.service.implementation;
 
-import nl.fontys.kwetter.exceptions.InvalidModelException;
-import nl.fontys.kwetter.exceptions.UserDoesNotExist;
-import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
+import nl.fontys.kwetter.exceptions.ModelInvalidException;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IProfileService;
@@ -35,11 +35,11 @@ public class ProfileService implements IProfileService {
      *
      * @param user User with the updated user bio
      * @return The updated user
-     * @throws InvalidModelException Thrown when an invalid input is given for the model.
-     * @throws UserDoesNotExist      Thrown when the userID does not have a corresponding user.
+     * @throws ModelInvalidException Thrown when an invalid input is given for the model.
+     * @throws ModelNotFoundException      Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User updateUser(User user) throws InvalidModelException, UserDoesNotExist {
+    public User updateUser(User user) throws ModelInvalidException, ModelNotFoundException {
         User oldUser = getUserById(user.getId());
 
         validator.validate(user);
@@ -59,12 +59,12 @@ public class ProfileService implements IProfileService {
      *
      * @param user User with the updated name
      * @return The updated user
-     * @throws UsernameAlreadyExists Thrown if the chosen name already exists.
-     * @throws InvalidModelException Thrown when an invalid input is given for the model.
-     * @throws UserDoesNotExist      Thrown when the userID does not have a corresponding user.
+     * @throws UsernameAlreadyExistsException Thrown if the chosen name already exists.
+     * @throws ModelInvalidException Thrown when an invalid input is given for the model.
+     * @throws ModelNotFoundException      Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User updateName(User user) throws UsernameAlreadyExists, UserDoesNotExist, InvalidModelException {
+    public User updateName(User user) throws UsernameAlreadyExistsException, ModelNotFoundException, ModelInvalidException {
         if (!userRepository.existsByName(user.getName())) {
             User oldUser = getUserById(user.getId());
 
@@ -74,12 +74,12 @@ public class ProfileService implements IProfileService {
             try {
                 validator.validate(oldUser);
                 return userRepository.save(oldUser);
-            } catch (InvalidModelException e) {
+            } catch (ModelInvalidException e) {
                 oldUser.setName(oldName);
                 throw e;
             }
         } else {
-            throw new UsernameAlreadyExists();
+            throw new UsernameAlreadyExistsException();
         }
     }
 
@@ -88,10 +88,10 @@ public class ProfileService implements IProfileService {
      *
      * @param userID Id of the User
      * @return All the users followers
-     * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public List<User> getFollowers(UUID userID) throws UserDoesNotExist {
+    public List<User> getFollowers(UUID userID) throws ModelNotFoundException {
         User user = getUserById(userID);
         return new ArrayList<>(user.getFollowedByUsers());
     }
@@ -101,10 +101,10 @@ public class ProfileService implements IProfileService {
      *
      * @param userID Id of the User
      * @return All users the user follows
-     * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public List<User> getFollowing(UUID userID) throws UserDoesNotExist {
+    public List<User> getFollowing(UUID userID) throws ModelNotFoundException {
         User user = getUserById(userID);
         return new ArrayList<>(user.getUsersFollowed());
     }
@@ -114,15 +114,15 @@ public class ProfileService implements IProfileService {
      *
      * @param userID Id of the User
      * @return The user
-     * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User getFullProfile(UUID userID) throws UserDoesNotExist {
+    public User getFullProfile(UUID userID) throws ModelNotFoundException {
         return getUserById(userID);
     }
 
     @Override
-    public void followUser(UUID userID, UUID followUserId) throws UserDoesNotExist {
+    public void followUser(UUID userID, UUID followUserId) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(userID);
         Optional<User> followed = userRepository.findById(followUserId);
 
@@ -131,12 +131,12 @@ public class ProfileService implements IProfileService {
             userRepository.save(user.get());
             userRepository.save(followed.get());
         } else {
-            throw new UserDoesNotExist("User could not be followed.");
+            throw new ModelNotFoundException("User could not be followed.");
         }
     }
 
     @Override
-    public void unFollowUser(UUID userID, UUID followUserId) throws UserDoesNotExist {
+    public void unFollowUser(UUID userID, UUID followUserId) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(userID);
         Optional<User> followed = userRepository.findById(followUserId);
 
@@ -145,7 +145,7 @@ public class ProfileService implements IProfileService {
             userRepository.save(user.get());
             userRepository.save(followed.get());
         } else {
-            throw new UserDoesNotExist("User could not be followed.");
+            throw new ModelNotFoundException("User could not be followed.");
         }
     }
 
@@ -154,14 +154,14 @@ public class ProfileService implements IProfileService {
      *
      * @param userID Id of the User
      * @return The User
-     * @throws UserDoesNotExist Thrown when the userID does not have a corresponding user.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
-    private User getUserById(UUID userID) throws UserDoesNotExist {
+    private User getUserById(UUID userID) throws ModelNotFoundException {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()) {
             return user.get();
         }
-        throw new UserDoesNotExist("User with the id:" + userID + " could not be found.");
+        throw new ModelNotFoundException("User with the id:" + userID + " could not be found.");
     }
 }
 

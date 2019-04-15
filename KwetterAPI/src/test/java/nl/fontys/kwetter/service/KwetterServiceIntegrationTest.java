@@ -56,7 +56,7 @@ class KwetterServiceIntegrationTest {
         try {
             testUser = loginService.login(new Credentials(email, password, Role.ROLE_USER));
             testKwetter = testUser.getCreatedKwetters().iterator().next();
-        } catch (CannotLoginException | InvalidModelException e) {
+        } catch (LoginException | ModelInvalidException e) {
             e.printStackTrace();
         }
     }
@@ -88,7 +88,7 @@ class KwetterServiceIntegrationTest {
             assertEquals(11, latestKwetters.size());
             //assertEquals(2, kwetter.getMentions().size());
             assertEquals(2, kwetter.getTags().size());
-        } catch (UserDoesNotExist | InvalidModelException e) {
+        } catch (ModelNotFoundException | ModelInvalidException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -111,7 +111,7 @@ class KwetterServiceIntegrationTest {
             assertEquals(11, latestKwetters.size());
             assertEquals(0, latestKwetters.get(0).getMentions().size());
             assertEquals(0, latestKwetters.get(0).getTags().size());
-        } catch (UserDoesNotExist | InvalidModelException e) {
+        } catch (ModelNotFoundException | ModelInvalidException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -124,7 +124,7 @@ class KwetterServiceIntegrationTest {
         Kwetter kwetter = new Kwetter();
         kwetter.setText(text);
 
-        assertThrows(InvalidModelException.class, () -> kwetterService.createKwetter(testUser.getId(), kwetter));
+        assertThrows(ModelInvalidException.class, () -> kwetterService.createKwetter(testUser.getId(), kwetter));
     }
 
     @Test
@@ -137,7 +137,7 @@ class KwetterServiceIntegrationTest {
             Collection<Kwetter> createdKwetters2 = user2.getCreatedKwetters();
             assertEquals(9, createdKwetters2.size());
             assertEquals(9, user2.getCreatedKwetters().size());
-        } catch (KwetterDoesNotExist | UserDoesNotExist | CouldNotDelete e) {
+        } catch (ModelNotFoundException | CouldNotDeleteModelException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -154,7 +154,7 @@ class KwetterServiceIntegrationTest {
             Kwetter kwetter = user.getHeartedKwetters().iterator().next();
             assertEquals(1, kwetter.getHearts());
 
-        } catch (KwetterDoesNotExist | UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -173,7 +173,7 @@ class KwetterServiceIntegrationTest {
             assertEquals(10, user.getCreatedKwetters().size());
             assertEquals(0, user.getHeartedKwetters().size());
 
-        } catch (KwetterDoesNotExist | UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -190,7 +190,7 @@ class KwetterServiceIntegrationTest {
             Kwetter kwetter = user.getReportedKwetters().iterator().next();
             assertEquals(1, kwetter.getReports());
 
-        } catch (KwetterDoesNotExist | UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }
@@ -207,7 +207,7 @@ class KwetterServiceIntegrationTest {
 
             assertEquals(0, user.getReportedKwetters().size());
 
-        } catch (KwetterDoesNotExist | UserDoesNotExist e) {
+        } catch (ModelNotFoundException e) {
             fail("This exception should not have been thrown");
         }
     }

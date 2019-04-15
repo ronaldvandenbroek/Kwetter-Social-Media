@@ -1,9 +1,9 @@
 package nl.fontys.kwetter.controllers.api.session;
 
-import nl.fontys.kwetter.exceptions.CannotLoginException;
-import nl.fontys.kwetter.exceptions.InvalidModelException;
-import nl.fontys.kwetter.exceptions.UserDoesNotExist;
-import nl.fontys.kwetter.exceptions.UsernameAlreadyExists;
+import nl.fontys.kwetter.exceptions.LoginException;
+import nl.fontys.kwetter.exceptions.ModelInvalidException;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IProfileService;
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/update_body")
-    public ResponseEntity<User> updateUser(User user) throws UserDoesNotExist, InvalidModelException, CannotLoginException {
+    public ResponseEntity<User> updateUser(User user) throws ModelNotFoundException, ModelInvalidException, LoginException {
         User login = loginService.autoLogin();
         if (user.getId() != login.getId()) {
             throw new AccessDeniedException("Trying to update a different user");
@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/update_name")
-    public ResponseEntity<User> updateName(User user) throws UsernameAlreadyExists, InvalidModelException, UserDoesNotExist, CannotLoginException {
+    public ResponseEntity<User> updateName(User user) throws UsernameAlreadyExistsException, ModelInvalidException, ModelNotFoundException, LoginException {
         User login = loginService.autoLogin();
         if (user.getId() != login.getId()) {
             throw new AccessDeniedException("Trying to update a different user");
@@ -51,19 +51,19 @@ public class UserController {
     }
 
     @GetMapping("/followers/{id}")
-    public ResponseEntity<List<User>> getFollowers(@PathVariable UUID id) throws UserDoesNotExist {
+    public ResponseEntity<List<User>> getFollowers(@PathVariable UUID id) throws ModelNotFoundException {
         List<User> followers = profileService.getFollowers(id);
         return ResponseEntity.ok(followers);
     }
 
     @GetMapping("/following/{id}")
-    public ResponseEntity<List<User>> getFollowing(@PathVariable UUID id) throws UserDoesNotExist {
+    public ResponseEntity<List<User>> getFollowing(@PathVariable UUID id) throws ModelNotFoundException {
         List<User> following = profileService.getFollowing(id);
         return ResponseEntity.ok(following);
     }
 
     @GetMapping("/profile/{id}")
-    public ResponseEntity<User> getProfile(@PathVariable UUID id) throws UserDoesNotExist {
+    public ResponseEntity<User> getProfile(@PathVariable UUID id) throws ModelNotFoundException {
         User user = profileService.getFullProfile(id);
         return ResponseEntity.ok(user);
     }
