@@ -1,7 +1,7 @@
 package nl.fontys.kwetter.controllers.jsf;
 
 import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
-import nl.fontys.kwetter.exceptions.UserDoesNotExist;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.User;
@@ -44,13 +44,13 @@ public class JsfAdminController {
         return adminService.getAllKwetters();
     }
 
-    public void changeUserRole(User user) throws UserDoesNotExist, IOException {
+    public void changeUserRole(User user) throws ModelNotFoundException, IOException {
         logger.info("Change role user: " + user.toString());
         adminService.changeRole(user.getCredentials().getEmail(), user.getCredentials().getRole());
         reload();
     }
 
-    public void deleteKwetter(Kwetter kwetter) throws CouldNotDeleteModelException, ModelNotFound, UserDoesNotExist, IOException {
+    public void deleteKwetter(Kwetter kwetter) throws CouldNotDeleteModelException, ModelNotFoundException, IOException {
         logger.info("Deleted kwetter: " + kwetter.toString());
         kwetterService.removeKwetter(kwetter.getOwner().getId(), kwetter.getId());
         reload();
