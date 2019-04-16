@@ -106,7 +106,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 List<Credentials> allCredentials = adminService.getAllCredentials();
                 for (Credentials credentials : allCredentials) {
                     if (username.equals(credentials.getEmail())) {
-                        logger.info("Login successful for " + username);
                         return createSecurityUser(credentials);
                     }
                 }
