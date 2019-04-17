@@ -30,6 +30,7 @@ public class LoginController {
 
     @PostMapping("login")
     public ResponseEntity<String> login(@RequestBody Credentials credentials) throws ModelInvalidException, LoginException {
+        System.out.println(credentials.getEmail() + " is trying to log in");
         User userLoggedIn = loginService.login(credentials);
 
         String jwtToken = Jwts.builder().setSubject(userLoggedIn.getCredentials().getEmail())
@@ -38,6 +39,7 @@ public class LoginController {
                 .signWith(SignatureAlgorithm.HS256, "secretkey")
                 .compact();
 
+        System.out.println(credentials.getEmail() + " logged in successfully");
         return ResponseEntity.ok(jwtToken);
     }
 }

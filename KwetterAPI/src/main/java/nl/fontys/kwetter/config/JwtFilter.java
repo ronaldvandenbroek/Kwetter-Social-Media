@@ -41,6 +41,7 @@ public class JwtFilter extends GenericFilterBean {
                 throw new ServletException("Invalid token");
             }
 
+            res.setCharacterEncoding("UTF-8");
             chain.doFilter(req, res);
         }
     }
