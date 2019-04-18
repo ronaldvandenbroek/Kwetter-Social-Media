@@ -2,19 +2,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user';
 import { Observable } from 'rxjs';
+import { AuthenticationService } from './authentication.service';
  
 @Injectable()
 export class UserService {
  
   private usersUrl: string;
-  private headers: HttpHeaders;
  
-  constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/kwetter-1.0/api/token/admin/get_all_users';
+  constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
+    this.usersUrl = 'http://localhost:8080/kwetter-1.0/api/token/secure/admin/get_all_users';
   }
  
   public findAll(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.authenticationService.currentLoginValue.token
+    })
+    return this.http.get<User[]>(this.usersUrl, { headers: headers })
   }
   
  
