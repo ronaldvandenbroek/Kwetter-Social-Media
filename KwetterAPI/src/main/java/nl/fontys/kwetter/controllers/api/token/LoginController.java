@@ -5,6 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.models.Credentials;
+import nl.fontys.kwetter.models.JwtToken;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class LoginController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody Credentials credentials) throws ModelInvalidException, LoginException {
+    public ResponseEntity<JwtToken> login(@RequestBody Credentials credentials) throws ModelInvalidException, LoginException {
         System.out.println(credentials.getEmail() + " is trying to log in");
         User userLoggedIn = loginService.login(credentials);
 
@@ -39,7 +40,9 @@ public class LoginController {
                 .signWith(SignatureAlgorithm.HS256, "secretkey")
                 .compact();
 
+        JwtToken token = new JwtToken(jwtToken);
+
         System.out.println(credentials.getEmail() + " logged in successfully");
-        return ResponseEntity.ok(jwtToken);
+        return ResponseEntity.ok(token);
     }
 }

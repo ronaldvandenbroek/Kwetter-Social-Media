@@ -1,52 +1,38 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { User } from "../model/user";
+import { JwtToken } from '../model/jwt-token';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  public currentUser: Observable<User>;
-  private currentUserSubject: BehaviorSubject<User>;
+  public currentLogin: Observable<JwtToken>;
+  private currentLoginSubject: BehaviorSubject<JwtToken>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.currentLoginSubject = new BehaviorSubject<JwtToken>(JSON.parse(localStorage.getItem('currentLogin')));
+    this.currentLogin = this.currentLoginSubject.asObservable();
   }
 
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
+  public get currentLoginValue(): JwtToken {
+    return this.currentLoginSubject.value;
   }
 
   login(email: string, password: string) {
     console.log("Login attempt");
-    return this.http.post<any>(`http://localhost:8080/kwetter-1.0/api/token/login`, {email, password}).pipe(
-        map((response: any) => {
-            console.log(response);
-            console.log(response.body);
 
-            // // login successful if there's a jwt token in the response header
-            // if (response.headers.get('Authorization')) {
-            //   let user = response.body;
-            //   if (user) {
-            //     // store user details and jwt token in local storage to keep user logged in between page refreshes
-            //     user.token = response.headers.get('Authorization');
-            //     localStorage.setItem('currentUser', JSON.stringify(user));
-            //     this.currentUserSubject.next(user);
-            //   }
-            //   console.log(this.currentUserSubject);
-            // }
-
-            //return token;
-            return response;
-          }
-        ));
+    var body = {email, password};
+    console.log(body);
+    var response = this.http.post<JwtToken>(`http://localhost:8080/kwetter-1.0/api/token/login`, body);
+    response.subscribe(data => {
+      console.log(data.token); 
+      localStorage.setItem('currentLogin', JSON.stringify(data));
+      this.currentLoginSubject.next(data) })
+    return response;
   }
 
   logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    localStorage.removeItem('currentLogin');
+    this.currentLoginSubject.next(null);
   }
 }

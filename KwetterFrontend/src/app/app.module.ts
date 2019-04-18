@@ -8,6 +8,7 @@ import { UserListComponent } from './component/user-list/user-list.component';
 import { UserFormComponent } from './component/user-form/user-form.component';
 import { LoginComponent } from './component/login-form/login-form.component';
 import { UserService } from './service/user-service.service';
+import { AuthenticationGuard } from './service/authentication-guard.service';
 
 import { ReactiveFormsModule } from "@angular/forms";
 
@@ -16,7 +17,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     AppComponent,
     UserListComponent,
     UserFormComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +26,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService],
+  providers: [UserService, AuthenticationGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

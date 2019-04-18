@@ -10,7 +10,7 @@ export class UserService {
   private headers: HttpHeaders;
  
   constructor(private http: HttpClient) {
-    this.usersUrl = 'http://localhost:8080/kwetter-1.0/api/token/secure/admin/get_all_users';
+    this.usersUrl = 'http://localhost:8080/kwetter-1.0/api/token/admin/get_all_users';
   }
  
   public findAll(): Observable<User[]> {
