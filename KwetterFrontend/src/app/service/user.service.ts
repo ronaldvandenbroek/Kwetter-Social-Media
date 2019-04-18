@@ -6,7 +6,7 @@ import { AuthenticationService } from './authentication.service';
  
 @Injectable()
 export class UserService {
- 
+
   private usersUrl: string;
  
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
