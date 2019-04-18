@@ -7,5 +7,5 @@ export class Kwetter {
     hearts: number;
     location: string;
     owner: User;
-    dateTime: Date;
+    dateTime: string;
 }

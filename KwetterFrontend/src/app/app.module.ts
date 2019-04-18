@@ -10,12 +10,15 @@ import { UserService } from './service/user.service';
 import { AuthenticationGuard } from './service/authentication-guard.service';
 
 import { ReactiveFormsModule } from "@angular/forms";
+import { TimelineComponent } from './component/timeline/timeline.component';
+import { TimelineService } from './service/timeline.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserListComponent,
     LoginComponent,
+    TimelineComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,7 @@ import { ReactiveFormsModule } from "@angular/forms";
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService, AuthenticationGuard],
+  providers: [UserService, AuthenticationGuard, TimelineService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

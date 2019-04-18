@@ -40,7 +40,7 @@ public class LoginController {
                 .signWith(SignatureAlgorithm.HS256, "secretkey")
                 .compact();
 
-        JwtToken token = new JwtToken(jwtToken);
+        JwtToken token = new JwtToken(jwtToken, userLoggedIn);
 
         System.out.println(credentials.getEmail() + " logged in successfully");
         return ResponseEntity.ok(token);

@@ -99,10 +99,9 @@ public class KwetterController {
         return ResponseEntity.ok(heartedKwetters);
     }
 
-    @GetMapping("/timeline")
-    public ResponseEntity<List<Kwetter>> getTimeLine() throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        List<Kwetter> timelineKwetters = kwetterService.getTimeline(user.getId());
+    @GetMapping("/timeline/{id}")
+    public ResponseEntity<List<Kwetter>> getTimeLine(@PathVariable UUID id) throws ModelNotFoundException, ModelInvalidException, LoginException {
+        List<Kwetter> timelineKwetters = kwetterService.getTimeline(id);
         return ResponseEntity.ok(timelineKwetters);
     }
 }
