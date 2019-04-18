@@ -55,6 +55,9 @@ public class LoginService implements ILoginService {
         if (user == null) {
             throw new LoginException("No account found matching the credentials");
         }
+        if (!credentials.getPassword().equals(user.getCredentials().getPassword())){
+            throw new LoginException("Invalid password");
+        }
         return user;
     }
 
