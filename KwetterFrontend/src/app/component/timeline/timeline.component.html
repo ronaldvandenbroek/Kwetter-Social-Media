@@ -3,16 +3,20 @@
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col">#</th>
           <th scope="col">Text</th>
           <th scope="col">Owner</th>
+          <th scope="col">Hearts</th>
+          <th scope="col">Reports</th>
+          <th scope="col">Date</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let kwetter of kwetters">
-          <td>{{ kwetter.id }}</td>
           <td>{{ kwetter.text }}</td>
           <td>{{ kwetter.owner.name }}</td>
+          <td>{{ kwetter.hearts }}</td>
+          <td>{{ kwetter.reports }}</td>
+          <td>{{ kwetter.dateTime }}</td>
         </tr>
       </tbody>
     </table>

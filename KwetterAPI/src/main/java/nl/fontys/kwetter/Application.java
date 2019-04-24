@@ -46,6 +46,9 @@ public class Application extends SpringBootServletInitializer {
             for (int i = 1; i < 11; i++) {
                 User user = new User();
                 user.setName(i + "Test");
+                user.setBio("This is a test bio");
+                user.setWebsite("www.google.nl");
+                user.setLocation("The Netherlands");
                 userRepository.save(user);
 
                 Role role = Role.ROLE_USER;

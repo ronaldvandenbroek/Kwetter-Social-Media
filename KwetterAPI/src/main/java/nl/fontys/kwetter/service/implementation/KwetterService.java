@@ -54,6 +54,10 @@ public class KwetterService implements IKwetterService {
      */
     @Override
     public Kwetter createKwetter(UUID userId, Kwetter kwetter) throws ModelNotFoundException, ModelInvalidException {
+        System.out.println("Creating Kwetter");
+        System.out.println(userId);
+        System.out.println(kwetter);
+
         User owner = getUserById(userId);
 
         Set<User> mentions = new HashSet<>();
@@ -63,14 +67,20 @@ public class KwetterService implements IKwetterService {
             }
         }
 
-        kwetter.setMentions(mentions);
-        kwetter.setDateTime(Calendar.getInstance().getTime());
-        owner.addCreatedKwetter(kwetter);
+        Kwetter newKwetter = new Kwetter();
 
-        validator.validate(kwetter);
+        newKwetter.setText(kwetter.getText());
+        newKwetter.setMentions(mentions);
+        newKwetter.setDateTime(Calendar.getInstance().getTime());
+        newKwetter.setOwner(owner);
+        owner.addCreatedKwetter(newKwetter);
 
-        kwetterRepository.save(kwetter);
+        validator.validate(newKwetter);
+
+        kwetterRepository.save(newKwetter);
         userRepository.save(owner);
+
+        System.out.println("Created Kwetter");
         return kwetter;
     }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Kwetter } from '../../model/kwetter';
-import { TimelineService } from '../../service/timeline.service';
+import { KwetterService } from '../../service/kwetter.service';
  
 @Component({
   selector: 'app-timeline',
@@ -11,7 +11,7 @@ export class TimelineComponent implements OnInit {
  
   kwetters: Kwetter[];
  
-  constructor(private timelineService: TimelineService) {
+  constructor(private timelineService: KwetterService) {
   }
  
   ngOnInit() {

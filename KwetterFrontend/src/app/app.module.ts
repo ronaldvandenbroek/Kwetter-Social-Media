@@ -11,14 +11,18 @@ import { AuthenticationGuard } from './service/authentication-guard.service';
 
 import { ReactiveFormsModule } from "@angular/forms";
 import { TimelineComponent } from './component/timeline/timeline.component';
-import { TimelineService } from './service/timeline.service';
+import { KwetterService } from './service/kwetter.service';
+import { ProfileComponent } from './component/profile/profile.component';
+import { CreateKwetterComponent } from './component/create-kwetter/create-kwetter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserListComponent,
     LoginComponent,
-    TimelineComponent
+    TimelineComponent,
+    ProfileComponent,
+    CreateKwetterComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,7 @@ import { TimelineService } from './service/timeline.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService, AuthenticationGuard, TimelineService],
+  providers: [UserService, AuthenticationGuard, KwetterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

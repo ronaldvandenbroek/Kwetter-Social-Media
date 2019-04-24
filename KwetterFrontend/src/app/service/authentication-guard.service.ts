@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 @Injectable()
@@ -7,7 +7,8 @@ export class AuthenticationGuard implements CanActivate {
     constructor(private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (localStorage.getItem('currentLogin')) {
+        //Bypass login in dev mode
+        if (localStorage.getItem('currentLogin') || isDevMode()) {
             // logged in so return true
             return true;
         }

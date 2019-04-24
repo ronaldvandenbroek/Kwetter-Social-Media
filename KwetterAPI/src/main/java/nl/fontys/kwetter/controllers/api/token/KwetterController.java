@@ -6,7 +6,6 @@ import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.UUIDRequest;
-import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,64 +42,56 @@ public class KwetterController {
         return ResponseEntity.ok(kwetter);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Kwetter> createKwetter(@RequestBody Kwetter kwetter) throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        Kwetter createdKwetter = kwetterService.createKwetter(user.getId(), kwetter);
+    @PostMapping("/create/{id}")
+    public ResponseEntity<Kwetter> createKwetter(@PathVariable UUID id, @RequestBody Kwetter kwetter) throws ModelNotFoundException, ModelInvalidException {
+        Kwetter createdKwetter = kwetterService.createKwetter(id, kwetter);
         return ResponseEntity.ok(createdKwetter);
     }
 
-    @PostMapping("/heart")
-    public ResponseEntity heartKwetter(@RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        kwetterService.heartKwetter(user.getId(), UUIDRequest.getId());
+    @PostMapping("/heart/{id}")
+    public ResponseEntity heartKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException {
+        kwetterService.heartKwetter(id, UUIDRequest.getId());
         return ResponseEntity.ok("Hearted kwetter");
     }
 
-    @PostMapping("/remove_heart")
-    public ResponseEntity removeHeartKwetter(@RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        kwetterService.removeHeartKwetter(user.getId(), UUIDRequest.getId());
+    @PostMapping("/remove_heart/{id}")
+    public ResponseEntity removeHeartKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException {
+        kwetterService.removeHeartKwetter(id, UUIDRequest.getId());
         return ResponseEntity.ok("Removed Heart from kwetter");
     }
 
-    @PostMapping("/report")
-    public ResponseEntity reportKwetter(@RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        kwetterService.reportKwetter(user.getId(), UUIDRequest.getId());
+    @PostMapping("/report/{id}")
+    public ResponseEntity reportKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException {
+        kwetterService.reportKwetter(id, UUIDRequest.getId());
         return ResponseEntity.ok("Report kwetter");
     }
 
-    @PostMapping("/remove_report")
-    public ResponseEntity removeReportKwetter(@RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        kwetterService.removeReportKwetter(user.getId(), UUIDRequest.getId());
+    @PostMapping("/remove_report/{id}")
+    public ResponseEntity removeReportKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException {
+        kwetterService.removeReportKwetter(id, UUIDRequest.getId());
         return ResponseEntity.ok("Removed Report from kwetter");
     }
 
-    @GetMapping("/mentioned")
-    public ResponseEntity<List<Kwetter>> getMentionedKwetters() throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        List<Kwetter> mentionedKwetters = kwetterService.getMentionedKwetters(user.getId());
+    @GetMapping("/mentioned/{id}")
+    public ResponseEntity<List<Kwetter>> getMentionedKwetters(@PathVariable UUID id) throws ModelNotFoundException {
+        List<Kwetter> mentionedKwetters = kwetterService.getMentionedKwetters(id);
         return ResponseEntity.ok(mentionedKwetters);
     }
 
-    @GetMapping("/most_recent")
-    public ResponseEntity<List<Kwetter>> getMostRecentKwetters() throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        List<Kwetter> recentKwetters = kwetterService.getMostRecentKwetters(user.getId());
+    @GetMapping("/most_recent/{id}")
+    public ResponseEntity<List<Kwetter>> getMostRecentKwetters(@PathVariable UUID id) throws ModelNotFoundException {
+        List<Kwetter> recentKwetters = kwetterService.getMostRecentKwetters(id);
         return ResponseEntity.ok(recentKwetters);
     }
 
-    @GetMapping("/hearted")
-    public ResponseEntity<List<Kwetter>> getHeartedKwetters() throws ModelNotFoundException, ModelInvalidException, LoginException {
-        User user = loginService.autoLogin();
-        List<Kwetter> heartedKwetters = kwetterService.getHeartedKwetters(user.getId());
+    @GetMapping("/hearted/{id}")
+    public ResponseEntity<List<Kwetter>> getHeartedKwetters(@PathVariable UUID id) throws ModelNotFoundException {
+        List<Kwetter> heartedKwetters = kwetterService.getHeartedKwetters(id);
         return ResponseEntity.ok(heartedKwetters);
     }
 
     @GetMapping("/timeline/{id}")
-    public ResponseEntity<List<Kwetter>> getTimeLine(@PathVariable UUID id) throws ModelNotFoundException, ModelInvalidException, LoginException {
+    public ResponseEntity<List<Kwetter>> getTimeLine(@PathVariable UUID id) throws ModelNotFoundException {
         List<Kwetter> timelineKwetters = kwetterService.getTimeline(id);
         return ResponseEntity.ok(timelineKwetters);
     }

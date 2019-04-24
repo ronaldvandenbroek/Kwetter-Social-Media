@@ -11,7 +11,7 @@ import { JwtToken } from './model/jwt-token';
 })
 export class AppComponent {
   currentLogin: JwtToken;
-  title = 'KwetterFrontend';
+  title = 'Kwetter';
 
   constructor(
     private router: Router,
