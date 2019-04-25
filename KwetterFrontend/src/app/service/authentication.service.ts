@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { JwtToken } from '../model/jwt-token';
+import { User } from '../model/user';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -16,6 +17,10 @@ export class AuthenticationService {
 
   public get currentLoginValue(): JwtToken {
     return this.currentLoginSubject.value;
+  }
+
+  public get currentLoginUser(): User {
+    return this.currentLoginSubject.value.user;
   }
 
   login(email: string, password: string) {

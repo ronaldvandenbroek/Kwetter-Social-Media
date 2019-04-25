@@ -59,6 +59,9 @@ public class KwetterService implements IKwetterService {
         System.out.println(kwetter);
 
         User owner = getUserById(userId);
+        System.out.println(owner.getId());
+        System.out.println(owner.getName());
+        System.out.println(owner);
 
         Set<User> mentions = new HashSet<>();
         if (kwetter.getMentions() != null) {
@@ -73,9 +76,11 @@ public class KwetterService implements IKwetterService {
         newKwetter.setMentions(mentions);
         newKwetter.setDateTime(Calendar.getInstance().getTime());
         newKwetter.setOwner(owner);
-        owner.addCreatedKwetter(newKwetter);
+        //owner.addCreatedKwetter(newKwetter);
 
         validator.validate(newKwetter);
+
+        System.out.println(newKwetter);
 
         kwetterRepository.save(newKwetter);
         userRepository.save(owner);

@@ -22,32 +22,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc(secure = false)
 class KwetterControllerUnitTest {
-
-    @Autowired
-    private MockMvc mvc;
-
-    @MockBean
-    private IKwetterService kwetterService;
-
-    @Test
-    void createKwetter() {
-        ObjectMapper mapper = new ObjectMapper();
-
-        User user = new User();
-        user.setName("TestUser");
-
-        Kwetter kwetter = new Kwetter("Test", user, Calendar.getInstance().getTime());
-        try {
-            Mockito.when(kwetterService.createKwetter(user.getId(), kwetter)).thenReturn(kwetter);
-
-            mvc.perform(post("/kwetter/create/" + user.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(mapper.writeValueAsString(kwetter))
-                    .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("");
-        }
-    }
+//
+//    @Autowired
+//    private MockMvc mvc;
+//
+//    @MockBean
+//    private IKwetterService kwetterService;
+//
+//    @Test
+//    void createKwetter() {
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        User user = new User();
+//        user.setName("TestUser");
+//
+//        Kwetter kwetter = new Kwetter("Test", user, Calendar.getInstance().getTime());
+//        try {
+//            Mockito.when(kwetterService.createKwetter(user.getId(), kwetter)).thenReturn(kwetter);
+//
+//            mvc.perform(post("/kwetter/create/" + user.getId())
+//                    .contentType(MediaType.APPLICATION_JSON)
+//                    .content(mapper.writeValueAsString(kwetter))
+//                    .accept(MediaType.APPLICATION_JSON))
+//                    .andExpect(status().isOk());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            fail("");
+//        }
+//    }
 }

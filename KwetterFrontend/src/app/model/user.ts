@@ -14,4 +14,5 @@ export class User {
 
     usersFollowed: User[];
     followedByUsers: User[];
+    followed: boolean;
 }
