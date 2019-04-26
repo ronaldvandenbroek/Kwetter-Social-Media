@@ -28,7 +28,7 @@ export class AuthenticationService {
 
     var body = {email, password};
     console.log(body);
-    var response = this.http.post<JwtToken>(`http://localhost:8080/kwetter-1.0/api/token/login`, body);
+    var response = this.http.post<JwtToken>(`http://localhost:8080/api/token/login`, body);
     response.subscribe(data => {
       console.log(data.token);
       console.log(data.user.id)

@@ -12,25 +12,30 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 export class UserListComponent implements OnInit {
 
   users: User[];
-  user: User;
+  loggedInUser: User;
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService) {
     this.users = [];
   }
 
   ngOnInit() {
+    this.loggedInUser = this.authenticationService.currentLoginUser;
+    //Get all users
     this.userService.findAll().subscribe(data => {
+      //Loop though all users
       data.forEach(user => {
         console.log("Checking follows");
         console.log(user.name);
 
-        if(user.id !== this.authenticationService.currentLoginUser.id) {
-          user.usersFollowed.forEach(followedUser => {
-            if (followedUser.id == this.authenticationService.currentLoginUser.id) {
+        //Check if users is not logged in user
+        if(user.id !== this.loggedInUser.id) {
+          //Loop through all users the logged in user follows
+          this.loggedInUser.usersFollowed.forEach(followedUser => {
+            //Check if the logged in user is following the user
+            if (followedUser.id == user.id) {
               user.followed = true;
               console.log("Is followed: " + user.followed);
             }
-
           });
           console.log("Adding user:")
           console.log(user.name)
@@ -38,5 +43,17 @@ export class UserListComponent implements OnInit {
         }
       });
     });
+  }
+
+  public follow(user: User) {
+    console.log("following user")
+    console.log(user)
+      this.userService.follow(user);
+  }
+
+  public unfollow(user: User) {
+    console.log("unfollowing user")
+    console.log(user)
+      this.userService.unfollow(user);
   }
 }

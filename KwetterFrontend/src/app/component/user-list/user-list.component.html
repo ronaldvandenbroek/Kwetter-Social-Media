@@ -13,7 +13,9 @@
             <td>{{ user.name }}</td>
             <td>{{ user.location }}</td>
             <td>
-              <button (click)="follow(user)" class="btn btn-default btn-sm">{{ user.followed == true ? 'Unfollow' : 'Follow' }}</button> </td>
+                <div *ngIf="user.followed"> <button (click)="unfollow(user)" class="btn btn-default btn-sm">Unfollow</button> </div>
+                <div *ngIf="!user.followed"> <button (click)="follow(user)" class="btn btn-default btn-sm">Follow</button> </div>
+            </td>
           </tr>
         </tbody>
       </table>

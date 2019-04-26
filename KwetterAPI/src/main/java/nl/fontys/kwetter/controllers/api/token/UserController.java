@@ -4,6 +4,7 @@ import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
+import nl.fontys.kwetter.models.UUIDRequest;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IProfileService;
@@ -48,6 +49,20 @@ public class UserController {
         }
         User updatedUser = profileService.updateName(user);
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @PostMapping("/follow/{id}")
+    public ResponseEntity<Void> follow(@PathVariable UUID id, @RequestBody User follow) throws ModelNotFoundException {
+        System.out.println("Received follow request: " + id + " " + follow.getId());
+        profileService.followUser(id, follow.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/unfollow/{id}")
+    public ResponseEntity<Void> unfollow(@PathVariable UUID id, @RequestBody User unfollow) throws ModelNotFoundException {
+        System.out.println("Received unfollow request: " + id + " " + unfollow.getId());
+        profileService.unFollowUser(id, unfollow.getId());
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/followers/{id}")

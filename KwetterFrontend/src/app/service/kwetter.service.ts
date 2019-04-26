@@ -16,7 +16,7 @@ export class KwetterService {
   }
  
   public timeline(): Observable<Kwetter[]> {
-    return this.http.get<Kwetter[]>('http://localhost:8080/kwetter-1.0/api/token/secure/kwetter/timeline/' + this.authenticationService.currentLoginValue.user.id, { headers: this.headers })
+    return this.http.get<Kwetter[]>('http://localhost:8080/api/token/secure/kwetter/timeline/' + this.authenticationService.currentLoginValue.user.id, { headers: this.headers })
   }
 
   createKwetter(text: string) {
@@ -27,7 +27,7 @@ export class KwetterService {
 
     var body = kwetter;
     console.log(body);
-    var response = this.http.post<Kwetter>(`http://localhost:8080/kwetter-1.0/api/token/secure/kwetter/create/` + this.authenticationService.currentLoginValue.user.id, body, { headers: this.headers });
+    var response = this.http.post<Kwetter>(`http://localhost:8080/api/token/secure/kwetter/create/` + this.authenticationService.currentLoginValue.user.id, body, { headers: this.headers });
     response.subscribe(data => {
       console.log(data);
     })
