@@ -21,11 +21,16 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# Custom
+*/.mvn/*
+*/mvnw
+*/mvnw.cmd
+*/.idea/*
+*/target/*
+
 Demos/*
-Kwetter/.idea/*
-KwetterAPI/.idea/*
-Kwetter/target/*
-KwetterAPI/target/*
 Inleveren/*
-Docs/~$A-Kwetter-Backend.docx
-Docs/~$A-Kwetter-casus.docx
+*/~$A-Kwetter-Backend.docx
+*/~$A-Kwetter-casus.docx
+
