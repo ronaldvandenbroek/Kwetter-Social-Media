@@ -52,17 +52,17 @@ public class UserController {
     }
 
     @PostMapping("/follow/{id}")
-    public ResponseEntity<Void> follow(@PathVariable UUID id, @RequestBody User follow) throws ModelNotFoundException {
+    public ResponseEntity<User> follow(@PathVariable UUID id, @RequestBody User follow) throws ModelNotFoundException {
         System.out.println("Received follow request: " + id + " " + follow.getId());
         profileService.followUser(id, follow.getId());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(follow);
     }
 
     @PostMapping("/unfollow/{id}")
-    public ResponseEntity<Void> unfollow(@PathVariable UUID id, @RequestBody User unfollow) throws ModelNotFoundException {
+    public ResponseEntity<User> unfollow(@PathVariable UUID id, @RequestBody User unfollow) throws ModelNotFoundException {
         System.out.println("Received unfollow request: " + id + " " + unfollow.getId());
         profileService.unFollowUser(id, unfollow.getId());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(unfollow);
     }
 
     @GetMapping("/followers/{id}")

@@ -14,6 +14,7 @@ import { TimelineComponent } from './component/timeline/timeline.component';
 import { KwetterService } from './service/kwetter.service';
 import { ProfileComponent } from './component/profile/profile.component';
 import { CreateKwetterComponent } from './component/create-kwetter/create-kwetter.component';
+import { SearchKwetterComponent } from './component/search-kwetter/search-kwetter.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CreateKwetterComponent } from './component/create-kwetter/create-kwette
     LoginComponent,
     TimelineComponent,
     ProfileComponent,
-    CreateKwetterComponent
+    CreateKwetterComponent,
+    SearchKwetterComponent
   ],
   imports: [
     BrowserModule,

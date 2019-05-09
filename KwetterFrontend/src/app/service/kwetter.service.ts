@@ -33,4 +33,11 @@ export class KwetterService {
     })
     return response;
   }
+
+  searchKwetter(text: string): Observable<Kwetter[]>{
+    var body = text;
+    console.log(body);
+    var response = this.http.post<Kwetter[]>(`http://localhost:8080/api/token/secure/kwetter/search_for` , body, { headers: this.headers });
+    return response;
+  }
 }

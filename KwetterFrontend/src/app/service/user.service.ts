@@ -24,18 +24,24 @@ export class UserService {
 
   public profile(): Observable<User> {
     const url = this.baseURL + 'user/profile/'  + this.authenticationService.currentLoginValue.user.id;
+    console.log(url);
+    console.log(this.headers);
     return this.http.get<User>(url, { headers: this.headers })
   }
 
-  public follow(followUser: User): Observable<void> {
+  public follow(followUser: User): Observable<User> {
     const url = this.baseURL + 'user/follow/'  + this.authenticationService.currentLoginValue.user.id;
     console.log(url);
-    return this.http.post<void>(url, followUser, { headers: this.headers })
+    console.log(this.headers);
+    console.log(followUser);
+    return this.http.post<User>(url, followUser, { headers: this.headers })
   }
 
-  public unfollow(unfollowUser: User): Observable<void> {
+  public unfollow(unfollowUser: User): Observable<User> {
     const url = this.baseURL + 'user/unfollow/'  + this.authenticationService.currentLoginValue.user.id;
     console.log(url);
-    return this.http.post<void>(url, unfollowUser, { headers: this.headers })
+    console.log(this.headers);
+    console.log(unfollowUser);
+    return this.http.post<User>(url, unfollowUser, { headers: this.headers })
   }
 }

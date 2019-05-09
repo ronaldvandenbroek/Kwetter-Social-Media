@@ -3,6 +3,7 @@ import { User } from '../../model/user';
 import { UserService } from '../../service/user.service';
 import { JwtToken } from 'src/app/model/jwt-token';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-user-list',
@@ -15,17 +16,21 @@ export class UserListComponent implements OnInit {
   loggedInUser: User;
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService) {
-    this.users = [];
   }
 
   ngOnInit() {
+    this.users = [];
+    this.userService.profile().subscribe(data => {
+        this.loggedInUser =   data;
+    });
+
     this.loggedInUser = this.authenticationService.currentLoginUser;
     //Get all users
     this.userService.findAll().subscribe(data => {
       //Loop though all users
       data.forEach(user => {
-        console.log("Checking follows");
-        console.log(user.name);
+        //console.log("Checking follows");
+        //console.log(user.name);
 
         //Check if users is not logged in user
         if(user.id !== this.loggedInUser.id) {
@@ -34,11 +39,11 @@ export class UserListComponent implements OnInit {
             //Check if the logged in user is following the user
             if (followedUser.id == user.id) {
               user.followed = true;
-              console.log("Is followed: " + user.followed);
+              //console.log("Is followed: " + user.followed);
             }
           });
-          console.log("Adding user:")
-          console.log(user.name)
+          //console.log("Adding user:")
+          //console.log(user.name)
           this.users.push(user)
         }
       });
@@ -48,12 +53,16 @@ export class UserListComponent implements OnInit {
   public follow(user: User) {
     console.log("following user")
     console.log(user)
-      this.userService.follow(user);
+    this.userService.follow(user).subscribe(data => {
+      this.ngOnInit();
+    });
   }
 
   public unfollow(user: User) {
     console.log("unfollowing user")
     console.log(user)
-      this.userService.unfollow(user);
+    this.userService.unfollow(user).subscribe(data => {
+      this.ngOnInit();
+    });
   }
 }
