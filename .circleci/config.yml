@@ -42,33 +42,5 @@ jobs:
       # run tests!
       - run: mvn test 
       
-      - run:
-          name: Install Sonarqube scanner
-          command: >
-
-            wget
-            https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
-
-            unzip sonar-scanner-cli-3.2.0.1227-linux.zip
-            
-      - run:
-          name: Run Sonarqube scanner
-          command: >
-            export SONAR_SCANNER_OPTS="-Xmx2048m"
-
-            eval ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner -X
-            -Dsonar.projectKey=kwetter-circleci \
-
-            -Dsonar.sources=. \
-
-            -Dsonar.sourceEncoding=US-ASCII \
-
-            -Dsonar.exclusions=vendor/bundle/** \
-
-            -Dsonar.host.url=https://sonarqube.onehq.com \
-
-            -Dsonar.projectVersion=${CIRCLE_BRANCH} \
-
-            -Dsonar.login=0a33a159e8e46fa5a84ea088fc3b40c1d8d3fb16
-            
-            -Dsonar.password=
+      - sonarqube:
+            app: https://github.com/ronaldvandenbroek/JEA6
