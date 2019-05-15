@@ -69,6 +69,6 @@ jobs:
 
             -Dsonar.projectVersion=${CIRCLE_BRANCH} \
 
-            -Dsonar.login=admin
+            -Dsonar.login=0a33a159e8e46fa5a84ea088fc3b40c1d8d3fb16
             
-            -Dsonar.password=admin
+            -Dsonar.password=
