@@ -23,11 +23,11 @@
 hs_err_pid*
 
 # Custom
-*/.mvn/*
-*/mvnw
-*/mvnw.cmd
-*/.idea/*
-*/target/*
+.mvn/*
+mvnw
+mvnw.cmd
+.idea/*
+target/*
 
 Demos/*
 Inleveren/*
