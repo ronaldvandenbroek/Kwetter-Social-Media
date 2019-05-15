@@ -12,7 +12,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mysql:5.7
 
-    working_directory: ~/repo/kwetter-api
+    working_directory: ~/repo/kwetter_api
 
     environment:
       # Customize the JVM maximum heap limit
