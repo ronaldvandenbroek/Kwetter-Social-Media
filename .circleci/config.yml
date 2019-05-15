@@ -69,4 +69,4 @@ jobs:
 
             -Dsonar.projectVersion=${CIRCLE_BRANCH} \
 
-            # -Dsonar.login=${SONARQUBE_TOKEN} $SONAR_SCANNER_OPTS_CUSTOM
+            -Dsonar.login=979ddfe5f1a53194d5f279eb73b2aab237318d0f
