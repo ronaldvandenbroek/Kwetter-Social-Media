@@ -1,6 +1,10 @@
 # Java Maven CircleCI 2.0 configuration file
 
 version: 2.1
+
+orbs:
+  sonarqube: onehq/sonarqube@0.3.0
+  
 jobs:
   build:
     docker:
