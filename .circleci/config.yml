@@ -1,9 +1,6 @@
 # Java Maven CircleCI 2.0 configuration file
 
 version: 2.1
-
-orbs:
-  sonarqube: onehq/sonarqube@0.3.0
   
 jobs:
   build:
@@ -29,8 +26,5 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      - run: mvn test 
-      
-      - run: 
-           command: sonarqube app https://github.com/ronaldvandenbroek/JEA6
+      - run: mvn test
       
