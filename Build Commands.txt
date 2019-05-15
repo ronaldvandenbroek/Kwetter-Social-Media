@@ -18,6 +18,3 @@ redeploy --name kwetter-1.0
 
 Fix batch size
 .\payara-5.184\payara5\bin\asadmin set-payara-executor-service-configuration --threadpoolexecutorqueuesize 1000
-
-Test
-
