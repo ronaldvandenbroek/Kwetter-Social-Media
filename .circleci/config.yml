@@ -31,6 +31,5 @@ jobs:
 
       - run: mvn test 
       
-      - sonarqube:
-          app: https://github.com/ronaldvandenbroek/JEA6
+      - run: sonarqube app https://github.com/ronaldvandenbroek/JEA6
       
