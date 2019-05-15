@@ -20,6 +20,8 @@ jobs:
 
     steps:
       - checkout
+      
+      - ls kwetter_api
         
       # Download and cache dependencies
       - restore_cache:
