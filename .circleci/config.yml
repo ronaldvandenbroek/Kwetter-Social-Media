@@ -12,7 +12,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mysql:5.7
 
-    working_directory: ~/repo
+    working_directory: ~/repo/kwetter-api
 
     environment:
       # Customize the JVM maximum heap limit
@@ -20,11 +20,11 @@ jobs:
 
     steps:
       - checkout
-
+        
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "kwetter_api/pom.xml" }}
+            - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
@@ -33,7 +33,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: v1-dependencies-{{ checksum "kwetter_api/pom.xml" }}
+          key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # run tests!
       - run: mvn test 
