@@ -21,7 +21,10 @@ jobs:
     steps:
       - checkout
       
-      - cd kwetter_api
+      - run:
+        name: Move to kwetter_api
+        command:
+            cd kwetter_api
         
       # Download and cache dependencies
       - restore_cache:
