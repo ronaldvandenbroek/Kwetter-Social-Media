@@ -50,6 +50,7 @@ jobs:
             https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
 
             unzip sonar-scanner-cli-3.2.0.1227-linux.zip
+            
       - run:
           name: Run Sonarqube scanner
           command: >
@@ -68,4 +69,4 @@ jobs:
 
             -Dsonar.projectVersion=${CIRCLE_BRANCH} \
 
-            -Dsonar.login=${SONARQUBE_TOKEN} $SONAR_SCANNER_OPTS_CUSTOM
+            # -Dsonar.login=${SONARQUBE_TOKEN} $SONAR_SCANNER_OPTS_CUSTOM
