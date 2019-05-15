@@ -3,21 +3,7 @@
 version: 2
 jobs:
   build:
-    docker:
-	  database:
-		image: mysql:5.7
-		restart: always
-		environment:
-			MYSQL_DATABASE: 'kwetter_docker_db'
-			MYSQL_USER: 'Kwetter'
-			MYSQL_PASSWORD: 'kwetter'
-			MYSQL_ROOT_PASSWORD: 'root'
-		ports:
-		  - 3306:3306
-		expose:
-		  - 3306
-	
-	
+    docker:	
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
