@@ -27,10 +27,10 @@ hs_err_pid*
 mvnw
 mvnw.cmd
 .idea/*
+.tools/*
 target/*
 
 Demos/*
 Inleveren/*
 */~$A-Kwetter-Backend.docx
 */~$A-Kwetter-casus.docx
-
