@@ -13,16 +13,13 @@ services:
     expose:
       - 3306
       
-  payara:
-    image: payara/server-full:latest
-    ports:
-      - 4848:4848
-      - 8080:8080
-      - 8181:8181
-    volumes:
-      - ./kwetter_api/target:/opt/payara/deployments
-    depends_on:
-      - "database"
-          
-
-      
+# payara:
+#    image: payara/server-full:latest
+#   ports:
+#    - 4848:4848
+#      - 8080:8080
+#      - 8181:8181
+#    volumes:
+#      - ./kwetter_api/target:/opt/payara/deployments
+#    depends_on:
+#      - "database"     

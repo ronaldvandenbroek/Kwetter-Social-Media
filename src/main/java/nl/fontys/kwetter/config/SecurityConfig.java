@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // login
         http.formLogin().loginPage("/login.xhtml").permitAll()
-                .failureUrl("/login.xhtml?error=true").successForwardUrl("/admin.xhtml");
+                .failureUrl("/login.xhtml?error=true").successForwardUrl("/main.xhtml");
         // logout
         http.logout().logoutSuccessUrl("/login.xhtml");
         // not needed as JSF 2.2 is implicitly protected against CSRF

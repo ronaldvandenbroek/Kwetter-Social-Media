@@ -24,31 +24,13 @@
         </sec:authorize>
     </div>
 
-    <h:form>
-        <p:panel header="PrimeFaces Hello World Example">
-            <h:panelGrid columns="2" cellpadding="4">
 
-                <h:outputText value="First Name: " />
-                <p:inputText value="#{credentials.email}" />
-
-                <h:outputText value="Last Name: " />
-                <p:inputText value="#{credentials.password}" />
-
-                <p:commandButton value="Submit" update="greeting"
-                                 oncomplete="PF('greetingDialog').show()" />
-            </h:panelGrid>
-        </p:panel>
-
-        <p:dialog header="Greeting" widgetVar="greetingDialog"
-                  modal="true" resizable="false">
-            <h:panelGrid id="greeting" columns="1" cellpadding="4">
-                <h:outputText value="#{credentials.showCredentials()}" />
-            </h:panelGrid>
-        </p:dialog>
+    <h:form class="form">
+        <h:commandButton action = "admin" value = "admin" />
     </h:form>
 
     <h:form onsubmit="this.action='#{request.contextPath}/logout';"
-            class="logout-form">
+            class="form">
         <p:commandButton value="Logout" ajax="false" />
     </h:form>
 
