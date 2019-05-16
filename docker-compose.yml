@@ -19,3 +19,8 @@ services:
       - 8080:8080
     links:
       - database
+      
+  kwetter-angular:
+    image: ronindebeek/kwetter-angular:latest
+    ports:
+      - 4200:4200
