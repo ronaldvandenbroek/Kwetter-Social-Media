@@ -13,14 +13,14 @@ services:
     expose:
       - 3306
 
-  kwetter-api:
-    image: ronindebeek/kwetter:latest
+  kwetter_api:
+    image: ronindebeek/kwetter_api:latest
     ports:
       - 8080:8080
     links:
       - database
       
-  kwetter-angular:
-    image: ronindebeek/kwetter-angular:latest
+  kwetter_angular:
+    image: ronindebeek/kwetter_angular:latest
     ports:
       - 4200:4200
