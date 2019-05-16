@@ -12,6 +12,8 @@ services:
       - 3306:3306
     expose:
       - 3306
+    networks:
+      - kwetternet
 
   kwetter_api:
     image: ronindebeek/kwetter_api:latest
@@ -19,8 +21,14 @@ services:
       - 8080:8080
     links:
       - database
+    networks:
+      - kwetternet
       
   kwetter_angular:
     image: ronindebeek/kwetter_angular:latest
     ports:
       - 4200:4200
+
+networks:
+  kwetternet:
+    driver: bridge
