@@ -8,6 +8,11 @@ jobs:
       - image: circleci/openjdk:8-jdk
       
     working_directory: ~/repo
+    
+    parameters:
+      app:
+        type: string
+        description: "Github repo"
 
     environment:
       MAVEN_OPTS: -Xmx3200m
@@ -27,4 +32,22 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       - run: mvn test
+      
+      - run:
+        name: Install Sonarqube scanner
+        command: |
+
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+          unzip sonar-scanner-cli-3.2.0.1227-linux.zip
+
+    - run:
+        name: Run Sonarqube scanner
+        command: |
+          export SONAR_SCANNER_OPTS="-Xmx2048m"
+          eval ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner -Dsonar.projectKey=<< parameters.app >> \
+          -Dsonar.sources=. \
+          -Dsonar.sourceEncoding=US-ASCII \
+          -Dsonar.exclusions=vendor/bundle/** \
+          -Dsonar.host.url=http://9e145bd5.ngrok.io \
+          -Dsonar.projectVersion=${CIRCLE_BRANCH} \
       
