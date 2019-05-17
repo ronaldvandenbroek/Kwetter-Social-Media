@@ -51,23 +51,17 @@ jobs:
         steps:
             - checkout
             - run:
-                name: Move to folder
-                command: cd kwetter_angular
-            - run:
                 name: Show current branch
                 command: echo ${CIRCLE_BRANCH}
             - restore_cache:
                 keys:
-                - v1-dependencies-{{ checksum "package.json" }}
+                - v1-dependencies-{{ checksum "kwetter_angular/package.json" }}
                 - v1-dependencies-
-#            - run:
-#                  name: Move to folder
-#                  command: cd kwetter_angular
             - run:
                 name: Install local dependencies
-                command: npm install
+                command: cd kwetter_angular && npm install
             - save_cache:
-                key: v1-dependencies-{{ checksum "package.json" }}
+                key: v1-dependencies-{{ checksum "kwetter_angular/package.json" }}
                 paths:
                     - node_modules
             #- run:
