@@ -3,46 +3,46 @@
 version: 2.1
   
 jobs:
-    backend:
-        docker:
-            - image: circleci/openjdk:8-jdk
-        working_directory: ~/repo
-        environment:
-            MAVEN_OPTS: -Xmx3200m
-        steps:
-            - checkout
-            - run:
-                name: Show current branch
-                command: echo ${CIRCLE_BRANCH}
-            - restore_cache:
-                keys:
-                    - v1-dependencies-{{ checksum "pom.xml" }}
-                    - v1-dependencies-
-            - run: 
-                name: Maven Go-Offline
-                command: mvn dependency:go-offline
-            - save_cache:
-                paths:
-                    - ~/.m2
-                key: v1-dependencies-{{ checksum "pom.xml" }}
-            - run: 
-                name: Run Maven Tests
-                command: mvn test             
-            - run:
-                name: Install Sonarqube scanner
-                command: |
-                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip
-            - run:
-                name: Run Sonarqube scanner
-                command: |
-                    export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=Kwetter_Backend \
-                    -Dsonar.sources=. \
-                    -Dsonar.sourceEncoding=US-ASCII \
-                    -Dsonar.exclusions=vendor/bundle/** \
-                    -Dsonar.host.url=http://54ec097f.ngrok.io \
-                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \
+#    backend:
+#        docker:
+#            - image: circleci/openjdk:8-jdk
+#        working_directory: ~/repo
+#        environment:
+#            MAVEN_OPTS: -Xmx3200m
+#        steps:
+#            - checkout
+#            - run:
+#                name: Show current branch
+#                command: echo ${CIRCLE_BRANCH}
+#            - restore_cache:
+#                keys:
+#                    - v1-dependencies-{{ checksum "pom.xml" }}
+#                    - v1-dependencies-
+#            - run:
+#                name: Maven Go-Offline
+#                command: mvn dependency:go-offline
+#            - save_cache:
+#                paths:
+#                    - ~/.m2
+#                key: v1-dependencies-{{ checksum "pom.xml" }}
+#            - run:
+#                name: Run Maven Tests
+#                command: mvn test
+#            - run:
+#                name: Install Sonarqube scanner
+#                command: |
+#                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+#                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+#            - run:
+#                name: Run Sonarqube scanner
+#                command: |
+#                    export SONAR_SCANNER_OPTS="-Xmx2048m"
+#                    eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=Kwetter_Backend \
+#                    -Dsonar.sources=. \
+#                    -Dsonar.sourceEncoding=US-ASCII \
+#                    -Dsonar.exclusions=vendor/bundle/** \
+#                    -Dsonar.host.url=http://54ec097f.ngrok.io \
+#                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \
 
     frontend:    
         docker:
@@ -86,9 +86,9 @@ jobs:
                     -Dsonar.host.url=http://54ec097f.ngrok.io \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
             
-workflows:
-  version: 2.1
-  backend-frontend:
-    jobs:
-      - frontend
-      - backend
+#workflows:
+#  version: 2.1
+#  backend-frontend:
+#    jobs:
+#      - frontend
+#      - backend
