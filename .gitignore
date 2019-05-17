@@ -25,10 +25,10 @@ hs_err_pid*
 # Custom
 mvnw
 mvnw.cmd
-target/*
+kwetter_backend/target/*
 
 .mvn/*
-.idea/*
+kwetter_backend/.idea/*
 .tools/*
 .scannerwork/*
 
