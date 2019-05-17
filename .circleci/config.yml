@@ -131,7 +131,7 @@ jobs:
                     -Dsonar.exclusions=vendor/bundle/** \
                     -Dsonar.host.url=${SONARQUBE_LOCATION} \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \                   
-                    
+                   
     docker-backend:
         machine: true
         environment:
