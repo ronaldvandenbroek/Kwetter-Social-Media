@@ -6,7 +6,7 @@ jobs:
     build:
         docker:
           - image: circleci/openjdk:8-jdk
-          - image: circleci/node:latest
+          - image: circleci/node:10.15.3
           
         working_directory: ~/repo
 
