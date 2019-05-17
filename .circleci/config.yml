@@ -3,7 +3,7 @@
 version: 2.1
   
 jobs:
-    backend:
+    backend-tests:
         docker:
             - image: circleci/openjdk:8-jdk
         working_directory: ~/repo
@@ -45,7 +45,7 @@ jobs:
                     -Dsonar.host.url=http://54ec097f.ngrok.io \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
 
-    frontend:    
+    frontend-tests:    
         docker:
             - image: circleci/node:10.15.3
         working_directory: ~/repo
@@ -92,5 +92,5 @@ workflows:
   version: 2.1
   backend-frontend:
     jobs:
-      - frontend
-      - backend
+      - frontend-tests
+      - backend-tests
