@@ -16,18 +16,18 @@ jobs:
                 command: echo ${CIRCLE_BRANCH}
             - restore_cache:
                 keys:
-                    - v1-dependencies-{{ checksum "pom.xml" }}
+                    - v1-dependencies-{{ checksum "kwetter_backend/pom.xml" }}
                     - v1-dependencies-
             - run:
                 name: Maven Go-Offline
-                command: mvn dependency:go-offline
+                command: cd kwetter_backend && mvn dependency:go-offline
             - save_cache:
                 paths:
                     - ~/.m2
-                key: v1-dependencies-{{ checksum "pom.xml" }}
+                key: v1-dependencies-{{ checksum "kwetter_backend/pom.xml" }}
             - run:
                 name: Run Maven Tests
-                command: mvn test
+                command: cd kwetter_backend && mvn test
             - run:
                 name: Install Sonarqube scanner
                 command: |
@@ -36,6 +36,7 @@ jobs:
             - run:
                 name: Run Sonarqube scanner
                 command: |
+                    cd kwetter_backend
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
                     eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=Kwetter_Backend \
                     -Dsonar.sources=. \
