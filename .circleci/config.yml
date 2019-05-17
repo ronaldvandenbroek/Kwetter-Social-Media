@@ -9,25 +9,26 @@ jobs:
         working_directory: ~/repo
         environment:
             MAVEN_OPTS: -Xmx3200m
+            SOURCE_PATH: kwetter_backend
         steps:
             - checkout
             - run:
                 name: Variable key bypass
-                command: cat "$KWETTER_BACKEND_LOCATION/pom.xml" > key.txt
+                command: cat "$SOURCE_PATH/pom.xml" > key.txt
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
                     - v1-dependencies-
             - run:
                 name: Maven Go-Offline
-                command: cd $KWETTER_BACKEND_LOCATION && mvn dependency:go-offline
+                command: cd $SOURCE_PATH && mvn dependency:go-offline
             - save_cache:
                 paths:
                     - ~/.m2
                 key: v1-dependencies-{{ checksum "key.txt" }}
             - run:
                 name: Run Maven Tests
-                command: cd $KWETTER_BACKEND_LOCATION && mvn test
+                command: cd $SOURCE_PATH && mvn test
             - run:
                 name: Install Sonarqube scanner
                 command: |
@@ -36,9 +37,9 @@ jobs:
             - run:
                 name: Run Sonarqube scanner
                 command: |
-                    cd $KWETTER_BACKEND_LOCATION
+                    cd $SOURCE_PATH
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${KWETTER_BACKEND_LOCATION} \
+                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${SOURCE_PATH} \
                     -Dsonar.sources=. \
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
@@ -49,18 +50,20 @@ jobs:
         docker:
             - image: circleci/node:10.15.3
         working_directory: ~/repo
+        environment:
+            SOURCE_PATH: kwetter_angular
         steps:
             - checkout
             - run:
                 name: Variable key bypass
-                command: cat "$KWETTER_BACKEND_LOCATION/pom.xml" > key.txt
+                command: cat "$SOURCE_PATH/pom.xml" > key.txt
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
                     - v1-dependencies-
             - run:
                 name: Install local dependencies
-                command: cd $KWETTER_FRONTEND_LOCATION && npm install
+                command: cd $SOURCE_PATH && npm install
             - save_cache:
                 key: v1-dependencies-{{ checksum "key.txt" }}
                 paths:
@@ -79,9 +82,9 @@ jobs:
             - run:
                 name: Run Sonarqube scanner
                 command: |
-                    cd $KWETTER_FRONTEND_LOCATION
+                    cd $SOURCE_PATH
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${KWETTER_FRONTEND_LOCATION} \
+                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${SOURCE_PATH} \
                     -Dsonar.sources=. \
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
