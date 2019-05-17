@@ -29,11 +29,32 @@ jobs:
             - run:
                 name: Run Maven Tests
                 command: cd $SOURCE_PATH && mvn test
+                    
+    sonar-backend:
+        docker:
+            - image: circleci/openjdk:8-jdk
+        working_directory: ~/repo
+        environment:
+            MAVEN_OPTS: -Xmx3200m
+            SOURCE_PATH: kwetter_backend
+        steps:
+            - checkout
+            - run:
+                name: Variable key bypass
+                command: cat "$SOURCE_PATH/pom.xml" > key.txt
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "key.txt" }}
+                    - v1-dependencies-
             - run:
                 name: Install Sonarqube scanner
                 command: |
                     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip                    
+            - save_cache:
+                paths:
+                    - ~/.m2
+                key: v1-dependencies-{{ checksum "key.txt" }}
             - run:
                 name: Run Sonarqube scanner
                 command: |
@@ -44,7 +65,7 @@ jobs:
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
                     -Dsonar.host.url=${SONARQUBE_LOCATION} \
-                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \
+                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \                    
 
     test-frontend:    
         docker:
@@ -74,11 +95,31 @@ jobs:
             #- run:
             #    name: Testing
             #    command: npm run test
+                    
+    sonar-frontend:    
+        docker:
+            - image: circleci/node:10.15.3
+        working_directory: ~/repo
+        environment:
+            SOURCE_PATH: kwetter_angular
+        steps:
+            - checkout
+            - run:
+                name: Variable key bypass
+                command: cat "$SOURCE_PATH/package.json" > key.txt
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "key.txt" }}
+                    - v1-dependencies-
             - run:
                 name: Install Sonarqube scanner
                 command: |
                     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip                    
+            - save_cache:
+                key: v1-dependencies-{{ checksum "key.txt" }}
+                paths:
+                    - node_modules
             - run:
                 name: Run Sonarqube scanner
                 command: |
@@ -89,7 +130,7 @@ jobs:
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
                     -Dsonar.host.url=${SONARQUBE_LOCATION} \
-                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \
+                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \                   
                     
     docker-backend:
         machine: true
@@ -115,7 +156,15 @@ workflows:
                 context: kwetter
             - test-backend:
                 context: kwetter
+            - sonar-frontend:
+                context: kwetter
+                requires:
+                    - test-frontend
+            - sonar-backend:
+                context: kwetter
+                requires:
+                    - test-backend                
             - docker-backend:
                 requires:
-                    - test-backend
+                    - sonar-backend
                 
