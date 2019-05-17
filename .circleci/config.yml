@@ -47,9 +47,10 @@ jobs:
     frontend:    
         docker:
             - image: circleci/node:10.15.3
-        working_directory: ~/repo/kwetter_angular
+        working_directory: ~/repo
         steps:
             - checkout
+            - run: cd kwetter_angular
             - run:
                 name: Show current branch
                 command: echo ${CIRCLE_BRANCH}
