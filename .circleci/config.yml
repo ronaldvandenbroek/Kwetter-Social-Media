@@ -56,7 +56,7 @@ jobs:
             - checkout
             - run:
                 name: Variable key bypass
-                command: cat "$SOURCE_PATH/pom.xml" > key.txt
+                command: cat "$SOURCE_PATH/package.json" > key.txt
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
