@@ -86,9 +86,9 @@ jobs:
                     -Dsonar.host.url=http://54ec097f.ngrok.io \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
             
-#workflows:
-#  version: 2.1
-#  backend-frontend:
-#    jobs:
-#      - frontend
+workflows:
+  version: 2.1
+  backend-frontend:
+    jobs:
+      - frontend
 #      - backend
