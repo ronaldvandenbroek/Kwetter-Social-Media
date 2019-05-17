@@ -23,14 +23,18 @@
 hs_err_pid*
 
 # Custom
-.mvn/*
 mvnw
 mvnw.cmd
+target/*
+
+.mvn/*
 .idea/*
 .tools/*
-target/*
+.scannerwork/*
+
 
 Demos/*
 Inleveren/*
 */~$A-Kwetter-Backend.docx
 */~$A-Kwetter-casus.docx
+
