@@ -38,10 +38,10 @@ jobs:
                 command: |
                     cd kwetter_backend
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=Kwetter_Backend \
+                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=Kwetter_Backend \
                     -Dsonar.sources=. \
                     -Dsonar.sourceEncoding=US-ASCII \
-                    -Dsonar.exclusions=vendor/bundle/**,kwetter_angular/** \
+                    -Dsonar.exclusions=vendor/bundle/** \
                     -Dsonar.host.url=http://54ec097f.ngrok.io \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
 
