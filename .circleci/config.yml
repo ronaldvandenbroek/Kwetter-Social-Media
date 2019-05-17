@@ -16,6 +16,9 @@ jobs:
                     - v1-dependencies-{{ checksum "${KWETTER_BACKEND_LOCATION}/pom.xml" }}
                     - v1-dependencies-
             - run:
+                name: Check variables
+                command: echo $KWETTER_BACKEND_LOCATION && $KWETTER_FRONTEND_LOCATION && $SONARQUBE_LOCATION
+            - run:
                 name: Maven Go-Offline
                 command: cd $KWETTER_BACKEND_LOCATION && mvn dependency:go-offline
             - save_cache:
