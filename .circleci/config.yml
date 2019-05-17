@@ -13,7 +13,7 @@ jobs:
             - checkout
             - restore_cache:
                 keys:
-                    - v1-dependencies-{{ checksum ${KWETTER_BACKEND_LOCATION}"/pom.xml" }}
+                    - v1-dependencies-{{ checksum "${KWETTER_BACKEND_LOCATION}/pom.xml" }}
                     - v1-dependencies-
             - run:
                 name: Maven Go-Offline
@@ -21,7 +21,7 @@ jobs:
             - save_cache:
                 paths:
                     - ~/.m2
-                key: v1-dependencies-{{ checksum ${KWETTER_BACKEND_LOCATION}"/pom.xml" }}
+                key: v1-dependencies-{{ checksum "${KWETTER_BACKEND_LOCATION}/pom.xml" }}
             - run:
                 name: Run Maven Tests
                 command: cd ${KWETTER_BACKEND_LOCATION} && mvn test
@@ -50,13 +50,13 @@ jobs:
             - checkout
             - restore_cache:
                 keys:
-                - v1-dependencies-{{ checksum ${KWETTER_FRONTEND_LOCATION}"/package.json" }}
+                - v1-dependencies-{{ checksum "${KWETTER_FRONTEND_LOCATION}/package.json" }}
                 - v1-dependencies-
             - run:
                 name: Install local dependencies
                 command: cd ${KWETTER_FRONTEND_LOCATION} && npm install
             - save_cache:
-                key: v1-dependencies-{{ checksum ${KWETTER_FRONTEND_LOCATION}"/package.json" }}
+                key: v1-dependencies-{{ checksum "${KWETTER_FRONTEND_LOCATION}/package.json" }}
                 paths:
                     - node_modules
             #- run:
