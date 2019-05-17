@@ -43,7 +43,7 @@ jobs:
                 name: Run Sonarqube scanner
                 command: |
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./sonar-scanner-cli-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=KwetterTest \
+                    eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=KwetterTest \
                     -Dsonar.sources=. \
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
