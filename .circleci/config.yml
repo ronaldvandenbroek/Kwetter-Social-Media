@@ -17,14 +17,14 @@ jobs:
                     - v1-dependencies-
             - run:
                 name: Maven Go-Offline
-                command: cd ${KWETTER_BACKEND_LOCATION} && mvn dependency:go-offline
+                command: cd $KWETTER_BACKEND_LOCATION && mvn dependency:go-offline
             - save_cache:
                 paths:
                     - ~/.m2
                 key: v1-dependencies-{{ checksum "${KWETTER_BACKEND_LOCATION}/pom.xml" }}
             - run:
                 name: Run Maven Tests
-                command: cd ${KWETTER_BACKEND_LOCATION} && mvn test
+                command: cd $KWETTER_BACKEND_LOCATION && mvn test
             - run:
                 name: Install Sonarqube scanner
                 command: |
@@ -33,7 +33,7 @@ jobs:
             - run:
                 name: Run Sonarqube scanner
                 command: |
-                    cd ${KWETTER_BACKEND_LOCATION}
+                    cd $KWETTER_BACKEND_LOCATION
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
                     eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${KWETTER_BACKEND_LOCATION} \
                     -Dsonar.sources=. \
@@ -54,7 +54,7 @@ jobs:
                 - v1-dependencies-
             - run:
                 name: Install local dependencies
-                command: cd ${KWETTER_FRONTEND_LOCATION} && npm install
+                command: cd $KWETTER_FRONTEND_LOCATION && npm install
             - save_cache:
                 key: v1-dependencies-{{ checksum "${KWETTER_FRONTEND_LOCATION}/package.json" }}
                 paths:
@@ -73,7 +73,7 @@ jobs:
             - run:
                 name: Run Sonarqube scanner
                 command: |
-                    cd ${KWETTER_FRONTEND_LOCATION}
+                    cd $KWETTER_FRONTEND_LOCATION
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
                     eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${KWETTER_FRONTEND_LOCATION} \
                     -Dsonar.sources=. \
