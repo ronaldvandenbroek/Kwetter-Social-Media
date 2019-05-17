@@ -11,8 +11,10 @@ jobs:
             MAVEN_OPTS: -Xmx3200m
         steps:
             - checkout
-            - restore_cache:
+            - run:
+                name: Variable key bypass
                 command: cat "$KWETTER_BACKEND_LOCATION/pom.xml" > key.txt
+            - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
                     - v1-dependencies-
@@ -20,7 +22,6 @@ jobs:
                 name: Maven Go-Offline
                 command: cd $KWETTER_BACKEND_LOCATION && mvn dependency:go-offline
             - save_cache:
-            command: cat "$KWETTER_BACKEND_LOCATION/pom.xml" > key.txt
                 paths:
                     - ~/.m2
                 key: v1-dependencies-{{ checksum "key.txt" }}
@@ -50,8 +51,10 @@ jobs:
         working_directory: ~/repo
         steps:
             - checkout
+            - run:
+                name: Variable key bypass
+                command: cat "$KWETTER_BACKEND_LOCATION/pom.xml" > key.txt
             - restore_cache:
-                command: cat "$KWETTER_FRONTEND_LOCATION/pom.xml" > key.txt
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
                     - v1-dependencies-
@@ -59,7 +62,6 @@ jobs:
                 name: Install local dependencies
                 command: cd $KWETTER_FRONTEND_LOCATION && npm install
             - save_cache:
-                command: cat "$KWETTER_FRONTEND_LOCATION/pom.xml" > key.txt
                 key: v1-dependencies-{{ checksum "key.txt" }}
                 paths:
                     - node_modules
