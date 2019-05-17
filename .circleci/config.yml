@@ -47,6 +47,6 @@ jobs:
                     -Dsonar.sources=. \
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
-                    -Dsonar.host.url=http://9e145bd5.ngrok.io \
+                    -Dsonar.host.url=http://54ec097f.ngrok.io \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
       
