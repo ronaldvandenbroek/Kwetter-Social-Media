@@ -3,7 +3,7 @@
 version: 2.1
   
 jobs:
-    backend-tests:
+    test-backend:
         docker:
             - image: circleci/openjdk:8-jdk
         working_directory: ~/repo
@@ -46,7 +46,7 @@ jobs:
                     -Dsonar.host.url=${SONARQUBE_LOCATION} \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
 
-    frontend-tests:    
+    test-frontend:    
         docker:
             - image: circleci/node:10.15.3
         working_directory: ~/repo
@@ -90,12 +90,32 @@ jobs:
                     -Dsonar.exclusions=vendor/bundle/** \
                     -Dsonar.host.url=${SONARQUBE_LOCATION} \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
-            
+                    
+    docker-backend:
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_backend       
+        steps:
+            - checkout
+            - run: |
+                cd $SOURCE_PATH
+                docker login -u $DOCKER_USER -p $DOCKER_PASS
+            - run: |
+                cd $SOURCE_PATH
+                docker build -t $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
+            - run: |
+                cd $SOURCE_PATH
+                docker push $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
+                
 workflows:
     version: 2.1
-    backend-frontend:
+    build-test-deploy:
         jobs:
-            - frontend-tests:
+            - test-frontend:
                 context: kwetter
-            - backend-tests:
+            - test-backend:
                 context: kwetter
+            - docker-backend:
+                requires:
+                    - test-backend
+                
