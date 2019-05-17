@@ -47,7 +47,7 @@ jobs:
     frontend:    
         docker:
             - image: circleci/node:10.15.3
-        working_directory: ~/repo/kwetter_angular
+        working_directory: ~/repo
         steps:
             - checkout
             - run:
@@ -57,6 +57,9 @@ jobs:
                 keys:
                 - v1-dependencies-{{ checksum "package.json" }}
                 - v1-dependencies-
+            - run:
+                  name: Move to folder
+                  command: cd kwetter_angular
             - run:
                 name: Install local dependencies
                 command: npm install
