@@ -11,23 +11,20 @@ jobs:
             MAVEN_OPTS: -Xmx3200m
         steps:
             - checkout
-            - run:
-                name: Show current branch
-                command: echo ${CIRCLE_BRANCH}
             - restore_cache:
                 keys:
-                    - v1-dependencies-{{ checksum "kwetter_backend/pom.xml" }}
+                    - v1-dependencies-{{ checksum "${KWETTER_BACKEND_LOCATION}/pom.xml" }}
                     - v1-dependencies-
             - run:
                 name: Maven Go-Offline
-                command: cd kwetter_backend && mvn dependency:go-offline
+                command: cd ${KWETTER_BACKEND_LOCATION} && mvn dependency:go-offline
             - save_cache:
                 paths:
                     - ~/.m2
-                key: v1-dependencies-{{ checksum "kwetter_backend/pom.xml" }}
+                key: v1-dependencies-{{ checksum "${KWETTER_BACKEND_LOCATION}/pom.xml" }}
             - run:
                 name: Run Maven Tests
-                command: cd kwetter_backend && mvn test
+                command: cd ${KWETTER_BACKEND_LOCATION} && mvn test
             - run:
                 name: Install Sonarqube scanner
                 command: |
@@ -36,13 +33,13 @@ jobs:
             - run:
                 name: Run Sonarqube scanner
                 command: |
-                    cd kwetter_backend
+                    cd ${KWETTER_BACKEND_LOCATION}
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=Kwetter_Backend \
+                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${KWETTER_BACKEND_LOCATION} \
                     -Dsonar.sources=. \
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
-                    -Dsonar.host.url=http://28d516d2.ngrok.io \
+                    -Dsonar.host.url=${SONARQUBE_LOCATION} \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
 
     frontend-tests:    
@@ -51,18 +48,15 @@ jobs:
         working_directory: ~/repo
         steps:
             - checkout
-            - run:
-                name: Show current branch
-                command: echo ${CIRCLE_BRANCH}
             - restore_cache:
                 keys:
-                - v1-dependencies-{{ checksum "kwetter_angular/package.json" }}
+                - v1-dependencies-{{ checksum "${KWETTER_FRONTEND_LOCATION}/package.json" }}
                 - v1-dependencies-
             - run:
                 name: Install local dependencies
-                command: cd kwetter_angular && npm install
+                command: cd ${KWETTER_FRONTEND_LOCATION} && npm install
             - save_cache:
-                key: v1-dependencies-{{ checksum "kwetter_angular/package.json" }}
+                key: v1-dependencies-{{ checksum "${KWETTER_FRONTEND_LOCATION}/package.json" }}
                 paths:
                     - node_modules
             #- run:
@@ -79,18 +73,20 @@ jobs:
             - run:
                 name: Run Sonarqube scanner
                 command: |
-                    cd kwetter_angular
+                    cd ${KWETTER_FRONTEND_LOCATION}
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=Kwetter_Angular \
+                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${KWETTER_FRONTEND_LOCATION} \
                     -Dsonar.sources=. \
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
-                    -Dsonar.host.url=http://28d516d2.ngrok.io \
+                    -Dsonar.host.url=${SONARQUBE_LOCATION} \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \
             
 workflows:
   version: 2.1
   backend-frontend:
     jobs:
-      - frontend-tests
+      - frontend-tests:
+        context: kwetter
       - backend-tests
+        context: kwetter
