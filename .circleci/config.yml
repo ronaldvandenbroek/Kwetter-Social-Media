@@ -78,6 +78,7 @@ jobs:
             - run:
                 name: Run Sonarqube scanner
                 command: |
+                    cd kwetter_angular
                     export SONAR_SCANNER_OPTS="-Xmx2048m"
                     eval ./sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=Kwetter_Angular \
                     -Dsonar.sources=. \
