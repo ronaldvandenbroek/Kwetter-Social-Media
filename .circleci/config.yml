@@ -17,7 +17,7 @@ jobs:
                     - v1-dependencies-
             - run:
                 name: Check variables
-                command: echo $KWETTER_BACKEND_LOCATION && $KWETTER_FRONTEND_LOCATION && $SONARQUBE_LOCATION
+                command: echo $KWETTER_BACKEND_LOCATION && echo $KWETTER_FRONTEND_LOCATION && echo $SONARQUBE_LOCATION
             - run:
                 name: Maven Go-Offline
                 command: cd $KWETTER_BACKEND_LOCATION && mvn dependency:go-offline
