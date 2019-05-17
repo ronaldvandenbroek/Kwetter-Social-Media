@@ -88,5 +88,5 @@ workflows:
         jobs:
             - frontend-tests:
                 context: kwetter
-            - backend-tests
+            - backend-tests:
                 context: kwetter
