@@ -219,7 +219,7 @@ jobs:
             - run_docker:
                 user: $DOCKER_USER
                 pass: $DOCKER_PASS
-                path: $SOURCE_PATH
+                source: $SOURCE_PATH
 
     docker_frontend:
         machine: true
@@ -231,4 +231,4 @@ jobs:
             - run_docker:
                 user: $DOCKER_USER
                 pass: $DOCKER_PASS
-                path: $SOURCE_PATH                
+                source: $SOURCE_PATH                
