@@ -133,10 +133,7 @@ jobs:
     checkout:
         executor: python
         steps:
-            - checkout
-            - run:
-                name: Docker Login Test
-                command: docker login -u << parameters.user >> -p << parameters.pass >>            
+            - checkout          
             - persist_workspace_
     
     install_sonarqube:
