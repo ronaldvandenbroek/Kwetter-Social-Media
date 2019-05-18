@@ -1,5 +1,3 @@
-# Java Maven CircleCI 2.0 configuration file
-
 version: 2.1
 
 workflows:
@@ -16,6 +14,15 @@ workflows:
             - test_backend:
                 requires:
                     - build_backend
+            - dependancies_frontend:
+                requires:
+                    - checkout           
+            - lint_frontend:
+                requires:
+                    - dependancies_frontend
+            - test_frontend:
+                requires:
+                    - dependancies_frontend
 executors:
     python:
         docker:
@@ -26,19 +33,18 @@ executors:
         environment:
             MAVEN_OPTS: -Xmx3200m
             SOURCE_PATH: kwetter_backend
+    node:
+        docker:
+            - image: circleci/node:10.15.3
+        environment:
+            SOURCE_PATH: kwetter_angular
 
 commands:
-    backend_attach_workspace:
+    attach_workspace:
         steps:
             - attach_workspace:
                 at: .
-    backend_persist_workspace:
-        steps:
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_backend
-    all_persist_workspace:
+    persist_workspace:
         steps:
             - persist_to_workspace:
                 root: .
@@ -51,31 +57,58 @@ jobs:
         executor: python
         steps:
             - checkout
-            - all_persist_workspace
+            - persist_workspace
 
     dependancies_backend:
         executor: java
         steps:
-            - backend_attach_workspace
+            - attach_workspace
             - run:
                 name: Maven Go-Offline
                 command: cd $SOURCE_PATH && mvn dependency:go-offline     
-            - backend_persist_workspace
+            - persist_workspace
+    
+    dependancies_frontend:
+        executor: node
+        steps:
+            - attach_workspace
+            - run:
+                name: Install local dependencies
+                command: cd $SOURCE_PATH && npm install
+            - persist_workspace
 
     build_backend:
         executor: java
         steps:
-            - backend_attach_workspace
+            - attach_workspace
             - run:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests              
-            - backend_persist_workspace
+            - persist_workspace
+
+    lint_frontend:
+        executor: node
+        steps:
+            - attach_workspace
+            - run:
+                name: Linting
+                command: npm run lint
+            - persist_workspace
+
+    test_frontend:
+        executor: node
+        steps:
+            - attach_workspace
+            - run:
+                name: Testing
+                command: npm run test
+            - persist_workspace
 
     test_backend:
         executor: java
         steps:
-            - backend_attach_workspace
+            - attach_workspace
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn surefire:test              
-            - backend_persist_workspace
+            - persist_workspace
