@@ -4,46 +4,45 @@ workflows:
     version: 2.1
     build-test-deploy:
         jobs:
+            - checkout
+            - install_sonarqube
+            - dependancies_backend:
+                requires:
+                    - checkout           
+            - build_backend:
+                requires:
+                    - dependancies_backend
+            - test_backend:
+                requires:
+                    - build_backend
+            - dependancies_frontend:
+                requires:
+                    - checkout           
+            - lint_frontend:
+                requires:
+                    - dependancies_frontend
+            - test_frontend:
+                requires:
+                    - dependancies_frontend
+            - sonar_backend:
+                requires:
+                    - checkout
+                    - install_sonarqube
+            - sonar_frontend:
+                requires:
+                    - checkout
+                    - install_sonarqube
+            # - docker_frontend:
+            #     requires:
+            #         - sonar_frontend
+            #         - lint_frontend
+            #         - test_frontend
             - docker_backend:
                 context:
-                    kwetter
-            # - checkout
-            # - install_sonarqube
-            # - dependancies_backend:
-            #     requires:
-            #         - checkout           
-            # - build_backend:
-            #     requires:
-            #         - dependancies_backend
-            # - test_backend:
-            #     requires:
-            #         - build_backend
-            # - dependancies_frontend:
-            #     requires:
-            #         - checkout           
-            # - lint_frontend:
-            #     requires:
-            #         - dependancies_frontend
-            # - test_frontend:
-            #     requires:
-            #         - dependancies_frontend
-            # - sonar_backend:
-            #     requires:
-            #         - checkout
-            #         - install_sonarqube
-            # - sonar_frontend:
-            #     requires:
-            #         - checkout
-            #         - install_sonarqube
-            # # - docker_frontend:
-            # #     requires:
-            # #         - sonar_frontend
-            # #         - lint_frontend
-            # #         - test_frontend
-            # - docker_backend:
-            #     requires:
-            #         - sonar_backend
-            #         - test_backend                  
+                    - kwetter
+                requires:
+                    - sonar_backend
+                    - test_backend                  
 
 executors:
     python:
@@ -111,12 +110,12 @@ commands:
                 type: string
                 default: .                                
         steps:
-            # - run:
-            #     command: ls
-            # - run:
-            #     command: cd project && ls                
-            # - run:
-            #     command: cd project/<< parameters.source >> && ls
+            - run:
+                command: ls
+            - run:
+                command: cd project && ls                
+            - run:
+                command: cd project/<< parameters.source >> && ls
             - run:
                 name: Docker Login Echo
                 command: echo docker login -u << parameters.user >> -p << parameters.pass >>                
