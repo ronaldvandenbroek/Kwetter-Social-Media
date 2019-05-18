@@ -155,7 +155,7 @@ jobs:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - $SOURCE_PATH
+                    - kwetter_backend
 
     docker-backend:
         machine: true
@@ -163,7 +163,7 @@ jobs:
             SOURCE_PATH: kwetter_backend
         steps:
             - attach_workspace:
-                at: /repo/$SOURCE_PATH
+                at: /kwetter_backend
             - run:
                 name: Docker Login
                 command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
