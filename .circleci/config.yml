@@ -40,17 +40,17 @@ workflows:
                 requires:
                     - build_frontend
 
-            - docker_frontend:
-                requires:
-                    - sonar_frontend
-                    - lint_frontend
-                    - test_frontend
             - docker_backend:
                 context:
                     kwetter
                 requires:
                     - sonar_backend
-                    - test_backend                  
+                    - test_backend
+            - docker_frontend:
+                requires:
+                    - sonar_frontend
+                    - lint_frontend
+                    - test_frontend                                      
 
 executors:
     python:
@@ -200,7 +200,7 @@ jobs:
             - persist_workspace_
 
     build_frontend:
-        executor: java
+        executor: node
         steps:
             - attach_workspace_
             - run:
