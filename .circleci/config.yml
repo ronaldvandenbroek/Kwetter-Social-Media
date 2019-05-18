@@ -216,7 +216,7 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
-            - docker_run:
+            - run_docker:
                 user: $DOCKER_USER
                 pass: $DOCKER_PASS
                 path: $SOURCE_PATH
@@ -228,7 +228,7 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
-            - docker_run:
+            - run_docker:
                 user: $DOCKER_USER
                 pass: $DOCKER_PASS
                 path: $SOURCE_PATH                
