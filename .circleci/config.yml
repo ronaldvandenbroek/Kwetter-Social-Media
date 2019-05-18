@@ -48,7 +48,7 @@ workflows:
                     - test_backend
             - docker_frontend:
                 context:
-                    kwetter            
+                    kwetter
                 requires:
                     - sonar_frontend
                     - lint_frontend
@@ -121,12 +121,6 @@ commands:
                 default: .                                
         steps:
             - run:
-                command: ls
-            - run:
-                command: cd project && ls                
-            - run:
-                command: cd project/<< parameters.source >> && ls
-            - run:
                 name: Docker Login Echo
                 command: echo docker login -u << parameters.user >> -p << parameters.pass >>                
             - run:
@@ -158,6 +152,14 @@ jobs:
                 command: ls
             # - persist_workspace_sonar
 
+    sonar_backend:
+        executor: java
+        steps:
+            - attach_workspace_
+            # Skipping sonar for testing purposes
+            # - run_sonar:
+            #     path: $SOURCE_PATH 
+
     sonar_frontend:
         executor: node
         steps:
@@ -165,14 +167,6 @@ jobs:
             # Skipping sonar for testing purposes
             # - run_sonar:
             #     path: $SOURCE_PATH
-
-    sonar_backend:
-        executor: java
-        steps:
-            - attach_workspace_
-            # Skipping sonar for testing purposes
-            # - run_sonar:
-            #     path: $SOURCE_PATH      
 
     dependancies_backend:
         executor: java
@@ -210,6 +204,14 @@ jobs:
                 command: cd $SOURCE_PATH && npm run build           
             - persist_workspace_
 
+    test_backend:
+        executor: java
+        steps:
+            - attach_workspace_
+            - run:
+                name: Test Backend
+                command: cd $SOURCE_PATH && mvn surefire:test
+
     lint_frontend:
         executor: node
         steps:
@@ -227,14 +229,6 @@ jobs:
             # - run:
             #     name: Testing
             #     command: cd $SOURCE_PATH && npm run test
-
-    test_backend:
-        executor: java
-        steps:
-            - attach_workspace_
-            - run:
-                name: Test Backend
-                command: cd $SOURCE_PATH && mvn surefire:test
 
     docker_backend:
         machine: true
