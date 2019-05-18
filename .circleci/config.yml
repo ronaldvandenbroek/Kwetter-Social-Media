@@ -111,7 +111,9 @@ commands:
             - run:
                 command: ls
             - run:
-                command: cd << parameters.source >> && ls
+                command: cd project && ls                
+            - run:
+                command: cd project/<< parameters.source >> && ls
             # - run:
             #     name: Docker Login
             #     command: docker login -u << parameters.user >> -p << parameters.pass >>
