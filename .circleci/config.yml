@@ -149,6 +149,9 @@ jobs:
             - run:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests
+            - run:
+                name: List Directory
+                command: ls                    
             - persist_to_workspace:
                 root: /
                 paths:
