@@ -34,7 +34,7 @@ workflows:
                     - install_sonarqube
             - docker_frontend:
                 requires:
-                    - sonar_fronted
+                    - sonar_frontend
                     - lint_frontend
                     - test_frontend
             - docker_backend:
