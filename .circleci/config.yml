@@ -139,14 +139,25 @@ jobs:
         steps:
             - checkout
             - run: |
-                cd $SOURCE_PATH
-                docker login -u $DOCKER_USER -p $DOCKER_PASS
+                name: Docker Credential Test
+                command: |
+                    echo $DOCKER_USER
+                    echo $DOCKER_PASS            
             - run: |
-                cd $SOURCE_PATH
-                docker build -t $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
+                name: Docker Login
+                command: |
+                    cd $SOURCE_PATH
+                    docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} 
             - run: |
-                cd $SOURCE_PATH
-                docker push $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
+                name: Docker Build
+                command: |
+                    cd $SOURCE_PATH
+                    docker build -t $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
+            - run: |
+                name: Docker Push
+                command: |
+                    cd $SOURCE_PATH
+                    docker push $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
                 
 workflows:
     version: 2.1
