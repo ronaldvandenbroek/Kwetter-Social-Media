@@ -220,9 +220,9 @@ jobs:
             - attach_workspace:
                 at: project
             - run_docker:
-                user: $DOCKER_USER
-                pass: $DOCKER_PASS
-                source: $SOURCE_PATH
+                user: ${DOCKER_USER}
+                pass: ${DOCKER_PASS}
+                source: ${SOURCE_PATH}
 
     docker_frontend:
         machine: true
@@ -232,6 +232,6 @@ jobs:
             - attach_workspace:
                 at: project
             - run_docker:
-                user: $DOCKER_USER
-                pass: $DOCKER_PASS
-                source: $SOURCE_PATH                
+                user: ${DOCKER_USER}
+                pass: ${DOCKER_PASS}
+                source: ${SOURCE_PATH}             
