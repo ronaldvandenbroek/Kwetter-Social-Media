@@ -61,7 +61,7 @@ commands:
                 paths:
                     - kwetter_backend
                     - kwetter_angular
-        persist_workspace_sonar:
+    persist_workspace_sonar:
         steps:
             - persist_to_workspace:
                 root: .
