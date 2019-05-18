@@ -164,7 +164,7 @@ workflows:
             #     context: kwetter
             #     requires:
             #         - test-backend                
-            - docker-backend:
+            - docker-backend
                 # requires:
                 #     - sonar-backend
                     
