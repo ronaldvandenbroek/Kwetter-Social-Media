@@ -39,7 +39,7 @@ workflows:
             #         - test_frontend
             - docker_backend:
                 context:
-                    - kwetter
+                    kwetter
                 requires:
                     - sonar_backend
                     - test_backend                  
