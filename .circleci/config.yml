@@ -40,11 +40,11 @@ jobs:
             - attach_workspace:
                 at: project
             - run:
-                name: Variable key bypass
-                command: cat "$SOURCE_PATH/pom.xml" > key.txt 
-            - run:
                 name: Check directory
-                command: ls                                   
+                command: ls                       
+            - run:
+                name: Variable key bypass
+                command: cat "$SOURCE_PATH/pom.xml" > key.txt                                  
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
@@ -95,7 +95,7 @@ workflows:
                     - dependancies_backend
             - test_backend:
                 requires:
-                    - build_backend                   
+                    - build_backend         
                     
                     
                 
