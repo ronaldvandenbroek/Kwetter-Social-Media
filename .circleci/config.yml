@@ -4,7 +4,9 @@ workflows:
     version: 2.1
     build-test-deploy:
         jobs:
-            - docker_backend 
+            - docker_backend:
+                context:
+                    kwetter
             # - checkout
             # - install_sonarqube
             # - dependancies_backend:
