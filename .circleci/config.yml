@@ -42,7 +42,7 @@ jobs:
             - run:
                 name: Variable key bypass
                 command: cat "$SOURCE_PATH/pom.xml" > key.txt 
-             - run:
+            - run:
                 name: Check directory
                 command: ls                                   
             - restore_cache:
