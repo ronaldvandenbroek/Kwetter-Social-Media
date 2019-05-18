@@ -155,7 +155,7 @@ jobs:
             - persist_to_workspace:
                 root: kwetter_backend
                 paths:
-                    - kwetter_backend
+                    - target
 
     docker-backend:
         machine: true
