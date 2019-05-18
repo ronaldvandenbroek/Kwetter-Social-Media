@@ -109,14 +109,18 @@ commands:
                 default: .                                
         steps:
             - run:
-                name: Docker Login
-                command: docker login -u << parameters.user >> -p << parameters.pass >>
+                command: ls
             - run:
-                name: Docker Build
-                command: docker build -t << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH ./project/<< parameters.source >>
-            - run:
-                name: Docker Push
-                command: docker push << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH                                                   
+                command: cd << parameters.source >> && ls
+            # - run:
+            #     name: Docker Login
+            #     command: docker login -u << parameters.user >> -p << parameters.pass >>
+            # - run:
+            #     name: Docker Build
+            #     command: docker build -t << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH ./project/<< parameters.source >>
+            # - run:
+            #     name: Docker Push
+            #     command: docker push << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH                                                   
 
 jobs:
     checkout:
@@ -128,11 +132,11 @@ jobs:
     install_sonarqube:
         executor: python
         steps:
-            - run:
-                name: Install Sonarqube scanner
-                command: |
-                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+            # - run:
+            #     name: Install Sonarqube scanner
+            #     command: |
+            #         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+            #         unzip sonar-scanner-cli-3.3.0.1492-linux.zip
             - run:
                 command: ls
             - persist_workspace_sonar
