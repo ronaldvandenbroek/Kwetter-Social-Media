@@ -153,7 +153,7 @@ jobs:
                 name: List Directory
                 command: ls                    
             - persist_to_workspace:
-                root: kwetter_backend
+                root: $SOURCE_PATH
                 paths:
                     - target
 
@@ -163,7 +163,7 @@ jobs:
             SOURCE_PATH: kwetter_backend
         steps:
             - attach_workspace:
-                at: /repo/$SOURCE_PATH
+                at: /$SOURCE_PATH/target
             - run:
                 name: Docker Login
                 command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
