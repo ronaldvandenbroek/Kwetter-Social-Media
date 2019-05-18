@@ -2,67 +2,6 @@
 
 version: 2.1
 
-executors:
-    python:
-        docker:
-            - image: python
-    java:
-        docker:
-            - image: circleci/openjdk:8-jdk
-        environment:
-            MAVEN_OPTS: -Xmx3200m
-            SOURCE_PATH: kwetter_backend
-  
-jobs:
-    checkout:
-        executor: python
-        steps:
-            - checkout
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_backend
-                    - kwetter_angular
-
-    dependancies_backend:
-        executor: java
-        steps:
-            - attach_workspace:
-                at: .
-            - run:
-                name: Maven Go-Offline
-                command: cd $SOURCE_PATH && mvn dependency:go-offline     
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_backend
-
-    build_backend:
-        executor: java
-        steps:
-            - attach_workspace:
-                at: .
-            - run:
-                name: Build Backend
-                command: cd $SOURCE_PATH && mvn install -DskipTests              
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_backend
-
-    test_backend:
-        executor: java
-        steps:
-            - attach_workspace:
-                at: .
-            - run:
-                name: Test Backend
-                command: cd $SOURCE_PATH && mvn surefire:test              
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_backend
-
 workflows:
     version: 2.1
     build-test-deploy:
@@ -76,7 +15,67 @@ workflows:
                     - dependancies_backend
             - test_backend:
                 requires:
-                    - build_backend         
-                    
-                    
-                
+                    - build_backend
+executors:
+    python:
+        docker:
+            - image: python
+    java:
+        docker:
+            - image: circleci/openjdk:8-jdk
+        environment:
+            MAVEN_OPTS: -Xmx3200m
+            SOURCE_PATH: kwetter_backend
+
+commands:
+    backend_attach_workspace:
+        steps:
+            - attach_workspace:
+                at: .
+    backend_persist_workspace:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_backend
+    all_persist_workspace:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_backend
+                    - kwetter_angular                                                 
+
+jobs:
+    checkout:
+        executor: python
+        steps:
+            - checkout
+            - all_persist_workspace
+
+    dependancies_backend:
+        executor: java
+        steps:
+            - backend_attach_workspace
+            - run:
+                name: Maven Go-Offline
+                command: cd $SOURCE_PATH && mvn dependency:go-offline     
+            - backend_persist_workspace
+
+    build_backend:
+        executor: java
+        steps:
+            - backend_attach_workspace
+            - run:
+                name: Build Backend
+                command: cd $SOURCE_PATH && mvn install -DskipTests              
+            - backend_persist_workspace
+
+    test_backend:
+        executor: java
+        steps:
+            - backend_attach_workspace
+            - run:
+                name: Test Backend
+                command: cd $SOURCE_PATH && mvn surefire:test              
+            - backend_persist_workspace
