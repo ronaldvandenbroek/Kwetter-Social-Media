@@ -68,7 +68,7 @@ workflows:
     build-test-deploy:
         jobs:
             - checkout
-            - dependancies_backend
+            - dependancies_backend:
                 requires:
                     - checkout           
             - build_backend:
