@@ -47,6 +47,8 @@ workflows:
                     - sonar_backend
                     - test_backend
             - docker_frontend:
+                context:
+                    kwetter            
                 requires:
                     - sonar_frontend
                     - lint_frontend
