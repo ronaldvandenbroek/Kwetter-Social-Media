@@ -163,7 +163,7 @@ jobs:
             SOURCE_PATH: kwetter_backend
         steps:
             - attach_workspace:
-                at: /kwetter_backend
+                at: project
             - run:
                 name: Docker Login
                 command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
