@@ -23,6 +23,7 @@ workflows:
             - test_frontend:
                 requires:
                     - dependancies_frontend
+
 executors:
     python:
         docker:
@@ -40,11 +41,11 @@ executors:
             SOURCE_PATH: kwetter_angular
 
 commands:
-    attach_workspace:
+    _attach_workspace:
         steps:
             - attach_workspace:
                 at: .
-    persist_workspace:
+    _persist_workspace:
         steps:
             - persist_to_workspace:
                 root: .
@@ -57,58 +58,58 @@ jobs:
         executor: python
         steps:
             - checkout
-            - persist_workspace
+            - _persist_workspace
 
     dependancies_backend:
         executor: java
         steps:
-            - attach_workspace
+            - _attach_workspace
             - run:
                 name: Maven Go-Offline
                 command: cd $SOURCE_PATH && mvn dependency:go-offline     
-            - persist_workspace
+            - _persist_workspace
     
     dependancies_frontend:
         executor: node
         steps:
-            - attach_workspace
+            - _attach_workspace
             - run:
                 name: Install local dependencies
                 command: cd $SOURCE_PATH && npm install
-            - persist_workspace
+            - _persist_workspace
 
     build_backend:
         executor: java
         steps:
-            - attach_workspace
+            - _attach_workspace
             - run:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests              
-            - persist_workspace
+            - _persist_workspace
 
     lint_frontend:
         executor: node
         steps:
-            - attach_workspace
+            - _attach_workspace
             - run:
                 name: Linting
                 command: npm run lint
-            - persist_workspace
+            - _persist_workspace
 
     test_frontend:
         executor: node
         steps:
-            - attach_workspace
+            - _attach_workspace
             - run:
                 name: Testing
                 command: npm run test
-            - persist_workspace
+            - _persist_workspace
 
     test_backend:
         executor: java
         steps:
-            - attach_workspace
+            - _attach_workspace
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn surefire:test              
-            - persist_workspace
+            - _persist_workspace
