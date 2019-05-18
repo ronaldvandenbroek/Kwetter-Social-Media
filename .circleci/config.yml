@@ -131,19 +131,40 @@ jobs:
                     -Dsonar.exclusions=vendor/bundle/** \
                     -Dsonar.host.url=${SONARQUBE_LOCATION} \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \                   
-                   
+
+    build-backend:
+        docker:
+            - image: circleci/openjdk:8-jdk
+        working_directory: ~/repo
+        environment:
+            MAVEN_OPTS: -Xmx3200m
+            SOURCE_PATH: kwetter_backend
+        steps:
+            - checkout
+            - run:
+                name: Maven Go-Offline
+                command: cd $SOURCE_PATH && mvn dependency:go-offline
+            - run:
+                name: Build Backend
+                command: cd $SOURCE_PATH && mvn install       
+            - persist_to_workspace:
+                root: workspace
+                paths:
+                    - target
+
     docker-backend:
         machine: true
         environment:
             SOURCE_PATH: kwetter_backend
         steps:
-            - checkout       
+            - attach_workspace:
+                at: /repo/workspace
             - run:
                 name: Docker Login
                 command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
             - run:
                 name: Docker Build
-                command: docker build -t $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH ./$SOURCE_PATH
+                command: docker build -t $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH ./workspace/$SOURCE_PATH
             - run:
                 name: Docker Push
                 command: docker push $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
@@ -164,10 +185,14 @@ workflows:
             #     context: kwetter
             #     requires:
             #         - test-backend                
-            - docker-backend:
+            - build-backend:
                 context: kwetter
                 # requires:
-                #     - sonar-backend
+                #     - sonar-backend            
+            - docker-backend:
+                context: kwetter
+                requires:
+                    - build-backend
                     
                     
                 
