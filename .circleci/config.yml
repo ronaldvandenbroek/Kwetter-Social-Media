@@ -93,7 +93,7 @@ jobs:
             - attach_workspace_
             - run:
                 name: Linting
-                command: npm run lint
+                command: cd $SOURCE_PATH && npm run lint
             - persist_workspace_
 
     test_frontend:
@@ -102,7 +102,7 @@ jobs:
             - attach_workspace_
             - run:
                 name: Testing
-                command: npm run test
+                command: cd $SOURCE_PATH && npm run test
             - persist_workspace_
 
     test_backend:
