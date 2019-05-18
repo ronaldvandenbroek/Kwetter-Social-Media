@@ -68,13 +68,13 @@ commands:
                 paths:
                     - sonar-scanner-cli-3.3.0.1492-linux
     run-sonar:
-        environment:
-            SONARQUBE_LOCATION: http://377c37dc.ngrok.io
-            SOURCE_PATH: kwetter_backend
         parameters:
             path:
                 type: string
                 default: .
+            server_location:
+                type: string
+                default: http://377c37dc.ngrok.io
         steps:
             - run:
                 name: Run Sonarqube scanner
@@ -85,7 +85,7 @@ commands:
                     -Dsonar.sources=. \
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
-                    -Dsonar.host.url=${SONARQUBE_LOCATION} \
+                    -Dsonar.host.url=<< parameters.server_location >> \
                     -Dsonar.projectVersion=${CIRCLE_BRANCH} \                                                   
 
 jobs:
