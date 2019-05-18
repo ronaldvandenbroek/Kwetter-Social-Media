@@ -114,15 +114,15 @@ commands:
                 command: cd project && ls                
             - run:
                 command: cd project/<< parameters.source >> && ls
-            # - run:
-            #     name: Docker Login
-            #     command: docker login -u << parameters.user >> -p << parameters.pass >>
-            # - run:
-            #     name: Docker Build
-            #     command: docker build -t << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH ./project/<< parameters.source >>
-            # - run:
-            #     name: Docker Push
-            #     command: docker push << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH                                                   
+            - run:
+                name: Docker Login
+                command: docker login -u << parameters.user >> -p << parameters.pass >>
+            - run:
+                name: Docker Build
+                command: docker build -t << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH ./project/<< parameters.source >>
+            - run:
+                name: Docker Push
+                command: docker push << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH                                                   
 
 jobs:
     checkout:
