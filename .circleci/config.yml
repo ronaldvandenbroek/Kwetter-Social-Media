@@ -105,14 +105,14 @@ jobs:
                     unzip sonar-scanner-cli-3.3.0.1492-linux.zip
             - persist_workspace_sonar
 
-    sonar-frontend:
+    sonar_frontend:
         executor: node
         steps:
             - attach_workspace_
             - run_sonar:
                 path: $SOURCE_PATH
 
-    sonar-backend:
+    sonar_backend:
         executor: java
         steps:
             - attach_workspace_
