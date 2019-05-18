@@ -142,15 +142,18 @@ jobs:
         steps:
             - checkout
             - run:
+                name: Environment Variables Test
+                command: echo $SOURCE_PATH             
+            - run:
                 name: Maven Go-Offline
-                command: cd $SOURCE_PATH && mvn dependency:go-offline
+                command: mvn dependency:go-offline
             - run:
                 name: Build Backend
-                command: cd $SOURCE_PATH && mvn install
+                command: cd $SOURCE_PATH && mvn install -DskipTests
             - persist_to_workspace:
-                root: $SOURCE_PATH
+                root: /
                 paths:
-                    - target
+                    - $SOURCE_PATH
 
     docker-backend:
         machine: true
