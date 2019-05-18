@@ -41,7 +41,10 @@ jobs:
                 at: project
             - run:
                 name: Variable key bypass
-                command: cat "$SOURCE_PATH/pom.xml" > key.txt                
+                command: cat "$SOURCE_PATH/pom.xml" > key.txt 
+             - run:
+                name: Check directory
+                command: ls                                   
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
