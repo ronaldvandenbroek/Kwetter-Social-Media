@@ -31,7 +31,16 @@ workflows:
             - sonar_frontend:
                 requires:
                     - checkout
-                    - install_sonarqube            
+                    - install_sonarqube
+            - docker_frontend:
+                requires:
+                    - sonar_fronted
+                    - lint_frontend
+                    - test_frontend
+            - docker_backend:
+                requires:
+                    - sonar_backend
+                    - test_backend                  
 
 executors:
     python:
@@ -86,7 +95,28 @@ commands:
                     -Dsonar.sourceEncoding=US-ASCII \
                     -Dsonar.exclusions=vendor/bundle/** \
                     -Dsonar.host.url=<< parameters.server_location >> \
-                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \                                                   
+                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \
+    run_docker:
+        parameters:
+            user:
+                type: string
+                default: .
+            pass:
+                type: string
+                default: .
+            source:
+                type: string
+                default: .                                
+        steps:
+            - run:
+                name: Docker Login
+                command: docker login -u << parameters.user >> -p << parameters.pass >>
+            - run:
+                name: Docker Build
+                command: docker build -t << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH ./project/<< parameters.source >>
+            - run:
+                name: Docker Push
+                command: docker push << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH                                                   
 
 jobs:
     checkout:
@@ -111,15 +141,17 @@ jobs:
         executor: node
         steps:
             - attach_workspace_
-            - run_sonar:
-                path: $SOURCE_PATH
+            # Skipping sonar for testing purposes
+            # - run_sonar:
+            #     path: $SOURCE_PATH
 
     sonar_backend:
         executor: java
         steps:
             - attach_workspace_
-            - run_sonar:
-                path: $SOURCE_PATH      
+            # Skipping sonar for testing purposes
+            # - run_sonar:
+            #     path: $SOURCE_PATH      
 
     dependancies_backend:
         executor: java
@@ -176,3 +208,27 @@ jobs:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn surefire:test              
             - persist_workspace_
+
+    docker-backend:
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_backend
+        steps:
+            - attach_workspace:
+                at: project
+            - docker_run:
+                user: $DOCKER_USER
+                pass: $DOCKER_PASS
+                path: $SOURCE_PATH
+
+    docker-frontend:
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_angular
+        steps:
+            - attach_workspace:
+                at: project
+            - docker_run:
+                user: $DOCKER_USER
+                pass: $DOCKER_PASS
+                path: $SOURCE_PATH                
