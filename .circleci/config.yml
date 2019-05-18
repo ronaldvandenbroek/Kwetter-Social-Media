@@ -41,11 +41,11 @@ executors:
             SOURCE_PATH: kwetter_angular
 
 commands:
-    _attach_workspace:
+    attach_workspace_:
         steps:
             - attach_workspace:
                 at: .
-    _persist_workspace:
+    persist_workspace_:
         steps:
             - persist_to_workspace:
                 root: .
@@ -58,58 +58,58 @@ jobs:
         executor: python
         steps:
             - checkout
-            - _persist_workspace
+            - persist_workspace_
 
     dependancies_backend:
         executor: java
         steps:
-            - _attach_workspace
+            - attach_workspace_
             - run:
                 name: Maven Go-Offline
                 command: cd $SOURCE_PATH && mvn dependency:go-offline     
-            - _persist_workspace
+            - persist_workspace_
     
     dependancies_frontend:
         executor: node
         steps:
-            - _attach_workspace
+            - attach_workspace_
             - run:
                 name: Install local dependencies
                 command: cd $SOURCE_PATH && npm install
-            - _persist_workspace
+            - persist_workspace_
 
     build_backend:
         executor: java
         steps:
-            - _attach_workspace
+            - attach_workspace_
             - run:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests              
-            - _persist_workspace
+            - persist_workspace_
 
     lint_frontend:
         executor: node
         steps:
-            - _attach_workspace
+            - attach_workspace_
             - run:
                 name: Linting
                 command: npm run lint
-            - _persist_workspace
+            - persist_workspace_
 
     test_frontend:
         executor: node
         steps:
-            - _attach_workspace
+            - attach_workspace_
             - run:
                 name: Testing
                 command: npm run test
-            - _persist_workspace
+            - persist_workspace_
 
     test_backend:
         executor: java
         steps:
-            - _attach_workspace
+            - attach_workspace_
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn surefire:test              
-            - _persist_workspace
+            - persist_workspace_
