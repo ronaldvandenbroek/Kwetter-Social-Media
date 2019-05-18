@@ -5,6 +5,7 @@ workflows:
     build-test-deploy:
         jobs:
             - checkout
+            - install_sonarqube
             - dependancies_backend:
                 requires:
                     - checkout           
@@ -23,6 +24,14 @@ workflows:
             - test_frontend:
                 requires:
                     - dependancies_frontend
+            - sonar_backend:
+                requires:
+                    - checkout
+                    - install_sonarqube
+            - sonar_frontend:
+                requires:
+                    - checkout
+                    - install_sonarqube            
 
 executors:
     python:
@@ -51,7 +60,33 @@ commands:
                 root: .
                 paths:
                     - kwetter_backend
-                    - kwetter_angular                                                 
+                    - kwetter_angular
+        persist_workspace_sonar:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - sonar-scanner-cli-3.3.0.1492-linux
+    run-sonar:
+        environment:
+            SONARQUBE_LOCATION: http://377c37dc.ngrok.io
+            SOURCE_PATH: kwetter_backend
+        parameters:
+            path:
+                type: string
+                default: .
+        steps:
+            - run:
+                name: Run Sonarqube scanner
+                command: |
+                    cd $SOURCE_PATH
+                    export SONAR_SCANNER_OPTS="-Xmx2048m"
+                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${SOURCE_PATH}_CommandTest \
+                    -Dsonar.sources=. \
+                    -Dsonar.sourceEncoding=US-ASCII \
+                    -Dsonar.exclusions=vendor/bundle/** \
+                    -Dsonar.host.url=${SONARQUBE_LOCATION} \
+                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \                                                   
 
 jobs:
     checkout:
@@ -59,6 +94,30 @@ jobs:
         steps:
             - checkout
             - persist_workspace_
+    
+    install_sonarqube:
+        executor: python
+        steps:
+            - run:
+                name: Install Sonarqube scanner
+                command: |
+                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+            - persist_workspace_sonar
+
+    sonar-frontend:
+        executor: node
+        steps:
+            - attach_workspace_
+            - run_sonar:
+                path: $SOURCE_PATH
+
+    sonar-backend:
+        executor: java
+        steps:
+            - attach_workspace_
+            - run_sonar:
+                path: $SOURCE_PATH      
 
     dependancies_backend:
         executor: java
@@ -91,18 +150,20 @@ jobs:
         executor: node
         steps:
             - attach_workspace_
-            - run:
-                name: Linting
-                command: cd $SOURCE_PATH && npm run lint
+            # Disabled for testing purposes
+            # - run:
+            #     name: Linting
+            #     command: cd $SOURCE_PATH && npm run lint
             - persist_workspace_
 
     test_frontend:
         executor: node
         steps:
             - attach_workspace_
-            - run:
-                name: Testing
-                command: cd $SOURCE_PATH && npm run test
+            # Disabled for testing purposes
+            # - run:
+            #     name: Testing
+            #     command: cd $SOURCE_PATH && npm run test
             - persist_workspace_
 
     test_backend:
