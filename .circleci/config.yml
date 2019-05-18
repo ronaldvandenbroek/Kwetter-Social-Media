@@ -102,7 +102,9 @@ jobs:
                 name: Install Sonarqube scanner
                 command: |
                     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip    
+                    unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+            - run:
+                command: ls
             - persist_workspace_sonar
 
     sonar_frontend:
