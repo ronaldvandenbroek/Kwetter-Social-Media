@@ -152,21 +152,21 @@ workflows:
     version: 2.1
     build-test-deploy:
         jobs:
-            - test-frontend:
-                context: kwetter
-            - test-backend:
-                context: kwetter
-            - sonar-frontend:
-                context: kwetter
-                requires:
-                    - test-frontend
-            - sonar-backend:
-                context: kwetter
-                requires:
-                    - test-backend                
+            # - test-frontend:
+            #     context: kwetter
+            # - test-backend:
+            #     context: kwetter
+            # - sonar-frontend:
+            #     context: kwetter
+            #     requires:
+            #         - test-frontend
+            # - sonar-backend:
+            #     context: kwetter
+            #     requires:
+            #         - test-backend                
             - docker-backend:
-                requires:
-                    - sonar-backend
+                # requires:
+                #     - sonar-backend
                     
                     
                 
