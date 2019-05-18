@@ -137,27 +137,16 @@ jobs:
         environment:
             SOURCE_PATH: kwetter_backend
         steps:
-            - checkout
-            - run:
-                name: Docker Credential Test
-                command: |
-                    echo $DOCKER_USER
-                    echo $DOCKER_PASS            
+            - checkout       
             - run:
                 name: Docker Login
-                command: |
-                    cd $SOURCE_PATH
-                    docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} 
+                command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
             - run:
                 name: Docker Build
-                command: |
-                    cd $SOURCE_PATH
-                    docker build -t $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
+                command: docker build -t $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH ./$SOURCE_PATH
             - run:
                 name: Docker Push
-                command: |
-                    cd $SOURCE_PATH
-                    docker push $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
+                command: docker push $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
                 
 workflows:
     version: 2.1
