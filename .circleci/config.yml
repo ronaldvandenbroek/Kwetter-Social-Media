@@ -67,7 +67,7 @@ commands:
                 root: .
                 paths:
                     - sonar-scanner-cli-3.3.0.1492-linux
-    run-sonar:
+    run_sonar:
         parameters:
             path:
                 type: string
