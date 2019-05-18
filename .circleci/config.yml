@@ -6,35 +6,40 @@ workflows:
         jobs:
             - checkout
             - install_sonarqube
+
             - dependancies_backend:
                 requires:
-                    - checkout           
+                    - checkout  
+            - dependancies_frontend:
+                requires:
+                    - checkout 
+         
             - build_backend:
                 requires:
                     - dependancies_backend
+            - build_frontend:
+                requires:
+                    - dependancies_frontend
+
+            - sonar_backend:
+                requires:
+                    - checkout
+                    - install_sonarqube
+            - sonar_frontend:
+                requires:
+                    - checkout
+                    - install_sonarqube
+
             - test_backend:
                 requires:
                     - build_backend
-            - dependancies_frontend:
-                requires:
-                    - checkout           
             - lint_frontend:
                 requires:
                     - build_frontend
             - test_frontend:
                 requires:
                     - build_frontend
-            - sonar_backend:
-                requires:
-                    - checkout
-                    - install_sonarqube
-            - build_frontend:
-                requires:
-                    - dependancies_frontend
-            - sonar_frontend:
-                requires:
-                    - checkout
-                    - install_sonarqube
+
             - docker_frontend:
                 requires:
                     - sonar_frontend
@@ -200,7 +205,7 @@ jobs:
             - attach_workspace_
             - run:
                 name: Build Frontend
-                command: cd $SOURCE_PATH && ng build            
+                command: cd $SOURCE_PATH && npm run build           
             - persist_workspace_
 
     lint_frontend:
