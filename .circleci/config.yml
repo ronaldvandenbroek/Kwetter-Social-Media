@@ -109,15 +109,15 @@ commands:
                 type: string
                 default: .                                
         steps:
-            - run:
-                command: ls
-            - run:
-                command: cd project && ls                
-            - run:
-                command: cd project/<< parameters.source >> && ls
             # - run:
-            #     name: Docker Login Echo
-            #     command: echo docker login -u << parameters.user >> -p << parameters.pass >>                
+            #     command: ls
+            # - run:
+            #     command: cd project && ls                
+            # - run:
+            #     command: cd project/<< parameters.source >> && ls
+            - run:
+                name: Docker Login Echo
+                command: echo docker login -u << parameters.user >> -p << parameters.pass >>                
             - run:
                 name: Docker Login
                 command: docker login -u << parameters.user >> -p << parameters.pass >>
