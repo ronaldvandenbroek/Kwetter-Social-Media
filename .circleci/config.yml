@@ -4,43 +4,44 @@ workflows:
     version: 2.1
     build-test-deploy:
         jobs:
-            - checkout
-            - install_sonarqube
-            - dependancies_backend:
-                requires:
-                    - checkout           
-            - build_backend:
-                requires:
-                    - dependancies_backend
-            - test_backend:
-                requires:
-                    - build_backend
-            - dependancies_frontend:
-                requires:
-                    - checkout           
-            - lint_frontend:
-                requires:
-                    - dependancies_frontend
-            - test_frontend:
-                requires:
-                    - dependancies_frontend
-            - sonar_backend:
-                requires:
-                    - checkout
-                    - install_sonarqube
-            - sonar_frontend:
-                requires:
-                    - checkout
-                    - install_sonarqube
-            # - docker_frontend:
+            - docker_backend 
+            # - checkout
+            # - install_sonarqube
+            # - dependancies_backend:
             #     requires:
-            #         - sonar_frontend
-            #         - lint_frontend
-            #         - test_frontend
-            - docker_backend:
-                requires:
-                    - sonar_backend
-                    - test_backend                  
+            #         - checkout           
+            # - build_backend:
+            #     requires:
+            #         - dependancies_backend
+            # - test_backend:
+            #     requires:
+            #         - build_backend
+            # - dependancies_frontend:
+            #     requires:
+            #         - checkout           
+            # - lint_frontend:
+            #     requires:
+            #         - dependancies_frontend
+            # - test_frontend:
+            #     requires:
+            #         - dependancies_frontend
+            # - sonar_backend:
+            #     requires:
+            #         - checkout
+            #         - install_sonarqube
+            # - sonar_frontend:
+            #     requires:
+            #         - checkout
+            #         - install_sonarqube
+            # # - docker_frontend:
+            # #     requires:
+            # #         - sonar_frontend
+            # #         - lint_frontend
+            # #         - test_frontend
+            # - docker_backend:
+            #     requires:
+            #         - sonar_backend
+            #         - test_backend                  
 
 executors:
     python:
@@ -115,6 +116,9 @@ commands:
             - run:
                 command: cd project/<< parameters.source >> && ls
             - run:
+                name: Docker Login Echo
+                command: echo docker login -u << parameters.user >> -p << parameters.pass >>                
+            - run:
                 name: Docker Login
                 command: docker login -u << parameters.user >> -p << parameters.pass >>
             - run:
@@ -129,6 +133,9 @@ jobs:
         executor: python
         steps:
             - checkout
+            - run:
+                name: Docker Login Test
+                command: docker login -u << parameters.user >> -p << parameters.pass >>            
             - persist_workspace_
     
     install_sonarqube:
