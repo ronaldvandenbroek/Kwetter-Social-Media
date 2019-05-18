@@ -136,8 +136,6 @@ jobs:
         machine: true
         environment:
             SOURCE_PATH: kwetter_backend
-            DOCKER_USER: ${DOCKER_USER}
-            DOCKER_PASS: ${DOCKER_PASS}
         steps:
             - checkout
             - run:
@@ -177,7 +175,8 @@ workflows:
             #     context: kwetter
             #     requires:
             #         - test-backend                
-            - docker-backend
+            - docker-backend:
+                context: kwetter
                 # requires:
                 #     - sonar-backend
                     
