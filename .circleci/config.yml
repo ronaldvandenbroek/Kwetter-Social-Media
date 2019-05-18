@@ -135,7 +135,9 @@ jobs:
     docker-backend:
         machine: true
         environment:
-            SOURCE_PATH: kwetter_backend       
+            SOURCE_PATH: kwetter_backend
+            DOCKER_USER: $DOCKER_USER 
+            DOCKER_PASS: $DOCKER_PASS
         steps:
             - checkout
             - run:
