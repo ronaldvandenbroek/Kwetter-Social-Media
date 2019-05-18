@@ -9,7 +9,6 @@ executors:
         environment:
             MAVEN_OPTS: -Xmx3200m
             SOURCE_PATH: kwetter_backend
-        working_directory: backend
   
 jobs:
     dependancies_backend:
@@ -39,7 +38,7 @@ jobs:
         executor: java
         steps:
             - attach_workspace:
-                at: backend
+                at: project
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
@@ -60,7 +59,7 @@ jobs:
         executor: java
         steps:
             - attach_workspace:
-                at: backend
+                at: project
             - restore_cache:
                 keys:
                     - v1-dependencies-{{ checksum "key.txt" }}
