@@ -16,19 +16,8 @@ jobs:
         steps:
             - checkout
             - run:
-                name: Variable key bypass
-                command: cat "$SOURCE_PATH/pom.xml" > key.txt
-            - restore_cache:
-                keys:
-                    - v1-dependencies-{{ checksum "key.txt" }}
-                    - v1-dependencies-
-            - run:
                 name: Maven Go-Offline
-                command: cd $SOURCE_PATH && mvn dependency:go-offline
-            - save_cache:
-                paths:
-                    - ~/.m2
-                key: v1-dependencies-{{ checksum "key.txt" }}            
+                command: cd $SOURCE_PATH && mvn dependency:go-offline     
             - persist_to_workspace:
                 root: .
                 paths:
@@ -40,22 +29,8 @@ jobs:
             - attach_workspace:
                 at: .
             - run:
-                name: Check directory
-                command: ls                       
-            - run:
-                name: Variable key bypass
-                command: cat "$SOURCE_PATH/pom.xml" > key.txt                                  
-            - restore_cache:
-                keys:
-                    - v1-dependencies-{{ checksum "key.txt" }}
-                    - v1-dependencies-
-            - run:
                 name: Build Backend
-                command: cd $SOURCE_PATH && mvn install -DskipTests
-            - save_cache:
-                paths:
-                    - ~/.m2
-                key: v1-dependencies-{{ checksum "key.txt" }}                  
+                command: cd $SOURCE_PATH && mvn install -DskipTests              
             - persist_to_workspace:
                 root: .
                 paths:
@@ -67,19 +42,8 @@ jobs:
             - attach_workspace:
                 at: .
             - run:
-                name: Variable key bypass
-                command: cat "$SOURCE_PATH/pom.xml" > key.txt                
-            - restore_cache:
-                keys:
-                    - v1-dependencies-{{ checksum "key.txt" }}
-                    - v1-dependencies-
-            - run:
                 name: Test Backend
-                command: cd $SOURCE_PATH && mvn surefire:test
-            - save_cache:
-                paths:
-                    - ~/.m2
-                key: v1-dependencies-{{ checksum "key.txt" }}                  
+                command: cd $SOURCE_PATH && mvn surefire:test              
             - persist_to_workspace:
                 root: .
                 paths:
