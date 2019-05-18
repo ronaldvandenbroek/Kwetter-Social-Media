@@ -153,9 +153,9 @@ jobs:
                 name: List Directory
                 command: ls                    
             - persist_to_workspace:
-                root: /
+                root: kwetter_backend
                 paths:
-                    - $SOURCE_PATH
+                    - /
 
     docker-backend:
         machine: true
