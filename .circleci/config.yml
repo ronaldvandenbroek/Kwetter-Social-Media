@@ -139,7 +139,7 @@ jobs:
             #         unzip sonar-scanner-cli-3.3.0.1492-linux.zip
             # - run:
             #     command: ls
-            - persist_workspace_sonar
+            # - persist_workspace_sonar
 
     sonar_frontend:
         executor: node
