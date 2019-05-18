@@ -3,6 +3,9 @@
 version: 2.1
 
 executors:
+    python:
+        docker:
+            - image: python
     java:
         docker:
             - image: circleci/openjdk:8-jdk
@@ -11,10 +14,21 @@ executors:
             SOURCE_PATH: kwetter_backend
   
 jobs:
+    checkout:
+        executor: python
+        steps:
+            - checkout
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_backend
+                    - kwetter_angular
+
     dependancies_backend:
         executor: java
         steps:
-            - checkout
+            - attach_workspace:
+                at: .
             - run:
                 name: Maven Go-Offline
                 command: cd $SOURCE_PATH && mvn dependency:go-offline     
@@ -53,7 +67,10 @@ workflows:
     version: 2.1
     build-test-deploy:
         jobs:
-            - dependancies_backend           
+            - checkout
+            - dependancies_backend
+                requires:
+                    - checkout           
             - build_backend:
                 requires:
                     - dependancies_backend
