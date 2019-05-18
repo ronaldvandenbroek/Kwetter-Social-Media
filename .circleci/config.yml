@@ -209,7 +209,7 @@ jobs:
                 command: cd $SOURCE_PATH && mvn surefire:test              
             - persist_workspace_
 
-    docker-backend:
+    docker_backend:
         machine: true
         environment:
             SOURCE_PATH: kwetter_backend
@@ -221,7 +221,7 @@ jobs:
                 pass: $DOCKER_PASS
                 path: $SOURCE_PATH
 
-    docker-frontend:
+    docker_frontend:
         machine: true
         environment:
             SOURCE_PATH: kwetter_angular
