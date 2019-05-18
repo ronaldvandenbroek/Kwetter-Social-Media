@@ -146,7 +146,7 @@ jobs:
                 command: echo $SOURCE_PATH             
             - run:
                 name: Maven Go-Offline
-                command: mvn dependency:go-offline
+                command: cd $SOURCE_PATH && mvn dependency:go-offline
             - run:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests
