@@ -138,22 +138,22 @@ jobs:
             SOURCE_PATH: kwetter_backend       
         steps:
             - checkout
-            - run: |
+            - run:
                 name: Docker Credential Test
                 command: |
                     echo $DOCKER_USER
                     echo $DOCKER_PASS            
-            - run: |
+            - run:
                 name: Docker Login
                 command: |
                     cd $SOURCE_PATH
                     docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} 
-            - run: |
+            - run:
                 name: Docker Build
                 command: |
                     cd $SOURCE_PATH
                     docker build -t $DOCKER_USER/$SOURCE_PATH:$CIRCLE_BRANCH
-            - run: |
+            - run:
                 name: Docker Push
                 command: |
                     cd $SOURCE_PATH
