@@ -174,7 +174,7 @@ jobs:
             - attach_workspace_
             - run:
                 name: Test Backend
-                command: cd $SOURCE_PATH && mvn run test
+                command: cd $SOURCE_PATH && mvn test
             - run:
                 command: cd $SOURCE_PATH/target && ls    
             
