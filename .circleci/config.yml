@@ -12,7 +12,7 @@ workflows:
             - dependancies_frontend:
                 requires:
                     - checkout
-                    
+
             - build_backend:
                 requires:
                     - dependancies_backend
@@ -32,21 +32,21 @@ workflows:
 
             - sonarqube:
                 requires:
-                    - build_backend
+                    - test_backend
+                    - test_frontend
+                    - lint_frontend
 
             - docker_backend:
                 context:
                     kwetter
                 requires:
                     - sonarqube
-                    - test_backend
+                    
             - docker_frontend:
                 context:
                     kwetter
                 requires:
-                    - sonarqube
-                    - lint_frontend
-                    - test_frontend                                      
+                    - sonarqube                                     
 
 executors:
     python:
