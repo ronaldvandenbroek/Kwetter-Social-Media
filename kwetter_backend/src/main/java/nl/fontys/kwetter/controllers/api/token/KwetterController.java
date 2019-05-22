@@ -3,6 +3,7 @@ package nl.fontys.kwetter.controllers.api.token;
 import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.NotImplementedException;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.UuidRequest;
 import nl.fontys.kwetter.service.IKwetterService;
@@ -69,7 +70,7 @@ public class KwetterController {
     }
 
     @GetMapping("/mentioned/{id}")
-    public ResponseEntity<List<Kwetter>> getMentionedKwetters(@PathVariable UUID id) throws ModelNotFoundException {
+    public ResponseEntity<List<Kwetter>> getMentionedKwetters(@PathVariable UUID id) throws ModelNotFoundException, NotImplementedException {
         List<Kwetter> mentionedKwetters = kwetterService.getMentionedKwetters(id);
         return ResponseEntity.ok(mentionedKwetters);
     }

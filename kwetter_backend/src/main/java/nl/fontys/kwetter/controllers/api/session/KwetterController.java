@@ -78,7 +78,7 @@ public class KwetterController {
     }
 
     @GetMapping("/mentioned")
-    public ResponseEntity<List<Kwetter>> getMentionedKwetters() throws ModelNotFoundException, ModelInvalidException, LoginException {
+    public ResponseEntity<List<Kwetter>> getMentionedKwetters() throws ModelNotFoundException, ModelInvalidException, LoginException, NotImplementedException {
         User user = loginService.autoLogin();
         List<Kwetter> mentionedKwetters = kwetterService.getMentionedKwetters(user.getId());
         return ResponseEntity.ok(mentionedKwetters);
