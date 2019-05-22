@@ -114,7 +114,9 @@ jobs:
     checkout:
         executor: python
         steps:
-            - checkout          
+            - checkout
+            - run:
+                command: echo $SONAR_LOGIN         
             - persist_workspace_
 
     sonarqube:
