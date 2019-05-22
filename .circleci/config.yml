@@ -173,6 +173,7 @@ jobs:
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn surefire:test
+            - persist_workspace_
 
     lint_frontend:
         executor: node
