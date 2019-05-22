@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.config;
 
-import nl.fontys.kwetter.models.Credentials;
+import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.service.IAdminService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

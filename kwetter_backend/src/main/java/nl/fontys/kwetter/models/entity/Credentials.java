@@ -1,7 +1,9 @@
-package nl.fontys.kwetter.models;
+package nl.fontys.kwetter.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import nl.fontys.kwetter.models.Role;
+import nl.fontys.kwetter.models.dto.CredentialsDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -34,6 +36,13 @@ public class Credentials implements Serializable {
     private User user;
 
     public Credentials() {
+    }
+
+    public Credentials(CredentialsDTO credentials) {
+        this.email = credentials.getEmail();
+        this.password = credentials.getPassword();
+        this.role = credentials.getRole();
+        this.user = credentials.getUser();
     }
 
     public Credentials(String email, String password) {

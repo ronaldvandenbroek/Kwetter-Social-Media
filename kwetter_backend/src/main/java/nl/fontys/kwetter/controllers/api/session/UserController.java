@@ -4,7 +4,8 @@ import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.dto.UserDTO;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/update_body")
-    public ResponseEntity<User> updateUser(User user) throws ModelNotFoundException, ModelInvalidException, LoginException {
+    public ResponseEntity<User> updateUser(UserDTO user) throws ModelNotFoundException, ModelInvalidException, LoginException {
         User login = loginService.autoLogin();
         if (user.getId() != login.getId()) {
             throw new AccessDeniedException("Trying to update a different user");
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/update_name")
-    public ResponseEntity<User> updateName(User user) throws UsernameAlreadyExistsException, ModelInvalidException, ModelNotFoundException, LoginException {
+    public ResponseEntity<User> updateName(UserDTO user) throws UsernameAlreadyExistsException, ModelInvalidException, ModelNotFoundException, LoginException {
         User login = loginService.autoLogin();
         if (user.getId() != login.getId()) {
             throw new AccessDeniedException("Trying to update a different user");

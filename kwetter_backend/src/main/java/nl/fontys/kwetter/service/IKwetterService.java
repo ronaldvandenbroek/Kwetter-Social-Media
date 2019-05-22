@@ -4,7 +4,8 @@ import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.NotImplementedException;
-import nl.fontys.kwetter.models.Kwetter;
+import nl.fontys.kwetter.models.dto.KwetterDTO;
+import nl.fontys.kwetter.models.entity.Kwetter;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +13,7 @@ import java.util.UUID;
 public interface IKwetterService {
     List<Kwetter> searchForKwetter(String searchTerm);
 
-    Kwetter createKwetter(UUID userId, Kwetter kwetter) throws ModelNotFoundException, ModelInvalidException;
+    Kwetter createKwetter(UUID userId, KwetterDTO kwetter) throws ModelNotFoundException, ModelInvalidException;
 
     void removeKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException, CouldNotDeleteModelException;
 

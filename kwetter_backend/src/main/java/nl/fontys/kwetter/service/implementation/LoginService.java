@@ -3,8 +3,9 @@ package nl.fontys.kwetter.service.implementation;
 import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.NotImplementedException;
-import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.dto.CredentialsDTO;
+import nl.fontys.kwetter.models.entity.Credentials;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IValidatorService;
@@ -44,18 +45,19 @@ public class LoginService implements ILoginService {
      *
      * @param credentials The users credentials
      * @return The logged in user
-     * @throws LoginException  Thrown if the credentials are not correct.
+     * @throws LoginException        Thrown if the credentials are not correct.
      * @throws ModelInvalidException Thrown if the credentials are not valid.
      */
     @Override
-    public User login(Credentials credentials) throws LoginException, ModelInvalidException {
-        validator.validate(credentials);
+    public User login(CredentialsDTO credentials) throws LoginException, ModelInvalidException {
+        Credentials credentialsPersistent = new Credentials(credentials);
+        validator.validate(credentialsPersistent);
 
-        User user = userRepository.findByCredentials(credentials);
+        User user = userRepository.findByCredentials(credentialsPersistent);
         if (user == null) {
             throw new LoginException("No account found matching the credentials");
         }
-        if (!credentials.getPassword().equals(user.getCredentials().getPassword())){
+        if (!credentials.getPassword().equals(user.getCredentials().getPassword())) {
             throw new LoginException("Invalid password");
         }
         return user;

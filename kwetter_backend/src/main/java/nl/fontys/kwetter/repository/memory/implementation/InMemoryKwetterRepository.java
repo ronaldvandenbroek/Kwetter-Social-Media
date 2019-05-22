@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.repository.memory.implementation;
 
-import nl.fontys.kwetter.models.Kwetter;
+import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.repository.memory.IInMemoryKwetterRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

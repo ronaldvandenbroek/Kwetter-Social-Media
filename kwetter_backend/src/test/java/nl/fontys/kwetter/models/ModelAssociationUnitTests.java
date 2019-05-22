@@ -1,5 +1,8 @@
 package nl.fontys.kwetter.models;
 
+import nl.fontys.kwetter.models.entity.Credentials;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

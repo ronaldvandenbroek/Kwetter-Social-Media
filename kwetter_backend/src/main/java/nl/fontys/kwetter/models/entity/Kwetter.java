@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.models;
+package nl.fontys.kwetter.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -42,6 +42,7 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
     private Date dateTime;
 
     public Kwetter() {
+        this.dateTime = new Date();
         this.text = "";
         this.tags = new HashSet<>();
         this.mentions = new HashSet<>();

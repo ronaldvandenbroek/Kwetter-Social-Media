@@ -1,9 +1,10 @@
 package nl.fontys.kwetter.controllers.api.session;
 
 import nl.fontys.kwetter.exceptions.*;
-import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.UuidRequest;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.dto.KwetterDTO;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class KwetterController {
 
     @PostMapping("/remove/{id}")
     @PreAuthorize("hasRole('ROLE_MOD') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity removeKwetter(@PathVariable UUID id, @RequestBody UuidRequest UUIDRequest) throws ModelNotFoundException, CouldNotDeleteModelException {
-        kwetterService.removeKwetter(id, UUIDRequest.getId());
+    public ResponseEntity removeKwetter(@PathVariable UUID id, @RequestBody UuidRequest uuidRequest) throws ModelNotFoundException, CouldNotDeleteModelException {
+        kwetterService.removeKwetter(id, uuidRequest.getId());
         return ResponseEntity.ok("Removed kwetter");
     }
 
@@ -43,7 +44,7 @@ public class KwetterController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Kwetter> createKwetter(@RequestBody Kwetter kwetter) throws ModelNotFoundException, ModelInvalidException, LoginException {
+    public ResponseEntity<Kwetter> createKwetter(@RequestBody KwetterDTO kwetter) throws ModelNotFoundException, ModelInvalidException, LoginException {
         User user = loginService.autoLogin();
         Kwetter createdKwetter = kwetterService.createKwetter(user.getId(), kwetter);
         return ResponseEntity.ok(createdKwetter);

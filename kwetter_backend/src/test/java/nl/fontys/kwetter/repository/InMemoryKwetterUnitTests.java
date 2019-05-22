@@ -1,10 +1,10 @@
 package nl.fontys.kwetter.repository;
 
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.entity.Credentials;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

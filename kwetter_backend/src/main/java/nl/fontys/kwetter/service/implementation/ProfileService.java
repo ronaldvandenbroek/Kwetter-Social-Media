@@ -3,7 +3,8 @@ package nl.fontys.kwetter.service.implementation;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.dto.UserDTO;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IProfileService;
 import nl.fontys.kwetter.service.IValidatorService;
@@ -35,11 +36,11 @@ public class ProfileService implements IProfileService {
      *
      * @param user User with the updated user bio
      * @return The updated user
-     * @throws ModelInvalidException Thrown when an invalid input is given for the model.
-     * @throws ModelNotFoundException      Thrown when the userID does not have a corresponding user.
+     * @throws ModelInvalidException  Thrown when an invalid input is given for the model.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User updateUser(User user) throws ModelInvalidException, ModelNotFoundException {
+    public User updateUser(UserDTO user) throws ModelInvalidException, ModelNotFoundException {
         User oldUser = getUserById(user.getId());
 
         validator.validate(user);
@@ -60,11 +61,11 @@ public class ProfileService implements IProfileService {
      * @param user User with the updated name
      * @return The updated user
      * @throws UsernameAlreadyExistsException Thrown if the chosen name already exists.
-     * @throws ModelInvalidException Thrown when an invalid input is given for the model.
-     * @throws ModelNotFoundException      Thrown when the userID does not have a corresponding user.
+     * @throws ModelInvalidException          Thrown when an invalid input is given for the model.
+     * @throws ModelNotFoundException         Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User updateName(User user) throws UsernameAlreadyExistsException, ModelNotFoundException, ModelInvalidException {
+    public User updateName(UserDTO user) throws UsernameAlreadyExistsException, ModelNotFoundException, ModelInvalidException {
         if (!userRepository.existsByName(user.getName())) {
             User oldUser = getUserById(user.getId());
 

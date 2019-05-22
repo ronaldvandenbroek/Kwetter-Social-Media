@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.repository.memory.implementation;
 
-import nl.fontys.kwetter.models.Credentials;
+import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.repository.memory.IInMemoryCredentialsRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

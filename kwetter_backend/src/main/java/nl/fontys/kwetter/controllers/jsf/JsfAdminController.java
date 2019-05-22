@@ -2,9 +2,9 @@ package nl.fontys.kwetter.controllers.jsf;
 
 import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
-import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.Role;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.IAdminService;
 import nl.fontys.kwetter.service.IKwetterService;
 import org.slf4j.Logger;
@@ -36,11 +36,11 @@ public class JsfAdminController {
         return adminService.getAllUsers();
     }
 
-    public List<Role> getAllRoles(){
+    public List<Role> getAllRoles() {
         return Arrays.asList(Role.values());
     }
 
-    public List<Kwetter> getAllKwetters(){
+    public List<Kwetter> getAllKwetters() {
         return adminService.getAllKwetters();
     }
 

@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.models;
+package nl.fontys.kwetter.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

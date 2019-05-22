@@ -4,10 +4,10 @@ import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.NotImplementedException;
-import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.UuidRequest;
+import nl.fontys.kwetter.models.dto.KwetterDTO;
+import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.service.IKwetterService;
-import nl.fontys.kwetter.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,7 @@ public class KwetterController {
     }
 
     @PostMapping("/create/{id}")
-    public ResponseEntity<Kwetter> createKwetter(@PathVariable UUID id, @RequestBody Kwetter kwetter) throws ModelNotFoundException, ModelInvalidException {
+    public ResponseEntity<Kwetter> createKwetter(@PathVariable UUID id, @RequestBody KwetterDTO kwetter) throws ModelNotFoundException, ModelInvalidException {
         Kwetter createdKwetter = kwetterService.createKwetter(id, kwetter);
         return ResponseEntity.ok(createdKwetter);
     }

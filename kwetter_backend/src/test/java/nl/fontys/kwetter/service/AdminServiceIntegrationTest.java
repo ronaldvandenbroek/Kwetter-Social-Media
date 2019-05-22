@@ -2,9 +2,9 @@ package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
-import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.entity.Credentials;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;

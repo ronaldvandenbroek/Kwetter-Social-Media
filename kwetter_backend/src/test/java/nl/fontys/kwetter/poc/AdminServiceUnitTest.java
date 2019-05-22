@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.poc;
 
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
-import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.Role;
+import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;

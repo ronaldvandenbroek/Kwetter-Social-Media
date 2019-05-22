@@ -1,12 +1,12 @@
 package nl.fontys.kwetter.service.implementation;
 
-import nl.fontys.kwetter.controllers.api.token.LoginController;
 import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.NotImplementedException;
-import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.dto.KwetterDTO;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IKwetterService;
@@ -54,11 +54,11 @@ public class KwetterService implements IKwetterService {
      * @param userId  Id of the User
      * @param kwetter The kwetter to be created
      * @return The created kwetter
-     * @throws ModelInvalidException Thrown when an invalid input is given for the model.
-     * @throws ModelNotFoundException      Thrown when the userID does not have a corresponding user.
+     * @throws ModelInvalidException  Thrown when an invalid input is given for the model.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public Kwetter createKwetter(UUID userId, Kwetter kwetter) throws ModelNotFoundException, ModelInvalidException {
+    public Kwetter createKwetter(UUID userId, KwetterDTO kwetter) throws ModelNotFoundException, ModelInvalidException {
         logger.info("Creating Kwetter");
         logger.info(String.valueOf(userId));
         logger.info(String.valueOf(kwetter));
@@ -90,7 +90,7 @@ public class KwetterService implements IKwetterService {
         userRepository.save(owner);
 
         logger.info("Created Kwetter");
-        return kwetter;
+        return newKwetter;
     }
 
     /**
@@ -99,7 +99,7 @@ public class KwetterService implements IKwetterService {
      * @param userId    Id of the User
      * @param kwetterId Id of the Kwetter
      * @throws ModelNotFoundException Thrown when the kwetterID does not have a corresponding Kwetter.
-     * @throws ModelNotFoundException    Thrown when the userID does not have a corresponding User.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
     public void removeKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException, CouldNotDeleteModelException {
@@ -120,7 +120,7 @@ public class KwetterService implements IKwetterService {
      * @param userId    Id of the User
      * @param kwetterId Id of the Kwetter
      * @throws ModelNotFoundException Thrown when the kwetterID does not have a corresponding Kwetter.
-     * @throws ModelNotFoundException    Thrown when the userID does not have a corresponding User.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
     public void heartKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
@@ -139,7 +139,7 @@ public class KwetterService implements IKwetterService {
      * @param userId    Id of the User
      * @param kwetterId Id of the Kwetter
      * @throws ModelNotFoundException Thrown when the kwetterID does not have a corresponding Kwetter.
-     * @throws ModelNotFoundException    Thrown when the userID does not have a corresponding User.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
     public void removeHeartKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
@@ -158,7 +158,7 @@ public class KwetterService implements IKwetterService {
      * @param userId    Id of the User
      * @param kwetterId Id of the Kwetter
      * @throws ModelNotFoundException Thrown when the kwetterID does not have a corresponding Kwetter.
-     * @throws ModelNotFoundException    Thrown when the userID does not have a corresponding User.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
     public void reportKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
@@ -177,7 +177,7 @@ public class KwetterService implements IKwetterService {
      * @param userId    Id of the User
      * @param kwetterId Id of the Kwetter
      * @throws ModelNotFoundException Thrown when the kwetterID does not have a corresponding Kwetter.
-     * @throws ModelNotFoundException    Thrown when the userID does not have a corresponding User.
+     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
     public void removeReportKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {

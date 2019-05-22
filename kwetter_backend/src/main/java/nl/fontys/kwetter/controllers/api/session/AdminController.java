@@ -2,9 +2,9 @@ package nl.fontys.kwetter.controllers.api.session;
 
 import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
-import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.dto.CredentialsDTO;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase;
 import nl.fontys.kwetter.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class AdminController {
 
     @PostMapping("/change_role")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity changeRole(@RequestBody Credentials credentials) throws ModelNotFoundException {
+    public ResponseEntity changeRole(@RequestBody CredentialsDTO credentials) throws ModelNotFoundException {
         adminService.changeRole(credentials.getEmail(), credentials.getRole());
         return ResponseEntity.ok("Changed user role");
     }

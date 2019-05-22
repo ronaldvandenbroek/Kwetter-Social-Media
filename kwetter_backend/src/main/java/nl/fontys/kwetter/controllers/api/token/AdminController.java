@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.controllers.api.token;
 
 import nl.fontys.kwetter.exceptions.LoginException;
-import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -1,6 +1,6 @@
 package nl.fontys.kwetter.repository;
 
-import nl.fontys.kwetter.models.Kwetter;
+import nl.fontys.kwetter.models.entity.Kwetter;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;

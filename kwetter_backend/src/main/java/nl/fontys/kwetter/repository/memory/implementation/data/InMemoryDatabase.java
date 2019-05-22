@@ -1,8 +1,8 @@
 package nl.fontys.kwetter.repository.memory.implementation.data;
 
-import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.entity.Credentials;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -15,7 +15,8 @@ public class InMemoryDatabase {
     private static Collection<Credentials> allCredentials = new ArrayList<>();
     private static Collection<Kwetter> allKwetters = new ArrayList<>();
 
-    private InMemoryDatabase() {}
+    private InMemoryDatabase() {
+    }
 
     public static Collection<User> userCollection() {
         return allUsers;

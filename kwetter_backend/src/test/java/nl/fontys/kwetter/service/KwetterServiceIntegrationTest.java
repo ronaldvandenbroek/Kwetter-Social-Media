@@ -1,11 +1,15 @@
 package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
-import nl.fontys.kwetter.exceptions.*;
-import nl.fontys.kwetter.models.Credentials;
-import nl.fontys.kwetter.models.Kwetter;
+import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
+import nl.fontys.kwetter.exceptions.LoginException;
+import nl.fontys.kwetter.exceptions.ModelInvalidException;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Role;
-import nl.fontys.kwetter.models.User;
+import nl.fontys.kwetter.models.dto.CredentialsDTO;
+import nl.fontys.kwetter.models.dto.KwetterDTO;
+import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,9 +20,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,7 +56,7 @@ class KwetterServiceIntegrationTest {
         String password = "test";
 
         try {
-            testUser = loginService.login(new Credentials(email, password, Role.ROLE_USER));
+            testUser = loginService.login(new CredentialsDTO(email, password, Role.ROLE_USER));
             testKwetter = testUser.getCreatedKwetters().iterator().next();
         } catch (LoginException | ModelInvalidException e) {
             e.printStackTrace();
@@ -125,7 +127,7 @@ class KwetterServiceIntegrationTest {
     void failToCreateKwetterInvalidText() {
         String text = null;
 
-        Kwetter kwetter = new Kwetter();
+        KwetterDTO kwetter = new KwetterDTO();
         kwetter.setText(text);
 
         assertThrows(ModelInvalidException.class, () -> kwetterService.createKwetter(testUser.getId(), kwetter));
