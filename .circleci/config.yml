@@ -174,9 +174,9 @@ jobs:
             - attach_workspace_
             - run:
                 name: Test Backend
-                command: cd $SOURCE_PATH && mvn surefire:test
+                command: cd $SOURCE_PATH && mvn run test
             - run:
-                command: cd $SOURCE_PATH && ls    
+                command: cd $SOURCE_PATH/target && ls    
             
 
             - persist_to_workspace:
