@@ -13,7 +13,7 @@ workflows:
                 requires:
                     - checkout
 
-             - sonar:
+            - sonarqube:
                 requires:
                     - checkout                   
          
@@ -38,13 +38,13 @@ workflows:
                 context:
                     kwetter
                 requires:
-                    - sonar
+                    - sonarqube
                     - test_backend
             - docker_frontend:
                 context:
                     kwetter
                 requires:
-                    - sonar
+                    - sonarqube
                     - lint_frontend
                     - test_frontend                                      
 
@@ -116,18 +116,6 @@ jobs:
         steps:
             - checkout          
             - persist_workspace_
-    
-    install_sonarqube:
-        executor: python
-        steps:
-            # - run:
-            #     name: Install Sonarqube scanner
-            #     command: |
-            #         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-            #         unzip sonar-scanner-cli-3.3.0.1492-linux.zip
-            - run:
-                command: ls
-            # - persist_workspace_sonar
 
     sonarqube:
         executor: java
