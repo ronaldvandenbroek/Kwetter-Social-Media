@@ -8,35 +8,35 @@ workflows:
 
             - dependancies_backend:
                 requires:
-                    - checkout  
-            # - dependancies_frontend:
-            #     requires:
-            #         - checkout
+                    - checkout
+            - dependancies_frontend:
+                requires:
+                    - checkout
 
             - build_backend:
                 requires:
                     - dependancies_backend
-            # - build_frontend:
-            #     requires:
-            #         - dependancies_frontend
+            - build_frontend:
+                requires:
+                    - dependancies_frontend
 
             - test_backend:
                 requires:
                     - build_backend
-            # - lint_frontend:
-            #     requires:
-            #         - build_frontend
-            # - test_frontend:
-            #     requires:
-            #         - build_frontend
+            - lint_frontend:
+                requires:
+                    - build_frontend
+            - test_frontend:
+                requires:
+                    - build_frontend
 
             - sonarqube:
                 context:
                     kwetter                
                 requires:
                     - test_backend
-                    # - test_frontend
-                    # - lint_frontend
+                    - test_frontend
+                    - lint_frontend
 
             - docker_backend:
                 context:
@@ -44,11 +44,11 @@ workflows:
                 requires:
                     - sonarqube
 
-            # - docker_frontend:
-            #     context:
-            #         kwetter
-            #     requires:
-            #         - sonarqube                                     
+            - docker_frontend:
+                context:
+                    kwetter
+                requires:
+                    - sonarqube                                     
 
 executors:
     python:
@@ -175,10 +175,6 @@ jobs:
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn test
-            - run:
-                command: cd $SOURCE_PATH/target && ls    
-            
-
             - persist_to_workspace:
                 root: .
                 paths:
