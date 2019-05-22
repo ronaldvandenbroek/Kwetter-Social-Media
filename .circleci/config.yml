@@ -123,6 +123,7 @@ jobs:
             - attach_workspace_
             - run:
                 command: |
+                    cd kwetter_backend
                     mvn sonar:sonar \
                     -Dsonar.projectKey=kwetter \
                     -Dsonar.organization=ronaldvandenbroek-github \
