@@ -41,7 +41,7 @@ workflows:
                     kwetter
                 requires:
                     - sonarqube
-                    
+
             - docker_frontend:
                 context:
                     kwetter
@@ -128,7 +128,7 @@ jobs:
                     -Dsonar.projectKey=kwetter \
                     -Dsonar.organization=ronaldvandenbroek-github \
                     -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=ddbe3280d03d59f0c290db4a1cd256c9c64a6858
+                    -Dsonar.login=$SONAR_LOGIN
 
     dependancies_backend:
         executor: java
