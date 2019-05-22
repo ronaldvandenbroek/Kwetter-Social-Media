@@ -31,6 +31,8 @@ workflows:
             #         - build_frontend
 
             - sonarqube:
+                context:
+                    kwetter                
                 requires:
                     - test_backend
                     # - test_frontend
@@ -42,11 +44,11 @@ workflows:
                 requires:
                     - sonarqube
 
-            - docker_frontend:
-                context:
-                    kwetter
-                requires:
-                    - sonarqube                                     
+            # - docker_frontend:
+            #     context:
+            #         kwetter
+            #     requires:
+            #         - sonarqube                                     
 
 executors:
     python:
@@ -114,9 +116,7 @@ jobs:
     checkout:
         executor: python
         steps:
-            - checkout
-            - run:
-                command: echo $SONAR_LOGIN         
+            - checkout   
             - persist_workspace_
 
     sonarqube:
