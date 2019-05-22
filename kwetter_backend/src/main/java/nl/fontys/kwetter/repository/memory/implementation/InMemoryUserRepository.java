@@ -84,6 +84,10 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
         return userCollection().size();
     }
 
+    /**
+     * Not implemented because it isn't used.
+     *
+     */
     @Override
     public void deleteById(UUID aLong) {
     }
@@ -93,6 +97,10 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
         userCollection().remove(user);
     }
 
+    /**
+     * Not implemented because it isn't used.
+     *
+     */
     @Override
     public void deleteAll(Iterable<? extends User> iterable) {
     }

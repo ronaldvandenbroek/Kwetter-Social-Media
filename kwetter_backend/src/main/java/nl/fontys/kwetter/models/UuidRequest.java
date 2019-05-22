@@ -11,7 +11,4 @@ public class UuidRequest implements Serializable {
 
     @Type(type = "uuid-char")
     private UUID id;
-
-    public UuidRequest() {
-    }
 }

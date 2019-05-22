@@ -52,6 +52,10 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
         return credentialsCollection().size();
     }
 
+    /**
+     * Not implemented because it isn't used.
+     *
+     */
     @Override
     public void deleteById(String s) {
     }
@@ -61,6 +65,10 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
         credentialsCollection().remove(credentials);
     }
 
+    /**
+     * Not implemented because it isn't used.
+     *
+     */
     @Override
     public void deleteAll(Iterable<? extends Credentials> iterable) {
     }

@@ -65,6 +65,10 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
         return kwetterCollection().size();
     }
 
+    /**
+     * Not implemented because it isn't used.
+     *
+     */
     @Override
     public void deleteById(UUID aLong) {
     }
@@ -74,6 +78,10 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
         kwetterCollection().remove(kwetter);
     }
 
+    /**
+     * Not implemented because it isn't used.
+     *
+     */
     @Override
     public void deleteAll(Iterable<? extends Kwetter> iterable) {
     }
