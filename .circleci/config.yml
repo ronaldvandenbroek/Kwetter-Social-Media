@@ -5,14 +5,17 @@ workflows:
     build-test-deploy:
         jobs:
             - checkout
-            - install_sonarqube
 
             - dependancies_backend:
                 requires:
                     - checkout  
             - dependancies_frontend:
                 requires:
-                    - checkout 
+                    - checkout
+
+             - sonar:
+                requires:
+                    - checkout                   
          
             - build_backend:
                 requires:
@@ -20,15 +23,6 @@ workflows:
             - build_frontend:
                 requires:
                     - dependancies_frontend
-
-            - sonar_backend:
-                requires:
-                    - checkout
-                    - install_sonarqube
-            - sonar_frontend:
-                requires:
-                    - checkout
-                    - install_sonarqube
 
             - test_backend:
                 requires:
@@ -44,13 +38,13 @@ workflows:
                 context:
                     kwetter
                 requires:
-                    - sonar_backend
+                    - sonar
                     - test_backend
             - docker_frontend:
                 context:
                     kwetter
                 requires:
-                    - sonar_frontend
+                    - sonar
                     - lint_frontend
                     - test_frontend                                      
 
@@ -75,6 +69,7 @@ commands:
         steps:
             - attach_workspace:
                 at: .
+
     persist_workspace_:
         steps:
             - persist_to_workspace:
@@ -82,32 +77,14 @@ commands:
                 paths:
                     - kwetter_backend
                     - kwetter_angular
+
     persist_workspace_sonar:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
                     - sonar-scanner-3.3.0.1492-linux
-    run_sonar:
-        parameters:
-            path:
-                type: string
-                default: .
-            server_location:
-                type: string
-                default: http://377c37dc.ngrok.io
-        steps:
-            - run:
-                name: Run Sonarqube scanner
-                command: |
-                    cd $SOURCE_PATH
-                    export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./../sonar-scanner-3.3.0.1492-linux/bin/sonar-scanner -Dsonar.projectKey=${SOURCE_PATH}_CommandTest \
-                    -Dsonar.sources=. \
-                    -Dsonar.sourceEncoding=US-ASCII \
-                    -Dsonar.exclusions=vendor/bundle/** \
-                    -Dsonar.host.url=<< parameters.server_location >> \
-                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \
+
     run_docker:
         parameters:
             user:
@@ -152,21 +129,17 @@ jobs:
                 command: ls
             # - persist_workspace_sonar
 
-    sonar_backend:
+    sonarqube:
         executor: java
         steps:
             - attach_workspace_
-            # Skipping sonar for testing purposes
-            # - run_sonar:
-            #     path: $SOURCE_PATH 
-
-    sonar_frontend:
-        executor: node
-        steps:
-            - attach_workspace_
-            # Skipping sonar for testing purposes
-            # - run_sonar:
-            #     path: $SOURCE_PATH
+            - run:
+                command: |
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=kwetter \
+                    -Dsonar.organization=ronaldvandenbroek-github \
+                    -Dsonar.host.url=https://sonarcloud.io \
+                    -Dsonar.login=ddbe3280d03d59f0c290db4a1cd256c9c64a6858
 
     dependancies_backend:
         executor: java
