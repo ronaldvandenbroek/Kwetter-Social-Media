@@ -33,7 +33,7 @@ public class Application extends SpringBootServletInitializer {
 
     @Bean
     public CommandLineRunner loadData(IKwetterRepository kwetterRepository, IUserRepository userRepository, ICredentialsRepository credentialsRepository) {
-        return (args) -> {
+        return args -> {
             userRepository.deleteAll();
             kwetterRepository.deleteAll();
             credentialsRepository.deleteAll();

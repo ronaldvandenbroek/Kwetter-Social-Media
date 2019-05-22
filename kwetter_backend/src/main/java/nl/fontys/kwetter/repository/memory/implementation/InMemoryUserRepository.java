@@ -5,7 +5,6 @@ import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.memory.IInMemoryUserRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +44,19 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
     @Override
     public <S extends User> S save(S s) {
         //Check if new user
-        if (s.getId() == null) {
-            if (userCollection().stream().anyMatch(user -> user.getName().equals(s.getName()))) {
-                return null;
-            }
+        if (s.getId() == null && userCollection().stream().anyMatch(user -> user.getName().equals(s.getName()))) {
+            return null;
         }
 
         userCollection().removeIf(user -> user.getId().equals(s.getId()));
         userCollection().add(s);
         Optional<User> first = userCollection().stream().filter(user -> user.getId().equals(s.getId())).findFirst();
-        return (S) first.get();
+        return (S) first.orElse(null);
     }
 
     @Override
     public <S extends User> Iterable<S> saveAll(Iterable<S> iterable) {
-        throw new NotImplementedException();
+        return null;
     }
 
     @Override
@@ -69,7 +66,7 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
 
     @Override
     public boolean existsById(UUID aLong) {
-        throw new NotImplementedException();
+        return false;
     }
 
     @Override
@@ -79,7 +76,7 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
 
     @Override
     public Iterable<User> findAllById(Iterable<UUID> iterable) {
-        throw new NotImplementedException();
+        return null;
     }
 
     @Override
@@ -89,7 +86,6 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
 
     @Override
     public void deleteById(UUID aLong) {
-        throw new NotImplementedException();
     }
 
     @Override
@@ -99,7 +95,6 @@ public class InMemoryUserRepository implements IInMemoryUserRepository {
 
     @Override
     public void deleteAll(Iterable<? extends User> iterable) {
-        throw new NotImplementedException();
     }
 
     @Override

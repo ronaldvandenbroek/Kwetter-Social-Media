@@ -3,6 +3,7 @@ package nl.fontys.kwetter.service;
 import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.NotImplementedException;
 import nl.fontys.kwetter.models.Kwetter;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface IKwetterService {
 
     void removeReportKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException;
 
-    List<Kwetter> getMentionedKwetters(UUID userId) throws ModelNotFoundException;
+    List<Kwetter> getMentionedKwetters(UUID userId) throws ModelNotFoundException, NotImplementedException;
 
     List<Kwetter> getMostRecentKwetters(UUID userId) throws ModelNotFoundException;
 

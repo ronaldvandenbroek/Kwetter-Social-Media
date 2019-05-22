@@ -4,7 +4,6 @@ import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.repository.memory.IInMemoryKwetterRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +32,12 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
         kwetterCollection().removeIf(kwetter -> kwetter.getId().equals(s.getId()));
         kwetterCollection().add(s);
         Optional<Kwetter> first = kwetterCollection().stream().filter(kwetter -> kwetter.getId().equals(s.getId())).findFirst();
-        return (S) first.get();
+        return (S) first.orElse(null);
     }
 
     @Override
     public <S extends Kwetter> Iterable<S> saveAll(Iterable<S> iterable) {
-        throw new NotImplementedException();
+        return null;
     }
 
     @Override
@@ -48,7 +47,7 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
     public boolean existsById(UUID aLong) {
-        throw new NotImplementedException();
+        return false;
     }
 
     @Override
@@ -58,7 +57,7 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
     public Iterable<Kwetter> findAllById(Iterable<UUID> iterable) {
-        throw new NotImplementedException();
+        return null;
     }
 
     @Override
@@ -68,7 +67,6 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
     public void deleteById(UUID aLong) {
-        throw new NotImplementedException();
     }
 
     @Override
@@ -78,7 +76,6 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
     public void deleteAll(Iterable<? extends Kwetter> iterable) {
-        throw new NotImplementedException();
     }
 
     @Override

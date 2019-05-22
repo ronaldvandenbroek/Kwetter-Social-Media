@@ -2,6 +2,7 @@ package nl.fontys.kwetter.service.implementation;
 
 import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
+import nl.fontys.kwetter.exceptions.NotImplementedException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.IUserRepository;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Service for handling model operations regarding the jsfLogin process.
@@ -69,7 +69,7 @@ public class LoginService implements ILoginService {
      * @return The new user
      */
     @Override
-    public User createAccount(String email, String password) {
+    public User createAccount(String email, String password) throws NotImplementedException {
         throw new NotImplementedException();
     }
 }

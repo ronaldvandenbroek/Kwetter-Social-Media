@@ -24,7 +24,7 @@ public class Credentials implements Serializable {
     private String email;
 
     @NotNull(message = "Password cannot be null")
-    @Column(name = "password", updatable = false, nullable = false, unique = false)
+    @Column(name = "password", updatable = false, nullable = false)
     private String password;
 
     private Role role;

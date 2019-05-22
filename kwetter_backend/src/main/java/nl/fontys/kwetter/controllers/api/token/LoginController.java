@@ -2,12 +2,15 @@ package nl.fontys.kwetter.controllers.api.token;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import nl.fontys.kwetter.config.SecurityConfig;
 import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.models.JwtToken;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.ILoginService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ import java.util.Date;
 @RequestMapping(path = "/api/token/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LoginController {
 
+    private Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     private ILoginService loginService;
 
     @Autowired
@@ -31,7 +36,7 @@ public class LoginController {
 
     @PostMapping("login")
     public ResponseEntity<JwtToken> login(@RequestBody Credentials credentials) throws ModelInvalidException, LoginException {
-        System.out.println(credentials.getEmail() + " is trying to log in");
+        logger.info(String.format("%s is trying to login", credentials.getEmail()));
         User userLoggedIn = loginService.login(credentials);
 
         String jwtToken = Jwts.builder().setSubject(userLoggedIn.getCredentials().getEmail())
@@ -42,7 +47,7 @@ public class LoginController {
 
         JwtToken token = new JwtToken(jwtToken, userLoggedIn);
 
-        System.out.println(credentials.getEmail() + " logged in successfully");
+        logger.info(String.format("%s logged in successfully", credentials.getEmail()));
         return ResponseEntity.ok(token);
     }
 }

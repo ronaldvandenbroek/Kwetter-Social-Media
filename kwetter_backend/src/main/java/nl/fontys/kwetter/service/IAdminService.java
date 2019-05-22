@@ -19,6 +19,4 @@ public interface IAdminService {
     List<Kwetter> getAllKwetters();
 
     List<Credentials> getAllCredentials();
-
-    //void changePermissionsPerRole();
 }

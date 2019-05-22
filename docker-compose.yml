@@ -15,8 +15,8 @@ services:
     networks:
       - kwetternet
 
-  kwetter_api:
-    image: ronindebeek/kwetter_api:latest
+  kwetter_backend:
+    image: ronindebeek/kwetter_backend:latest
     ports:
       - 8080:8080
     networks:

@@ -15,6 +15,8 @@ public class InMemoryDatabase {
     private static Collection<Credentials> allCredentials = new ArrayList<>();
     private static Collection<Kwetter> allKwetters = new ArrayList<>();
 
+    private InMemoryDatabase() {}
+
     public static Collection<User> userCollection() {
         return allUsers;
     }

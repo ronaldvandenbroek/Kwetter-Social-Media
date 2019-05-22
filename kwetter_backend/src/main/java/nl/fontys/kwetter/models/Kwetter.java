@@ -42,6 +42,7 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
     private Date dateTime;
 
     public Kwetter() {
+        this.text = "";
         this.tags = new HashSet<>();
         this.mentions = new HashSet<>();
     }

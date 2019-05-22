@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Data
-public class UUIDRequest implements Serializable {
+public class UuidRequest implements Serializable {
 
     @Type(type = "uuid-char")
     private UUID id;
 
-    public UUIDRequest() {
+    public UuidRequest() {
     }
 }

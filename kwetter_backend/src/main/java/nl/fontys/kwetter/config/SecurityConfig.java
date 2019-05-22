@@ -99,10 +99,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(username -> {
-            try {
-                logger.info("Login attempt for " + username);
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        try {
+            auth.userDetailsService(username -> {
+                logger.info(String.format("Login attempt for %s", username));
                 List<Credentials> allCredentials = adminService.getAllCredentials();
                 for (Credentials credentials : allCredentials) {
                     if (username.equals(credentials.getEmail())) {
@@ -110,10 +110,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 }
                 throw new UsernameNotFoundException("Invalid username");
-            } catch (Exception e) {
-                throw new UsernameNotFoundException("Invalid username");
-            }
-        });
+            });
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("Invalid username");
+        }
     }
 
     private User createSecurityUser(Credentials credentials) {

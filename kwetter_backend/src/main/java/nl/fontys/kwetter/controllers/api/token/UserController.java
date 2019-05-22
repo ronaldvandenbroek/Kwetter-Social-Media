@@ -4,10 +4,11 @@ import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
-import nl.fontys.kwetter.models.UUIDRequest;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IProfileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ public class UserController {
     private final IProfileService profileService;
 
     private final ILoginService loginService;
+
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(IProfileService profileService, ILoginService loginService) {
@@ -53,14 +56,12 @@ public class UserController {
 
     @PostMapping("/follow/{id}")
     public ResponseEntity<User> follow(@PathVariable UUID id, @RequestBody User follow) throws ModelNotFoundException {
-        System.out.println("Received follow request: " + id + " " + follow.getId());
         profileService.followUser(id, follow.getId());
         return ResponseEntity.ok(follow);
     }
 
     @PostMapping("/unfollow/{id}")
     public ResponseEntity<User> unfollow(@PathVariable UUID id, @RequestBody User unfollow) throws ModelNotFoundException {
-        System.out.println("Received unfollow request: " + id + " " + unfollow.getId());
         profileService.unFollowUser(id, unfollow.getId());
         return ResponseEntity.ok(unfollow);
     }

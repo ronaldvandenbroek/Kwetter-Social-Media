@@ -2,7 +2,7 @@ package nl.fontys.kwetter.controllers.api.session;
 
 import nl.fontys.kwetter.exceptions.*;
 import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.UUIDRequest;
+import nl.fontys.kwetter.models.UuidRequest;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.ILoginService;
@@ -31,7 +31,7 @@ public class KwetterController {
 
     @PostMapping("/remove/{id}")
     @PreAuthorize("hasRole('ROLE_MOD') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity removeKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, CouldNotDeleteModelException {
+    public ResponseEntity removeKwetter(@PathVariable UUID id, @RequestBody UuidRequest UUIDRequest) throws ModelNotFoundException, CouldNotDeleteModelException {
         kwetterService.removeKwetter(id, UUIDRequest.getId());
         return ResponseEntity.ok("Removed kwetter");
     }
@@ -50,30 +50,30 @@ public class KwetterController {
     }
 
     @PostMapping("/heart")
-    public ResponseEntity heartKwetter(@RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
+    public ResponseEntity heartKwetter(@RequestBody UuidRequest uuidRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
         User user = loginService.autoLogin();
-        kwetterService.heartKwetter(user.getId(), UUIDRequest.getId());
+        kwetterService.heartKwetter(user.getId(), uuidRequest.getId());
         return ResponseEntity.ok("Hearted kwetter");
     }
 
     @PostMapping("/remove_heart")
-    public ResponseEntity removeHeartKwetter(@RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
+    public ResponseEntity removeHeartKwetter(@RequestBody UuidRequest uuidRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
         User user = loginService.autoLogin();
-        kwetterService.removeHeartKwetter(user.getId(), UUIDRequest.getId());
+        kwetterService.removeHeartKwetter(user.getId(), uuidRequest.getId());
         return ResponseEntity.ok("Removed Heart from kwetter");
     }
 
     @PostMapping("/report")
-    public ResponseEntity reportKwetter(@RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
+    public ResponseEntity reportKwetter(@RequestBody UuidRequest uuidRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
         User user = loginService.autoLogin();
-        kwetterService.reportKwetter(user.getId(), UUIDRequest.getId());
+        kwetterService.reportKwetter(user.getId(), uuidRequest.getId());
         return ResponseEntity.ok("Report kwetter");
     }
 
     @PostMapping("/remove_report")
-    public ResponseEntity removeReportKwetter(@RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
+    public ResponseEntity removeReportKwetter(@RequestBody UuidRequest uuidRequest) throws ModelNotFoundException, ModelInvalidException, LoginException {
         User user = loginService.autoLogin();
-        kwetterService.removeReportKwetter(user.getId(), UUIDRequest.getId());
+        kwetterService.removeReportKwetter(user.getId(), uuidRequest.getId());
         return ResponseEntity.ok("Removed Report from kwetter");
     }
 

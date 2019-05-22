@@ -4,9 +4,11 @@ import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorCon
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,7 @@ public class ErrorController extends AbstractErrorController {
         super(errorAttributes, errorViewResolvers);
     }
 
-    @RequestMapping(value = "/error", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/error", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> handleError(HttpServletRequest request) {
         return super.getErrorAttributes(request, false);

@@ -1,17 +1,20 @@
 package nl.fontys.kwetter.service.implementation;
 
+import nl.fontys.kwetter.controllers.api.token.LoginController;
 import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
+import nl.fontys.kwetter.exceptions.NotImplementedException;
 import nl.fontys.kwetter.models.Kwetter;
 import nl.fontys.kwetter.models.User;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.IValidatorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
 
@@ -20,6 +23,8 @@ import java.util.*;
  */
 @Service
 public class KwetterService implements IKwetterService {
+
+    private Logger logger = LoggerFactory.getLogger(KwetterService.class);
 
     private IValidatorService validator;
     private IUserRepository userRepository;
@@ -54,14 +59,14 @@ public class KwetterService implements IKwetterService {
      */
     @Override
     public Kwetter createKwetter(UUID userId, Kwetter kwetter) throws ModelNotFoundException, ModelInvalidException {
-        System.out.println("Creating Kwetter");
-        System.out.println(userId);
-        System.out.println(kwetter);
+        logger.info("Creating Kwetter");
+        logger.info(String.valueOf(userId));
+        logger.info(String.valueOf(kwetter));
 
         User owner = getUserById(userId);
-        System.out.println(owner.getId());
-        System.out.println(owner.getName());
-        System.out.println(owner);
+        logger.info(String.valueOf(owner.getId()));
+        logger.info(owner.getName());
+        logger.info(String.valueOf(owner));
 
         Set<User> mentions = new HashSet<>();
         if (kwetter.getMentions() != null) {
@@ -76,16 +81,15 @@ public class KwetterService implements IKwetterService {
         newKwetter.setMentions(mentions);
         newKwetter.setDateTime(Calendar.getInstance().getTime());
         newKwetter.setOwner(owner);
-        //owner.addCreatedKwetter(newKwetter);
 
         validator.validate(newKwetter);
 
-        System.out.println(newKwetter);
+        logger.info(String.valueOf(newKwetter));
 
         kwetterRepository.save(newKwetter);
         userRepository.save(owner);
 
-        System.out.println("Created Kwetter");
+        logger.info("Created Kwetter");
         return kwetter;
     }
 
@@ -191,11 +195,10 @@ public class KwetterService implements IKwetterService {
      *
      * @param userId Id of the User
      * @return List of all Kwetters the user is mentioned in.
-     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
+     * @throws NotImplementedException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getMentionedKwetters(UUID userId) throws ModelNotFoundException {
-        User user = getUserById(userId);
+    public List<Kwetter> getMentionedKwetters(UUID userId) throws NotImplementedException {
         throw new NotImplementedException();
     }
 

@@ -4,7 +4,6 @@ import nl.fontys.kwetter.models.Credentials;
 import nl.fontys.kwetter.repository.memory.IInMemoryCredentialsRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -25,7 +24,7 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
 
     @Override
     public <S extends Credentials> Iterable<S> saveAll(Iterable<S> iterable) {
-        throw new NotImplementedException();
+        return null;
     }
 
     @Override
@@ -35,7 +34,7 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
 
     @Override
     public boolean existsById(String s) {
-        throw new NotImplementedException();
+        return false;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
 
     @Override
     public Iterable<Credentials> findAllById(Iterable<String> iterable) {
-        throw new NotImplementedException();
+        return null;
     }
 
     @Override
@@ -55,7 +54,6 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
 
     @Override
     public void deleteById(String s) {
-        throw new NotImplementedException();
     }
 
     @Override
@@ -65,7 +63,6 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
 
     @Override
     public void deleteAll(Iterable<? extends Credentials> iterable) {
-        throw new NotImplementedException();
     }
 
     @Override

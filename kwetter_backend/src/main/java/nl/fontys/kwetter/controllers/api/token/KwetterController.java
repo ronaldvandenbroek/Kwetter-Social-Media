@@ -1,11 +1,10 @@
 package nl.fontys.kwetter.controllers.api.token;
 
 import nl.fontys.kwetter.exceptions.CouldNotDeleteModelException;
-import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Kwetter;
-import nl.fontys.kwetter.models.UUIDRequest;
+import nl.fontys.kwetter.models.UuidRequest;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +21,14 @@ public class KwetterController {
 
     private final IKwetterService kwetterService;
 
-    private final ILoginService loginService;
-
     @Autowired
-    public KwetterController(IKwetterService kwetterService, ILoginService loginService) {
+    public KwetterController(IKwetterService kwetterService) {
         this.kwetterService = kwetterService;
-        this.loginService = loginService;
     }
 
     @PostMapping("/remove/{id}")
-    public ResponseEntity removeKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException, CouldNotDeleteModelException {
-        kwetterService.removeKwetter(id, UUIDRequest.getId());
+    public ResponseEntity removeKwetter(@PathVariable UUID id, @RequestBody UuidRequest uuidRequest) throws ModelNotFoundException, CouldNotDeleteModelException {
+        kwetterService.removeKwetter(id, uuidRequest.getId());
         return ResponseEntity.ok("Removed kwetter");
     }
 
@@ -49,26 +45,26 @@ public class KwetterController {
     }
 
     @PostMapping("/heart/{id}")
-    public ResponseEntity heartKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException {
-        kwetterService.heartKwetter(id, UUIDRequest.getId());
+    public ResponseEntity heartKwetter(@PathVariable UUID id, @RequestBody UuidRequest uuidRequest) throws ModelNotFoundException {
+        kwetterService.heartKwetter(id, uuidRequest.getId());
         return ResponseEntity.ok("Hearted kwetter");
     }
 
     @PostMapping("/remove_heart/{id}")
-    public ResponseEntity removeHeartKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException {
-        kwetterService.removeHeartKwetter(id, UUIDRequest.getId());
+    public ResponseEntity removeHeartKwetter(@PathVariable UUID id, @RequestBody UuidRequest uuidRequest) throws ModelNotFoundException {
+        kwetterService.removeHeartKwetter(id, uuidRequest.getId());
         return ResponseEntity.ok("Removed Heart from kwetter");
     }
 
     @PostMapping("/report/{id}")
-    public ResponseEntity reportKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException {
-        kwetterService.reportKwetter(id, UUIDRequest.getId());
+    public ResponseEntity reportKwetter(@PathVariable UUID id, @RequestBody UuidRequest uuidRequest) throws ModelNotFoundException {
+        kwetterService.reportKwetter(id, uuidRequest.getId());
         return ResponseEntity.ok("Report kwetter");
     }
 
     @PostMapping("/remove_report/{id}")
-    public ResponseEntity removeReportKwetter(@PathVariable UUID id, @RequestBody UUIDRequest UUIDRequest) throws ModelNotFoundException {
-        kwetterService.removeReportKwetter(id, UUIDRequest.getId());
+    public ResponseEntity removeReportKwetter(@PathVariable UUID id, @RequestBody UuidRequest uuidRequest) throws ModelNotFoundException {
+        kwetterService.removeReportKwetter(id, uuidRequest.getId());
         return ResponseEntity.ok("Removed Report from kwetter");
     }
 
