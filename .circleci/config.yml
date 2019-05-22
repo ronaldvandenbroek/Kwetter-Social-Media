@@ -12,11 +12,7 @@ workflows:
             - dependancies_frontend:
                 requires:
                     - checkout
-
-            - sonarqube:
-                requires:
-                    - checkout                   
-         
+                    
             - build_backend:
                 requires:
                     - dependancies_backend
@@ -33,6 +29,10 @@ workflows:
             - test_frontend:
                 requires:
                     - build_frontend
+
+            - sonarqube:
+                requires:
+                    - build_backend
 
             - docker_backend:
                 context:
