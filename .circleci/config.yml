@@ -266,3 +266,4 @@ jobs:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${CIRCLE_BRANCH}"
+                tag: "${CIRCLE_BRANCH}"
