@@ -21,4 +21,8 @@ public class CredentialsDTO {
         this.email = email;
         this.password = password;
     }
+
+    public CredentialsDTO(){
+        
+    }
 }

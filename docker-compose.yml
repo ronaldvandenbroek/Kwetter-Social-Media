@@ -16,14 +16,14 @@ services:
       - kwetternet
 
   kwetter_backend:
-    image: ronindebeek/kwetter_backend:latest
+    image: ronindebeek/kwetter_backend:development
     ports:
       - 8080:8080
     networks:
       - kwetternet
       
   kwetter_angular:
-    image: ronindebeek/kwetter_angular:latest
+    image: ronindebeek/kwetter_angular:development
     ports:
       - 4200:4200
 

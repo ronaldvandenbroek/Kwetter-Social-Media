@@ -31,4 +31,8 @@ public class UserDTO {
     private Set<Kwetter> heartedKwetters;
     private Set<UserDTO> usersFollowed;
     private Set<UserDTO> followedByUsers;
+
+    public UserDTO(){
+        
+    }
 }
