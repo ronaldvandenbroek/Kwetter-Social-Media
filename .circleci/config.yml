@@ -150,7 +150,7 @@ commands:
         steps:
             - save_cache:
                 paths:
-                    - ~/usr/local/lib/node_modules
+                    - ~/usr/kwetter_angular/node_modules
                 key: node-{{ checksum "kwetter_angular/package-lock.json" }}                
                 
 
