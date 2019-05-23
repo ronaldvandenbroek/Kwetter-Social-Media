@@ -67,18 +67,31 @@ executors:
             SOURCE_PATH: kwetter_angular
 
 commands:
-    attach_workspace_:
+    attach_workspace_all:
         steps:
             - attach_workspace:
                 at: .
 
-    persist_workspace_:
+    persist_workspace_angular:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - kwetter_backend
                     - kwetter_angular
+
+    persist_workspace_backend:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_backend                  
+
+    persist_workspace_backend_tests:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_backend/target
 
     persist_workspace_sonar:
         steps:
@@ -97,105 +110,78 @@ commands:
                 default: .
             source:
                 type: string
-                default: .                                
-        steps:
-            - run:
-                name: Docker Login Echo
-                command: echo docker login -u << parameters.user >> -p << parameters.pass >>                
+                default: .  
+            tag:         
+                type: string
+                default: .                                      
+        steps:   
             - run:
                 name: Docker Login
                 command: docker login -u << parameters.user >> -p << parameters.pass >>
             - run:
                 name: Docker Build
-                command: docker build -t << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH ./project/<< parameters.source >>
+                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >> ./project/<< parameters.source >>
             - run:
                 name: Docker Push
-                command: docker push << parameters.user >>/<< parameters.source >>:$CIRCLE_BRANCH                                                   
+                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>                                                  
 
 jobs:
     checkout:
         executor: python
         steps:
             - checkout   
-            - persist_workspace_
-
-    sonarqube:
-        executor: java
-        steps:
-            - attach_workspace_
-            - run:
-                command: |
-                    cd $SOURCE_PATH
-                    mvn sonar:sonar \
-                    -Dsonar.projectKey=kwetter \
-                    -Dsonar.organization=ronaldvandenbroek-github \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_LOGIN
+            - persist_workspace_frontend
+            - persist_workspace_backend
 
     dependencies_backend:
         executor: java
         steps:
-            - attach_workspace_
+            - attach_workspace_all
             - run:
                 name: Maven Go-Offline
                 command: cd $SOURCE_PATH && mvn dependency:go-offline     
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_backend
+            - persist_workspace_backend
     
     dependencies_frontend:
         executor: node
         steps:
-            - attach_workspace_
+            - attach_workspace_all
             - run:
                 name: Install local dependencies
                 command: cd $SOURCE_PATH && npm install
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_angular
+            - persist_workspace_angular
 
     build_backend:
         executor: java
         steps:
-            - attach_workspace_
+            - attach_workspace_all
             - run:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests              
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_backend
+            - persist_workspace_backend
 
     build_frontend:
         executor: node
         steps:
-            - attach_workspace_
+            - attach_workspace_all
             - run:
                 name: Build Frontend
                 command: cd $SOURCE_PATH && npm run build           
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_angular
+            - persist_workspace_angular
 
     test_backend:
         executor: java
         steps:
-            - attach_workspace_
+            - attach_workspace_all
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn test
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_backend/target
+            - persist_workspace_backend_tests
 
     lint_frontend:
         executor: node
         steps:
-            - attach_workspace_
+            - attach_workspace_all
             # Disabled for testing purposes
             # - run:
             #     name: Linting
@@ -204,11 +190,24 @@ jobs:
     test_frontend:
         executor: node
         steps:
-            - attach_workspace_
+            - attach_workspace_all
             # Disabled for testing purposes
             # - run:
             #     name: Testing
             #     command: cd $SOURCE_PATH && npm run test
+
+    sonarqube:
+        executor: java
+        steps:
+            - attach_workspace_all
+            - run:
+                command: |
+                    cd $SOURCE_PATH
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=kwetter \
+                    -Dsonar.organization=ronaldvandenbroek-github \
+                    -Dsonar.host.url=https://sonarcloud.io \
+                    -Dsonar.login=$SONAR_LOGIN
 
     docker_backend:
         machine: true
@@ -221,6 +220,7 @@ jobs:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${SOURCE_PATH}"
+                tag: "${CIRCLE_BRANCH}"
 
     docker_frontend:
         machine: true
@@ -232,4 +232,5 @@ jobs:
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
-                source: "${SOURCE_PATH}"             
+                source: "${CIRCLE_BRANCH}"
+                     
