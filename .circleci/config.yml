@@ -92,15 +92,15 @@ commands:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - kwetter_angular               
+                    - kwetter_angular   
+                    # Find a way to exclude node_modules              
 
     persist_workspace_backend:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - kwetter_backend
-                    # Find a way to exclude node_modules                  
+                    - kwetter_backend                                   
 
     persist_workspace_backend_tests:
         steps:
@@ -145,8 +145,8 @@ commands:
         steps:
             - restore_cache:
                 keys:
-                    - maven-{{ checksum "kwetter_backend/pom.xml" }}
-                    - maven-
+                    - maven-v2-{{ checksum "kwetter_backend/pom.xml" }}
+                    - maven-v2-
 
     restore_cache_angular:
         steps:
@@ -160,7 +160,7 @@ commands:
             - save_cache:
                 paths:
                     - ~/.m2
-                key: maven-{{ checksum "kwetter_backend/pom.xml" }}
+                key: maven-v2-{{ checksum "kwetter_backend/pom.xml" }}
 
     save_cache_angular:
         steps:
