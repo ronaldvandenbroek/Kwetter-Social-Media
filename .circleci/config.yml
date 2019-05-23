@@ -54,12 +54,14 @@ executors:
     python:
         docker:
             - image: python
+
     java:
         docker:
             - image: circleci/openjdk:8-jdk
         environment:
             MAVEN_OPTS: -Xmx3200m
             SOURCE_PATH: kwetter_backend
+            
     node:
         docker:
             - image: circleci/node:10.15.3
