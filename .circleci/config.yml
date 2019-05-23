@@ -152,8 +152,7 @@ commands:
         steps:
             - save_cache:
                 paths:
-                    - ~/usr/local/lib/node
-                    - ~/usr/local/lib/node_modules
+                    - kwetter_angular/node_modules
                 key: node-{{ checksum "kwetter_angular/package.json" }}                
                 
 
@@ -183,7 +182,7 @@ jobs:
             - restore_cache_angular
             - run:
                 name: Install dependencies
-                command: cd $SOURCE_PATH && npm install -g
+                command: cd $SOURCE_PATH && npm install
             - save_cache_angular
             - persist_workspace_angular
 
