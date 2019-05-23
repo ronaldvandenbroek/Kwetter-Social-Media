@@ -69,24 +69,31 @@ executors:
             SOURCE_PATH: kwetter_angular
 
 commands:
+    skip:
+        steps:
+            - run:
+                name: Skip
+                command: ls
+
     attach_workspace_all:
         steps:
             - attach_workspace:
                 at: .
 
-    persist_workspace_angular:
+    persist_workspace_angular_dist:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - kwetter_angular
+                    - kwetter_angular/dist
 
     persist_workspace_backend:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - kwetter_backend                  
+                    - kwetter_backend
+                    # Find a way to exclude node_modules                  
 
     persist_workspace_backend_tests:
         steps:
@@ -138,8 +145,8 @@ commands:
         steps:
             - restore_cache:
                 keys:
-                    - node-v3-{{ checksum "kwetter_angular/package.json" }}
-                    - node-v3-
+                    - node-v4-{{ checksum "kwetter_angular/package.json" }}
+                    - node-v4-
 
     save_cache_backend:
         steps:
@@ -152,8 +159,8 @@ commands:
         steps:
             - save_cache:
                 paths:
-                    - /usr/local/lib/node_modules
-                key: node-v3-{{ checksum "kwetter_angular/package.json" }}                
+                    - kwetter_angular/node_modules
+                key: node-v4-{{ checksum "kwetter_angular/package.json" }}                
                 
 
 jobs:
@@ -173,7 +180,7 @@ jobs:
                 name: Maven Go-Offline
                 command: cd $SOURCE_PATH && mvn dependency:go-offline
             - save_cache_backend
-            - persist_workspace_backend
+            # Dont persist depencancies they are loaded via the cache
     
     dependencies_frontend:
         executor: node
@@ -182,9 +189,9 @@ jobs:
             - restore_cache_angular
             - run:
                 name: Install dependencies
-                command: cd $SOURCE_PATH && sudo npm install -g
+                command: cd $SOURCE_PATH && npm install
             - save_cache_angular
-            - persist_workspace_angular
+            # Dont persist depencancies they are loaded via the cache
 
     build_backend:
         executor: java
@@ -204,7 +211,7 @@ jobs:
             - run:
                 name: Build Frontend
                 command: cd $SOURCE_PATH && npm run build           
-            - persist_workspace_angular
+            - persist_workspace_angular_dist
 
     test_backend:
         executor: java
@@ -218,7 +225,8 @@ jobs:
     lint_frontend:
         executor: node
         steps:
-            - attach_workspace_all
+            - skip
+            # - attach_workspace_all
             # Disabled for testing purposes
             # - run:
             #     name: Linting
@@ -227,7 +235,8 @@ jobs:
     test_frontend:
         executor: node
         steps:
-            - attach_workspace_all
+            - skip
+            # - attach_workspace_all
             # Disabled for testing purposes
             # - run:
             #     name: Testing
