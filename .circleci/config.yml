@@ -138,8 +138,8 @@ commands:
         steps:
             - restore_cache:
                 keys:
-                    - node-v2-{{ checksum "kwetter_angular/package.json" }}
-                    - node-v2-
+                    - node-v3-{{ checksum "kwetter_angular/package.json" }}
+                    - node-v3-
 
     save_cache_backend:
         steps:
@@ -152,8 +152,8 @@ commands:
         steps:
             - save_cache:
                 paths:
-                    - kwetter_angular/node_modules
-                key: node-v2-{{ checksum "kwetter_angular/package.json" }}                
+                    - /usr/local/lib/node_modules
+                key: node-v3-{{ checksum "kwetter_angular/package.json" }}                
                 
 
 jobs:
@@ -182,7 +182,7 @@ jobs:
             - restore_cache_angular
             - run:
                 name: Install dependencies
-                command: cd $SOURCE_PATH && npm install
+                command: cd $SOURCE_PATH && sudo npm install -g
             - save_cache_angular
             - persist_workspace_angular
 
@@ -270,5 +270,5 @@ jobs:
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
-                source: "${CIRCLE_BRANCH}"
+                source: "${SOURCE_PATH}"
                 tag: "${CIRCLE_BRANCH}"
