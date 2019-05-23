@@ -87,6 +87,13 @@ commands:
                 paths:
                     - kwetter_angular/dist
 
+    persist_workspace_angular:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_angular               
+
     persist_workspace_backend:
         steps:
             - persist_to_workspace:
