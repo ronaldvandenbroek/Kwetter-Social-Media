@@ -138,7 +138,7 @@ commands:
         steps:
             - restore_cache:
                 keys:
-                    - node-{{ checksum "kwetter_angular/package-lock.json" }}
+                    - node-{{ checksum "kwetter_angular/package.json" }}
                     - node-
 
     save_cache_backend:
@@ -154,7 +154,7 @@ commands:
                 paths:
                     - ~/usr/local/lib/node
                     - ~/usr/local/lib/node_modules
-                key: node-{{ checksum "kwetter_angular/package-lock.json" }}                
+                key: node-{{ checksum "kwetter_angular/package.json" }}                
                 
 
 jobs:
