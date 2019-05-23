@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.models;
 
+import nl.fontys.kwetter.models.dto.CredentialsDTO;
 import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.models.entity.User;
@@ -40,6 +41,21 @@ class ModelAssociationUnitTests {
         assertEquals(0, user.getCreatedKwetters().size());
         assertFalse(user.getCreatedKwetters().contains(kwetter));
         assertNull(kwetter.getOwner());
+    }
+
+    @Test
+    @DisplayName("Clone a kwetter")
+    void cloneAKwetter() {
+        Kwetter newKwetter = new Kwetter(kwetter);
+
+        assertEquals(kwetter.getId(), newKwetter.getId());
+        assertEquals(kwetter.getHearts(), newKwetter.getHearts());
+        assertEquals(kwetter.getReports(), newKwetter.getReports());
+        assertEquals(kwetter.getOwner(), newKwetter.getOwner());
+        assertEquals(kwetter.getDateTime(), newKwetter.getDateTime());
+        assertEquals(kwetter.getText(), newKwetter.getText());
+        assertEquals(kwetter.getMentions(), newKwetter.getMentions());
+        assertEquals(kwetter.getTags(), newKwetter.getTags());
     }
 
     @Test
@@ -175,10 +191,32 @@ class ModelAssociationUnitTests {
     }
 
     @Test
+    @DisplayName("Clone a User")
+    void cloneAUser() {
+        User newUser = new User(user);
+
+        assertEquals(user.getId(), newUser.getId());
+    }
+
+    @Test
     @DisplayName("Set user credentials")
     void setCredentials() {
         Credentials credentials = new Credentials("test@test.nl", "Test", Role.ROLE_USER, user);
 
         assertEquals(credentials, user.getCredentials());
+    }
+
+    @Test
+    @DisplayName("Create credentials without role and user")
+    void createCredentials() {
+        String email = "test@test.nl";
+        String password = "Test";
+
+        Credentials credentials = new Credentials(email, password);
+        new CredentialsDTO();
+
+        assertNotNull(credentials);
+        assertEquals(email, credentials.getEmail());
+        assertEquals(password, credentials.getPassword());
     }
 }
