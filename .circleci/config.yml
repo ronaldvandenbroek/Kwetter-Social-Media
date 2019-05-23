@@ -130,7 +130,7 @@ jobs:
         executor: python
         steps:
             - checkout   
-            - persist_workspace_frontend
+            - persist_workspace_angular
             - persist_workspace_backend
 
     dependencies_backend:
@@ -233,4 +233,3 @@ jobs:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${CIRCLE_BRANCH}"
-                     
