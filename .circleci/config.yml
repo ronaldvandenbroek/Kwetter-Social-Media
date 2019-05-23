@@ -61,7 +61,7 @@ executors:
         environment:
             MAVEN_OPTS: -Xmx3200m
             SOURCE_PATH: kwetter_backend
-            
+
     node:
         docker:
             - image: circleci/node:10.15.3
@@ -152,7 +152,8 @@ commands:
         steps:
             - save_cache:
                 paths:
-                    - ~/usr/kwetter_angular/node_modules
+                    - ~/usr/local/lib/node
+                    - ~/usr/local/lib/node_modules
                 key: node-{{ checksum "kwetter_angular/package-lock.json" }}                
                 
 
