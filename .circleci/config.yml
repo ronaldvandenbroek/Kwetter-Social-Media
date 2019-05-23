@@ -138,8 +138,8 @@ commands:
         steps:
             - restore_cache:
                 keys:
-                    - node-{{ checksum "kwetter_angular/package.json" }}
-                    - node-
+                    - node-v2-{{ checksum "kwetter_angular/package.json" }}
+                    - node-v2-
 
     save_cache_backend:
         steps:
@@ -153,7 +153,7 @@ commands:
             - save_cache:
                 paths:
                     - kwetter_angular/node_modules
-                key: node-{{ checksum "kwetter_angular/package.json" }}                
+                key: node-v2-{{ checksum "kwetter_angular/package.json" }}                
                 
 
 jobs:
