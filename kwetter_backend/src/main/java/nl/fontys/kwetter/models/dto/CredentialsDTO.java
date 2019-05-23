@@ -22,7 +22,7 @@ public class CredentialsDTO {
         this.password = password;
     }
 
-    public CredentialsDTO(){
-        
+    public CredentialsDTO() {
+        // Empty constructor
     }
 }

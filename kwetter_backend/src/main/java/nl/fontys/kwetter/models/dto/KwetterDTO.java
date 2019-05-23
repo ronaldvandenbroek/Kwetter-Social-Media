@@ -25,6 +25,6 @@ public class KwetterDTO {
     }
 
     public KwetterDTO() {
-        
+        // Empty constructor
     }
 }

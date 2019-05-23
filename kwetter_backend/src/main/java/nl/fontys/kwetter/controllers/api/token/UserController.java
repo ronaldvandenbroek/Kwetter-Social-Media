@@ -8,8 +8,6 @@ import nl.fontys.kwetter.models.dto.UserDTO;
 import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IProfileService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +24,6 @@ public class UserController {
     private final IProfileService profileService;
 
     private final ILoginService loginService;
-
-    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(IProfileService profileService, ILoginService loginService) {

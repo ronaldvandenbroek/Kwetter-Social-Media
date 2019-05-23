@@ -51,6 +51,7 @@ public class ProfileService implements IProfileService {
         oldUser.setLocation(user.getLocation());
         oldUser.setBio(user.getBio());
 
+
         userRepository.save(oldUser);
         return oldUser;
     }

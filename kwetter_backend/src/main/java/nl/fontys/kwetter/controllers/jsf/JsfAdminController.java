@@ -45,13 +45,17 @@ public class JsfAdminController {
     }
 
     public void changeUserRole(User user) throws ModelNotFoundException, IOException {
-        logger.info(String.format("Change role user: %s", user.toString()));
+        if (logger.isDebugEnabled()) {
+            logger.info(String.format("Change role user: %s", user.toString()));
+        }
         adminService.changeRole(user.getCredentials().getEmail(), user.getCredentials().getRole());
         reload();
     }
 
     public void deleteKwetter(Kwetter kwetter) throws CouldNotDeleteModelException, ModelNotFoundException, IOException {
-        logger.info(String.format("Deleted kwetter: %s", kwetter.toString()));
+        if (logger.isDebugEnabled()) {
+            logger.info(String.format("Deleted kwetter: %s", kwetter.toString()));
+        }
         kwetterService.removeKwetter(kwetter.getOwner().getId(), kwetter.getId());
         reload();
     }

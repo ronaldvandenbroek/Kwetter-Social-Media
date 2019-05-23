@@ -60,7 +60,7 @@ public class KwetterService implements IKwetterService {
     @Override
     public Kwetter createKwetter(UUID userId, KwetterDTO kwetter) throws ModelNotFoundException, ModelInvalidException {
         User owner = getUserById(userId);
-        if (logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.info("Creating Kwetter");
             logger.info(String.valueOf(userId));
             logger.info(String.valueOf(kwetter));
@@ -85,12 +85,14 @@ public class KwetterService implements IKwetterService {
 
         validator.validate(newKwetter);
 
-        logger.info(String.valueOf(newKwetter));
-
+        if (logger.isDebugEnabled()) {
+            logger.info(String.valueOf(newKwetter));
+        }
+        
         kwetterRepository.save(newKwetter);
         userRepository.save(owner);
 
-        if (logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.info("Created Kwetter");
         }
         return newKwetter;

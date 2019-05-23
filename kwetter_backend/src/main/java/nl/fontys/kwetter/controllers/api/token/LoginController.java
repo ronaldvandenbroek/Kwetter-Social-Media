@@ -36,7 +36,7 @@ public class LoginController {
     @PostMapping("login")
     public ResponseEntity<JwtToken> login(@RequestBody CredentialsDTO credentials) throws ModelInvalidException, LoginException {
 
-        if (logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.info(String.format("%s is trying to login", credentials.getEmail()));
         }
         User userLoggedIn = loginService.login(credentials);
@@ -49,7 +49,7 @@ public class LoginController {
 
         JwtToken token = new JwtToken(jwtToken, userLoggedIn);
 
-        if (logger.isDebugEnabled()){
+        if (logger.isDebugEnabled()) {
             logger.info(String.format("%s logged in successfully", credentials.getEmail()));
         }
         return ResponseEntity.ok(token);

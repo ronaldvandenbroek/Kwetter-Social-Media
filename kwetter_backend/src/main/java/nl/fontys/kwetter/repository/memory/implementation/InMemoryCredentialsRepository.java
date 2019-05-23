@@ -54,10 +54,10 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
 
     /**
      * Not implemented because it isn't used.
-     *
      */
     @Override
     public void deleteById(String s) {
+        // Unused function
     }
 
     @Override
@@ -67,10 +67,10 @@ public class InMemoryCredentialsRepository implements IInMemoryCredentialsReposi
 
     /**
      * Not implemented because it isn't used.
-     *
      */
     @Override
     public void deleteAll(Iterable<? extends Credentials> iterable) {
+        // Unused function
     }
 
     @Override

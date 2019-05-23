@@ -67,10 +67,10 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     /**
      * Not implemented because it isn't used.
-     *
      */
     @Override
     public void deleteById(UUID aLong) {
+        // Unused function
     }
 
     @Override
@@ -80,10 +80,10 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     /**
      * Not implemented because it isn't used.
-     *
      */
     @Override
     public void deleteAll(Iterable<? extends Kwetter> iterable) {
+        // Unused function
     }
 
     @Override

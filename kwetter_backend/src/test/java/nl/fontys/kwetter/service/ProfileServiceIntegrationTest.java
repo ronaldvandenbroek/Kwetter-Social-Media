@@ -82,7 +82,6 @@ class ProfileServiceIntegrationTest {
     }
 
     @Test
-    @Disabled
     @DisplayName("User cant update the bio with too long entries")
     void tooLongUserUpdates() {
         UserDTO newUser = new UserDTO();
