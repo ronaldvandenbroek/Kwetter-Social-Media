@@ -182,8 +182,8 @@ jobs:
             - attach_workspace_all
             - restore_cache_angular
             - run:
-                name: Install local dependencies
-                command: cd $SOURCE_PATH && npm install
+                name: Install dependencies
+                command: cd $SOURCE_PATH && npm install -g
             - save_cache_angular
             - persist_workspace_angular
 
@@ -191,6 +191,7 @@ jobs:
         executor: java
         steps:
             - attach_workspace_all
+            - restore_cache_backend
             - run:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests              
@@ -200,6 +201,7 @@ jobs:
         executor: node
         steps:
             - attach_workspace_all
+            - restore_cache_angular
             - run:
                 name: Build Frontend
                 command: cd $SOURCE_PATH && npm run build           
@@ -236,6 +238,7 @@ jobs:
         executor: java
         steps:
             - attach_workspace_all
+            - restore_cache_backend
             - run:
                 command: |
                     cd $SOURCE_PATH
