@@ -1,8 +1,0 @@
-Api:
-mvn install
-docker build -t ronindebeek/kwetter_api .
-
-Angular:
-cd kwetter_angular
-ng build
-docker build -t ronindebeek/kwetter_angular .
