@@ -1,52 +1,291 @@
-# Java Maven CircleCI 2.0 configuration file
-
 version: 2.1
-  
-jobs:
-    build:
-        docker:
-          - image: circleci/openjdk:8-jdk
-          
-        working_directory: ~/repo
 
-        environment:
-            MAVEN_OPTS: -Xmx3200m
-            
-        steps:
+workflows:
+    version: 2.1
+    build-test-deploy:
+        jobs:
             - checkout
 
+            - dependencies_backend:
+                requires:
+                    - checkout
+            - dependencies_frontend:
+                requires:
+                    - checkout
+
+            - build_backend:
+                requires:
+                    - dependencies_backend
+            - build_frontend:
+                requires:
+                    - dependencies_frontend
+
+            - test_backend:
+                requires:
+                    - build_backend
+            - lint_frontend:
+                requires:
+                    - build_frontend
+            - test_frontend:
+                requires:
+                    - build_frontend
+
+            - sonarqube:
+                context:
+                    kwetter                
+                requires:
+                    - test_backend
+                    - test_frontend
+                    - lint_frontend
+
+            - docker_backend:
+                context:
+                    kwetter
+                requires:
+                    - sonarqube
+
+            - docker_frontend:
+                context:
+                    kwetter
+                requires:
+                    - sonarqube                                     
+
+executors:
+    python:
+        docker:
+            - image: python
+
+    java:
+        docker:
+            - image: circleci/openjdk:8-jdk
+        environment:
+            MAVEN_OPTS: -Xmx3200m
+            SOURCE_PATH: kwetter_backend
+
+    node:
+        docker:
+            - image: circleci/node:10.15.3
+        environment:
+            SOURCE_PATH: kwetter_angular
+
+commands:
+    skip:
+        steps:
+            - run:
+                name: Skip
+                command: ls
+
+    attach_workspace_all:
+        steps:
+            - attach_workspace:
+                at: .
+
+    persist_workspace_angular_dist:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_angular/dist
+
+    persist_workspace_angular:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_angular   
+                    # Find a way to exclude node_modules              
+
+    persist_workspace_backend:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_backend                                   
+
+    persist_workspace_backend_tests:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_backend/target
+
+    persist_workspace_sonar:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - sonar-scanner-3.3.0.1492-linux
+
+    run_docker:
+        parameters:
+            user:
+                type: string
+                default: .
+            pass:
+                type: string
+                default: .
+            source:
+                type: string
+                default: .  
+            tag:         
+                type: string
+                default: .                                      
+        steps:   
+            - run:
+                name: Docker Login
+                command: docker login -u << parameters.user >> -p << parameters.pass >>
+            - run:
+                name: Docker Build
+                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >> ./project/<< parameters.source >>
+            - run:
+                name: Docker Push
+                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>
+
+    restore_cache_backend:
+        steps:
             - restore_cache:
                 keys:
-                    - v1-dependencies-{{ checksum "pom.xml" }}
-                    - v1-dependencies-
+                    - maven-v2-{{ checksum "kwetter_backend/pom.xml" }}
+                    - maven-v2-
 
-            - run: 
-                name: Maven Go-Offline
-                command: mvn dependency:go-offline
+    restore_cache_angular:
+        steps:
+            - restore_cache:
+                keys:
+                    - node-v4-{{ checksum "kwetter_angular/package.json" }}
+                    - node-v4-
 
+    save_cache_backend:
+        steps:
             - save_cache:
                 paths:
                     - ~/.m2
-                key: v1-dependencies-{{ checksum "pom.xml" }}
+                key: maven-v2-{{ checksum "kwetter_backend/pom.xml" }}
 
-            - run: 
-                name: Run Maven Tests
-                command: mvn test             
+    save_cache_angular:
+        steps:
+            - save_cache:
+                paths:
+                    - kwetter_angular/node_modules
+                key: node-v4-{{ checksum "kwetter_angular/package.json" }}                
+                
 
+jobs:
+    checkout:
+        executor: python
+        steps:
+            - checkout   
+            - persist_workspace_angular
+            - persist_workspace_backend
+
+    dependencies_backend:
+        executor: java
+        steps:
+            - attach_workspace_all
+            - restore_cache_backend
             - run:
-                name: Install Sonarqube scanner
-                command: |
-                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
-                    unzip sonar-scanner-cli-3.2.0.1227-linux.zip
-
+                name: Maven Go-Offline
+                command: cd $SOURCE_PATH && mvn dependency:go-offline
+            - save_cache_backend
+            # Dont persist depencancies they are loaded via the cache
+    
+    dependencies_frontend:
+        executor: node
+        steps:
+            - attach_workspace_all
+            - restore_cache_angular
             - run:
-                name: Run Sonarqube scanner
+                name: Install dependencies
+                command: cd $SOURCE_PATH && npm install
+            - save_cache_angular
+            # Dont persist depencancies they are loaded via the cache
+
+    build_backend:
+        executor: java
+        steps:
+            - attach_workspace_all
+            - restore_cache_backend
+            - run:
+                name: Build Backend
+                command: cd $SOURCE_PATH && mvn install -DskipTests              
+            - persist_workspace_backend
+
+    build_frontend:
+        executor: node
+        steps:
+            - attach_workspace_all
+            - restore_cache_angular
+            - run:
+                name: Build Frontend
+                command: cd $SOURCE_PATH && npm run build           
+            - persist_workspace_angular_dist
+
+    test_backend:
+        executor: java
+        steps:
+            - attach_workspace_all
+            - restore_cache_backend
+            - run:
+                name: Test Backend
+                command: cd $SOURCE_PATH && mvn test
+            - persist_workspace_backend_tests
+
+    lint_frontend:
+        executor: node
+        steps:
+            - skip
+            # - attach_workspace_all
+            # Disabled for testing purposes
+            # - run:
+            #     name: Linting
+            #     command: cd $SOURCE_PATH && npm run lint
+
+    test_frontend:
+        executor: node
+        steps:
+            - skip
+            # - attach_workspace_all
+            # Disabled for testing purposes
+            # - run:
+            #     name: Testing
+            #     command: cd $SOURCE_PATH && npm run test
+
+    sonarqube:
+        executor: java
+        steps:
+            - attach_workspace_all
+            - restore_cache_backend
+            - run:
                 command: |
-                    export SONAR_SCANNER_OPTS="-Xmx2048m"
-                    eval ./sonar-scanner-3.2.0.1227-linux/bin/sonar-scanner -Dsonar.projectKey=KwetterTest \
-                    -Dsonar.sources=. \
-                    -Dsonar.sourceEncoding=US-ASCII \
-                    -Dsonar.exclusions=vendor/bundle/** \
-                    -Dsonar.host.url=http://9e145bd5.ngrok.io \
-                    -Dsonar.projectVersion=${CIRCLE_BRANCH} \
-      
+                    cd $SOURCE_PATH
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=kwetter \
+                    -Dsonar.organization=ronaldvandenbroek-github \
+                    -Dsonar.host.url=https://sonarcloud.io \
+                    -Dsonar.login=$SONAR_LOGIN
+
+    docker_backend:
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_backend
+        steps:
+            - attach_workspace:
+                at: project
+            - run_docker:
+                user: "${DOCKER_USER}"
+                pass: "${DOCKER_PASS}"
+                source: "${SOURCE_PATH}"
+                tag: "${CIRCLE_BRANCH}"
+
+    docker_frontend:
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_angular
+        steps:
+            - attach_workspace:
+                at: project
+            - run_docker:
+                user: "${DOCKER_USER}"
+                pass: "${DOCKER_PASS}"
+                source: "${SOURCE_PATH}"
+                tag: "${CIRCLE_BRANCH}"
