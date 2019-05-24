@@ -1,1 +1,0 @@
-.tools\sonar-scanner-3.3.0.1492-windows\bin\sonar-scanner.bat
