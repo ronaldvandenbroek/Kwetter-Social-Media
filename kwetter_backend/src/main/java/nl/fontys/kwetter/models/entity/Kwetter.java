@@ -2,6 +2,7 @@ package nl.fontys.kwetter.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import nl.fontys.kwetter.models.hateoas.Link;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -41,11 +42,15 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
     @NotNull
     private Date dateTime;
 
+    @Transient
+    private List<Link> links;
+
     public Kwetter() {
         this.dateTime = new Date();
         this.text = "";
         this.tags = new HashSet<>();
         this.mentions = new HashSet<>();
+        this.links = new ArrayList<>();
     }
 
     public Kwetter(Kwetter toBeClonedKwetter) {
@@ -57,6 +62,7 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
         this.mentions = toBeClonedKwetter.getMentions();
         this.owner = toBeClonedKwetter.getOwner();
         this.dateTime = toBeClonedKwetter.getDateTime();
+        this.links = toBeClonedKwetter.getLinks();
     }
 
     public Kwetter(String text, User owner, Date dateTime) {
@@ -64,6 +70,7 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
     }
 
     public Kwetter(String text, Set<String> tags, Set<User> mentions, User owner, Date dateTime) {
+        this.links = new ArrayList<>();
         this.text = text;
         this.owner = owner;
         this.dateTime = dateTime;
@@ -103,6 +110,10 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
 
     public void removeOwner() {
         owner = null;
+    }
+
+    public void addLink(String url, String rel){
+        links.add(new Link(url, rel));
     }
 
     @Override

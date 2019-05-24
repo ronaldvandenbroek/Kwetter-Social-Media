@@ -4,21 +4,25 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
+import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.JwtToken;
 import nl.fontys.kwetter.models.dto.CredentialsDTO;
 import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.ILoginService;
+import nl.fontys.kwetter.service.IProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.UriComponentsBuilderMethodArgumentResolver;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.UUID;
 
 @RestController("tokenLoginController")
 @RequestMapping(path = "/api/token/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,9 +31,11 @@ public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     private ILoginService loginService;
+    private IProfileService profileService;
 
     @Autowired
-    public LoginController(ILoginService loginService) {
+    public LoginController(IProfileService profileService, ILoginService loginService) {
+        this.profileService = profileService;
         this.loginService = loginService;
     }
 
@@ -53,5 +59,14 @@ public class LoginController {
             logger.info(String.format("%s logged in successfully", credentials.getEmail()));
         }
         return ResponseEntity.ok(token);
+    }
+
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<User> getProfile(@PathVariable UUID id, HttpServletRequest request) throws ModelNotFoundException {
+        logger.info(request.getRequestURI());
+        User user = profileService.getFullProfile(id);
+
+        UriComponentsBuilder.fromHttpRequest(request).
+        return ResponseEntity.ok(user);
     }
 }

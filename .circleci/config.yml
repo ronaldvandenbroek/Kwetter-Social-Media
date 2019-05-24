@@ -3,6 +3,11 @@ version: 2.1
 workflows:
     version: 2.1
     build-test-deploy:
+        branches:
+            only:
+                - master
+                - release
+                - development
         jobs:
             - checkout
 

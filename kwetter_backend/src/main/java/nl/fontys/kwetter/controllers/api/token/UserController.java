@@ -8,12 +8,15 @@ import nl.fontys.kwetter.models.dto.UserDTO;
 import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IProfileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,8 +24,9 @@ import java.util.UUID;
 @RequestMapping(path = "/api/token/secure/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
-    private final IProfileService profileService;
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    private final IProfileService profileService;
     private final ILoginService loginService;
 
     @Autowired

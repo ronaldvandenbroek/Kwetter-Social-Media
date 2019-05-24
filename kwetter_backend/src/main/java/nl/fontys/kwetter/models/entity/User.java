@@ -3,15 +3,13 @@ package nl.fontys.kwetter.models.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
+import nl.fontys.kwetter.models.hateoas.Link;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static javax.persistence.CascadeType.PERSIST;
 
@@ -46,6 +44,9 @@ public class User implements Serializable {
 
     private byte[] photo;
 
+    @Transient
+    private List<Link> links;
+
     @JsonIgnoreProperties({"owner", "mentions"})
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = {PERSIST})
     private Set<Kwetter> createdKwetters;
@@ -70,11 +71,12 @@ public class User implements Serializable {
     private Set<User> followedByUsers;
 
     public User() {
-        createdKwetters = new HashSet<>();
-        reportedKwetters = new HashSet<>();
-        heartedKwetters = new HashSet<>();
-        usersFollowed = new HashSet<>();
-        followedByUsers = new HashSet<>();
+        this.createdKwetters = new HashSet<>();
+        this.reportedKwetters = new HashSet<>();
+        this.heartedKwetters = new HashSet<>();
+        this.usersFollowed = new HashSet<>();
+        this.followedByUsers = new HashSet<>();
+        this.links = new ArrayList<>();
     }
 
     public User(User toBeClonedUser) {
@@ -91,6 +93,7 @@ public class User implements Serializable {
         this.heartedKwetters = toBeClonedUser.getHeartedKwetters();
         this.usersFollowed = toBeClonedUser.getUsersFollowed();
         this.followedByUsers = toBeClonedUser.getFollowedByUsers();
+        this.links = toBeClonedUser.getLinks();
     }
 
     public void addCreatedKwetter(Kwetter createdKwetter) {
@@ -154,6 +157,10 @@ public class User implements Serializable {
 
     public void removeFollowedBy(User following) {
         followedByUsers.remove(following);
+    }
+
+    public void addLink(String url, String rel){
+        links.add(new Link(url, rel));
     }
 
     @Override
