@@ -4,7 +4,13 @@ workflows:
     version: 2.1
     build-test-deploy:
         jobs:
-            - checkout
+            - checkout:
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - release
+                            - development
 
             - dependencies_backend:
                 requires:
