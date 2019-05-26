@@ -1,4 +1,4 @@
-export class Link {
+export class LinkModel {
   rel: string;
   href: string;
 }

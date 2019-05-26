@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../../model/user';
+import {UserModel} from '../../model/user.model';
 import {UserService} from '../../service/user.service';
 import {AuthenticationService} from 'src/app/service/authentication.service';
 
@@ -10,7 +10,7 @@ import {AuthenticationService} from 'src/app/service/authentication.service';
 })
 export class UserListComponent implements OnInit {
 
-  users: User[];
+  users: UserModel[];
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService) {
   }
@@ -38,13 +38,13 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  public follow(user: User) {
+  public follow(user: UserModel) {
     this.userService.follow(user).subscribe(data => {
       this.ngOnInit();
     });
   }
 
-  public unfollow(user: User) {
+  public unfollow(user: UserModel) {
     this.userService.unfollow(user).subscribe(data => {
       this.ngOnInit();
     });

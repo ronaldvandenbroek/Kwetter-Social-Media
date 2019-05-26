@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from '../../model/user';
+import {UserModel} from '../../model/user.model';
 import {UserService} from '../../service/user.service';
 
 @Component({
@@ -9,7 +9,7 @@ import {UserService} from '../../service/user.service';
 })
 export class ProfileComponent implements OnInit {
 
-  user: User;
+  user: UserModel;
 
   constructor(private userService: UserService) {
   }

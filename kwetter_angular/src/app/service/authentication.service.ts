@@ -2,26 +2,26 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 
-import {JwtToken} from '../model/jwt-token';
-import {User} from '../model/user';
+import {JwtTokenModel} from '../model/jwt-token.model';
+import {UserModel} from '../model/user.model';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  public currentLogin: Observable<JwtToken>;
-  private currentLoginSubject: BehaviorSubject<JwtToken>;
+  public currentLogin: Observable<JwtTokenModel>;
+  private currentLoginSubject: BehaviorSubject<JwtTokenModel>;
   private readonly loginUrl: string;
 
   constructor(private http: HttpClient) {
-    this.currentLoginSubject = new BehaviorSubject<JwtToken>(JSON.parse(localStorage.getItem('currentLogin')));
+    this.currentLoginSubject = new BehaviorSubject<JwtTokenModel>(JSON.parse(localStorage.getItem('currentLogin')));
     this.currentLogin = this.currentLoginSubject.asObservable();
     this.loginUrl = `http://localhost:8080/api/login`;
   }
 
-  public get currentLoginValue(): JwtToken {
+  public get currentLoginValue(): JwtTokenModel {
     return this.currentLoginSubject.value;
   }
 
-  public get currentLoginUser(): User {
+  public get currentLoginUser(): UserModel {
     return this.currentLoginSubject.value.user;
   }
 
@@ -38,7 +38,7 @@ export class AuthenticationService {
 
   login(email: string, password: string) {
     const body = {email, password};
-    const response = this.http.post<JwtToken>(this.loginUrl, body);
+    const response = this.http.post<JwtTokenModel>(this.loginUrl, body);
     response.subscribe(data => {
       localStorage.setItem('currentLogin', JSON.stringify(data));
       this.currentLoginSubject.next(data);

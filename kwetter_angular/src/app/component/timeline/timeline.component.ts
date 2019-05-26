@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Kwetter} from '../../model/kwetter';
+import {KwetterModel} from '../../model/kwetter.model';
 import {KwetterService} from '../../service/kwetter.service';
 
 @Component({
@@ -9,7 +9,7 @@ import {KwetterService} from '../../service/kwetter.service';
 })
 export class TimelineComponent implements OnInit {
 
-  kwetters: Kwetter[];
+  kwetters: KwetterModel[];
 
   constructor(private timelineService: KwetterService) {
   }

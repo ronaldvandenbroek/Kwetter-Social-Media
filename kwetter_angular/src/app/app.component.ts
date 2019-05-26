@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {AuthenticationService} from './service/authentication.service';
-import {JwtToken} from './model/jwt-token';
+import {JwtTokenModel} from './model/jwt-token.model';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,8 @@ import {JwtToken} from './model/jwt-token';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  currentLogin: JwtToken;
-  title = 'Kwetter';
+  currentLogin: JwtTokenModel;
+  title = 'KwetterModel';
 
   constructor(
     private router: Router,

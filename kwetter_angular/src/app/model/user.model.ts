@@ -1,6 +1,6 @@
-import {Link} from './link';
+import {LinkModel} from './link.model';
 
-export class User {
+export class UserModel {
   uuid: string;
   name: string;
   bio: string;
@@ -16,5 +16,5 @@ export class User {
 
   followed: boolean;
 
-  links: Link[];
+  links: LinkModel[];
 }
