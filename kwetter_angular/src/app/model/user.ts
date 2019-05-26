@@ -1,18 +1,18 @@
-import { Kwetter } from './kwetter';
+import {Kwetter} from './kwetter';
 
 export class User {
-    id: string;
-    name: string;
-    bio: string;
-    website: string;
-    location: string;
-    language: string;
-    
-    createdKwetters: Kwetter[];
-    reportedKwetters: Kwetter[];
-    heartedKwetters: Kwetter[];
+  id: string;
+  name: string;
+  bio: string;
+  website: string;
+  location: string;
+  language: string;
 
-    usersFollowed: User[];
-    followedByUsers: User[];
-    followed: boolean;
+  createdKwetters: Kwetter[];
+  reportedKwetters: Kwetter[];
+  heartedKwetters: Kwetter[];
+
+  usersFollowed: User[];
+  followedByUsers: User[];
+  followed: boolean;
 }

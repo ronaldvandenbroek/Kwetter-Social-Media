@@ -1,9 +1,9 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
 
-import { JwtToken } from '../model/jwt-token';
-import { User } from '../model/user';
+import {JwtToken} from '../model/jwt-token';
+import {User} from '../model/user';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -24,16 +24,17 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string) {
-    console.log("Login attempt");
+    console.log('Login attempt');
 
-    var body = {email, password};
+    const body = {email, password};
     console.log(body);
-    var response = this.http.post<JwtToken>(`http://localhost:8080/api/token/login`, body);
+    const response = this.http.post<JwtToken>(`http://localhost:8080/api/token/login`, body);
     response.subscribe(data => {
       console.log(data.token);
-      console.log(data.user.id)
+      console.log(data.user.id);
       localStorage.setItem('currentLogin', JSON.stringify(data));
-      this.currentLoginSubject.next(data) })
+      this.currentLoginSubject.next(data);
+    });
     return response;
   }
 

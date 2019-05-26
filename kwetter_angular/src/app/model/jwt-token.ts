@@ -1,6 +1,6 @@
-import { User } from './user';
+import {User} from './user';
 
 export class JwtToken {
-    token: string;
-    user: User;
+  token: string;
+  user: User;
 }

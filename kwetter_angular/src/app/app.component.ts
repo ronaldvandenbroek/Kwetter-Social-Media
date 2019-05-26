@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { AuthenticationService } from "./service/authentication.service";
-import { JwtToken } from './model/jwt-token';
+import {AuthenticationService} from './service/authentication.service';
+import {JwtToken} from './model/jwt-token';
 
 @Component({
   selector: 'app-root',
