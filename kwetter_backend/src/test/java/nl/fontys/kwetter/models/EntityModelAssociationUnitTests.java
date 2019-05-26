@@ -212,8 +212,7 @@ class EntityModelAssociationUnitTests {
         String email = "test@test.nl";
         String password = "Test";
 
-        Credentials credentials = new Credentials(email, password);
-        new CredentialsDTO();
+        Credentials credentials = new Credentials(email, password);;
 
         assertNotNull(credentials);
         assertEquals(email, credentials.getEmail());

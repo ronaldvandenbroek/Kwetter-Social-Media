@@ -58,6 +58,11 @@ public class InMemoryTestConfiguration {
     }
 
     @Bean
+    public IHateoasService hateoasService() {
+        return new HateoasService();
+    }
+
+    @Bean
     public IInMemoryDatabaseManager inMemoryDatabaseManager() {
         return new InMemoryDatabaseManager(userRepository(), kwetterRepository(), credentialsRepository());
     }

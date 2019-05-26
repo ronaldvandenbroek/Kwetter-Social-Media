@@ -1,8 +1,10 @@
 package nl.fontys.kwetter.models;
 
+import nl.fontys.kwetter.models.dto.CredentialsDTO;
 import nl.fontys.kwetter.models.dto.JwtTokenDTO;
 import nl.fontys.kwetter.models.dto.KwetterDTO;
 import nl.fontys.kwetter.models.dto.UserDTO;
+import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.models.entity.User;
 import org.junit.jupiter.api.DisplayName;
@@ -62,5 +64,16 @@ class DTOModelAssociationUnitTests {
         assertNotNull(userDTO);
         assertNotNull(userDTO.getUuid());
         assertEquals(user.getId(), userDTO.getUuid());
+    }
+
+    @Test
+    void cloneACredentialsDTO() {
+        Credentials credentials = new Credentials();
+        credentials.setPassword("Test");
+
+        CredentialsDTO credentialsDTO = new CredentialsDTO(credentials);
+
+        assertNotNull(credentialsDTO);
+        assertEquals(credentials.getPassword(), credentialsDTO.getPassword());
     }
 }
