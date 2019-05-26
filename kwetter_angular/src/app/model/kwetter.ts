@@ -1,4 +1,5 @@
 import {User} from './user';
+import {Link} from './link';
 
 export class Kwetter {
   id: string;
@@ -8,4 +9,6 @@ export class Kwetter {
   location: string;
   owner: User;
   dateTime: string;
+
+  links: Link[];
 }

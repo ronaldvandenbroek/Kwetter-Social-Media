@@ -11,39 +11,43 @@ import {AuthenticationService} from 'src/app/service/authentication.service';
 export class UserListComponent implements OnInit {
 
   users: User[];
-  loggedInUser: User;
 
   constructor(private userService: UserService, private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
     this.users = [];
-    this.userService.profile().subscribe(data => {
-      this.loggedInUser = data;
-    });
+    this.userService.following().subscribe(following => {
+      console.log('following');
+      console.log(following);
+      // Get all users
+      this.userService.findAll().subscribe(allUsers => {
+        // console.log('allUsers');
+        // console.log(allUsers);
+        // Loop though all users
+        allUsers.forEach(user => {
+          // console.log("Checking follows");
+          // console.log(user.name);
 
-    this.loggedInUser = this.authenticationService.currentLoginUser;
-    // Get all users
-    this.userService.findAll().subscribe(data => {
-      // Loop though all users
-      data.forEach(user => {
-        // console.log("Checking follows");
-        // console.log(user.name);
+          // console.log(user.uuid);
+          // console.log(this.authenticationService.currentLoginUser.uuid);
 
-        // Check if users is not logged in user
-        if (user.id !== this.loggedInUser.id) {
-          // Loop through all users the logged in user follows
-          this.loggedInUser.usersFollowed.forEach(followedUser => {
-            // Check if the logged in user is following the user
-            if (followedUser.id === user.id) {
-              user.followed = true;
-              // console.log("Is followed: " + user.followed);
-            }
-          });
-          // console.log("Adding user:")
-          // console.log(user.name)
-          this.users.push(user);
-        }
+          // Check if users is not logged in user
+          if (user.uuid !== this.authenticationService.currentLoginUser.uuid) {
+            // console.log('Test');
+            // Loop through all users the logged in user follows
+            following.forEach(followedUser => {
+              // Check if the logged in user is following the user
+              if (followedUser.uuid === user.uuid) {
+                user.followed = true;
+                // console.log("Is followed: " + user.followed);
+              }
+            });
+            // console.log("Adding user:");
+            // console.log(user.name);
+            this.users.push(user);
+          }
+        });
       });
     });
   }

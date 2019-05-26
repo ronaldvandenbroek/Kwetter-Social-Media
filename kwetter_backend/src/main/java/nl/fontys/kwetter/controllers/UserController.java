@@ -32,6 +32,7 @@ public class UserController {
     @GetMapping("{userId}/followers")
     public ResponseEntity<List<UserDTO>> getFollowers(@PathVariable UUID userId) throws ModelNotFoundException, FailedToAddLinksException {
         List<User> followers = profileService.getFollowers(userId);
+
         return ResponseEntity.ok(hateoasService.getUserDTOWithLinks(followers));
     }
 

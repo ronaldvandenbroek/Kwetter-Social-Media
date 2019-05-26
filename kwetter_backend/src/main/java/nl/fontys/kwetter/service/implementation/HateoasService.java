@@ -1,8 +1,10 @@
 package nl.fontys.kwetter.service.implementation;
 
+import nl.fontys.kwetter.controllers.AdminController;
 import nl.fontys.kwetter.controllers.KwetterController;
 import nl.fontys.kwetter.controllers.UserController;
 import nl.fontys.kwetter.exceptions.FailedToAddLinksException;
+import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.dto.KwetterDTO;
 import nl.fontys.kwetter.models.dto.UserDTO;
@@ -58,11 +60,18 @@ public class HateoasService implements IHateoasService {
             links.add(linkTo(methodOn(UserController.class).getProfile(id)).withSelfRel());
             links.add(linkTo(methodOn(UserController.class).getFollowers(id)).withRel("followers"));
             links.add(linkTo(methodOn(UserController.class).getFollowing(id)).withRel("following"));
+            links.add(linkTo(methodOn(UserController.class).getProfile(id)).withRel("profile"));
+            links.add(linkTo(methodOn(UserController.class).follow(id, null)).withRel("follow"));
+            links.add(linkTo(methodOn(UserController.class).unfollow(id, null)).withRel("unfollow"));
             links.add(linkTo(methodOn(KwetterController.class).getHeartedKwetters(id)).withRel("heartedKwetters"));
             links.add(linkTo(methodOn(KwetterController.class).getMostRecentKwetters(id)).withRel("mostRecentKwetters"));
             links.add(linkTo(methodOn(KwetterController.class).getTimeline(id)).withRel("timeline"));
+            links.add(linkTo(methodOn(KwetterController.class).searchForKwetter(null)).withRel("search"));
+            links.add(linkTo(methodOn(KwetterController.class).createKwetter(id, null)).withRel("create"));
+            links.add(linkTo(methodOn(AdminController.class).getAllUsers()).withRel("users"));
+            links.add(linkTo(methodOn(AdminController.class).getAllUsers()).withRel("kwetters"));
             return links;
-        } catch (ModelNotFoundException e) {
+        } catch (ModelNotFoundException | ModelInvalidException e) {
             throw new FailedToAddLinksException(e.getMessage());
         }
     }
