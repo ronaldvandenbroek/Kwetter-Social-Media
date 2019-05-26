@@ -78,6 +78,6 @@ public class AdminService implements IAdminService {
         if (credentials.isPresent()) {
             return credentials.get();
         }
-        throw new ModelNotFoundException("Credentials with the id: " + email + " could not be found.");
+        throw new ModelNotFoundException("Credentials with the uuid: " + email + " could not be found.");
     }
 }

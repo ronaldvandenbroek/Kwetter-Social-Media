@@ -2,7 +2,6 @@ package nl.fontys.kwetter.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import nl.fontys.kwetter.models.hateoas.Link;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -16,9 +15,9 @@ import java.util.*;
 public class Kwetter implements Serializable, Comparable<Kwetter> {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
     @Type(type = "uuid-char")
-    private UUID id = UUID.randomUUID();
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
+    private UUID uuid = UUID.randomUUID();
 
     @Size(max = 140)
     @NotNull
@@ -42,19 +41,15 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
     @NotNull
     private Date dateTime;
 
-    @Transient
-    private List<Link> links;
-
     public Kwetter() {
         this.dateTime = new Date();
         this.text = "";
         this.tags = new HashSet<>();
         this.mentions = new HashSet<>();
-        this.links = new ArrayList<>();
     }
 
     public Kwetter(Kwetter toBeClonedKwetter) {
-        this.id = toBeClonedKwetter.getId();
+        this.uuid = toBeClonedKwetter.getUuid();
         this.text = toBeClonedKwetter.getText();
         this.reports = toBeClonedKwetter.getReports();
         this.hearts = toBeClonedKwetter.getHearts();
@@ -62,7 +57,6 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
         this.mentions = toBeClonedKwetter.getMentions();
         this.owner = toBeClonedKwetter.getOwner();
         this.dateTime = toBeClonedKwetter.getDateTime();
-        this.links = toBeClonedKwetter.getLinks();
     }
 
     public Kwetter(String text, User owner, Date dateTime) {
@@ -70,7 +64,6 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
     }
 
     public Kwetter(String text, Set<String> tags, Set<User> mentions, User owner, Date dateTime) {
-        this.links = new ArrayList<>();
         this.text = text;
         this.owner = owner;
         this.dateTime = dateTime;
@@ -112,10 +105,6 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
         owner = null;
     }
 
-    public void addLink(String url, String rel){
-        links.add(new Link(url, rel));
-    }
-
     @Override
     public int compareTo(Kwetter kwetter) {
         return getDateTime().compareTo(kwetter.getDateTime());
@@ -128,11 +117,11 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
             return false;
         }
         Kwetter kwetter = (Kwetter) o;
-        return id == kwetter.getId();
+        return uuid == kwetter.getUuid();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(uuid);
     }
 }

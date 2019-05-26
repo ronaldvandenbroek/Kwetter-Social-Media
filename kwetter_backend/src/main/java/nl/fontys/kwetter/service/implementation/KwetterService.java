@@ -112,7 +112,7 @@ public class KwetterService implements IKwetterService {
         User user = getUserById(userId);
 
         if (!user.removeCreatedKwetter(kwetter)) {
-            throw new CouldNotDeleteModelException(user.getId() + " " + kwetter.getId());
+            throw new CouldNotDeleteModelException(user.getId() + " " + kwetter.getUuid());
         }
 
         userRepository.save(user);
@@ -267,7 +267,7 @@ public class KwetterService implements IKwetterService {
         if (user.isPresent()) {
             return user.get();
         }
-        throw new ModelNotFoundException("User with the id:" + userID + " could not be found.");
+        throw new ModelNotFoundException("User with the uuid:" + userID + " could not be found.");
     }
 
     /**

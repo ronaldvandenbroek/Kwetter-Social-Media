@@ -7,7 +7,6 @@ import nl.fontys.kwetter.models.dto.CredentialsDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.inject.Named;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -16,7 +15,6 @@ import java.util.Objects;
 
 @Data
 @Entity
-@Named
 public class Credentials implements Serializable {
 
     @NotNull(message = "Email cannot be null")

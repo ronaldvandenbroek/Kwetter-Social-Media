@@ -48,7 +48,7 @@ class ModelAssociationUnitTests {
     void cloneAKwetter() {
         Kwetter newKwetter = new Kwetter(kwetter);
 
-        assertEquals(kwetter.getId(), newKwetter.getId());
+        assertEquals(kwetter.getUuid(), newKwetter.getUuid());
         assertEquals(kwetter.getHearts(), newKwetter.getHearts());
         assertEquals(kwetter.getReports(), newKwetter.getReports());
         assertEquals(kwetter.getOwner(), newKwetter.getOwner());

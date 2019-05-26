@@ -3,7 +3,6 @@ package nl.fontys.kwetter.models.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
-import nl.fontys.kwetter.models.hateoas.Link;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -20,7 +19,7 @@ public class User implements Serializable {
 
     @Id
     @Type(type = "uuid-char")
-    @Column(name = "id", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
     private UUID id = UUID.randomUUID();
 
     @JsonIgnoreProperties("user")
@@ -44,10 +43,8 @@ public class User implements Serializable {
 
     private byte[] photo;
 
-    @Transient
-    private List<Link> links;
-
-    @JsonIgnoreProperties({"owner", "mentions"})
+    @JsonIgnoreProperties({"owner", "ment    @Transient\n" +
+            "    private List<Link> links;ions"})
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = {PERSIST})
     private Set<Kwetter> createdKwetters;
 
@@ -76,7 +73,6 @@ public class User implements Serializable {
         this.heartedKwetters = new HashSet<>();
         this.usersFollowed = new HashSet<>();
         this.followedByUsers = new HashSet<>();
-        this.links = new ArrayList<>();
     }
 
     public User(User toBeClonedUser) {
@@ -93,7 +89,6 @@ public class User implements Serializable {
         this.heartedKwetters = toBeClonedUser.getHeartedKwetters();
         this.usersFollowed = toBeClonedUser.getUsersFollowed();
         this.followedByUsers = toBeClonedUser.getFollowedByUsers();
-        this.links = toBeClonedUser.getLinks();
     }
 
     public void addCreatedKwetter(Kwetter createdKwetter) {
@@ -159,9 +154,6 @@ public class User implements Serializable {
         followedByUsers.remove(following);
     }
 
-    public void addLink(String url, String rel){
-        links.add(new Link(url, rel));
-    }
 
     @Override
     public boolean equals(Object o) {

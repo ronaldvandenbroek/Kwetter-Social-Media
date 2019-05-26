@@ -29,9 +29,9 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
     public <S extends Kwetter> S save(S s) {
-        kwetterCollection().removeIf(kwetter -> kwetter.getId().equals(s.getId()));
+        kwetterCollection().removeIf(kwetter -> kwetter.getUuid().equals(s.getUuid()));
         kwetterCollection().add(s);
-        Optional<Kwetter> first = kwetterCollection().stream().filter(kwetter -> kwetter.getId().equals(s.getId())).findFirst();
+        Optional<Kwetter> first = kwetterCollection().stream().filter(kwetter -> kwetter.getUuid().equals(s.getUuid())).findFirst();
         return (S) first.orElse(null);
     }
 
@@ -42,7 +42,7 @@ public class InMemoryKwetterRepository implements IInMemoryKwetterRepository {
 
     @Override
     public Optional<Kwetter> findById(UUID id) {
-        return kwetterCollection().stream().filter(kwetter -> kwetter.getId().equals(id)).findFirst();
+        return kwetterCollection().stream().filter(kwetter -> kwetter.getUuid().equals(id)).findFirst();
     }
 
     @Override
