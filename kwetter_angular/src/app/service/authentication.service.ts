@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 
@@ -25,21 +25,21 @@ export class AuthenticationService {
     return this.currentLoginSubject.value.user;
   }
 
+  public get authenticationHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + this.currentLoginSubject.value.token
+    });
+  }
+
   public getHref(rel: string): string {
-    console.log(rel);
-    console.log(this.currentLoginSubject.value.user.links);
     return this.currentLoginSubject.value.user.links.find(link => link.rel === rel).href;
   }
 
   login(email: string, password: string) {
-    console.log('Login attempt');
-
     const body = {email, password};
-    console.log(body);
     const response = this.http.post<JwtToken>(this.loginUrl, body);
     response.subscribe(data => {
-      console.log(data.token);
-      console.log(data.user.uuid);
       localStorage.setItem('currentLogin', JSON.stringify(data));
       this.currentLoginSubject.next(data);
     });

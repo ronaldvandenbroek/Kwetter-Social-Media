@@ -58,7 +58,6 @@ public class Application extends SpringBootServletInitializer {
 
                 Credentials credentials = new Credentials(i + "@test.nl", "test", role, user);
 
-                System.out.println(user.getId().toString());
                 presetCredentials.add(credentials);
                 presetUsers.add(user);
 
