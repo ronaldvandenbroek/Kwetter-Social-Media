@@ -1,4 +1,4 @@
-package nl.fontys.kwetter.controllers.api;
+package nl.fontys.kwetter.controllers;
 
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;

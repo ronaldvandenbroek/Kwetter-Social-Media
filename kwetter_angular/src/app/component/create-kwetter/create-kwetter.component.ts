@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { KwetterService } from '../../service/kwetter.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {KwetterService} from '../../service/kwetter.service';
 
 @Component({
   selector: 'app-create-kwetter',
@@ -15,7 +15,7 @@ export class CreateKwetterComponent implements OnInit {
   returnUrl: string;
 
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
-    private createKwetterService: KwetterService) {
+              private createKwetterService: KwetterService) {
   }
 
   get f() {
@@ -27,8 +27,8 @@ export class CreateKwetterComponent implements OnInit {
       text: ['', Validators.required]
     });
 
-        // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/timeline';
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/timeline';
   }
 
   onSubmit() {

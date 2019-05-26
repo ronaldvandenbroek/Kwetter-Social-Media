@@ -1,9 +1,13 @@
-package nl.fontys.kwetter.controllers.api.token;
+package nl.fontys.kwetter.controllers;
 
+import nl.fontys.kwetter.exceptions.FailedToAddLinksException;
 import nl.fontys.kwetter.exceptions.LoginException;
+import nl.fontys.kwetter.models.dto.KwetterDTO;
+import nl.fontys.kwetter.models.dto.UserDTO;
 import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.IAdminService;
+import nl.fontys.kwetter.service.IHateoasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,27 +17,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController("tokenAdminController")
-@RequestMapping(path = "/api/token/secure/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+@RestController
+@RequestMapping(path = "/api/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminController {
 
     private final IAdminService adminService;
+    private final IHateoasService hateoasService;
 
     @Autowired
-    public AdminController(IAdminService adminService) {
+    public AdminController(IAdminService adminService, IHateoasService hateoasService) {
         this.adminService = adminService;
+        this.hateoasService = hateoasService;
     }
 
     @GetMapping("/get_all_users")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() throws FailedToAddLinksException {
         List<User> allUsers = adminService.getAllUsers();
-        return ResponseEntity.ok(allUsers);
+        return ResponseEntity.ok(hateoasService.getUserDTOWithLinks(allUsers));
     }
 
     @GetMapping("/get_all_kwetters")
-    public ResponseEntity<List<Kwetter>> getAllKwetters() {
+    public ResponseEntity<List<KwetterDTO>> getAllKwetters() throws FailedToAddLinksException {
         List<Kwetter> allKwetters = adminService.getAllKwetters();
-        return ResponseEntity.ok(allKwetters);
+        return ResponseEntity.ok(hateoasService.getKwetterDTOWithLinks(allKwetters));
     }
 
     @GetMapping("/test")

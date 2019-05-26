@@ -1,12 +1,14 @@
-package nl.fontys.kwetter.controllers.api.token;
+package nl.fontys.kwetter.controllers;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import nl.fontys.kwetter.exceptions.FailedToAddLinksException;
 import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.exceptions.ModelInvalidException;
-import nl.fontys.kwetter.models.JwtToken;
 import nl.fontys.kwetter.models.dto.CredentialsDTO;
+import nl.fontys.kwetter.models.dto.JwtTokenDTO;
 import nl.fontys.kwetter.models.entity.User;
+import nl.fontys.kwetter.service.IHateoasService;
 import nl.fontys.kwetter.service.ILoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,38 +22,45 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 
-@RestController("tokenLoginController")
-@RequestMapping(path = "/api/token/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RestController
+@RequestMapping(path = "/api/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LoginController {
 
-    private Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-    private ILoginService loginService;
+    private final Logger logger;
+    private final ILoginService loginService;
+    private final IHateoasService hateoasService;
 
     @Autowired
-    public LoginController(ILoginService loginService) {
+    public LoginController(ILoginService loginService, IHateoasService hateoasService) {
+        this.logger = LoggerFactory.getLogger(LoginController.class);
         this.loginService = loginService;
+        this.hateoasService = hateoasService;
     }
 
     @PostMapping("login")
-    public ResponseEntity<JwtToken> login(@RequestBody CredentialsDTO credentials) throws ModelInvalidException, LoginException {
+    public ResponseEntity<JwtTokenDTO> login(@RequestBody CredentialsDTO credentials) throws ModelInvalidException, LoginException, FailedToAddLinksException {
 
         if (logger.isDebugEnabled()) {
             logger.info(String.format("%s is trying to login", credentials.getEmail()));
         }
+
         User userLoggedIn = loginService.login(credentials);
-
-        String jwtToken = Jwts.builder().setSubject(userLoggedIn.getCredentials().getEmail())
-                .claim("roles", "user")
-                .setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "secretkey")
-                .compact();
-
-        JwtToken token = new JwtToken(jwtToken, userLoggedIn);
+        String jwtToken = buildJwtToken(userLoggedIn.getCredentials().getEmail());
+        JwtTokenDTO jwtTokenDTO = new JwtTokenDTO(jwtToken, hateoasService.getUserDTOWithLinks(userLoggedIn));
 
         if (logger.isDebugEnabled()) {
             logger.info(String.format("%s logged in successfully", credentials.getEmail()));
         }
-        return ResponseEntity.ok(token);
+
+        return ResponseEntity.ok(jwtTokenDTO);
+    }
+
+    private String buildJwtToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("roles", "user")
+                .setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256, "secretkey")
+                .compact();
     }
 }

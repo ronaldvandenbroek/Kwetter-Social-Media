@@ -84,8 +84,8 @@ class KwetterServiceIntegrationTest {
 //
 //
 //        try {
-//            Kwetter kwetter = kwetterService.createKwetter(testUser.getId(), newKwetter);
-//            List<Kwetter> latestKwetters = kwetterService.getMostRecentKwetters(testUser.getId());
+//            Kwetter kwetter = kwetterService.createKwetter(testUser.getUuid(), newKwetter);
+//            List<Kwetter> latestKwetters = kwetterService.getMostRecentKwetters(testUser.getUuid());
 //
 //            assertNotNull(kwetter);
 //            assertEquals(text, kwetter.getText());
@@ -108,9 +108,9 @@ class KwetterServiceIntegrationTest {
 //        newKwetter.setText(text);
 //
 //        try {
-//            Kwetter kwetter = kwetterService.createKwetter(testUser.getId(), newKwetter);
+//            Kwetter kwetter = kwetterService.createKwetter(testUser.getUuid(), newKwetter);
 //
-//            List<Kwetter> latestKwetters = kwetterService.getMostRecentKwetters(testUser.getId());
+//            List<Kwetter> latestKwetters = kwetterService.getMostRecentKwetters(testUser.getUuid());
 //
 //            assertNotNull(kwetter);
 //            assertEquals(text, kwetter.getText());
@@ -137,7 +137,7 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can remove a kwetter")
     void removeKwetter() {
         try {
-            kwetterService.removeKwetter(testUser.getId(), testKwetter.getId());
+            kwetterService.removeKwetter(testUser.getId(), testKwetter.getUuid());
 
             User user2 = profileService.getFullProfile(testUser.getId());
             Collection<Kwetter> createdKwetters2 = user2.getCreatedKwetters();
@@ -152,7 +152,7 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can heart a kwetter")
     void heartKwetter() {
         try {
-            kwetterService.heartKwetter(testUser.getId(), testKwetter.getId());
+            kwetterService.heartKwetter(testUser.getId(), testKwetter.getUuid());
 
             User user = profileService.getFullProfile(testUser.getId());
 
@@ -169,11 +169,11 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can remove a heart from a kwetter")
     void removeHeartKwetter() {
         try {
-            kwetterService.heartKwetter(testUser.getId(), testKwetter.getId());
+            kwetterService.heartKwetter(testUser.getId(), testKwetter.getUuid());
             User user = profileService.getFullProfile(testUser.getId());
             assertEquals(10, user.getCreatedKwetters().size());
 
-            kwetterService.removeHeartKwetter(testUser.getId(), testKwetter.getId());
+            kwetterService.removeHeartKwetter(testUser.getId(), testKwetter.getUuid());
             user = profileService.getFullProfile(testUser.getId());
 
             assertEquals(10, user.getCreatedKwetters().size());
@@ -188,7 +188,7 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can report a kwetter")
     void reportKwetter() {
         try {
-            kwetterService.reportKwetter(testUser.getId(), testKwetter.getId());
+            kwetterService.reportKwetter(testUser.getId(), testKwetter.getUuid());
 
             User user = profileService.getFullProfile(testUser.getId());
 
@@ -205,9 +205,9 @@ class KwetterServiceIntegrationTest {
     @DisplayName("User can remove a report from a kwetter")
     void removeReportedKwetter() {
         try {
-            kwetterService.reportKwetter(testUser.getId(), testKwetter.getId());
+            kwetterService.reportKwetter(testUser.getId(), testKwetter.getUuid());
 
-            kwetterService.removeReportKwetter(testUser.getId(), testKwetter.getId());
+            kwetterService.removeReportKwetter(testUser.getId(), testKwetter.getUuid());
 
             User user = profileService.getFullProfile(testUser.getId());
 

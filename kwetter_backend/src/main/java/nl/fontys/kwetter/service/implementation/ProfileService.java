@@ -41,7 +41,7 @@ public class ProfileService implements IProfileService {
      */
     @Override
     public User updateUser(UserDTO user) throws ModelInvalidException, ModelNotFoundException {
-        User oldUser = getUserById(user.getId());
+        User oldUser = getUserById(user.getUuid());
 
         validator.validate(user);
 
@@ -68,7 +68,7 @@ public class ProfileService implements IProfileService {
     @Override
     public User updateName(UserDTO user) throws UsernameAlreadyExistsException, ModelNotFoundException, ModelInvalidException {
         if (!userRepository.existsByName(user.getName())) {
-            User oldUser = getUserById(user.getId());
+            User oldUser = getUserById(user.getUuid());
 
             String oldName = oldUser.getName();
             oldUser.setName(user.getName());
@@ -163,7 +163,7 @@ public class ProfileService implements IProfileService {
         if (user.isPresent()) {
             return user.get();
         }
-        throw new ModelNotFoundException("User with the id:" + userID + " could not be found.");
+        throw new ModelNotFoundException("User with the uuid:" + userID + " could not be found.");
     }
 }
 

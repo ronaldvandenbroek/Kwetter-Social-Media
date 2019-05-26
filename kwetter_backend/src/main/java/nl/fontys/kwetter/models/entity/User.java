@@ -8,10 +8,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static javax.persistence.CascadeType.PERSIST;
 
@@ -22,7 +19,7 @@ public class User implements Serializable {
 
     @Id
     @Type(type = "uuid-char")
-    @Column(name = "id", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
     private UUID id = UUID.randomUUID();
 
     @JsonIgnoreProperties("user")
@@ -46,7 +43,8 @@ public class User implements Serializable {
 
     private byte[] photo;
 
-    @JsonIgnoreProperties({"owner", "mentions"})
+    @JsonIgnoreProperties({"owner", "ment    @Transient\n" +
+            "    private List<Link> links;ions"})
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = {PERSIST})
     private Set<Kwetter> createdKwetters;
 
@@ -70,11 +68,11 @@ public class User implements Serializable {
     private Set<User> followedByUsers;
 
     public User() {
-        createdKwetters = new HashSet<>();
-        reportedKwetters = new HashSet<>();
-        heartedKwetters = new HashSet<>();
-        usersFollowed = new HashSet<>();
-        followedByUsers = new HashSet<>();
+        this.createdKwetters = new HashSet<>();
+        this.reportedKwetters = new HashSet<>();
+        this.heartedKwetters = new HashSet<>();
+        this.usersFollowed = new HashSet<>();
+        this.followedByUsers = new HashSet<>();
     }
 
     public User(User toBeClonedUser) {
@@ -155,6 +153,7 @@ public class User implements Serializable {
     public void removeFollowedBy(User following) {
         followedByUsers.remove(following);
     }
+
 
     @Override
     public boolean equals(Object o) {

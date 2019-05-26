@@ -2,39 +2,39 @@
   <div class="card-body">
     <table class="table table-bordered table-striped">
       <thead class="thead-dark">
-        <tr>
-          <td scope="col" colspan="2">Profile</td>
-        </tr>
+      <tr>
+        <td colspan="2" scope="col">Profile</td>
+      </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Name</td>
-          <td>{{ user.name }}</td>
-        </tr>
-        <tr>
-          <td>Bio</td>
-          <td>{{ user.bio }}</td>
-        </tr>
-        <tr>
-          <td>Website</td>
-          <td>{{ user.website }}</td>
-        </tr>
-        <tr>
-          <td>Location</td>
-          <td>{{ user.location }}</td>
-        </tr>
-        <tr>
-          <td>Created Kwetters</td>
-          <td>{{ user.createdKwetters.length }}</td>
-        </tr>
-        <tr>
-          <td>Followers</td>
-          <td>{{ user.followedByUsers.length }}</td>
-        </tr>
-        <tr>
-          <td>Following</td>
-          <td>{{ user.usersFollowed.length }}</td>
-        </tr>
+      <tr>
+        <td>Name</td>
+        <td>{{ user.name }}</td>
+      </tr>
+      <tr>
+        <td>Bio</td>
+        <td>{{ user.bio }}</td>
+      </tr>
+      <tr>
+        <td>Website</td>
+        <td>{{ user.website }}</td>
+      </tr>
+      <tr>
+        <td>Location</td>
+        <td>{{ user.location }}</td>
+      </tr>
+      <tr>
+        <td>Created Kwetters</td>
+        <td>{{ user.createdKwetterAmount }}</td>
+      </tr>
+      <tr>
+        <td>Followers</td>
+        <td>{{ user.followedByUsersAmount }}</td>
+      </tr>
+      <tr>
+        <td>Following</td>
+        <td>{{ user.usersFollowedAmount }}</td>
+      </tr>
       </tbody>
     </table>
   </div>

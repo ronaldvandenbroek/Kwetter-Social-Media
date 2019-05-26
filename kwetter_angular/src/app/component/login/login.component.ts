@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
-import { AlertService } from "../../service/alert.service";
-import { AuthenticationService } from "../../service/authentication.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {first} from 'rxjs/operators';
+import {AlertService} from '../../service/alert.service';
+import {AuthenticationService} from '../../service/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -50,13 +50,12 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          console.log(data);
           this.router.navigate([this.returnUrl]);
         },
         error => {
           // Temp check for forbidden (false login)
-          if (error.status == '403') {
-            this.alertService.error("Invalid username or password");
+          if (error.status === '403') {
+            this.alertService.error('Invalid username or password');
           } else {
             this.alertService.error(error.error);
           }

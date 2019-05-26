@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { KwetterService } from '../../service/kwetter.service';
-import { Kwetter } from 'src/app/model/kwetter';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {KwetterService} from '../../service/kwetter.service';
+import {KwetterModel} from 'src/app/model/kwetter.model';
 
 @Component({
   selector: 'app-search-kwetter',
@@ -13,11 +13,11 @@ export class SearchKwetterComponent implements OnInit {
   searchKwetterForm: FormGroup;
   submitted = false;
   returnUrl: string;
-  kwetters: Kwetter[];
+  kwetters: KwetterModel[];
 
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
-    private searchKwetterService: KwetterService) {
-      this.kwetters = [];
+              private searchKwetterService: KwetterService) {
+    this.kwetters = [];
   }
 
   get f() {

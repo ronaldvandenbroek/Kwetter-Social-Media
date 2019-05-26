@@ -1,15 +1,19 @@
 package nl.fontys.kwetter.models.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.models.entity.User;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
 @Data
-public class KwetterDTO {
-    private UUID id;
+@EqualsAndHashCode(callSuper = false)
+public class KwetterDTO extends ResourceSupport {
+    private UUID uuid;
     private String text;
     private int reports;
     private int hearts;
@@ -26,5 +30,15 @@ public class KwetterDTO {
 
     public KwetterDTO() {
         // Empty constructor
+    }
+
+    public KwetterDTO(Kwetter kwetter) {
+        this.uuid = kwetter.getUuid();
+        this.text = kwetter.getText();
+        this.reports = kwetter.getReports();
+        this.hearts = kwetter.getHearts();
+        this.tags = kwetter.getTags();
+        this.mentions = kwetter.getMentions();
+        this.owner = kwetter.getOwner();
     }
 }
