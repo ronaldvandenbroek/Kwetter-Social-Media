@@ -204,7 +204,7 @@ public class KwetterService implements IKwetterService {
      */
     @Override
     public List<Kwetter> getMentionedKwetters(UUID userId) throws NotImplementedException {
-        throw new NotImplementedException();
+        throw new NotImplementedException("Not implemented");
     }
 
     /**
@@ -282,6 +282,6 @@ public class KwetterService implements IKwetterService {
         if (kwetter.isPresent()) {
             return kwetter.get();
         }
-        throw new ModelNotFoundException();
+        throw new ModelNotFoundException("Cannot find kwetter");
     }
 }

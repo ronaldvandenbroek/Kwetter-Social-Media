@@ -13,7 +13,7 @@ import java.util.Calendar;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Testing the associations of the models")
-class ModelAssociationUnitTests {
+class EntityModelAssociationUnitTests {
     private User user;
     private User secondUser;
     private Kwetter kwetter;

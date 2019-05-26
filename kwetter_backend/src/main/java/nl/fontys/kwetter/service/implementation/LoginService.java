@@ -72,6 +72,6 @@ public class LoginService implements ILoginService {
      */
     @Override
     public User createAccount(String email, String password) throws NotImplementedException {
-        throw new NotImplementedException();
+        throw new NotImplementedException("Not Implemented");
     }
 }

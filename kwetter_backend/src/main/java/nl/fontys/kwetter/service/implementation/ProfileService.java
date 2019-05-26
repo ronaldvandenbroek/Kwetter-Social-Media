@@ -81,7 +81,7 @@ public class ProfileService implements IProfileService {
                 throw e;
             }
         } else {
-            throw new UsernameAlreadyExistsException();
+            throw new UsernameAlreadyExistsException("Username already exists");
         }
     }
 
