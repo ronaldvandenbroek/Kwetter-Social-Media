@@ -239,12 +239,10 @@ jobs:
     lint_frontend:
         executor: node
         steps:
-            - skip
-            # - attach_workspace_all
-            # Disabled for testing purposes
-            # - run:
-            #     name: Linting
-            #     command: cd $SOURCE_PATH && npm run lint
+            - attach_workspace_all
+            - run:
+                name: Linting
+                command: cd $SOURCE_PATH && npm run lint
 
     test_frontend:
         executor: node
