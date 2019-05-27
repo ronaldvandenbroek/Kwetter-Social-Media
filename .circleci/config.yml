@@ -240,6 +240,7 @@ jobs:
         executor: node
         steps:
             - attach_workspace_all
+            - restore_cache_angular
             - run:
                 name: Linting
                 command: cd $SOURCE_PATH && npm run lint
