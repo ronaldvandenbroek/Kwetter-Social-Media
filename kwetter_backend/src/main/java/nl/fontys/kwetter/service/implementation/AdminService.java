@@ -73,7 +73,7 @@ public class AdminService implements IAdminService {
         return (List<Credentials>) credentialsRepository.findAll();
     }
 
-    private Credentials getCredentialsById(String email) throws ModelNotFoundException {
+    private Credentials getCredentialsById(String email) {
         Optional<Credentials> credentials = credentialsRepository.findById(email);
         if (credentials.isPresent()) {
             return credentials.get();

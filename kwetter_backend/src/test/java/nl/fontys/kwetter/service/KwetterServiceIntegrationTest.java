@@ -20,7 +20,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -66,60 +68,50 @@ class KwetterServiceIntegrationTest {
     @Test
     @DisplayName("User can create a Kwetter")
     void createKwetterFull() {
-        assertTrue(true);
-//
-//        String text = "This is a test kwetter";
-//
-//        Set<String> tags = new HashSet<>();
-//        tags.add("TestTag1");
-//        tags.add("TestTag2");
-//
-////        Set<Long> mentionIds = new HashSet<>();
-////        mentionIds.add(1L);
-////        mentionIds.add(2L);
-//
-//        Kwetter newKwetter = new Kwetter();
-//        newKwetter.setText(text);
-//        newKwetter.setTags(tags);
-//
-//
-//        try {
-//            Kwetter kwetter = kwetterService.createKwetter(testUser.getUuid(), newKwetter);
-//            List<Kwetter> latestKwetters = kwetterService.getMostRecentKwetters(testUser.getUuid());
-//
-//            assertNotNull(kwetter);
-//            assertEquals(text, kwetter.getText());
-//            assertEquals(11, latestKwetters.size());
-//            //assertEquals(2, kwetter.getMentions().size());
-//            assertEquals(2, kwetter.getTags().size());
-//        } catch (ModelNotFoundException | ModelInvalidException e) {
-//            fail("This exception should not have been thrown");
-//        }
+
+        String text = "This is a test kwetter";
+
+        Set<String> tags = new HashSet<>();
+        tags.add("TestTag1");
+        tags.add("TestTag2");
+
+        Kwetter newKwetter = new Kwetter();
+        newKwetter.setText(text);
+        newKwetter.setTags(tags);
+
+        KwetterDTO newKwetterDTO = new KwetterDTO(newKwetter);
+
+        try {
+            Kwetter kwetter = kwetterService.createKwetter(testUser.getId(), newKwetterDTO);
+
+            assertNotNull(kwetter);
+            assertEquals(text, kwetter.getText());
+            assertEquals(2, kwetter.getTags().size());
+        } catch (ModelNotFoundException | ModelInvalidException e) {
+            fail("This exception should not have been thrown");
+        }
     }
 
     @Test
     @DisplayName("User can create a kwetter without tags or mentions")
     void createKwetterMinimal() {
-        assertTrue(true);
-//
-//        String text = "This is a test kwetter";
-//
-//        Kwetter newKwetter = new Kwetter();
-//        newKwetter.setText(text);
-//
-//        try {
-//            Kwetter kwetter = kwetterService.createKwetter(testUser.getUuid(), newKwetter);
-//
-//            List<Kwetter> latestKwetters = kwetterService.getMostRecentKwetters(testUser.getUuid());
-//
-//            assertNotNull(kwetter);
-//            assertEquals(text, kwetter.getText());
-//            assertEquals(11, latestKwetters.size());
-//            assertEquals(0, latestKwetters.get(0).getMentions().size());
-//            assertEquals(0, latestKwetters.get(0).getTags().size());
-//        } catch (ModelNotFoundException | ModelInvalidException e) {
-//            fail("This exception should not have been thrown");
-//        }
+        String text = "This is a test kwetter";
+
+        Kwetter newKwetter = new Kwetter();
+        newKwetter.setText(text);
+
+        KwetterDTO newKwetterDTO = new KwetterDTO(newKwetter);
+
+        try {
+            Kwetter kwetter = kwetterService.createKwetter(testUser.getId(), newKwetterDTO);
+
+            assertNotNull(kwetter);
+            assertEquals(text, kwetter.getText());
+            assertEquals(0, kwetter.getMentions().size());
+            assertEquals(0, kwetter.getTags().size());
+        } catch (ModelNotFoundException | ModelInvalidException e) {
+            fail("This exception should not have been thrown");
+        }
     }
 
     @Test
@@ -225,5 +217,21 @@ class KwetterServiceIntegrationTest {
 
         List<Kwetter> kwetters = kwetterService.searchForKwetter(text);
         assertEquals(2, kwetters.size());
+    }
+
+    @Test
+    @DisplayName("Get the users most recent kwetters")
+    void getMostRecent() {
+        List<Kwetter> kwetters = kwetterService.getMostRecentKwetters(testUser.getId());
+        assertEquals(10, kwetters.size());
+    }
+
+    @Test
+    @DisplayName("Get the users timeline")
+    void getTimeline() {
+        List<Kwetter> kwetters = kwetterService.getTimeline(testUser.getId());
+        // 10 from own kwetters
+        // 1 from 2@Test.nl who 1@Test.nl follows
+        assertEquals(11, kwetters.size());
     }
 }

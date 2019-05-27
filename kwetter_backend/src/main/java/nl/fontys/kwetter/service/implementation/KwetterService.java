@@ -60,14 +60,6 @@ public class KwetterService implements IKwetterService {
     @Override
     public Kwetter createKwetter(UUID userId, KwetterDTO kwetter) {
         User owner = getUserById(userId);
-        if (logger.isDebugEnabled()) {
-            logger.info("Creating Kwetter");
-            logger.info(String.valueOf(userId));
-            logger.info(String.valueOf(kwetter));
-            logger.info(String.valueOf(owner.getId()));
-            logger.info(owner.getName());
-            logger.info(String.valueOf(owner));
-        }
 
         Set<User> mentions = new HashSet<>();
         if (kwetter.getMentions() != null) {
@@ -80,21 +72,15 @@ public class KwetterService implements IKwetterService {
 
         newKwetter.setText(kwetter.getText());
         newKwetter.setMentions(mentions);
+        newKwetter.setTags(kwetter.getTags());
         newKwetter.setDateTime(Calendar.getInstance().getTime());
         newKwetter.setOwner(owner);
 
         validator.validate(newKwetter);
 
-        if (logger.isDebugEnabled()) {
-            logger.info(String.valueOf(newKwetter));
-        }
-
         kwetterRepository.save(newKwetter);
         userRepository.save(owner);
 
-        if (logger.isDebugEnabled()) {
-            logger.info("Created Kwetter");
-        }
         return newKwetter;
     }
 
