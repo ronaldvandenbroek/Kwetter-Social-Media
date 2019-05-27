@@ -15,9 +15,9 @@ import java.util.*;
 public class Kwetter implements Serializable, Comparable<Kwetter> {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
     @Type(type = "uuid-char")
-    private UUID id = UUID.randomUUID();
+    @Column(name = "uuid", updatable = false, nullable = false, unique = true, columnDefinition = "varchar(64)")
+    private UUID uuid = UUID.randomUUID();
 
     @Size(max = 140)
     @NotNull
@@ -49,7 +49,7 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
     }
 
     public Kwetter(Kwetter toBeClonedKwetter) {
-        this.id = toBeClonedKwetter.getId();
+        this.uuid = toBeClonedKwetter.getUuid();
         this.text = toBeClonedKwetter.getText();
         this.reports = toBeClonedKwetter.getReports();
         this.hearts = toBeClonedKwetter.getHearts();
@@ -117,11 +117,11 @@ public class Kwetter implements Serializable, Comparable<Kwetter> {
             return false;
         }
         Kwetter kwetter = (Kwetter) o;
-        return id == kwetter.getId();
+        return uuid == kwetter.getUuid();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(uuid);
     }
 }

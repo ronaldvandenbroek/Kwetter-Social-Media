@@ -10,7 +10,6 @@ import nl.fontys.kwetter.models.dto.UserDTO;
 import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ class ProfileServiceIntegrationTest {
         String language = "Nederlands";
 
         UserDTO newUser = new UserDTO();
-        newUser.setId(testUser.getId());
+        newUser.setUuid(testUser.getId());
         newUser.setLocation(location);
         newUser.setWebsite(website);
         newUser.setBio(bio);
@@ -85,7 +84,7 @@ class ProfileServiceIntegrationTest {
     @DisplayName("User cant update the bio with too long entries")
     void tooLongUserUpdates() {
         UserDTO newUser = new UserDTO();
-        newUser.setId(testUser.getId());
+        newUser.setUuid(testUser.getId());
         newUser.setLocation(TEST_STRING);
         newUser.setWebsite(TEST_STRING);
         newUser.setBio(TEST_STRING);
@@ -110,7 +109,7 @@ class ProfileServiceIntegrationTest {
         String name = "newTest";
 
         UserDTO newUser = new UserDTO();
-        newUser.setId(testUser.getId());
+        newUser.setUuid(testUser.getId());
         newUser.setName(name);
 
         try {
@@ -126,7 +125,7 @@ class ProfileServiceIntegrationTest {
     @DisplayName("User cant update its name when it is too long")
     void tooLongName() {
         UserDTO newUser = new UserDTO();
-        newUser.setId(testUser.getId());
+        newUser.setUuid(testUser.getId());
         newUser.setName(TEST_STRING);
 
         assertThrows(ModelInvalidException.class, () -> profileService.updateName(newUser));
@@ -145,7 +144,7 @@ class ProfileServiceIntegrationTest {
         String name = "1Test";
 
         UserDTO newUser = new UserDTO();
-        newUser.setId(testUser.getId());
+        newUser.setUuid(testUser.getId());
         newUser.setName(name);
 
         assertThrows(UsernameAlreadyExistsException.class, () -> profileService.updateName(newUser));

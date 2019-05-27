@@ -1,24 +1,29 @@
 <div class="card my-5">
-  <div class="card-body">    
-    <table id="datatables" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Follow/Unfollow</th>
-            </tr>
-        </thead>
-        <tbody >
-          <tr *ngFor="let user of users">
-            <td>{{ user.name }}</td>
-            <td>{{ user.location }}</td>
-            <td>
-                <div *ngIf="user.followed"> <button (click)="unfollow(user)" class="btn btn-default btn-sm">Unfollow</button> </div>
-                <div *ngIf="!user.followed"> <button (click)="follow(user)" class="btn btn-default btn-sm">Follow</button> </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="card-body">
+    <table cellspacing="0" class="table table-striped table-bordered table-hover" id="datatables" style="width:100%"
+           width="100%">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Follow/Unfollow</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.name }}</td>
+        <td>{{ user.location }}</td>
+        <td>
+          <div *ngIf="user.followed">
+            <button (click)="unfollow(user)" class="btn btn-default btn-sm">Unfollow</button>
+          </div>
+          <div *ngIf="!user.followed">
+            <button (click)="follow(user)" class="btn btn-default btn-sm">Follow</button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

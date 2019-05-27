@@ -54,22 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //Angular cors config
-        //https://stackoverflow.com/questions/40418441/spring-security-cors-filter
+        // Angular cors config
+        // https://stackoverflow.com/questions/40418441/spring-security-cors-filter
         http.cors();
-        //Bypass session based authentication for all token based authentications
-        http.authorizeRequests().antMatchers("/api/token/**").permitAll();
-
-        // require all requests to be authenticated except for the resources
-        http.authorizeRequests().antMatchers("/javax.faces.resource/**")
-                .permitAll().anyRequest().authenticated();
-
-        // login
-        http.formLogin().loginPage("/login.xhtml").permitAll()
-                .failureUrl("/login.xhtml?error=true").successForwardUrl("/main.xhtml");
-        // logout
-        http.logout().logoutSuccessUrl("/login.xhtml");
-        // not needed as JSF 2.2 is implicitly protected against CSRF
+        // Disable csrf
         http.csrf().disable();
     }
 
@@ -93,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public FilterRegistrationBean jwtFilter() {
         final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new JwtFilter());
-        registrationBean.addUrlPatterns("/api/token/secure/*");
+        registrationBean.addUrlPatterns("/api/secure/*");
 
         return registrationBean;
     }

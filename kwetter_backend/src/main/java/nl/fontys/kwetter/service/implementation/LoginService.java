@@ -10,8 +10,6 @@ import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.ILoginService;
 import nl.fontys.kwetter.service.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,20 +22,10 @@ public class LoginService implements ILoginService {
     private IValidatorService validator;
 
     @Autowired
-    public LoginService(IValidatorService validator, IUserRepository userRepository) {
+    public LoginService(IValidatorService validator,
+                        IUserRepository userRepository) {
         this.validator = validator;
         this.userRepository = userRepository;
-    }
-
-    @Override
-    public User autoLogin() throws LoginException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByCredentials_Email(authentication.getName());
-
-        if (user == null) {
-            throw new LoginException("No account found matching the credentials");
-        }
-        return user;
     }
 
     /**
@@ -49,7 +37,7 @@ public class LoginService implements ILoginService {
      * @throws ModelInvalidException Thrown if the credentials are not valid.
      */
     @Override
-    public User login(CredentialsDTO credentials) throws LoginException, ModelInvalidException {
+    public User login(CredentialsDTO credentials) {
         Credentials credentialsPersistent = new Credentials(credentials);
         validator.validate(credentialsPersistent);
 
@@ -71,7 +59,7 @@ public class LoginService implements ILoginService {
      * @return The new user
      */
     @Override
-    public User createAccount(String email, String password) throws NotImplementedException {
-        throw new NotImplementedException();
+    public User createAccount(String email, String password) {
+        throw new NotImplementedException("Not Implemented");
     }
 }

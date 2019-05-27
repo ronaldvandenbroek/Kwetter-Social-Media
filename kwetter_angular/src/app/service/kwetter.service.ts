@@ -1,43 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Kwetter } from '../model/kwetter';
-import { Observable } from 'rxjs';
-import { AuthenticationService } from './authentication.service';
- 
-@Injectable()
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {KwetterModel} from '../model/kwetter.model';
+import {Observable} from 'rxjs';
+import {AuthenticationService} from './authentication.service';
+
+@Injectable({providedIn: 'root'})
 export class KwetterService {
-  private headers: HttpHeaders;
- 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
-    this.headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.authenticationService.currentLoginValue.token
-    })
   }
- 
-  public timeline(): Observable<Kwetter[]> {
-    return this.http.get<Kwetter[]>('http://localhost:8080/api/token/secure/kwetter/timeline/' + this.authenticationService.currentLoginValue.user.id, { headers: this.headers })
+
+  public timeline(): Observable<KwetterModel[]> {
+    return this.http.get<KwetterModel[]>(
+      this.authenticationService.getHref('timeline'));
   }
 
   createKwetter(text: string) {
-    let kwetter = new Kwetter();
+    const kwetter = new KwetterModel();
     kwetter.text = text;
-
-    console.log(kwetter);
-
-    var body = kwetter;
-    console.log(body);
-    var response = this.http.post<Kwetter>(`http://localhost:8080/api/token/secure/kwetter/create/` + this.authenticationService.currentLoginValue.user.id, body, { headers: this.headers });
-    response.subscribe(data => {
-      console.log(data);
-    })
+    const response = this.http.post<KwetterModel>(
+      this.authenticationService.getHref('create'),
+      kwetter);
+    response.subscribe(() => {
+    });
     return response;
   }
 
-  searchKwetter(text: string): Observable<Kwetter[]>{
-    var body = text;
-    console.log(body);
-    var response = this.http.post<Kwetter[]>(`http://localhost:8080/api/token/secure/kwetter/search_for` , body, { headers: this.headers });
-    return response;
+  searchKwetter(text: string): Observable<KwetterModel[]> {
+    return this.http.post<KwetterModel[]>(
+      this.authenticationService.getHref('search'),
+      text);
   }
 }

@@ -19,7 +19,7 @@ public class ValidatorService implements IValidatorService {
         validator = factory.getValidator();
     }
 
-    public void validate(Object object) throws ModelInvalidException {
+    public void validate(Object object) {
         Set<ConstraintViolation<Object>> violations = validator.validate(object);
 
         StringBuilder violationMessages = new StringBuilder();

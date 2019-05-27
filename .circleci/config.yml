@@ -4,7 +4,13 @@ workflows:
     version: 2.1
     build-test-deploy:
         jobs:
-            - checkout
+            - checkout:
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - release
+                            - development
 
             - dependencies_backend:
                 requires:
@@ -145,29 +151,29 @@ commands:
         steps:
             - restore_cache:
                 keys:
-                    - maven-v2-{{ checksum "kwetter_backend/pom.xml" }}
-                    - maven-v2-
+                    - maven-v3-{{ checksum "kwetter_backend/pom.xml" }}
+                    - maven-v3-
 
     restore_cache_angular:
         steps:
             - restore_cache:
                 keys:
-                    - node-v4-{{ checksum "kwetter_angular/package.json" }}
-                    - node-v4-
+                    - node-v5-{{ checksum "kwetter_angular/package.json" }}
+                    - node-v5-
 
     save_cache_backend:
         steps:
             - save_cache:
                 paths:
                     - ~/.m2
-                key: maven-v2-{{ checksum "kwetter_backend/pom.xml" }}
+                key: maven-v3-{{ checksum "kwetter_backend/pom.xml" }}
 
     save_cache_angular:
         steps:
             - save_cache:
                 paths:
                     - kwetter_angular/node_modules
-                key: node-v4-{{ checksum "kwetter_angular/package.json" }}                
+                key: node-v5-{{ checksum "kwetter_angular/package.json" }}                
                 
 
 jobs:
@@ -233,12 +239,11 @@ jobs:
     lint_frontend:
         executor: node
         steps:
-            - skip
-            # - attach_workspace_all
-            # Disabled for testing purposes
-            # - run:
-            #     name: Linting
-            #     command: cd $SOURCE_PATH && npm run lint
+            - attach_workspace_all
+            - restore_cache_angular
+            - run:
+                name: Linting
+                command: cd $SOURCE_PATH && npm run lint
 
     test_frontend:
         executor: node

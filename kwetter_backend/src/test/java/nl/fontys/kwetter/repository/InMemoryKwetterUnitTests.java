@@ -71,7 +71,7 @@ public class InMemoryKwetterUnitTests {
 
         kwetterRepository.delete(kwetter);
 
-        assertFalse(updatedUser.getCreatedKwetters().contains(kwetter.getId()));
+        assertFalse(updatedUser.getCreatedKwetters().contains(kwetter.getUuid()));
         assertEquals(11, kwetterRepository.count());
         assertEquals(0, kwetterRepository.findAllByOwnerId(kwetter.getOwner().getId()).size());
     }

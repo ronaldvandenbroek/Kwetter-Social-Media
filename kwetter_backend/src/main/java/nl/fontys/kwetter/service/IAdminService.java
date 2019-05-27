@@ -1,6 +1,5 @@
 package nl.fontys.kwetter.service;
 
-import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.models.entity.Kwetter;
@@ -10,9 +9,9 @@ import java.util.List;
 
 public interface IAdminService {
 
-    Credentials changeRole(String credentialsEmail, Role role) throws ModelNotFoundException;
+    Credentials changeRole(String credentialsEmail, Role role);
 
-    Credentials getFullCredentials(String email) throws ModelNotFoundException;
+    Credentials getFullCredentials(String email);
 
     List<User> getAllUsers();
 
