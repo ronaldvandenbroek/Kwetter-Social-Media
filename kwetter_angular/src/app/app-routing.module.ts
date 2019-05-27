@@ -9,13 +9,21 @@ import {CreateKwetterComponent} from './component/create-kwetter/create-kwetter.
 import {SearchKwetterComponent} from './component/search-kwetter/search-kwetter.component';
 
 const routes: Routes = [
+  // Login
+  {path: 'login', component: LoginComponent},
+
+  // Profile is home
+  {path: '', component: ProfileComponent, canActivate: [AuthenticationGuard]},
+
+  // Components
   {path: 'users', component: UserListComponent, canActivate: [AuthenticationGuard]},
   {path: 'timeline', component: TimelineComponent, canActivate: [AuthenticationGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthenticationGuard]},
   {path: 'create-kwetter', component: CreateKwetterComponent, canActivate: [AuthenticationGuard]},
   {path: 'search-kwetter', component: SearchKwetterComponent, canActivate: [AuthenticationGuard]},
-  {path: 'login', component: LoginComponent},
-  {path: '**', redirectTo: '/login'}
+
+  // Otherwise redirect to home
+  {path: '**', redirectTo: ''}
 ];
 
 @NgModule({

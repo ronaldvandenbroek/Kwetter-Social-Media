@@ -6,8 +6,7 @@ import {KwetterModel} from 'src/app/model/kwetter.model';
 
 @Component({
   selector: 'app-search-kwetter',
-  templateUrl: './search-kwetter.component.html',
-  styleUrls: ['./search-kwetter.component.css']
+  templateUrl: './search-kwetter.component.html'
 })
 export class SearchKwetterComponent implements OnInit {
   searchKwetterForm: FormGroup;

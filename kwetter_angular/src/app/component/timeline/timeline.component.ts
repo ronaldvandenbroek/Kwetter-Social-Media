@@ -4,8 +4,7 @@ import {KwetterService} from '../../service/kwetter.service';
 
 @Component({
   selector: 'app-timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css']
+  templateUrl: './timeline.component.html'
 })
 export class TimelineComponent implements OnInit {
 

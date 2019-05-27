@@ -1,9 +1,10 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 
 import {JwtTokenModel} from '../model/jwt-token.model';
 import {UserModel} from '../model/user.model';
+import {map} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
@@ -25,25 +26,24 @@ export class AuthenticationService {
     return this.currentLoginSubject.value.user;
   }
 
-  public get authenticationHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + this.currentLoginSubject.value.token
-    });
-  }
-
   public getHref(rel: string): string {
     return this.currentLoginSubject.value.user.links.find(link => link.rel === rel).href;
   }
 
   login(email: string, password: string) {
     const body = {email, password};
-    const response = this.http.post<JwtTokenModel>(this.loginUrl, body);
-    response.subscribe(data => {
-      localStorage.setItem('currentLogin', JSON.stringify(data));
-      this.currentLoginSubject.next(data);
-    });
-    return response;
+
+    return this.http.post<JwtTokenModel>(this.loginUrl, body)
+      .pipe(map(data => {
+        // login successful if there's a jwt token in the response
+        if (data && data.token && data.user) {
+          console.log('Login successful');
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+          this.currentLoginSubject.next(data);
+        }
+        return data.user;
+      }));
   }
 
   logout() {

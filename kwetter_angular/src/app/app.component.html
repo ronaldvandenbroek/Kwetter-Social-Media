@@ -1,22 +1,24 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-dark my-5">
-        <div class="card-body">
-          <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item"><a (click)="logout()" class="btn btn-info">Logout</a></li>
-            <li class="list-inline-item"><a class="btn btn-info" routerLink="/users">List Users</a></li>
-            <li class="list-inline-item"><a class="btn btn-info" routerLink="/timeline">Timeline</a></li>
-            <li class="list-inline-item"><a class="btn btn-info" routerLink="/profile">Profile</a></li>
-            <li class="list-inline-item"><a class="btn btn-info" routerLink="/create-kwetter">Create KwetterModel</a>
-            </li>
-            <li class="list-inline-item"><a class="btn btn-info" routerLink="/search-kwetter">Search KwetterModel</a>
-            </li>
-          </ul>
-        </div>
+<!-- nav -->
+<nav *ngIf="currentLogin" class="navbar navbar-expand navbar-dark bg-dark">
+  <div class="navbar-nav">
+    <a class="nav-item nav-link" routerLink="/">Home</a>
+    <a class="nav-item nav-link" routerLink="/users">Follow</a>
+    <a class="nav-item nav-link" routerLink="/timeline">Timeline</a>
+    <a class="nav-item nav-link" routerLink="/profile">Profile</a>
+    <a class="nav-item nav-link" routerLink="/create-kwetter">Create</a>
+    <a class="nav-item nav-link" routerLink="/search-kwetter">Search</a>
+    <a (click)="logout()" class="nav-item nav-link">Logout</a>
+  </div>
+</nav>
+
+<!-- main app container -->
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 offset-sm-3">
+        <alert></alert>
+        <router-outlet></router-outlet>
       </div>
-      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
