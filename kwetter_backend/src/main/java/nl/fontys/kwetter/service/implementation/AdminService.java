@@ -9,11 +9,11 @@ import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IAdminService;
+import nl.fontys.kwetter.service.IFinderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service for handling model operations regarding the administrative tasks.
@@ -24,12 +24,17 @@ public class AdminService implements IAdminService {
     private IUserRepository userRepository;
     private IKwetterRepository kwetterRepository;
     private ICredentialsRepository credentialsRepository;
+    private IFinderService finderService;
 
     @Autowired
-    public AdminService(IUserRepository userRepository, IKwetterRepository kwetterRepository, ICredentialsRepository credentialsRepository) {
+    public AdminService(IUserRepository userRepository,
+                        IKwetterRepository kwetterRepository,
+                        ICredentialsRepository credentialsRepository,
+                        IFinderService finderService) {
         this.userRepository = userRepository;
         this.kwetterRepository = kwetterRepository;
         this.credentialsRepository = credentialsRepository;
+        this.finderService = finderService;
     }
 
     /**
@@ -40,8 +45,8 @@ public class AdminService implements IAdminService {
      * @throws ModelNotFoundException Thrown if the user cannot be found.
      */
     @Override
-    public Credentials changeRole(String credentialsEmail, Role role) throws ModelNotFoundException {
-        Credentials credentials = getCredentialsById(credentialsEmail);
+    public Credentials changeRole(String credentialsEmail, Role role) {
+        Credentials credentials = finderService.getCredentialsById(credentialsEmail);
         credentials.setRole(role);
 
         credentialsRepository.save(credentials);
@@ -49,8 +54,8 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Credentials getFullCredentials(String email) throws ModelNotFoundException {
-        return getCredentialsById(email);
+    public Credentials getFullCredentials(String email) {
+        return finderService.getCredentialsById(email);
     }
 
     /**
@@ -71,13 +76,5 @@ public class AdminService implements IAdminService {
     @Override
     public List<Credentials> getAllCredentials() {
         return (List<Credentials>) credentialsRepository.findAll();
-    }
-
-    private Credentials getCredentialsById(String email) throws ModelNotFoundException {
-        Optional<Credentials> credentials = credentialsRepository.findById(email);
-        if (credentials.isPresent()) {
-            return credentials.get();
-        }
-        throw new ModelNotFoundException("Credentials with the uuid: " + email + " could not be found.");
     }
 }

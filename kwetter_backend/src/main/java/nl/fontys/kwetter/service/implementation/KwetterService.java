@@ -9,10 +9,9 @@ import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
+import nl.fontys.kwetter.service.IFinderService;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.IValidatorService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +23,18 @@ import java.util.*;
 @Service
 public class KwetterService implements IKwetterService {
 
-    private Logger logger = LoggerFactory.getLogger(KwetterService.class);
-
-    private IValidatorService validator;
+    private IValidatorService validatorService;
     private IUserRepository userRepository;
     private IKwetterRepository kwetterRepository;
+    private IFinderService finderService;
 
     @Autowired
-    public KwetterService(IValidatorService validator, IUserRepository userRepository, IKwetterRepository kwetterRepository) {
-        this.validator = validator;
+    public KwetterService(IValidatorService validatorService,
+                          IUserRepository userRepository,
+                          IKwetterRepository kwetterRepository,
+                          IFinderService finderService) {
+        this.validatorService = validatorService;
+        this.finderService = finderService;
         this.userRepository = userRepository;
         this.kwetterRepository = kwetterRepository;
     }
@@ -58,21 +60,13 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public Kwetter createKwetter(UUID userId, KwetterDTO kwetter) throws ModelNotFoundException, ModelInvalidException {
-        User owner = getUserById(userId);
-        if (logger.isDebugEnabled()) {
-            logger.info("Creating Kwetter");
-            logger.info(String.valueOf(userId));
-            logger.info(String.valueOf(kwetter));
-            logger.info(String.valueOf(owner.getId()));
-            logger.info(owner.getName());
-            logger.info(String.valueOf(owner));
-        }
+    public Kwetter createKwetter(UUID userId, KwetterDTO kwetter) {
+        User owner = finderService.getUserById(userId);
 
         Set<User> mentions = new HashSet<>();
         if (kwetter.getMentions() != null) {
             for (User kwetterMentions : kwetter.getMentions()) {
-                mentions.add(getUserById(kwetterMentions.getId()));
+                mentions.add(finderService.getUserById(kwetterMentions.getId()));
             }
         }
 
@@ -80,21 +74,15 @@ public class KwetterService implements IKwetterService {
 
         newKwetter.setText(kwetter.getText());
         newKwetter.setMentions(mentions);
+        newKwetter.setTags(kwetter.getTags());
         newKwetter.setDateTime(Calendar.getInstance().getTime());
         newKwetter.setOwner(owner);
 
-        validator.validate(newKwetter);
+        validatorService.validate(newKwetter);
 
-        if (logger.isDebugEnabled()) {
-            logger.info(String.valueOf(newKwetter));
-        }
-        
         kwetterRepository.save(newKwetter);
         userRepository.save(owner);
 
-        if (logger.isDebugEnabled()) {
-            logger.info("Created Kwetter");
-        }
         return newKwetter;
     }
 
@@ -107,9 +95,9 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException, CouldNotDeleteModelException {
-        Kwetter kwetter = getKwetterById(kwetterId);
-        User user = getUserById(userId);
+    public void removeKwetter(UUID userId, UUID kwetterId) {
+        Kwetter kwetter = finderService.getKwetterById(kwetterId);
+        User user = finderService.getUserById(userId);
 
         if (!user.removeCreatedKwetter(kwetter)) {
             throw new CouldNotDeleteModelException(user.getId() + " " + kwetter.getUuid());
@@ -128,9 +116,9 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void heartKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
-        Kwetter kwetter = getKwetterById(kwetterId);
-        User user = getUserById(userId);
+    public void heartKwetter(UUID userId, UUID kwetterId) {
+        Kwetter kwetter = finderService.getKwetterById(kwetterId);
+        User user = finderService.getUserById(userId);
 
         user.addHeartedKwetter(kwetter);
 
@@ -147,9 +135,9 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeHeartKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
-        Kwetter kwetter = getKwetterById(kwetterId);
-        User user = getUserById(userId);
+    public void removeHeartKwetter(UUID userId, UUID kwetterId) {
+        Kwetter kwetter = finderService.getKwetterById(kwetterId);
+        User user = finderService.getUserById(userId);
 
         user.removeHeartedKwetter(kwetter);
 
@@ -166,9 +154,9 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void reportKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
-        Kwetter kwetter = getKwetterById(kwetterId);
-        User user = getUserById(userId);
+    public void reportKwetter(UUID userId, UUID kwetterId) {
+        Kwetter kwetter = finderService.getKwetterById(kwetterId);
+        User user = finderService.getUserById(userId);
 
         user.addReportedKwetter(kwetter);
 
@@ -185,9 +173,9 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeReportKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
-        Kwetter kwetter = getKwetterById(kwetterId);
-        User user = getUserById(userId);
+    public void removeReportKwetter(UUID userId, UUID kwetterId) {
+        Kwetter kwetter = finderService.getKwetterById(kwetterId);
+        User user = finderService.getUserById(userId);
 
         user.removeReportedKwetter(kwetter);
 
@@ -203,7 +191,7 @@ public class KwetterService implements IKwetterService {
      * @throws NotImplementedException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getMentionedKwetters(UUID userId) throws NotImplementedException {
+    public List<Kwetter> getMentionedKwetters(UUID userId) {
         throw new NotImplementedException("Not implemented");
     }
 
@@ -215,8 +203,8 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getMostRecentKwetters(UUID userId) throws ModelNotFoundException {
-        User user = getUserById(userId);
+    public List<Kwetter> getMostRecentKwetters(UUID userId) {
+        User user = finderService.getUserById(userId);
 
         List<Kwetter> a = new ArrayList<>(user.getCreatedKwetters());
         ListIterator<Kwetter> li = a.listIterator(a.size());
@@ -231,8 +219,8 @@ public class KwetterService implements IKwetterService {
     }
 
     @Override
-    public List<Kwetter> getTimeline(UUID userId) throws ModelNotFoundException {
-        User user = getUserById(userId);
+    public List<Kwetter> getTimeline(UUID userId) {
+        User user = finderService.getUserById(userId);
 
         List<Kwetter> kwetters = new ArrayList<>(user.getCreatedKwetters());
         for (User follower : user.getUsersFollowed()) {
@@ -250,38 +238,8 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getHeartedKwetters(UUID userId) throws ModelNotFoundException {
-        User user = getUserById(userId);
+    public List<Kwetter> getHeartedKwetters(UUID userId) {
+        User user = finderService.getUserById(userId);
         return new ArrayList<>(user.getHeartedKwetters());
-    }
-
-    /**
-     * Get the user via its Id
-     *
-     * @param userID Id of the User
-     * @return The User
-     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
-     */
-    private User getUserById(UUID userID) throws ModelNotFoundException {
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isPresent()) {
-            return user.get();
-        }
-        throw new ModelNotFoundException("User with the uuid:" + userID + " could not be found.");
-    }
-
-    /**
-     * Get the Kwetter via its Id
-     *
-     * @param kwetterId Id of the User
-     * @return The Kwetter
-     * @throws ModelNotFoundException Thrown when the kwetterID does not have a corresponding Kwetter.
-     */
-    private Kwetter getKwetterById(UUID kwetterId) throws ModelNotFoundException {
-        Optional<Kwetter> kwetter = kwetterRepository.findById(kwetterId);
-        if (kwetter.isPresent()) {
-            return kwetter.get();
-        }
-        throw new ModelNotFoundException("Cannot find kwetter");
     }
 }

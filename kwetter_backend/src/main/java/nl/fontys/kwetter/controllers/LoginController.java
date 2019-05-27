@@ -2,9 +2,6 @@ package nl.fontys.kwetter.controllers;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import nl.fontys.kwetter.exceptions.FailedToAddLinksException;
-import nl.fontys.kwetter.exceptions.LoginException;
-import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.models.dto.CredentialsDTO;
 import nl.fontys.kwetter.models.dto.JwtTokenDTO;
 import nl.fontys.kwetter.models.entity.User;
@@ -38,7 +35,7 @@ public class LoginController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<JwtTokenDTO> login(@RequestBody CredentialsDTO credentials) throws ModelInvalidException, LoginException, FailedToAddLinksException {
+    public ResponseEntity<JwtTokenDTO> login(@RequestBody CredentialsDTO credentials) {
 
         if (logger.isDebugEnabled()) {
             logger.info(String.format("%s is trying to login", credentials.getEmail()));

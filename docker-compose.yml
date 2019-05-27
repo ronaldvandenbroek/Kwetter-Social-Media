@@ -16,7 +16,7 @@ services:
       - kwetternet
 
   kwetter_backend:
-    image: ronindebeek/kwetter_backend:development
+    image: ronindebeek/kwetter_backend:release
     ports:
       - 8080:8080
     depends_on:
@@ -25,7 +25,7 @@ services:
       - kwetternet
       
   kwetter_angular:
-    image: ronindebeek/kwetter_angular:development
+    image: ronindebeek/kwetter_angular:release
     ports:
       - 4200:4200
 

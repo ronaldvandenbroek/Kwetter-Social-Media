@@ -24,13 +24,13 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @Service
 public class HateoasService implements IHateoasService {
 
-    public UserDTO getUserDTOWithLinks(User user) throws FailedToAddLinksException {
+    public UserDTO getUserDTOWithLinks(User user) {
         UserDTO userDTO = new UserDTO(user);
         userDTO.add(getUserLinks(user.getId()));
         return userDTO;
     }
 
-    public List<UserDTO> getUserDTOWithLinks(List<User> users) throws FailedToAddLinksException {
+    public List<UserDTO> getUserDTOWithLinks(List<User> users) {
         List<UserDTO> userDTOs = new ArrayList<>();
         for (User user : users) {
             userDTOs.add(getUserDTOWithLinks(user));
@@ -39,14 +39,14 @@ public class HateoasService implements IHateoasService {
     }
 
     @Override
-    public KwetterDTO getKwetterDTOWithLinks(Kwetter kwetter) throws FailedToAddLinksException {
+    public KwetterDTO getKwetterDTOWithLinks(Kwetter kwetter) {
         KwetterDTO kwetterDTO = new KwetterDTO(kwetter);
         kwetterDTO.add(getKwetterLinks(kwetter.getUuid()));
         return kwetterDTO;
     }
 
     @Override
-    public List<KwetterDTO> getKwetterDTOWithLinks(List<Kwetter> kwetters) throws FailedToAddLinksException {
+    public List<KwetterDTO> getKwetterDTOWithLinks(List<Kwetter> kwetters) {
         List<KwetterDTO> kwetterDTOs = new ArrayList<>();
         for (Kwetter kwetter : kwetters) {
             kwetterDTOs.add(getKwetterDTOWithLinks(kwetter));
@@ -54,7 +54,7 @@ public class HateoasService implements IHateoasService {
         return kwetterDTOs;
     }
 
-    private List<Link> getUserLinks(UUID id) throws FailedToAddLinksException {
+    private List<Link> getUserLinks(UUID id) {
         try {
             List<Link> links = new ArrayList<>();
             links.add(linkTo(methodOn(UserController.class).getProfile(id)).withSelfRel());
@@ -76,7 +76,7 @@ public class HateoasService implements IHateoasService {
         }
     }
 
-    private List<Link> getKwetterLinks(UUID id) throws FailedToAddLinksException {
+    private List<Link> getKwetterLinks(UUID id) {
         try {
             List<Link> links = new ArrayList<>();
             links.add(linkTo(methodOn(UserController.class).getProfile(id)).withRel("owner"));
