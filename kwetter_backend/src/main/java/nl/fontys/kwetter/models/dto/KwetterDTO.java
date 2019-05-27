@@ -22,14 +22,14 @@ public class KwetterDTO extends ResourceSupport {
     private User owner;
     private Date dateTime;
 
+    public KwetterDTO() {
+        // Empty constructor
+    }
+
     public KwetterDTO(String text, User owner, Date dateTime) {
         this.text = text;
         this.owner = owner;
         this.dateTime = dateTime;
-    }
-
-    public KwetterDTO() {
-        // Empty constructor
     }
 
     public KwetterDTO(Kwetter kwetter) {

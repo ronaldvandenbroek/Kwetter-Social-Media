@@ -12,6 +12,10 @@ public class CredentialsDTO {
     private Role role;
     private User user;
 
+    public CredentialsDTO() {
+        // Empty constructor
+    }
+
     public CredentialsDTO(String email, String password, Role role) {
         this.email = email;
         this.password = password;
