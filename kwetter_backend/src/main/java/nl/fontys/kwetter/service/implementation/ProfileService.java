@@ -40,7 +40,7 @@ public class ProfileService implements IProfileService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User updateUser(UserDTO user) throws ModelInvalidException, ModelNotFoundException {
+    public User updateUser(UserDTO user) {
         User oldUser = getUserById(user.getUuid());
 
         validator.validate(user);
@@ -66,7 +66,7 @@ public class ProfileService implements IProfileService {
      * @throws ModelNotFoundException         Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User updateName(UserDTO user) throws UsernameAlreadyExistsException, ModelNotFoundException, ModelInvalidException {
+    public User updateName(UserDTO user) {
         if (!userRepository.existsByName(user.getName())) {
             User oldUser = getUserById(user.getUuid());
 
@@ -93,7 +93,7 @@ public class ProfileService implements IProfileService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public List<User> getFollowers(UUID userID) throws ModelNotFoundException {
+    public List<User> getFollowers(UUID userID) {
         User user = getUserById(userID);
         return new ArrayList<>(user.getFollowedByUsers());
     }
@@ -106,7 +106,7 @@ public class ProfileService implements IProfileService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public List<User> getFollowing(UUID userID) throws ModelNotFoundException {
+    public List<User> getFollowing(UUID userID) {
         User user = getUserById(userID);
         return new ArrayList<>(user.getUsersFollowed());
     }
@@ -119,12 +119,12 @@ public class ProfileService implements IProfileService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public User getFullProfile(UUID userID) throws ModelNotFoundException {
+    public User getFullProfile(UUID userID) {
         return getUserById(userID);
     }
 
     @Override
-    public void followUser(UUID userID, UUID followUserId) throws ModelNotFoundException {
+    public void followUser(UUID userID, UUID followUserId) {
         Optional<User> user = userRepository.findById(userID);
         Optional<User> followed = userRepository.findById(followUserId);
 
@@ -138,7 +138,7 @@ public class ProfileService implements IProfileService {
     }
 
     @Override
-    public void unFollowUser(UUID userID, UUID followUserId) throws ModelNotFoundException {
+    public void unFollowUser(UUID userID, UUID followUserId) {
         Optional<User> user = userRepository.findById(userID);
         Optional<User> followed = userRepository.findById(followUserId);
 
@@ -158,7 +158,7 @@ public class ProfileService implements IProfileService {
      * @return The User
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
-    private User getUserById(UUID userID) throws ModelNotFoundException {
+    private User getUserById(UUID userID) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()) {
             return user.get();

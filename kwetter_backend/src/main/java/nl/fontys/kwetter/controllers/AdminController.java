@@ -1,6 +1,5 @@
 package nl.fontys.kwetter.controllers;
 
-import nl.fontys.kwetter.exceptions.FailedToAddLinksException;
 import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.models.dto.KwetterDTO;
 import nl.fontys.kwetter.models.dto.UserDTO;
@@ -31,13 +30,13 @@ public class AdminController {
     }
 
     @GetMapping("/get_all_users")
-    public ResponseEntity<List<UserDTO>> getAllUsers() throws FailedToAddLinksException {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> allUsers = adminService.getAllUsers();
         return ResponseEntity.ok(hateoasService.getUserDTOWithLinks(allUsers));
     }
 
     @GetMapping("/get_all_kwetters")
-    public ResponseEntity<List<KwetterDTO>> getAllKwetters() throws FailedToAddLinksException {
+    public ResponseEntity<List<KwetterDTO>> getAllKwetters() {
         List<Kwetter> allKwetters = adminService.getAllKwetters();
         return ResponseEntity.ok(hateoasService.getKwetterDTOWithLinks(allKwetters));
     }
@@ -48,7 +47,7 @@ public class AdminController {
     }
 
     @GetMapping("/test_fail")
-    public ResponseEntity<String> failTest() throws LoginException {
+    public ResponseEntity<String> failTest() {
         throw new LoginException("Exception test");
     }
 }

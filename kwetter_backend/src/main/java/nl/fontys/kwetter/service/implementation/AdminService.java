@@ -40,7 +40,7 @@ public class AdminService implements IAdminService {
      * @throws ModelNotFoundException Thrown if the user cannot be found.
      */
     @Override
-    public Credentials changeRole(String credentialsEmail, Role role) throws ModelNotFoundException {
+    public Credentials changeRole(String credentialsEmail, Role role) {
         Credentials credentials = getCredentialsById(credentialsEmail);
         credentials.setRole(role);
 
@@ -49,7 +49,7 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Credentials getFullCredentials(String email) throws ModelNotFoundException {
+    public Credentials getFullCredentials(String email) {
         return getCredentialsById(email);
     }
 

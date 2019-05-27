@@ -58,7 +58,7 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
     @Override
-    public Kwetter createKwetter(UUID userId, KwetterDTO kwetter) throws ModelNotFoundException, ModelInvalidException {
+    public Kwetter createKwetter(UUID userId, KwetterDTO kwetter) {
         User owner = getUserById(userId);
         if (logger.isDebugEnabled()) {
             logger.info("Creating Kwetter");
@@ -88,7 +88,7 @@ public class KwetterService implements IKwetterService {
         if (logger.isDebugEnabled()) {
             logger.info(String.valueOf(newKwetter));
         }
-        
+
         kwetterRepository.save(newKwetter);
         userRepository.save(owner);
 
@@ -107,7 +107,7 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException, CouldNotDeleteModelException {
+    public void removeKwetter(UUID userId, UUID kwetterId) {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -128,7 +128,7 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void heartKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
+    public void heartKwetter(UUID userId, UUID kwetterId) {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -147,7 +147,7 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeHeartKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
+    public void removeHeartKwetter(UUID userId, UUID kwetterId) {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -166,7 +166,7 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void reportKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
+    public void reportKwetter(UUID userId, UUID kwetterId) {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -185,7 +185,7 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public void removeReportKwetter(UUID userId, UUID kwetterId) throws ModelNotFoundException {
+    public void removeReportKwetter(UUID userId, UUID kwetterId) {
         Kwetter kwetter = getKwetterById(kwetterId);
         User user = getUserById(userId);
 
@@ -203,7 +203,7 @@ public class KwetterService implements IKwetterService {
      * @throws NotImplementedException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getMentionedKwetters(UUID userId) throws NotImplementedException {
+    public List<Kwetter> getMentionedKwetters(UUID userId) {
         throw new NotImplementedException("Not implemented");
     }
 
@@ -215,7 +215,7 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getMostRecentKwetters(UUID userId) throws ModelNotFoundException {
+    public List<Kwetter> getMostRecentKwetters(UUID userId) {
         User user = getUserById(userId);
 
         List<Kwetter> a = new ArrayList<>(user.getCreatedKwetters());
@@ -231,7 +231,7 @@ public class KwetterService implements IKwetterService {
     }
 
     @Override
-    public List<Kwetter> getTimeline(UUID userId) throws ModelNotFoundException {
+    public List<Kwetter> getTimeline(UUID userId) {
         User user = getUserById(userId);
 
         List<Kwetter> kwetters = new ArrayList<>(user.getCreatedKwetters());
@@ -250,7 +250,7 @@ public class KwetterService implements IKwetterService {
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding User.
      */
     @Override
-    public List<Kwetter> getHeartedKwetters(UUID userId) throws ModelNotFoundException {
+    public List<Kwetter> getHeartedKwetters(UUID userId) {
         User user = getUserById(userId);
         return new ArrayList<>(user.getHeartedKwetters());
     }
@@ -262,7 +262,7 @@ public class KwetterService implements IKwetterService {
      * @return The User
      * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
      */
-    private User getUserById(UUID userID) throws ModelNotFoundException {
+    private User getUserById(UUID userID) {
         Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()) {
             return user.get();
@@ -277,7 +277,7 @@ public class KwetterService implements IKwetterService {
      * @return The Kwetter
      * @throws ModelNotFoundException Thrown when the kwetterID does not have a corresponding Kwetter.
      */
-    private Kwetter getKwetterById(UUID kwetterId) throws ModelNotFoundException {
+    private Kwetter getKwetterById(UUID kwetterId) {
         Optional<Kwetter> kwetter = kwetterRepository.findById(kwetterId);
         if (kwetter.isPresent()) {
             return kwetter.get();
