@@ -5,8 +5,7 @@ import {KwetterService} from '../../service/kwetter.service';
 
 @Component({
   selector: 'app-create-kwetter',
-  templateUrl: './create-kwetter.component.html',
-  styleUrls: ['./create-kwetter.component.css']
+  templateUrl: './create-kwetter.component.html'
 })
 export class CreateKwetterComponent implements OnInit {
   createKwetterForm: FormGroup;

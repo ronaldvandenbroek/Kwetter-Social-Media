@@ -4,8 +4,7 @@ import {UserService} from '../../service/user.service';
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
 
@@ -17,7 +16,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.userService.profile().subscribe(data => {
       this.user = data;
-      console.log(this.user);
     });
   }
 }

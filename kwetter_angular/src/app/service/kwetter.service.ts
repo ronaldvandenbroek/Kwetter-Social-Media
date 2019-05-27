@@ -4,15 +4,14 @@ import {KwetterModel} from '../model/kwetter.model';
 import {Observable} from 'rxjs';
 import {AuthenticationService} from './authentication.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class KwetterService {
   constructor(private http: HttpClient, private authenticationService: AuthenticationService) {
   }
 
   public timeline(): Observable<KwetterModel[]> {
     return this.http.get<KwetterModel[]>(
-      this.authenticationService.getHref('timeline'),
-      {headers: this.authenticationService.authenticationHeaders});
+      this.authenticationService.getHref('timeline'));
   }
 
   createKwetter(text: string) {
@@ -20,8 +19,7 @@ export class KwetterService {
     kwetter.text = text;
     const response = this.http.post<KwetterModel>(
       this.authenticationService.getHref('create'),
-      kwetter,
-      {headers: this.authenticationService.authenticationHeaders});
+      kwetter);
     response.subscribe(() => {
     });
     return response;
@@ -30,7 +28,6 @@ export class KwetterService {
   searchKwetter(text: string): Observable<KwetterModel[]> {
     return this.http.post<KwetterModel[]>(
       this.authenticationService.getHref('search'),
-      text,
-      {headers: this.authenticationService.authenticationHeaders});
+      text);
   }
 }
