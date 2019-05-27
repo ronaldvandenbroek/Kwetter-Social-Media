@@ -6,7 +6,6 @@ import {AlertService} from '../../service/alert.service';
   selector: 'app-alert',
   templateUrl: 'alert.component.html'
 })
-
 export class AlertComponent implements OnInit, OnDestroy {
   message: any;
   private subscription: Subscription;
