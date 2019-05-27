@@ -22,7 +22,8 @@ public class LoginService implements ILoginService {
     private IValidatorService validator;
 
     @Autowired
-    public LoginService(IValidatorService validator, IUserRepository userRepository) {
+    public LoginService(IValidatorService validator,
+                        IUserRepository userRepository) {
         this.validator = validator;
         this.userRepository = userRepository;
     }

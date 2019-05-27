@@ -34,7 +34,7 @@ class LoginServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("Valid jsfLogin")
+    @DisplayName("Valid login")
     void login() {
         String email = "1@test.nl";
         String password = "test";
@@ -85,5 +85,14 @@ class LoginServiceIntegrationTest {
         String password = null;
 
         assertThrows(ModelInvalidException.class, () -> loginService.login(new CredentialsDTO(email, password)));
+    }
+
+    @Test
+    @DisplayName("Invalid password")
+    void invalidPassword() {
+        String email = "1@test.nl";
+        String password = "a";
+
+        assertThrows(LoginException.class, () -> loginService.login(new CredentialsDTO(email, password)));
     }
 }

@@ -38,13 +38,18 @@ public class InMemoryTestConfiguration {
     }
 
     @Bean
+    public IFinderService finderService() {
+        return new FinderService(userRepository(), kwetterRepository(), credentialsRepository());
+    }
+
+    @Bean
     public IAdminService adminService() {
-        return new AdminService(userRepository(), kwetterRepository(), credentialsRepository());
+        return new AdminService(userRepository(), kwetterRepository(), credentialsRepository(), finderService());
     }
 
     @Bean
     public IProfileService profileService() {
-        return new ProfileService(validatorService(), userRepository());
+        return new ProfileService(validatorService(), userRepository(), finderService());
     }
 
     @Bean
@@ -54,7 +59,7 @@ public class InMemoryTestConfiguration {
 
     @Bean
     public IKwetterService kwetterService() {
-        return new KwetterService(validatorService(), userRepository(), kwetterRepository());
+        return new KwetterService(validatorService(), userRepository(), kwetterRepository(), finderService());
     }
 
     @Bean

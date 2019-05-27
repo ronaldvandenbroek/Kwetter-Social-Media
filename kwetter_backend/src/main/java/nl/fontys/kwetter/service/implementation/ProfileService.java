@@ -6,6 +6,7 @@ import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
 import nl.fontys.kwetter.models.dto.UserDTO;
 import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.IUserRepository;
+import nl.fontys.kwetter.service.IFinderService;
 import nl.fontys.kwetter.service.IProfileService;
 import nl.fontys.kwetter.service.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,15 @@ public class ProfileService implements IProfileService {
 
     private IUserRepository userRepository;
     private IValidatorService validator;
+    private IFinderService finderService;
 
     @Autowired
-    public ProfileService(IValidatorService validator, IUserRepository userRepository) {
+    public ProfileService(IValidatorService validator,
+                          IUserRepository userRepository,
+                          IFinderService finderService) {
         this.validator = validator;
         this.userRepository = userRepository;
+        this.finderService = finderService;
     }
 
     /**
@@ -41,7 +46,7 @@ public class ProfileService implements IProfileService {
      */
     @Override
     public User updateUser(UserDTO user) {
-        User oldUser = getUserById(user.getUuid());
+        User oldUser = finderService.getUserById(user.getUuid());
 
         validator.validate(user);
 
@@ -68,7 +73,7 @@ public class ProfileService implements IProfileService {
     @Override
     public User updateName(UserDTO user) {
         if (!userRepository.existsByName(user.getName())) {
-            User oldUser = getUserById(user.getUuid());
+            User oldUser = finderService.getUserById(user.getUuid());
 
             String oldName = oldUser.getName();
             oldUser.setName(user.getName());
@@ -94,7 +99,7 @@ public class ProfileService implements IProfileService {
      */
     @Override
     public List<User> getFollowers(UUID userID) {
-        User user = getUserById(userID);
+        User user = finderService.getUserById(userID);
         return new ArrayList<>(user.getFollowedByUsers());
     }
 
@@ -107,7 +112,7 @@ public class ProfileService implements IProfileService {
      */
     @Override
     public List<User> getFollowing(UUID userID) {
-        User user = getUserById(userID);
+        User user = finderService.getUserById(userID);
         return new ArrayList<>(user.getUsersFollowed());
     }
 
@@ -120,7 +125,7 @@ public class ProfileService implements IProfileService {
      */
     @Override
     public User getFullProfile(UUID userID) {
-        return getUserById(userID);
+        return finderService.getUserById(userID);
     }
 
     @Override
@@ -149,21 +154,6 @@ public class ProfileService implements IProfileService {
         } else {
             throw new ModelNotFoundException("User could not be followed.");
         }
-    }
-
-    /**
-     * Get the user via its Id
-     *
-     * @param userID Id of the User
-     * @return The User
-     * @throws ModelNotFoundException Thrown when the userID does not have a corresponding user.
-     */
-    private User getUserById(UUID userID) {
-        Optional<User> user = userRepository.findById(userID);
-        if (user.isPresent()) {
-            return user.get();
-        }
-        throw new ModelNotFoundException("User with the uuid:" + userID + " could not be found.");
     }
 }
 
