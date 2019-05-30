@@ -19,6 +19,7 @@ services:
     image: ronindebeek/kwetter_backend:release
     environment:
       SPRING_PROFILE:
+      FRONTEND_HOST_LOCATION:
       DATABASE_HOST:
       DATABASE_USERNAME:
       DATABASE_PASSWORD:

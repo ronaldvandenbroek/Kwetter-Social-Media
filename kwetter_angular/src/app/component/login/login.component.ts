@@ -19,6 +19,18 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private alertService: AlertService
   ) {
+    this.route.queryParams.subscribe(params => {
+      let uuid = params['uuid'];
+      let token = params['token'];
+
+      if (uuid && token){
+        console.log(uuid);
+        console.log(token);
+        this.authenticationService.verify(uuid, token);
+        alertService.success("Validated email!")
+      }
+    });
+
     // redirect to home if already logged in
     if (this.authenticationService.currentLoginValue) {
       this.router.navigate(['/']);

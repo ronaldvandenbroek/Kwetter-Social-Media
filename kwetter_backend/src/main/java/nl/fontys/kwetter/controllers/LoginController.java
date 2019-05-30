@@ -2,9 +2,12 @@ package nl.fontys.kwetter.controllers;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.models.dto.CredentialsDTO;
 import nl.fontys.kwetter.models.dto.JwtTokenDTO;
+import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.models.entity.User;
+import nl.fontys.kwetter.service.IEmailService;
 import nl.fontys.kwetter.service.IHateoasService;
 import nl.fontys.kwetter.service.ILoginService;
 import org.slf4j.Logger;
@@ -26,12 +29,14 @@ public class LoginController {
     private final Logger logger;
     private final ILoginService loginService;
     private final IHateoasService hateoasService;
+    private final IEmailService emailService;
 
     @Autowired
-    public LoginController(ILoginService loginService, IHateoasService hateoasService) {
+    public LoginController(ILoginService loginService, IHateoasService hateoasService, IEmailService emailService) {
         this.logger = LoggerFactory.getLogger(LoginController.class);
         this.loginService = loginService;
         this.hateoasService = hateoasService;
+        this.emailService = emailService;
     }
 
     @PostMapping("login")
@@ -42,8 +47,15 @@ public class LoginController {
         }
 
         User userLoggedIn = loginService.login(credentials);
+        Credentials userCredentials = userLoggedIn.getCredentials();
+
         String jwtToken = buildJwtToken(userLoggedIn.getCredentials().getEmail());
         JwtTokenDTO jwtTokenDTO = new JwtTokenDTO(jwtToken, hateoasService.getUserDTOWithLinks(userLoggedIn));
+
+        if (!userCredentials.isVerified()) {
+            emailService.sendMessage(userCredentials.getEmail(), "Kwetter Verification", jwtToken, userLoggedIn.getId().toString());
+            throw new LoginException("User is not verified, an verification email has been sent");
+        }
 
         if (logger.isDebugEnabled()) {
             logger.info(String.format("%s logged in successfully", credentials.getEmail()));

@@ -69,4 +69,10 @@ public class UserController {
         User updatedUser = profileService.updateName(user);
         return ResponseEntity.ok(hateoasService.getUserDTOWithLinks(updatedUser));
     }
+
+    @GetMapping("verify/{uuid}")
+    public ResponseEntity verify(@PathVariable String uuid) {
+        System.out.println(String.format("%s uuid verified the email", uuid));
+        return ResponseEntity.ok().build();
+    }
 }
