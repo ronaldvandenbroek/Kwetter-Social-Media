@@ -5,6 +5,7 @@ import {StompConfig, StompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
 import {Observable} from "rxjs";
 import {AlertService} from "../../service/alert.service";
+import {AuthenticationService} from "../../service/authentication.service";
 
 @Component({
   selector: 'app-timeline',
@@ -16,13 +17,14 @@ export class TimelineComponent implements OnInit {
   private stompService: StompService;
   private messages: Observable<Message>;
 
-  constructor(private timelineService: KwetterService, private alertService: AlertService) {
+  constructor(private timelineService: KwetterService, private alertService: AlertService, private authenticationService: AuthenticationService) {
     this.initializeWebSocketConnection();
   }
 
   ngOnInit() {
     this.timelineService.timeline().subscribe(data => {
       this.kwetters = data;
+      console.log(this.kwetters);
     });
   }
 
@@ -39,8 +41,9 @@ export class TimelineComponent implements OnInit {
       debug: true
     };
     this.stompService = new StompService(stompConfig);
-    this.messages = this.stompService.subscribe('/timeline');
+    this.messages = this.stompService.subscribe('/timeline/' + this.authenticationService.currentLoginUser.uuid);
     this.messages.subscribe((message: Message) => {
+      console.log(message.body);
       this.alertService.success(message.body);
       this.ngOnInit();
     });

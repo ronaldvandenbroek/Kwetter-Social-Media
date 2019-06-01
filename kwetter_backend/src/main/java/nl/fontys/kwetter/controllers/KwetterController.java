@@ -2,6 +2,7 @@ package nl.fontys.kwetter.controllers;
 
 import nl.fontys.kwetter.models.dto.KwetterDTO;
 import nl.fontys.kwetter.models.entity.Kwetter;
+import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.IHateoasService;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.IWebSocketService;
@@ -37,7 +38,7 @@ public class KwetterController {
     @PostMapping("user/{userId}/create")
     public ResponseEntity<KwetterDTO> createKwetter(@PathVariable UUID userId, @RequestBody KwetterDTO kwetter) {
         Kwetter createdKwetter = kwetterService.createKwetter(userId, kwetter);
-        webSocketService.sendTimelineUpdate("A new kwetter has been created");
+        webSocketService.sendTimelineUpdateToFollowers(userId, createdKwetter);
         return ResponseEntity.ok(hateoasService.getKwetterDTOWithLinks(createdKwetter));
     }
 

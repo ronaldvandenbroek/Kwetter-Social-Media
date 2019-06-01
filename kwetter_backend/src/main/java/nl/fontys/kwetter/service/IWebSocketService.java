@@ -1,6 +1,10 @@
 package nl.fontys.kwetter.service;
 
+import nl.fontys.kwetter.models.entity.Kwetter;
+
+import java.util.UUID;
+
 public interface IWebSocketService {
 
-    void sendTimelineUpdate(String message);
+    void sendTimelineUpdateToFollowers(UUID senderUuid, Kwetter createdKwetter);
 }
