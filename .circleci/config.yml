@@ -11,6 +11,7 @@ workflows:
                             - master
                             - release
                             - development
+                            - feature-deploy
 
             - dependencies_backend:
                 requires:
@@ -46,15 +47,15 @@ workflows:
 
             - docker_backend:
                 context:
-                    kwetter
+                    kwetter-heroku
                 requires:
                     - sonarqube
 
             - docker_frontend:
                 context:
-                    kwetter
+                    kwetter-heroku
                 requires:
-                    - sonarqube                                     
+                    - sonarqube
 
 executors:
     python:
@@ -146,6 +147,42 @@ commands:
             - run:
                 name: Docker Push
                 command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>
+               
+    run_docker_heroku:
+        parameters:
+            user:
+                type: string
+                default:
+            pass:
+                type: string
+                default:
+            source:
+                type: string
+                default:
+            tag:         
+                type: string
+                default:
+        steps:
+            - run:
+                name: Docker Heroku Login
+                command: |
+                    docker login \
+                    --email=<< parameters.user >> \
+                    --username=<< parameters.user >> \
+                    --password=<< parameters.pass >> \
+                    registry.heroku.com
+            - run:
+                name: Docker Heroku Build
+                command: |
+                    docker build \
+                    --rm=false \
+                    -t registry.heroku.com/<< parameters.source >>/web \
+                    ./project/<< parameters.source >>
+            - run:
+                name: Docker Heroku Push
+                command: |
+                    docker push \
+                    registry.heroku.com/<< parameters.source >>/web:<< parameters.tag >>
 
     restore_cache_backend:
         steps:
@@ -278,7 +315,7 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
-            - run_docker:
+            - run_docker_heroku:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${SOURCE_PATH}"
@@ -291,7 +328,7 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
-            - run_docker:
+            - run_docker_heroku:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${SOURCE_PATH}"
