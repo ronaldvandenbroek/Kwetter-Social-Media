@@ -13,10 +13,9 @@ import javax.mail.internet.MimeMessage;
 @Service
 public class EmailService implements IEmailService {
 
+    private final JavaMailSender javaMailSender;
     @Value("${frontend.host.location}")
     private String frontendHostLocation;
-
-    private final JavaMailSender javaMailSender;
 
     @Autowired
     public EmailService(JavaMailSender javaMailSender) {

@@ -38,13 +38,13 @@ export class UserListComponent implements OnInit {
   }
 
   public follow(user: UserModel) {
-    this.userService.follow(user).subscribe(data => {
+    this.userService.follow(user).subscribe(() => {
       this.ngOnInit();
     });
   }
 
   public unfollow(user: UserModel) {
-    this.userService.unfollow(user).subscribe(data => {
+    this.userService.unfollow(user).subscribe(() => {
       this.ngOnInit();
     });
   }

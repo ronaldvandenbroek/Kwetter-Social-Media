@@ -20,14 +20,13 @@ export class LoginComponent implements OnInit {
     private alertService: AlertService
   ) {
     this.route.queryParams.subscribe(params => {
-      let uuid = params['uuid'];
-      let token = params['token'];
+      const uuid = params['uuid'];
+      const token = params['token'];
 
-      if (uuid && token){
-        console.log(uuid);
-        console.log(token);
-        this.authenticationService.verify(uuid, token);
-        alertService.success("Validated email!")
+      if (uuid && token) {
+        this.authenticationService.verify(uuid, token).subscribe(() => {
+          alertService.success('Validated email!');
+        });
       }
     });
 

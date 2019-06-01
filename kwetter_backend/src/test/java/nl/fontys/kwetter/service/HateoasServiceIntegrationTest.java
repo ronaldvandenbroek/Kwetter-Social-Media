@@ -2,14 +2,10 @@ package nl.fontys.kwetter.service;
 
 import nl.fontys.kwetter.configuration.InMemoryTestConfiguration;
 import nl.fontys.kwetter.exceptions.FailedToAddLinksException;
-import nl.fontys.kwetter.exceptions.ModelNotFoundException;
-import nl.fontys.kwetter.models.Role;
 import nl.fontys.kwetter.models.dto.KwetterDTO;
 import nl.fontys.kwetter.models.dto.UserDTO;
-import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.models.entity.User;
-import nl.fontys.kwetter.repository.memory.implementation.data.InMemoryDatabase;
 import nl.fontys.kwetter.repository.memory.implementation.data.manager.IInMemoryDatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +16,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

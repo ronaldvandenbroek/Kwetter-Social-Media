@@ -62,7 +62,7 @@ public class Credentials implements Serializable {
         this.role = role;
         this.user = user;
 
-        if (user != null){
+        if (user != null) {
             user.setCredentials(this);
         }
     }

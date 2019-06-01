@@ -71,8 +71,8 @@ public class UserController {
     }
 
     @GetMapping("verify/{uuid}")
-    public ResponseEntity verify(@PathVariable String uuid) {
-        System.out.println(String.format("%s uuid verified the email", uuid));
+    public ResponseEntity verify(@PathVariable UUID uuid) {
+        profileService.verify(uuid);
         return ResponseEntity.ok().build();
     }
 }
