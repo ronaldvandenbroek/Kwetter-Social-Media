@@ -22,7 +22,7 @@ public class KwetterDTO extends ResourceSupport {
     private Set<User> mentions;
     private User owner;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateTime;
 
     public KwetterDTO() {

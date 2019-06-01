@@ -2,7 +2,6 @@ package nl.fontys.kwetter.controllers;
 
 import nl.fontys.kwetter.models.dto.KwetterDTO;
 import nl.fontys.kwetter.models.entity.Kwetter;
-import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.service.IHateoasService;
 import nl.fontys.kwetter.service.IKwetterService;
 import nl.fontys.kwetter.service.IWebSocketService;
