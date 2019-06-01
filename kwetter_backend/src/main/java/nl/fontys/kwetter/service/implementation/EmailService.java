@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.service.implementation;
 
+import nl.fontys.kwetter.exceptions.LoginException;
 import nl.fontys.kwetter.service.IEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,7 @@ public class EmailService implements IEmailService {
 
             javaMailSender.send(message);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            throw new LoginException("Failed to send verification message");
         }
     }
 

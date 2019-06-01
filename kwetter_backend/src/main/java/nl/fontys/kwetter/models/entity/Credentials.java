@@ -36,6 +36,7 @@ public class Credentials implements Serializable {
     private User user;
 
     public Credentials() {
+        this.email = "";
         this.verified = false;
     }
 

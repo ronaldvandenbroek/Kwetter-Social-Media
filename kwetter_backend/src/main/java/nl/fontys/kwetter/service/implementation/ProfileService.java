@@ -157,7 +157,7 @@ public class ProfileService implements IProfileService {
             userRepository.save(user.get());
             userRepository.save(followed.get());
         } else {
-            throw new ModelNotFoundException("User could not be followed.");
+            throw new ModelNotFoundException("User could not be unfollowed.");
         }
     }
 
@@ -173,7 +173,7 @@ public class ProfileService implements IProfileService {
                 credentialsRepository.save(credentials);
             }
         } else {
-            throw new ModelNotFoundException("User could not be followed.");
+            throw new ModelNotFoundException("User could not be verified.");
         }
     }
 }
