@@ -195,6 +195,7 @@ commands:
             - run:
                   name: Setup Heroku
                   command: |
+                      cd .. &&
                       chmod +x .circleci/setup-heroku.sh
                       .circleci/setup-heroku.sh
             - run:
