@@ -4,6 +4,7 @@ import nl.fontys.kwetter.models.dto.KwetterDTO;
 import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.service.IHateoasService;
 import nl.fontys.kwetter.service.IKwetterService;
+import nl.fontys.kwetter.service.IWebSocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,13 @@ public class KwetterController {
 
     private final IKwetterService kwetterService;
     private final IHateoasService hateoasService;
+    private final IWebSocketService webSocketService;
 
     @Autowired
-    public KwetterController(IKwetterService kwetterService, IHateoasService hateoasService) {
+    public KwetterController(IKwetterService kwetterService, IHateoasService hateoasService, IWebSocketService webSocketService) {
         this.kwetterService = kwetterService;
         this.hateoasService = hateoasService;
+        this.webSocketService = webSocketService;
     }
 
     @PostMapping("kwetter/search_for")
@@ -34,6 +37,7 @@ public class KwetterController {
     @PostMapping("user/{userId}/create")
     public ResponseEntity<KwetterDTO> createKwetter(@PathVariable UUID userId, @RequestBody KwetterDTO kwetter) {
         Kwetter createdKwetter = kwetterService.createKwetter(userId, kwetter);
+        webSocketService.sendTimelineUpdate("A new kwetter has been created");
         return ResponseEntity.ok(hateoasService.getKwetterDTOWithLinks(createdKwetter));
     }
 
