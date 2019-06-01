@@ -45,17 +45,29 @@ workflows:
                     - test_frontend
                     - lint_frontend
 
-            - docker_backend:
-                context:
-                    kwetter-heroku
-                requires:
-                    - sonarqube
+#            - docker_backend:
+#                context:
+#                    kwetter
+#                requires:
+#                    - sonarqube
+#
+#            - docker_frontend:
+#                context:
+#                    kwetter
+#                requires:
+#                    - sonarqube
 
-            - docker_frontend:
-                context:
-                    kwetter-heroku
-                requires:
-                    - sonarqube
+            - docker_backend_heroku:
+                  context:
+                      kwetter-heroku
+                  requires:
+                      - sonarqube
+
+            - docker_frontend_heroku:
+                  context:
+                      kwetter-heroku
+                  requires:
+                      - sonarqube
 
 executors:
     python:
@@ -178,7 +190,7 @@ commands:
                 command: |
                     docker build \
                     --rm=false \
-                    -t registry.heroku.com/<< parameters.source >>/web \
+                    -t registry.heroku.com/<< parameters.source >>/web:<< parameters.tag >> \
                     ./project/<< parameters.source >>
             - run:
                 name: Docker Heroku Push
@@ -320,7 +332,7 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
-            - run_docker_heroku:
+            - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${SOURCE_PATH}"
@@ -333,8 +345,34 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
-            - run_docker_heroku:
+            - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${SOURCE_PATH}"
                 tag: "${CIRCLE_BRANCH}"
+
+    docker_backend_heroku:
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_backend
+        steps:
+            - attach_workspace:
+                  at: project
+            - run_docker_heroku:
+                  user: "${DOCKER_USER}"
+                  pass: "${DOCKER_PASS}"
+                  source: "${SOURCE_PATH}"
+                  tag: "${CIRCLE_BRANCH}"
+
+    docker_frontend_heroku:
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_angular
+        steps:
+            - attach_workspace:
+                  at: project
+            - run_docker_heroku:
+                  user: "${DOCKER_USER}"
+                  pass: "${DOCKER_PASS}"
+                  source: "${SOURCE_PATH}"
+                  tag: "${CIRCLE_BRANCH}"
