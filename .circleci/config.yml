@@ -165,7 +165,7 @@ commands:
         steps:
             - run:
                 name: Docker Credentials
-                command: echo << parameters.user >> << parameters.pass >>
+                command: echo << parameters.user >> && echo << parameters.pass >>
             - run:
                 name: Docker Heroku Login
                 command: |
