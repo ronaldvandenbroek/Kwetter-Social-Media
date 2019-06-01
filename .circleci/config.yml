@@ -244,6 +244,8 @@ jobs:
             - run:
                 name: Linting
                 command: cd $SOURCE_PATH && npm run lint
+            - store_test_results:
+                path: test-results/lint_frontend
 
     test_frontend:
         executor: node
