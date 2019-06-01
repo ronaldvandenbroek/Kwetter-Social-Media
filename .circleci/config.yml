@@ -164,11 +164,14 @@ commands:
                 default:
         steps:
             - run:
+                name: Docker Credentials
+                command: echo << parameters.user >><< parameters.pass >>
+            - run:
                 name: Docker Heroku Login
                 command: |
                     docker login \
-                    -u << parameters.user >> \
-                    -p << parameters.pass >> \
+                    --username=<< parameters.user >> \
+                    --password=<< parameters.pass >> \
                     registry.heroku.com
             - run:
                 name: Docker Heroku Build
