@@ -49,7 +49,7 @@ public class InMemoryTestConfiguration {
 
     @Bean
     public IProfileService profileService() {
-        return new ProfileService(validatorService(), userRepository(), finderService());
+        return new ProfileService(validatorService(), userRepository(), finderService(), credentialsRepository());
     }
 
     @Bean

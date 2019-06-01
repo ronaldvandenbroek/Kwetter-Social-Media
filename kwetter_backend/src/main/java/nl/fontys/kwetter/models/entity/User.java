@@ -8,7 +8,10 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 import static javax.persistence.CascadeType.PERSIST;
 

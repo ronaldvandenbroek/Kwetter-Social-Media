@@ -4,7 +4,9 @@ import nl.fontys.kwetter.exceptions.ModelInvalidException;
 import nl.fontys.kwetter.exceptions.ModelNotFoundException;
 import nl.fontys.kwetter.exceptions.UsernameAlreadyExistsException;
 import nl.fontys.kwetter.models.dto.UserDTO;
+import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.models.entity.User;
+import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
 import nl.fontys.kwetter.service.IFinderService;
 import nl.fontys.kwetter.service.IProfileService;
@@ -25,14 +27,17 @@ public class ProfileService implements IProfileService {
 
     private IUserRepository userRepository;
     private IValidatorService validator;
+    private ICredentialsRepository credentialsRepository;
     private IFinderService finderService;
 
     @Autowired
     public ProfileService(IValidatorService validator,
                           IUserRepository userRepository,
-                          IFinderService finderService) {
+                          IFinderService finderService,
+                          ICredentialsRepository credentialsRepository) {
         this.validator = validator;
         this.userRepository = userRepository;
+        this.credentialsRepository = credentialsRepository;
         this.finderService = finderService;
     }
 
@@ -151,6 +156,22 @@ public class ProfileService implements IProfileService {
             user.get().removeFollow(followed.get());
             userRepository.save(user.get());
             userRepository.save(followed.get());
+        } else {
+            throw new ModelNotFoundException("User could not be followed.");
+        }
+    }
+
+    @Override
+    public void verify(UUID userID) {
+        Optional<User> optionalUser = userRepository.findById(userID);
+
+        if (optionalUser.isPresent()) {
+            Optional<Credentials> optionalCredentials = credentialsRepository.findById(optionalUser.get().getCredentials().getEmail());
+            if (optionalCredentials.isPresent()) {
+                Credentials credentials = optionalCredentials.get();
+                credentials.setVerified(true);
+                credentialsRepository.save(credentials);
+            }
         } else {
             throw new ModelNotFoundException("User could not be followed.");
         }

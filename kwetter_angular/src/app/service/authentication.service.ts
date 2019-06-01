@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 
@@ -8,14 +8,18 @@ import {map} from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
-  public currentLogin: Observable<JwtTokenModel>;
   private currentLoginSubject: BehaviorSubject<JwtTokenModel>;
   private readonly loginUrl: string;
+  private readonly verifyUrl: string;
 
   constructor(private http: HttpClient) {
     this.currentLoginSubject = new BehaviorSubject<JwtTokenModel>(JSON.parse(localStorage.getItem('currentLogin')));
-    this.currentLogin = this.currentLoginSubject.asObservable();
     this.loginUrl = `http://localhost:8080/api/login`;
+    this.verifyUrl = `http://localhost:8080/api/secure/user/verify/`;
+  }
+
+  public get currentLogin(): Observable<JwtTokenModel> {
+    return this.currentLoginSubject.asObservable();
   }
 
   public get currentLoginValue(): JwtTokenModel {
@@ -44,6 +48,14 @@ export class AuthenticationService {
         }
         return data.user;
       }));
+  }
+
+  verify(uuid: string, jwtToken: string): Observable<void> {
+    const headers: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwtToken}`
+    });
+    return this.http.get<void>(this.verifyUrl + uuid, {headers});
   }
 
   logout() {

@@ -47,7 +47,7 @@ public class H2TestConfiguration {
 
     @Bean
     public IProfileService profileService() {
-        return new ProfileService(validatorService(), userRepository(), finderService());
+        return new ProfileService(validatorService(), userRepository(), finderService(), credentialsRepository());
     }
 
     @Bean

@@ -7,6 +7,7 @@ import nl.fontys.kwetter.models.entity.User;
 import nl.fontys.kwetter.repository.ICredentialsRepository;
 import nl.fontys.kwetter.repository.IKwetterRepository;
 import nl.fontys.kwetter.repository.IUserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +22,9 @@ import java.util.Iterator;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
+
+    @Value("${spring.mail.username}")
+    private String springMailUsername;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -42,6 +46,16 @@ public class Application extends SpringBootServletInitializer {
             Collection<Credentials> presetCredentials = new ArrayList<>();
             Collection<Kwetter> presetKwetters = new ArrayList<>();
 
+            User verificationUser = new User();
+            verificationUser.setName(springMailUsername);
+            verificationUser.setBio("Verification Test");
+            verificationUser.setWebsite("Verification Test Website");
+            verificationUser.setLocation("Verification Test Location");
+            userRepository.save(verificationUser);
+
+            Credentials verificationCredentials = new Credentials(springMailUsername, "test", Role.ROLE_ADMIN, verificationUser);
+            credentialsRepository.save(verificationCredentials);
+
             //Create 10 allUsers
             for (int i = 1; i < 11; i++) {
                 User user = new User();
@@ -57,6 +71,7 @@ public class Application extends SpringBootServletInitializer {
                 }
 
                 Credentials credentials = new Credentials(i + "@test.nl", "test", role, user);
+                credentials.setVerified(true);
 
                 presetCredentials.add(credentials);
                 presetUsers.add(user);
@@ -64,28 +79,27 @@ public class Application extends SpringBootServletInitializer {
                 credentialsRepository.save(credentials);
             }
 
-            //Follow everyone via the first user
+            // Follow everyone via the first user
             Iterator<User> userIterator = presetUsers.iterator();
-            User user = userIterator.next();
-
+            User firstUser = userIterator.next();
 
             User secondUser = null;
             boolean followBack = false;
             while (userIterator.hasNext()) {
                 User nextUser = userIterator.next();
                 if (!followBack) {
-                    nextUser.follow(user);
+                    nextUser.follow(firstUser);
                     secondUser = nextUser;
                     followBack = true;
                 }
-                user.follow(nextUser);
+                firstUser.follow(nextUser);
             }
-            userRepository.save(user);
+            userRepository.save(firstUser);
 
             //Create Kwetters for the first user
             Calendar calendar = Calendar.getInstance();
             for (int i = 1; i < 11; i++) {
-                Kwetter kwetter = new Kwetter(i + "Test", null, null, user, calendar.getTime());
+                Kwetter kwetter = new Kwetter(i + "Test", null, null, firstUser, calendar.getTime());
 
                 presetKwetters.add(kwetter);
 
