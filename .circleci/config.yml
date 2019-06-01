@@ -193,6 +193,11 @@ commands:
                     -t registry.heroku.com/<< parameters.source >>/web:<< parameters.tag >> \
                     ./project/<< parameters.source >>
             - run:
+                  name: Setup Heroku
+                  command: |
+                      chmod +x .circleci/setup-heroku.sh
+                      .circleci/setup-heroku.sh
+            - run:
                 name: Docker Heroku Push
                 command: |
                     docker push \
