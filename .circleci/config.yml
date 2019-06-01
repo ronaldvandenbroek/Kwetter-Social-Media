@@ -100,7 +100,7 @@ commands:
                 root: .
                 paths:
                     - kwetter_angular   
-                    # Find a way to exclude node_modules              
+#                     Find a way to exclude node_modules
 
     persist_workspace_backend:
         steps:
@@ -147,7 +147,7 @@ commands:
             - run:
                 name: Docker Push
                 command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>
-               
+
     run_docker_heroku:
         parameters:
             user:
@@ -167,7 +167,6 @@ commands:
                 name: Docker Heroku Login
                 command: |
                     docker login \
-                    --email=<< parameters.user >> \
                     --username=<< parameters.user >> \
                     --password=<< parameters.pass >> \
                     registry.heroku.com
@@ -230,7 +229,7 @@ jobs:
                 name: Maven Go-Offline
                 command: cd $SOURCE_PATH && mvn dependency:go-offline
             - save_cache_backend
-            # Dont persist depencancies they are loaded via the cache
+#             Dont persist dependencies they are loaded via the cache
     
     dependencies_frontend:
         executor: node
@@ -241,7 +240,7 @@ jobs:
                 name: Install dependencies
                 command: cd $SOURCE_PATH && npm install
             - save_cache_angular
-            # Dont persist depencancies they are loaded via the cache
+#             Dont persist dependencies they are loaded via the cache
 
     build_backend:
         executor: java
@@ -288,25 +287,26 @@ jobs:
         executor: node
         steps:
             - skip
-            # - attach_workspace_all
-            # Disabled for testing purposes
-            # - run:
-            #     name: Testing
-            #     command: cd $SOURCE_PATH && npm run test
+#             - attach_workspace_all
+#             Disabled for testing purposes
+#             - run:
+#                 name: Testing
+#                 command: cd $SOURCE_PATH && npm run test
 
     sonarqube:
         executor: java
         steps:
-            - attach_workspace_all
-            - restore_cache_backend
-            - run:
-                command: |
-                    cd $SOURCE_PATH
-                    mvn sonar:sonar \
-                    -Dsonar.projectKey=kwetter \
-                    -Dsonar.organization=ronaldvandenbroek-github \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_LOGIN
+            - skip
+#            - attach_workspace_all
+#            - restore_cache_backend
+#            - run:
+#                command: |
+#                    cd $SOURCE_PATH
+#                    mvn sonar:sonar \
+#                    -Dsonar.projectKey=kwetter \
+#                    -Dsonar.organization=ronaldvandenbroek-github \
+#                    -Dsonar.host.url=https://sonarcloud.io \
+#                    -Dsonar.login=$SONAR_LOGIN
 
     docker_backend:
         machine: true
