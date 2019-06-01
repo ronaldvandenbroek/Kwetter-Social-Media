@@ -167,8 +167,8 @@ commands:
                 name: Docker Heroku Login
                 command: |
                     docker login \
-                    --username=<< parameters.user >> \
-                    --password=<< parameters.pass >> \
+                    -u << parameters.user >> \
+                    -p << parameters.pass >> \
                     registry.heroku.com
             - run:
                 name: Docker Heroku Build
