@@ -16,10 +16,11 @@ services:
       - kwetternet
 
   kwetter_backend:
-    image: ronindebeek/kwetter_backend:release
+    image: ronindebeek/kwetter_backend:development-latest
     environment:
       SPRING_PROFILE:
       FRONTEND_HOST_LOCATION:
+      WAIT_HOSTS:
       DATABASE_HOST:
       DATABASE_USERNAME:
       DATABASE_PASSWORD:
@@ -30,17 +31,20 @@ services:
       MAIL_PASSWORD:
     ports:
       - 8080:8080
-    depends_on:
-      - database
     networks:
       - kwetternet
-      
+
   kwetter_angular:
-    image: ronindebeek/kwetter_angular:release
+    image: ronindebeek/kwetter_angular:development-latest
     ports:
       - 4200:4200
+
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
 
 networks:
   kwetternet:
     driver: bridge
-    
