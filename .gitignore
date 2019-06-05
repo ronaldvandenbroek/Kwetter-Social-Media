@@ -25,17 +25,12 @@ hs_err_pid*
 # Custom
 mvnw
 mvnw.cmd
+
 kwetter_backend/target/*
+kwetter_backend/.idea/*
 
 .mvn/*
-kwetter_backend/.idea/*
 .tools/*
 .scannerwork/*
-
-
-Demos/*
-Inleveren/*
-*/~$A-Kwetter-Backend.docx
-*/~$A-Kwetter-casus.docx
-
 .idea/*
+.run/*

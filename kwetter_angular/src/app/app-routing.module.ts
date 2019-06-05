@@ -11,6 +11,7 @@ import {SearchKwetterComponent} from './component/search-kwetter/search-kwetter.
 const routes: Routes = [
   // Login
   {path: 'login', component: LoginComponent},
+  {path: 'verify', component: LoginComponent},
 
   // Profile is home
   {path: '', component: ProfileComponent, canActivate: [AuthenticationGuard]},

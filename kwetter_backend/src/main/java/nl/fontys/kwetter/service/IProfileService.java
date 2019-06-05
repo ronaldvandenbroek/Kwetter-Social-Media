@@ -20,4 +20,6 @@ public interface IProfileService {
     void followUser(UUID userID, UUID followUserId);
 
     void unFollowUser(UUID userID, UUID followUserId);
+
+    void verify(UUID userID);
 }

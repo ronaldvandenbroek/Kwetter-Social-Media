@@ -1,6 +1,5 @@
 package nl.fontys.kwetter.models;
 
-import nl.fontys.kwetter.models.dto.CredentialsDTO;
 import nl.fontys.kwetter.models.entity.Credentials;
 import nl.fontys.kwetter.models.entity.Kwetter;
 import nl.fontys.kwetter.models.entity.User;
@@ -212,7 +211,7 @@ class EntityModelAssociationUnitTests {
         String email = "test@test.nl";
         String password = "Test";
 
-        Credentials credentials = new Credentials(email, password);;
+        Credentials credentials = new Credentials(email, password);
 
         assertNotNull(credentials);
         assertEquals(email, credentials.getEmail());

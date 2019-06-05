@@ -4,10 +4,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: 'kwetter_docker_db'
-      MYSQL_USER: 'Kwetter'
-      MYSQL_PASSWORD: 'kwetter'
-      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD:
     ports:
       - 3306:3306
     expose:
@@ -16,18 +16,34 @@ services:
       - kwetternet
 
   kwetter_backend:
-    image: ronindebeek/kwetter_backend:release
+    image: ronindebeek/kwetter_backend:development-latest
+    environment:
+      SPRING_PROFILE:
+      FRONTEND_HOST_LOCATION:
+      WAIT_HOSTS:
+      DATABASE_HOST:
+      DATABASE_USERNAME:
+      DATABASE_PASSWORD:
+      DATABASE_DRIVER:
+      MAIL_HOST:
+      MAIL_PORT:
+      MAIL_USERNAME:
+      MAIL_PASSWORD:
     ports:
       - 8080:8080
-    depends_on:
-      - database
     networks:
       - kwetternet
-      
+
   kwetter_angular:
-    image: ronindebeek/kwetter_angular:release
+    image: ronindebeek/kwetter_angular:development-latest
     ports:
       - 4200:4200
+
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
 
 networks:
   kwetternet:

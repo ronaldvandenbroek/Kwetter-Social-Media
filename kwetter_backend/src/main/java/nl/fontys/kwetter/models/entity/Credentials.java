@@ -29,14 +29,19 @@ public class Credentials implements Serializable {
 
     private Role role;
 
+    private boolean verified;
+
     @JsonIgnoreProperties("credentials")
     @OneToOne(mappedBy = "credentials", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User user;
 
     public Credentials() {
+        this.email = "";
+        this.verified = false;
     }
 
     public Credentials(CredentialsDTO credentials) {
+        this.verified = false;
         this.email = credentials.getEmail();
         this.password = credentials.getPassword();
         this.role = credentials.getRole();
@@ -44,23 +49,23 @@ public class Credentials implements Serializable {
     }
 
     public Credentials(String email, String password) {
-        this.email = email;
-        this.password = password;
+        this(email, password, null);
     }
 
     public Credentials(String email, String password, Role role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
+        this(email, password, role, null);
     }
 
     public Credentials(String email, String password, Role role, User user) {
+        this.verified = false;
         this.email = email;
         this.password = password;
         this.role = role;
         this.user = user;
 
-        user.setCredentials(this);
+        if (user != null) {
+            user.setCredentials(this);
+        }
     }
 
     @Override

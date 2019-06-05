@@ -1,5 +1,6 @@
 package nl.fontys.kwetter.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.fontys.kwetter.models.entity.Kwetter;
@@ -20,6 +21,8 @@ public class KwetterDTO extends ResourceSupport {
     private Set<String> tags;
     private Set<User> mentions;
     private User owner;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dateTime;
 
     public KwetterDTO() {
@@ -40,5 +43,6 @@ public class KwetterDTO extends ResourceSupport {
         this.tags = kwetter.getTags();
         this.mentions = kwetter.getMentions();
         this.owner = kwetter.getOwner();
+        this.dateTime = kwetter.getDateTime();
     }
 }
