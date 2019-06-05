@@ -323,11 +323,7 @@ jobs:
     aws-deploy:
         executor: python
         steps:
-            - attach_workspace:
-                at: project
             - aws-cli/install
-            - run:
-                command: ~/.local/bin/aws --version
             - run:
                 name: Configure AWS Access Key ID
                 command: |
@@ -345,4 +341,7 @@ jobs:
                 command: |
                     ~/.local/bin/aws configure set region ${CIRCLE_REGION} \
                     --profile ${CIRCLE_PROFILE_NAME}
-
+            - run:
+                name: Configure ECS Cluster
+                command: |
+                    cd ~/.local/bin/aws && ls
