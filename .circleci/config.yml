@@ -221,7 +221,11 @@ jobs:
             - restore_cache_backend
             - run:
                 name: Build Backend
-                command: cd $SOURCE_PATH && mvn install -DskipTests              
+                command: cd $SOURCE_PATH && mvn install -DskipTests    
+            - run:
+                name: Setup Kwetter Version Environment Variable
+                command: |
+                    mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null                          
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: |
