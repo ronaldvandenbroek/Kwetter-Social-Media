@@ -109,7 +109,7 @@ commands:
                 root: .
                 paths:
                     - kwetter_angular   
-#                     Find a way to exclude node_modules
+                    # Find a way to exclude node_modules
 
     persist_workspace_backend:
         steps:
@@ -189,99 +189,104 @@ jobs:
     checkout:
         executor: python
         steps:
-            - checkout   
-            - persist_workspace_angular
-            - persist_workspace_backend
+            - skip
+            # - checkout   
+            # - persist_workspace_angular
+            # - persist_workspace_backend
 
     dependencies_backend:
         executor: java
         steps:
-            - attach_workspace_all
-            - restore_cache_backend
-            - run:
-                name: Maven Go-Offline
-                command: cd $SOURCE_PATH && mvn dependency:go-offline
-            - save_cache_backend
-#             Dont persist dependencies they are loaded via the cache
+            - skip
+            # - attach_workspace_all
+            # - restore_cache_backend
+            # - run:
+            #     name: Maven Go-Offline
+            #     command: cd $SOURCE_PATH && mvn dependency:go-offline
+            # - save_cache_backend
+            # Dont persist dependencies they are loaded via the cache
     
     dependencies_frontend:
         executor: node
         steps:
-            - attach_workspace_all
-            - restore_cache_angular
-            - run:
-                name: Install dependencies
-                command: cd $SOURCE_PATH && npm install
-            - save_cache_angular
-#             Dont persist dependencies they are loaded via the cache
+            - skip
+            # - attach_workspace_all
+            # - restore_cache_angular
+            # - run:
+            #     name: Install dependencies
+            #     command: cd $SOURCE_PATH && npm install
+            # - save_cache_angular
+            # Dont persist dependencies they are loaded via the cache
 
     build_backend:
         executor: java
         steps:
-            - attach_workspace_all
-            - restore_cache_backend
-            - run:
-                name: Build Backend
-                command: cd $SOURCE_PATH && mvn install -DskipTests              
-            - persist_workspace_backend
+            - skip
+            # - attach_workspace_all
+            # - restore_cache_backend
+            # - run:
+            #     name: Build Backend
+            #     command: cd $SOURCE_PATH && mvn install -DskipTests              
+            # - persist_workspace_backend
 
     build_frontend:
         executor: node
         steps:
-            - attach_workspace_all
-            - restore_cache_angular
-            - run:
-                name: Build Frontend
-                command: cd $SOURCE_PATH && npm run build           
-            - persist_workspace_angular_dist
+            - skip
+            # - attach_workspace_all
+            # - restore_cache_angular
+            # - run:
+            #     name: Build Frontend
+            #     command: cd $SOURCE_PATH && npm run build           
+            # - persist_workspace_angular_dist
 
     test_backend:
         executor: java
         steps:
             - skip
-#            - attach_workspace_all
-#            - restore_cache_backend
-#            - run:
-#                name: Test Backend
-#                command: cd $SOURCE_PATH && mvn test
-#            - persist_workspace_backend_tests
+            # - attach_workspace_all
+            # - restore_cache_backend
+            # - run:
+            #     name: Test Backend
+            #     command: cd $SOURCE_PATH && mvn test
+            # - persist_workspace_backend_tests
 
     lint_frontend:
         executor: node
         steps:
             - skip
-#            - attach_workspace_all
-#            - restore_cache_angular
-#            - run:
-#                name: Linting
-#                command: cd $SOURCE_PATH && npm run lint
-#            - store_test_results:
-#                path: test-results/lint_frontend
+            # - attach_workspace_all
+            # - restore_cache_angular
+            # - run:
+            #     name: Linting
+            #     command: cd $SOURCE_PATH && npm run lint
+            # - store_test_results:
+            #     path: test-results/lint_frontend
 
     test_frontend:
         executor: node
         steps:
             - skip
-#             - attach_workspace_all
-#             Disabled for testing purposes
-#             - run:
-#                 name: Testing
-#                 command: cd $SOURCE_PATH && npm run test
+            # - attach_workspace_all
+            # Disabled for testing purposes
+            # - run:
+            #     name: Testing
+            #     command: cd $SOURCE_PATH && npm run test
 
     sonarqube:
         executor: java
         steps:
             - skip
-#            - attach_workspace_all
-#            - restore_cache_backend
-#            - run:
-#                command: |
-#                    cd $SOURCE_PATH
-#                    mvn sonar:sonar \
-#                    -Dsonar.projectKey=kwetter \
-#                    -Dsonar.organization=ronaldvandenbroek-github \
-#                    -Dsonar.host.url=https://sonarcloud.io \
-#                    -Dsonar.login=$SONAR_LOGIN
+            # - attach_workspace_all
+            # - restore_cache_backend
+            # - run:
+            #     command: |
+            #         cd $SOURCE_PATH
+            #         mvn sonar:sonar \
+            #         -Dsonar.projectKey=kwetter \
+            #         -Dsonar.organization=ronaldvandenbroek-github \
+            #         -Dsonar.host.url=https://sonarcloud.io \
+            #         -Dsonar.login=$SONAR_LOGIN
 
     docker_backend:
         executor: python
@@ -325,10 +330,12 @@ jobs:
             - run:
                 command: export PATH=$PATH:/root/.local/bin                
             - aws-cli/install
-            - aws-cli/configure:
-                profile-name: "${CIRCLE_PROFILE_NAME}"
-                aws-access-key-id: CIRCLE_ACCESS_KEY_ID
-                aws-secret-access-key: CIRCLE_SECRET_ACCESS_KEY
-                aws-region: CIRCLE_REGION
+            # - aws-cli/configure:
+            #     profile-name: "${CIRCLE_PROFILE_NAME}"
+            #     aws-access-key-id: CIRCLE_ACCESS_KEY_ID
+            #     aws-secret-access-key: CIRCLE_SECRET_ACCESS_KEY
+            #     aws-region: CIRCLE_REGION
+            - run:
+                command: ~/.local/bin/aws help
             - run:
                 command: aws help
