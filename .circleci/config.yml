@@ -327,13 +327,22 @@ jobs:
                 at: project
             - aws-cli/install
             - run:
-                command: alias aws="~/.local/bin/aws"   
-            # - aws-cli/configure:
-            #     profile-name: "${CIRCLE_PROFILE_NAME}"
-            #     aws-access-key-id: CIRCLE_ACCESS_KEY_ID
-            #     aws-secret-access-key: CIRCLE_SECRET_ACCESS_KEY
-            #     aws-region: CIRCLE_REGION
-            - run:
                 command: ~/.local/bin/aws --version
             - run:
-                command: aws --version
+                name: Configure AWS Access Key ID
+                command: |
+                    ~/.local/bin/aws configure set aws_access_key_id \
+                    ${CIRCLE_ACCESS_KEY_ID} \
+                    --profile ${CIRCLE_PROFILE_NAME}
+            - run:
+                name: Configure AWS Secret Access Key
+                command: |
+                    ~/.local/bin/aws configure set aws_secret_access_key \
+                    ${CIRCLE_SECRET_ACCESS_KEY} \
+                    --profile ${CIRCLE_PROFILE_NAME}
+            - run:
+                name: Configure AWS default region
+                command: |
+                    ~/.local/bin/aws configure set region ${CIRCLE_REGION} \
+                    --profile ${CIRCLE_PROFILE_NAME}
+
