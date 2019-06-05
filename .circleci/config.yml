@@ -4,7 +4,6 @@ orbs:
     aws-cli: circleci/aws-cli@0.1.13
 
 workflows:
-    version: 2.1
     build-test-deploy:
         jobs:
             - checkout:
@@ -60,26 +59,12 @@ workflows:
                 requires:
                     - sonarqube
 
-            - aws-cli/install:
+            - aws-deploy:
                 context:
                     kwetter
                 requires:
                     - docker_backend
                     - docker_frontend
-
-            - aws-cli/configure:
-                profile-name: ${CIRCLE_PROFILE_NAME}
-                aws-access-key-id: ${CIRCLE_ACCESS_KEY_ID}
-                aws-secret-access-key: ${CIRCLE_SECRET_ACCESS_KEY}
-                aws-region: eu-central-1
-                context:
-                    kwetter
-                requires:
-                    - aws-cli/install
-            
-            - aws-deploy:
-                 requires:
-                    - aws-cli/configure
 
 executors:
     python:
@@ -329,5 +314,11 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
+            - aws-cli/install
+            - aws-cli/configure:
+                profile-name: ${CIRCLE_PROFILE_NAME}
+                aws-access-key-id: ${CIRCLE_ACCESS_KEY_ID}
+                aws-secret-access-key: ${CIRCLE_SECRET_ACCESS_KEY}
+                aws-region: eu-central-1
             - run:
                 command: aws help
