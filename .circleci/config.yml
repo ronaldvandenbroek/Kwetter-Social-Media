@@ -223,8 +223,17 @@ jobs:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests    
             - run:
+                name: Save Kwetter version to file
+                command: cd $SOURCE_PATH && echo "$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)" >> ../version.txt
+            - run:
                 name: Setup Kwetter Version Environment Variable
-                command: cd $SOURCE_PATH && echo "export KWETTER_VERSION="$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)"" >> $BASH_ENV
+                command: tail version.txt                 
+            - run:
+                name: Setup Kwetter Version Environment Variable
+                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV  
+            - run:
+                name: Setup Kwetter Version Environment Variable
+                command: echo "${KWETTER_VERSION}"                       
             - persist_workspace_backend
 
     build_frontend:
@@ -303,6 +312,9 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
+            - run:
+                name: Setup Kwetter Version Environment Variable
+                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
