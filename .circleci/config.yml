@@ -106,6 +106,7 @@ commands:
             - persist_to_workspace:
                 root: .
                 paths:
+                    - version.txt
                     - kwetter_backend                                   
 
     persist_workspace_backend_tests:
