@@ -325,11 +325,9 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
-            - run:
-                command: mkdir -p root/.local/bin
-            - run:
-                command: export PATH=$PATH:/root/.local/bin                
             - aws-cli/install
+            - run:
+                command: alias aws="~/.local/bin/aws"   
             # - aws-cli/configure:
             #     profile-name: "${CIRCLE_PROFILE_NAME}"
             #     aws-access-key-id: CIRCLE_ACCESS_KEY_ID
@@ -337,3 +335,5 @@ jobs:
             #     aws-region: CIRCLE_REGION
             - run:
                 command: ~/.local/bin/aws --version
+            - run:
+                command: aws --version
