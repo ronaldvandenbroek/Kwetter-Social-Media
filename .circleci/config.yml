@@ -315,7 +315,7 @@ jobs:
             - attach_workspace:
                 at: project
             - run:
-                command: mkdir -p root/.local/bin
+                command: mkdir -p root/.local/bin && export PATH=$PATH:~/root/.local/bin
             - aws-cli/install
             - aws-cli/configure:
                 profile-name: "${CIRCLE_PROFILE_NAME}"
