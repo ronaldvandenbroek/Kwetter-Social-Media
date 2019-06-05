@@ -224,21 +224,7 @@ jobs:
                 command: cd $SOURCE_PATH && mvn install -DskipTests    
             - run:
                 name: Setup Kwetter Version Environment Variable
-                command: cd $SOURCE_PATH && mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null
-            - run:
-                name: Setup Kwetter Version Environment Variable
-                command: cd $SOURCE_PATH && KWETTER_VERSION="$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)"
-            - run:
-                name: Setup Environment Variables
-                command: |
-                    echo "${KWETTER_VERSION}"
-            - run:
-                name: Setup Kwetter Version Environment Variable
                 command: cd $SOURCE_PATH && echo "export KWETTER_VERSION="$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)"" >> $BASH_ENV
-            - run:
-                name: Setup Environment Variables
-                command: |
-                    echo "${KWETTER_VERSION}"
             - persist_workspace_backend
 
     build_frontend:
