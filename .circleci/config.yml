@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+    aws-cli: circleci/aws-cli@0.1.13
+
 workflows:
     version: 2.1
     build-test-deploy:
@@ -45,29 +48,38 @@ workflows:
                     - test_frontend
                     - lint_frontend
 
-#            - docker_backend:
-#                context:
-#                    kwetter
-#                requires:
-#                    - sonarqube
-#
-#            - docker_frontend:
-#                context:
-#                    kwetter
-#                requires:
-#                    - sonarqube
+            - docker_backend:
+                context:
+                    kwetter
+                requires:
+                    - sonarqube
 
-            - docker_backend_heroku:
-                  context:
-                      kwetter-heroku
-                  requires:
-                      - sonarqube
+            - docker_frontend:
+                context:
+                    kwetter
+                requires:
+                    - sonarqube
 
-            - docker_frontend_heroku:
-                  context:
-                      kwetter-heroku
-                  requires:
-                      - sonarqube
+            - aws-cli/install:
+                context:
+                    kwetter
+                requires:
+                    - docker_backend
+                    - docker_frontend
+
+            - aws-cli/configure:
+                profile-name: ${CIRCLE_PROFILE_NAME}
+                aws-access-key-id: ${CIRCLE_ACCESS_KEY_ID}
+                aws-secret-access-key: ${CIRCLE_SECRET_ACCESS_KEY}
+                aws-region: eu-central-1
+                context:
+                    kwetter
+                requires:
+                    - aws-cli/install
+            
+            - aws-deploy:
+                 requires:
+                    - aws-cli/configure
 
 executors:
     python:
@@ -160,50 +172,6 @@ commands:
                 name: Docker Push
                 command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>
 
-    run_docker_heroku:
-        parameters:
-            user:
-                type: string
-                default:
-            pass:
-                type: string
-                default:
-            source:
-                type: string
-                default:
-            tag:         
-                type: string
-                default:
-        steps:
-            - run:
-                name: Docker Credentials
-                command: echo << parameters.user >> && echo << parameters.pass >>
-            - run:
-                name: Docker Heroku Login
-                command: |
-                    docker login \
-                    --username=<< parameters.user >> \
-                    --password=<< parameters.pass >> \
-                    registry.heroku.com
-            - run:
-                name: Docker Heroku Build
-                command: |
-                    docker build \
-                    --rm=false \
-                    -t registry.heroku.com/<< parameters.source >>/web:<< parameters.tag >> \
-                    ./project/<< parameters.source >>
-            - run:
-                  name: Setup Heroku
-                  command: |
-                      cd .. &&
-                      chmod +x .circleci/setup-heroku.sh
-                      .circleci/setup-heroku.sh
-            - run:
-                name: Docker Heroku Push
-                command: |
-                    docker push \
-                    registry.heroku.com/<< parameters.source >>/web:<< parameters.tag >>
-
     restore_cache_backend:
         steps:
             - restore_cache:
@@ -230,8 +198,7 @@ commands:
             - save_cache:
                 paths:
                     - kwetter_angular/node_modules
-                key: node-v5-{{ checksum "kwetter_angular/package.json" }}                
-                
+                key: node-v5-{{ checksum "kwetter_angular/package.json" }}
 
 jobs:
     checkout:
@@ -357,28 +324,10 @@ jobs:
                 source: "${SOURCE_PATH}"
                 tag: "${CIRCLE_BRANCH}"
 
-    docker_backend_heroku:
-        machine: true
-        environment:
-            SOURCE_PATH: kwetter_backend
+    aws-deploy:
+        executor: python
         steps:
             - attach_workspace:
-                  at: project
-            - run_docker_heroku:
-                  user: "${DOCKER_USER}"
-                  pass: "${DOCKER_PASS}"
-                  source: "${SOURCE_PATH}"
-                  tag: "${CIRCLE_BRANCH}"
-
-    docker_frontend_heroku:
-        machine: true
-        environment:
-            SOURCE_PATH: kwetter_angular
-        steps:
-            - attach_workspace:
-                  at: project
-            - run_docker_heroku:
-                  user: "${DOCKER_USER}"
-                  pass: "${DOCKER_PASS}"
-                  source: "${SOURCE_PATH}"
-                  tag: "${CIRCLE_BRANCH}"
+                at: project
+            - run:
+                command: aws help
