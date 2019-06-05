@@ -315,6 +315,12 @@ jobs:
                 at: project
             - run:
                 name: Setup Kwetter Version Environment Variable
+                command: ls          
+            - run:
+                name: Setup Kwetter Version Environment Variable
+                command: tail version.txt                           
+            - run:
+                name: Setup Kwetter Version Environment Variable
                 command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
             - run_docker:
                 user: "${DOCKER_USER}"
