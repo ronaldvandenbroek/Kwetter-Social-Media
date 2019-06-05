@@ -10,7 +10,6 @@ workflows:
                             - master
                             - release
                             - development
-                            - feature-deploy
 
             - dependencies_backend:
                 requires:
@@ -38,7 +37,7 @@ workflows:
 
             - sonarqube:
                 context:
-                    kwetter                
+                    kwetter
                 requires:
                     - test_backend
                     - test_frontend
@@ -98,7 +97,7 @@ commands:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - kwetter_angular   
+                    - kwetter_angular
                     # Find a way to exclude node_modules
 
     persist_workspace_backend:
@@ -107,7 +106,7 @@ commands:
                 root: .
                 paths:
                     - version.txt
-                    - kwetter_backend                                   
+                    - kwetter_backend
 
     persist_workspace_backend_tests:
         steps:
@@ -133,14 +132,14 @@ commands:
                 default: .
             source:
                 type: string
-                default: .  
-            tag:         
+                default: .
+            tag:
                 type: string
-                default: .          
-            version:         
+                default: .
+            version:
                 type: string
-                default: .                                 
-        steps:   
+                default: .
+        steps:
             - run:
                 name: Docker Login
                 command: docker login -u << parameters.user >> -p << parameters.pass >>
@@ -155,7 +154,7 @@ commands:
                 command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest ./<< parameters.source >>
             - run:
                 name: Docker Push Latest
-                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest                
+                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest
 
     restore_cache_backend:
         steps:
@@ -189,7 +188,7 @@ jobs:
     checkout:
         executor: python
         steps:
-            - checkout   
+            - checkout
             - persist_workspace_angular
             - persist_workspace_backend
 
@@ -203,7 +202,7 @@ jobs:
                 command: cd $SOURCE_PATH && mvn dependency:go-offline
             - save_cache_backend
             # Dont persist dependencies they are loaded via the cache
-    
+
     dependencies_frontend:
         executor: node
         steps:
@@ -222,10 +221,10 @@ jobs:
             - restore_cache_backend
             - run:
                 name: Build Backend
-                command: cd $SOURCE_PATH && mvn install -DskipTests    
+                command: cd $SOURCE_PATH && mvn install -DskipTests
             - run:
                 name: Save Kwetter version to file
-                command: cd $SOURCE_PATH && echo "$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)" >> ../version.txt                 
+                command: cd $SOURCE_PATH && echo "$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)" >> ../version.txt
             - persist_workspace_backend
 
     build_frontend:
@@ -235,7 +234,7 @@ jobs:
             - restore_cache_angular
             - run:
                 name: Build Frontend
-                command: cd $SOURCE_PATH && npm run build           
+                command: cd $SOURCE_PATH && npm run build
             - persist_workspace_angular_dist
 
     test_backend:
@@ -292,7 +291,7 @@ jobs:
                 at: .
             - run:
                 name: Setup Kwetter Version Environment Variable
-                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV                
+                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
@@ -306,7 +305,7 @@ jobs:
             SOURCE_PATH: kwetter_angular
         steps:
             - attach_workspace:
-                at: .                     
+                at: .
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
