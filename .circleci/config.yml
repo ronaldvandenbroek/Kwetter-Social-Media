@@ -135,17 +135,26 @@ commands:
                 default: .  
             tag:         
                 type: string
-                default: .                                      
+                default: .          
+            version:         
+                type: string
+                default: .                                 
         steps:   
             - run:
                 name: Docker Login
                 command: docker login -u << parameters.user >> -p << parameters.pass >>
             - run:
                 name: Docker Build
-                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >> ./project/<< parameters.source >>
+                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >> ./project/<< parameters.source >>
             - run:
                 name: Docker Push
-                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>
+                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >>
+            - run:
+                name: Docker Build Latest
+                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest ./project/<< parameters.source >>
+            - run:
+                name: Docker Push Latest
+                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest                
 
     restore_cache_backend:
         steps:
@@ -213,6 +222,14 @@ jobs:
             - run:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests              
+            - run:
+                name: Setup Environment Variables
+                command: |
+                    echo 'export KWETTER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) >> $BASH_ENV
+            - run:
+                name: Setup Environment Variables
+                command: |
+                    echo "${KWETTER_VERSION}"
             - persist_workspace_backend
 
     build_frontend:
@@ -281,6 +298,7 @@ jobs:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${SOURCE_PATH}"
+                version: "${KWETTER_VERSION}"
                 tag: "${CIRCLE_BRANCH}"
 
     docker_frontend:
@@ -294,4 +312,5 @@ jobs:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${SOURCE_PATH}"
+                version: "${KWETTER_VERSION}"
                 tag: "${CIRCLE_BRANCH}"
