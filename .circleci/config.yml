@@ -284,30 +284,36 @@ jobs:
 #                    -Dsonar.login=$SONAR_LOGIN
 
     docker_backend:
-        machine: true
-        environment:
-            SOURCE_PATH: kwetter_backend
+        executor: python
         steps:
-            - attach_workspace:
-                at: project
-            - run_docker:
-                user: "${DOCKER_USER}"
-                pass: "${DOCKER_PASS}"
-                source: "${SOURCE_PATH}"
-                tag: "${CIRCLE_BRANCH}"
+            - skip
+        # machine: true
+        # environment:
+        #     SOURCE_PATH: kwetter_backend
+        # steps:
+        #     - attach_workspace:
+        #         at: project
+        #     - run_docker:
+        #         user: "${DOCKER_USER}"
+        #         pass: "${DOCKER_PASS}"
+        #         source: "${SOURCE_PATH}"
+        #         tag: "${CIRCLE_BRANCH}"
 
     docker_frontend:
-        machine: true
-        environment:
-            SOURCE_PATH: kwetter_angular
+        executor: python
         steps:
-            - attach_workspace:
-                at: project
-            - run_docker:
-                user: "${DOCKER_USER}"
-                pass: "${DOCKER_PASS}"
-                source: "${SOURCE_PATH}"
-                tag: "${CIRCLE_BRANCH}"
+            - skip
+        # machine: true
+        # environment:
+        #     SOURCE_PATH: kwetter_angular
+        # steps:
+        #     - attach_workspace:
+        #         at: project
+        #     - run_docker:
+        #         user: "${DOCKER_USER}"
+        #         pass: "${DOCKER_PASS}"
+        #         source: "${SOURCE_PATH}"
+        #         tag: "${CIRCLE_BRANCH}"
 
     aws-deploy:
         executor: python
