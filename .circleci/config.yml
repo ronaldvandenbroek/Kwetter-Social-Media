@@ -6,65 +6,65 @@ orbs:
 workflows:
     build-test-deploy:
         jobs:
-            - checkout:
-                filters:
-                    branches:
-                        only:
-                            - master
-                            - release
-                            - development
-                            - feature-deploy
+            # - checkout:
+            #     filters:
+            #         branches:
+            #             only:
+            #                 - master
+            #                 - release
+            #                 - development
+            #                 - feature-deploy
 
-            - dependencies_backend:
-                requires:
-                    - checkout
-            - dependencies_frontend:
-                requires:
-                    - checkout
+            # - dependencies_backend:
+            #     requires:
+            #         - checkout
+            # - dependencies_frontend:
+            #     requires:
+            #         - checkout
 
-            - build_backend:
-                requires:
-                    - dependencies_backend
-            - build_frontend:
-                requires:
-                    - dependencies_frontend
+            # - build_backend:
+            #     requires:
+            #         - dependencies_backend
+            # - build_frontend:
+            #     requires:
+            #         - dependencies_frontend
 
-            - test_backend:
-                requires:
-                    - build_backend
-            - lint_frontend:
-                requires:
-                    - build_frontend
-            - test_frontend:
-                requires:
-                    - build_frontend
+            # - test_backend:
+            #     requires:
+            #         - build_backend
+            # - lint_frontend:
+            #     requires:
+            #         - build_frontend
+            # - test_frontend:
+            #     requires:
+            #         - build_frontend
 
-            - sonarqube:
-                context:
-                    kwetter                
-                requires:
-                    - test_backend
-                    - test_frontend
-                    - lint_frontend
+            # - sonarqube:
+            #     context:
+            #         kwetter                
+            #     requires:
+            #         - test_backend
+            #         - test_frontend
+            #         - lint_frontend
 
-            - docker_backend:
-                context:
-                    kwetter
-                requires:
-                    - sonarqube
+            # - docker_backend:
+            #     context:
+            #         kwetter
+            #     requires:
+            #         - sonarqube
 
-            - docker_frontend:
-                context:
-                    kwetter
-                requires:
-                    - sonarqube
+            # - docker_frontend:
+            #     context:
+            #         kwetter
+            #     requires:
+            #         - sonarqube
 
             - aws-deploy:
                 context:
                     kwetter
-                requires:
-                    - docker_backend
-                    - docker_frontend
+                # requires:
+                #     - docker_backend
+                #     - docker_frontend
 
 executors:
     python:
@@ -336,6 +336,4 @@ jobs:
             #     aws-secret-access-key: CIRCLE_SECRET_ACCESS_KEY
             #     aws-region: CIRCLE_REGION
             - run:
-                command: ~/.local/bin/aws help
-            - run:
-                command: aws help
+                command: ~/.local/bin/aws --version
