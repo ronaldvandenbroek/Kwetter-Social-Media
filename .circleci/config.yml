@@ -342,6 +342,10 @@ jobs:
                     ~/.local/bin/aws configure set region ${CIRCLE_REGION} \
                     --profile ${CIRCLE_PROFILE_NAME}
             - run:
+                name: Install ECS CLI
+                command: |
+                    sudo curl -o ~/.local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
+            - run:
                 name: Configure ECS Cluster
                 command: |
-                    cd ~/.local/bin/aws && ls
+                    cd ~/.local/bin && ls
