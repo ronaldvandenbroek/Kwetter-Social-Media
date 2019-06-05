@@ -223,9 +223,9 @@ jobs:
                 name: Build Backend
                 command: cd $SOURCE_PATH && mvn install -DskipTests              
             - run:
-                name: Setup Environment Variables
+                name: Setup Kwetter Version Environment Variable
                 command: |
-                    echo 'export KWETTER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) >> $BASH_ENV
+                    export KWETTER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) >> $BASH_ENV
             - run:
                 name: Setup Environment Variables
                 command: |
