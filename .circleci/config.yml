@@ -146,13 +146,13 @@ commands:
                 command: docker login -u << parameters.user >> -p << parameters.pass >>
             - run:
                 name: Docker Build
-                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >> ./project/<< parameters.source >>
+                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >> ./<< parameters.source >>
             - run:
                 name: Docker Push
                 command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >>
             - run:
                 name: Docker Build Latest
-                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest ./project/<< parameters.source >>
+                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest ./<< parameters.source >>
             - run:
                 name: Docker Push Latest
                 command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest                
@@ -298,7 +298,7 @@ jobs:
             SOURCE_PATH: kwetter_backend
         steps:
             - attach_workspace:
-                at: project
+                at: .
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
@@ -312,7 +312,7 @@ jobs:
             SOURCE_PATH: kwetter_angular
         steps:
             - attach_workspace:
-                at: project
+                at: .
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: ls          
