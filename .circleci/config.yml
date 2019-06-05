@@ -299,6 +299,9 @@ jobs:
         steps:
             - attach_workspace:
                 at: .
+            - run:
+                name: Setup Kwetter Version Environment Variable
+                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV                
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
@@ -312,13 +315,7 @@ jobs:
             SOURCE_PATH: kwetter_angular
         steps:
             - attach_workspace:
-                at: .
-            - run:
-                name: Setup Kwetter Version Environment Variable
-                command: ls          
-            - run:
-                name: Setup Kwetter Version Environment Variable
-                command: tail version.txt                           
+                at: .                     
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
