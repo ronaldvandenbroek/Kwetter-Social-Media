@@ -316,9 +316,9 @@ jobs:
                 at: project
             - aws-cli/install
             - aws-cli/configure:
-                profile-name: ${CIRCLE_PROFILE_NAME}
-                aws-access-key-id: ${CIRCLE_ACCESS_KEY_ID}
-                aws-secret-access-key: ${CIRCLE_SECRET_ACCESS_KEY}
-                aws-region: eu-central-1
+                profile-name: "${CIRCLE_PROFILE_NAME}"
+                aws-access-key-id: "${CIRCLE_ACCESS_KEY_ID}"
+                aws-secret-access-key: "${CIRCLE_SECRET_ACCESS_KEY}"
+                aws-region: "eu-central-1"
             - run:
                 command: aws help
