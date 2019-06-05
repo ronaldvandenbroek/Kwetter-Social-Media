@@ -314,6 +314,8 @@ jobs:
         steps:
             - attach_workspace:
                 at: project
+            - run:
+                command: mkdir .local/bin
             - aws-cli/install
             - aws-cli/configure:
                 profile-name: "${CIRCLE_PROFILE_NAME}"
