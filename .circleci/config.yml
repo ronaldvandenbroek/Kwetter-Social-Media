@@ -1,70 +1,60 @@
 version: 2.1
 
-orbs:
-    aws-cli: circleci/aws-cli@0.1.13
-
 workflows:
     build-test-deploy:
         jobs:
-            # - checkout:
-            #     filters:
-            #         branches:
-            #             only:
-            #                 - master
-            #                 - release
-            #                 - development
-            #                 - feature-deploy
+            - checkout:
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - release
+                            - development
+                            - feature-deploy
 
-            # - dependencies_backend:
-            #     requires:
-            #         - checkout
-            # - dependencies_frontend:
-            #     requires:
-            #         - checkout
+            - dependencies_backend:
+                requires:
+                    - checkout
+            - dependencies_frontend:
+                requires:
+                    - checkout
 
-            # - build_backend:
-            #     requires:
-            #         - dependencies_backend
-            # - build_frontend:
-            #     requires:
-            #         - dependencies_frontend
+            - build_backend:
+                requires:
+                    - dependencies_backend
+            - build_frontend:
+                requires:
+                    - dependencies_frontend
 
-            # - test_backend:
-            #     requires:
-            #         - build_backend
-            # - lint_frontend:
-            #     requires:
-            #         - build_frontend
-            # - test_frontend:
-            #     requires:
-            #         - build_frontend
+            - test_backend:
+                requires:
+                    - build_backend
+            - lint_frontend:
+                requires:
+                    - build_frontend
+            - test_frontend:
+                requires:
+                    - build_frontend
 
-            # - sonarqube:
-            #     context:
-            #         kwetter                
-            #     requires:
-            #         - test_backend
-            #         - test_frontend
-            #         - lint_frontend
+            - sonarqube:
+                context:
+                    kwetter                
+                requires:
+                    - test_backend
+                    - test_frontend
+                    - lint_frontend
 
-            # - docker_backend:
-            #     context:
-            #         kwetter
-            #     requires:
-            #         - sonarqube
-
-            # - docker_frontend:
-            #     context:
-            #         kwetter
-            #     requires:
-            #         - sonarqube
-
-            - aws-deploy:
+            - docker_backend:
                 context:
                     kwetter
-                # requires:
-                #     - docker_backend
-                #     - docker_frontend
+                requires:
+                    - sonarqube
+
+            - docker_frontend:
+                context:
+                    kwetter
+                requires:
+                    - sonarqube
 
 executors:
     python:
@@ -189,79 +179,72 @@ jobs:
     checkout:
         executor: python
         steps:
-            - skip
-            # - checkout   
-            # - persist_workspace_angular
-            # - persist_workspace_backend
+            - checkout   
+            - persist_workspace_angular
+            - persist_workspace_backend
 
     dependencies_backend:
         executor: java
         steps:
-            - skip
-            # - attach_workspace_all
-            # - restore_cache_backend
-            # - run:
-            #     name: Maven Go-Offline
-            #     command: cd $SOURCE_PATH && mvn dependency:go-offline
-            # - save_cache_backend
+            - attach_workspace_all
+            - restore_cache_backend
+            - run:
+                name: Maven Go-Offline
+                command: cd $SOURCE_PATH && mvn dependency:go-offline
+            - save_cache_backend
             # Dont persist dependencies they are loaded via the cache
     
     dependencies_frontend:
         executor: node
         steps:
-            - skip
-            # - attach_workspace_all
-            # - restore_cache_angular
-            # - run:
-            #     name: Install dependencies
-            #     command: cd $SOURCE_PATH && npm install
-            # - save_cache_angular
+            - attach_workspace_all
+            - restore_cache_angular
+            - run:
+                name: Install dependencies
+                command: cd $SOURCE_PATH && npm install
+            - save_cache_angular
             # Dont persist dependencies they are loaded via the cache
 
     build_backend:
         executor: java
         steps:
-            - skip
-            # - attach_workspace_all
-            # - restore_cache_backend
-            # - run:
-            #     name: Build Backend
-            #     command: cd $SOURCE_PATH && mvn install -DskipTests              
-            # - persist_workspace_backend
+            - attach_workspace_all
+            - restore_cache_backend
+            - run:
+                name: Build Backend
+                command: cd $SOURCE_PATH && mvn install -DskipTests              
+            - persist_workspace_backend
 
     build_frontend:
         executor: node
         steps:
-            - skip
-            # - attach_workspace_all
-            # - restore_cache_angular
-            # - run:
-            #     name: Build Frontend
-            #     command: cd $SOURCE_PATH && npm run build           
-            # - persist_workspace_angular_dist
+            - attach_workspace_all
+            - restore_cache_angular
+            - run:
+                name: Build Frontend
+                command: cd $SOURCE_PATH && npm run build           
+            - persist_workspace_angular_dist
 
     test_backend:
         executor: java
         steps:
-            - skip
-            # - attach_workspace_all
-            # - restore_cache_backend
-            # - run:
-            #     name: Test Backend
-            #     command: cd $SOURCE_PATH && mvn test
-            # - persist_workspace_backend_tests
+            - attach_workspace_all
+            - restore_cache_backend
+            - run:
+                name: Test Backend
+                command: cd $SOURCE_PATH && mvn test
+            - persist_workspace_backend_tests
 
     lint_frontend:
         executor: node
         steps:
-            - skip
-            # - attach_workspace_all
-            # - restore_cache_angular
-            # - run:
-            #     name: Linting
-            #     command: cd $SOURCE_PATH && npm run lint
-            # - store_test_results:
-            #     path: test-results/lint_frontend
+            - attach_workspace_all
+            - restore_cache_angular
+            - run:
+                name: Linting
+                command: cd $SOURCE_PATH && npm run lint
+            - store_test_results:
+                path: test-results/lint_frontend
 
     test_frontend:
         executor: node
@@ -276,76 +259,39 @@ jobs:
     sonarqube:
         executor: java
         steps:
-            - skip
-            # - attach_workspace_all
-            # - restore_cache_backend
-            # - run:
-            #     command: |
-            #         cd $SOURCE_PATH
-            #         mvn sonar:sonar \
-            #         -Dsonar.projectKey=kwetter \
-            #         -Dsonar.organization=ronaldvandenbroek-github \
-            #         -Dsonar.host.url=https://sonarcloud.io \
-            #         -Dsonar.login=$SONAR_LOGIN
+            - attach_workspace_all
+            - restore_cache_backend
+            - run:
+                command: |
+                    cd $SOURCE_PATH
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=kwetter \
+                    -Dsonar.organization=ronaldvandenbroek-github \
+                    -Dsonar.host.url=https://sonarcloud.io \
+                    -Dsonar.login=$SONAR_LOGIN
 
     docker_backend:
-        executor: python
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_backend
         steps:
-            - skip
-        # machine: true
-        # environment:
-        #     SOURCE_PATH: kwetter_backend
-        # steps:
-        #     - attach_workspace:
-        #         at: project
-        #     - run_docker:
-        #         user: "${DOCKER_USER}"
-        #         pass: "${DOCKER_PASS}"
-        #         source: "${SOURCE_PATH}"
-        #         tag: "${CIRCLE_BRANCH}"
+            - attach_workspace:
+                at: project
+            - run_docker:
+                user: "${DOCKER_USER}"
+                pass: "${DOCKER_PASS}"
+                source: "${SOURCE_PATH}"
+                tag: "${CIRCLE_BRANCH}"
 
     docker_frontend:
-        executor: python
+        machine: true
+        environment:
+            SOURCE_PATH: kwetter_angular
         steps:
-            - skip
-        # machine: true
-        # environment:
-        #     SOURCE_PATH: kwetter_angular
-        # steps:
-        #     - attach_workspace:
-        #         at: project
-        #     - run_docker:
-        #         user: "${DOCKER_USER}"
-        #         pass: "${DOCKER_PASS}"
-        #         source: "${SOURCE_PATH}"
-        #         tag: "${CIRCLE_BRANCH}"
-
-    aws-deploy:
-        executor: python
-        steps:
-            - aws-cli/install
-            - run:
-                name: Configure AWS Access Key ID
-                command: |
-                    ~/.local/bin/aws configure set aws_access_key_id \
-                    ${CIRCLE_ACCESS_KEY_ID} \
-                    --profile ${CIRCLE_PROFILE_NAME}
-            - run:
-                name: Configure AWS Secret Access Key
-                command: |
-                    ~/.local/bin/aws configure set aws_secret_access_key \
-                    ${CIRCLE_SECRET_ACCESS_KEY} \
-                    --profile ${CIRCLE_PROFILE_NAME}
-            - run:
-                name: Configure AWS default region
-                command: |
-                    ~/.local/bin/aws configure set region ${CIRCLE_REGION} \
-                    --profile ${CIRCLE_PROFILE_NAME}
-            - run:
-                name: Install ECS CLI
-                command: |
-                    curl -o ~/.local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
-            - run:
-                name: Configure ECS Cluster
-                command: |
-                    cd ~/.local/bin && ls
+            - attach_workspace:
+                at: project
+            - run_docker:
+                user: "${DOCKER_USER}"
+                pass: "${DOCKER_PASS}"
+                source: "${SOURCE_PATH}"
+                tag: "${CIRCLE_BRANCH}"
