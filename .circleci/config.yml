@@ -225,7 +225,7 @@ jobs:
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: |
-                    export KWETTER_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout) >> $BASH_ENV
+                    export KWETTER_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null) >> $BASH_ENV
             - run:
                 name: Setup Environment Variables
                 command: |
