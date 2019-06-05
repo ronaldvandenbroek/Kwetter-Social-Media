@@ -228,10 +228,10 @@ jobs:
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: cd $SOURCE_PATH && KWETTER_VERSION="$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)"
-             - run:
+            - run:
                 name: Setup Environment Variables
                 command: |
-                    echo "${KWETTER_VERSION}"               
+                    echo "${KWETTER_VERSION}"
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: cd $SOURCE_PATH && echo "export KWETTER_VERSION="$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)"" >> $BASH_ENV
