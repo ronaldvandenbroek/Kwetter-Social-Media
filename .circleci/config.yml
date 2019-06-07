@@ -161,29 +161,29 @@ commands:
         steps:
             - restore_cache:
                 keys:
-                    - maven-v3-{{ checksum "kwetter_backend/pom.xml" }}
-                    - maven-v3-
+                    - maven-v4-{{ checksum "kwetter_backend/pom.xml" }}
+                    - maven-v4-
 
     restore_cache_angular:
         steps:
             - restore_cache:
                 keys:
-                    - node-v5-{{ checksum "kwetter_angular/package.json" }}
-                    - node-v5-
+                    - node-v6-{{ checksum "kwetter_angular/package.json" }}
+                    - node-v6-
 
     save_cache_backend:
         steps:
             - save_cache:
                 paths:
                     - ~/.m2
-                key: maven-v3-{{ checksum "kwetter_backend/pom.xml" }}
+                key: maven-v4-{{ checksum "kwetter_backend/pom.xml" }}
 
     save_cache_angular:
         steps:
             - save_cache:
                 paths:
                     - kwetter_angular/node_modules
-                key: node-v5-{{ checksum "kwetter_angular/package.json" }}
+                key: node-v6-{{ checksum "kwetter_angular/package.json" }}
 
 jobs:
     checkout:
