@@ -341,6 +341,9 @@ jobs:
                 name: Copy the java binary to artifacts
                 command: cd kwetter_backend/target && ls && cp *.jar ../../artifacts
             - run:
+                name: Test result of"Copy the java binary to artifacts"
+                command: cd artifacts && ls      
+            - run:
                 name: Copy the angular dist to artifacts
                 command: cd kwetter_angular/dist && ls && cp -vr /KwetterAngular ../../artifacts
             - run:
