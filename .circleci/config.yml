@@ -341,7 +341,7 @@ jobs:
                 command: cd kwetter_backend/target && ls && cp *.jar ../../artifacts
             - run:
                 name: Copy the angular dist to artifacts
-                command: cd kwetter_angular/dist/KwetterAngular && ls && cp -vr * ../../artifacts/KwetterAngular
+                command: cd kwetter_angular/dist/KwetterAngular && ls && cp -vr * ../../../artifacts/KwetterAngular
             - run:
                 name: Test artifact copy
                 command: cd artifacts && ls
