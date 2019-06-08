@@ -10,7 +10,7 @@ workflows:
                             - master
                             - release
                             - development
-                            - feature-demo
+                            - feature-github-release
 
             - dependencies_backend:
                 requires:
