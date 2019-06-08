@@ -70,6 +70,7 @@ workflows:
                     branches:
                         only:
                             - master
+                            - feature-github-release
 
 executors:
     python:
