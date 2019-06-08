@@ -335,13 +335,13 @@ jobs:
             - attach_workspace_all
             - run:
                 name: Create the artifacts folder
-                command: mkdir -p /artifacts
+                command: mkdir -p /artifacts/KwetterAngular
             - run:
                 name: Copy the java binary to artifacts
                 command: cd kwetter_backend/target && ls && cp *.jar ../../artifacts
             - run:
                 name: Copy the angular dist to artifacts
-                command: cd kwetter_angular/dist && ls && cp -vr KwetterAngular ../../artifacts
+                command: cd kwetter_angular/dist/KwetterAngular && ls && cp -vr * ../../artifacts/KwetterAngular
             - run:
                 name: Test artifact copy
                 command: cd artifacts && ls
