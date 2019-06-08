@@ -337,7 +337,7 @@ jobs:
                 command: mkdir /artifacts
             - run:
                 name: Copy the java binary to artifacts
-                command: cd kwetter_backend/target && cp kwetter-1.0 ../../artifacts
+                command: cd kwetter_backend/target && cp kwetter-1.0.jar ../../artifacts
             - run:
                 name: Copy the angular dist to artifacts
                 command: cd kwetter_backend/target && cp * ../../artifacts
