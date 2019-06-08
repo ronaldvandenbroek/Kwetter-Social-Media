@@ -289,16 +289,17 @@ jobs:
     sonarqube:
         executor: java
         steps:
-            - attach_workspace_all
-            - restore_cache_backend
-            - run:
-                command: |
-                    cd $SOURCE_PATH
-                    mvn sonar:sonar \
-                    -Dsonar.projectKey=kwetter \
-                    -Dsonar.organization=ronaldvandenbroek-github \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_LOGIN
+            - skip
+            # - attach_workspace_all
+            # - restore_cache_backend
+            # - run:
+            #     command: |
+            #         cd $SOURCE_PATH
+            #         mvn sonar:sonar \
+            #         -Dsonar.projectKey=kwetter \
+            #         -Dsonar.organization=ronaldvandenbroek-github \
+            #         -Dsonar.host.url=https://sonarcloud.io \
+            #         -Dsonar.login=$SONAR_LOGIN
 
     docker_backend:
         machine: true
@@ -334,13 +335,13 @@ jobs:
             - attach_workspace_all
             - run:
                 name: Create the artifacts folder
-                command: mkdir -p /artifacts/KwetterAngular
+                command: mkdir -p /artifacts
             - run:
                 name: Copy the java binary to artifacts
                 command: cd kwetter_backend/target && ls && cp *.jar ../../artifacts
             - run:
                 name: Copy the angular dist to artifacts
-                command: cd kwetter_angular/dist && ls && cp -R * ../../artifacts
+                command: cd kwetter_angular/dist && ls && cp -R KwetterAngular ../../artifacts
             - run:
                 name: Test artifact copy
                 command: cd artifacts && ls
