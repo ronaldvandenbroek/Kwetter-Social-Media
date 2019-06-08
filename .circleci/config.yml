@@ -73,6 +73,10 @@ executors:
             - image: circleci/node:10.15.3
         environment:
             SOURCE_PATH: kwetter_angular
+    
+    go:
+        docker:
+            - image: circleci/golang:1.8
 
 commands:
     skip:
@@ -81,19 +85,18 @@ commands:
                 name: Skip
                 command: ls
 
+    version_to_environment:
+        steps:
+            - run:
+                name: Setup Kwetter Version Environment Variable
+                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
+
     attach_workspace_all:
         steps:
             - attach_workspace:
                 at: .
 
-    persist_workspace_angular_dist:
-        steps:
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - kwetter_angular/dist
-
-    persist_workspace_angular:
+    persist_workspace_angular_after_checkout:
         steps:
             - persist_to_workspace:
                 root: .
@@ -101,27 +104,27 @@ commands:
                     - kwetter_angular
                     # Find a way to exclude node_modules
 
-    persist_workspace_backend:
+    persist_workspace_angular_after_build:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_angular/dist
+
+    persist_workspace_backend_after_checkout:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_backend
+
+    persist_workspace_backend_after_build_and_tests:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
                     - version.txt
-                    - kwetter_backend
-
-    persist_workspace_backend_tests:
-        steps:
-            - persist_to_workspace:
-                root: .
-                paths:
                     - kwetter_backend/target
-
-    persist_workspace_sonar:
-        steps:
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - sonar-scanner-3.3.0.1492-linux
 
     run_docker:
         parameters:
@@ -190,8 +193,8 @@ jobs:
         executor: python
         steps:
             - checkout
-            - persist_workspace_angular
-            - persist_workspace_backend
+            - persist_workspace_angular_after_checkout
+            - persist_workspace_backend_after_checkout
 
     dependencies_backend:
         executor: java
@@ -226,7 +229,7 @@ jobs:
             - run:
                 name: Save Kwetter version to file
                 command: cd $SOURCE_PATH && echo "$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)" >> ../version.txt
-            - persist_workspace_backend
+            - persist_workspace_backend_after_build_and_tests
 
     build_frontend:
         executor: node
@@ -236,7 +239,7 @@ jobs:
             - run:
                 name: Build Frontend
                 command: cd $SOURCE_PATH && npm run build
-            - persist_workspace_angular_dist
+            - persist_workspace_angular_after_build
 
     test_backend:
         executor: java
@@ -246,7 +249,7 @@ jobs:
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn test
-            - persist_workspace_backend_tests
+            - persist_workspace_backend_after_build_and_tests
 
     lint_frontend:
         executor: node
@@ -256,8 +259,6 @@ jobs:
             - run:
                 name: Linting
                 command: cd $SOURCE_PATH && npm run lint
-            - store_test_results:
-                path: test-results/lint_frontend
 
     test_frontend:
         executor: node
@@ -288,11 +289,8 @@ jobs:
         environment:
             SOURCE_PATH: kwetter_backend
         steps:
-            - attach_workspace:
-                at: .
-            - run:
-                name: Setup Kwetter Version Environment Variable
-                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
+            - attach_workspace_all
+            - version_to_environment
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
@@ -305,11 +303,8 @@ jobs:
         environment:
             SOURCE_PATH: kwetter_angular
         steps:
-            - attach_workspace:
-                at: .
-            - run:
-                name: Setup Kwetter Version Environment Variable
-                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
+            - attach_workspace_all
+            - version_to_environment
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
