@@ -65,7 +65,7 @@ workflows:
                 context:
                     kwetter
                 requires:
-                    - approval
+                    - sonarqube
                 filters:
                     branches:
                         only:
@@ -340,7 +340,7 @@ jobs:
                 command: cd kwetter_backend/target && cp kwetter-1.0.jar ../../artifacts
             - run:
                 name: Copy the angular dist to artifacts
-                command: cd kwetter_backend/target && cp * ../../artifacts
+                command: cd kwetter_backend/target && ls && cp * ../../artifacts
             - run:
                 name: Test artifact copy
                 command: cd artifacts && ls
