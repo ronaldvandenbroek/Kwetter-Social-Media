@@ -44,17 +44,32 @@ workflows:
                     - test_frontend
                     - lint_frontend
 
+            - approval:
+                type: approval
+                requires:
+                    - sonarqube     
+
             - docker_backend:
                 context:
                     kwetter
                 requires:
-                    - sonarqube
+                    - approval
 
             - docker_frontend:
                 context:
                     kwetter
                 requires:
-                    - sonarqube
+                    - approval
+
+            - github-release:
+                context:
+                    kwetter
+                requires:
+                    - approval
+                filters:
+                    branches:
+                        only:
+                            - master
 
 executors:
     python:
@@ -76,7 +91,8 @@ executors:
     
     go:
         docker:
-            - image: circleci/golang:1.8
+            # 'Go' docker image with ghr pre-installed
+            - image: cibuilds/github:0.10
 
 commands:
     skip:
@@ -102,7 +118,6 @@ commands:
                 root: .
                 paths:
                     - kwetter_angular
-                    # Find a way to exclude node_modules
 
     persist_workspace_angular_after_build:
         steps:
@@ -311,3 +326,26 @@ jobs:
                 source: "${SOURCE_PATH}"
                 version: "${KWETTER_VERSION}"
                 tag: "${CIRCLE_BRANCH}"
+
+    github-release:
+        executor: go
+        steps:
+            - attach_workspace_all
+            - run:
+                name: Create the artifacts folder
+                command: mkdir /artifacts
+            - run:
+                name: Copy the java binary to artifacts
+                command: cd kwetter_backend/target && cp kwetter-1.0 ../../artifacts
+            - run:
+                name: Copy the angular dist to artifacts
+                command: cd kwetter_backend/target && cp * ../../artifacts
+            - run:
+                name: Test artifact copy
+                command: cd artifacts && ls
+
+            # - run:
+            #     name: "Publish Release on GitHub"
+            #     command: |
+            #         VERSION=$(my-binary --version)
+            #         ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
