@@ -54,13 +54,11 @@ workflows:
                     kwetter
                 requires:
                     - approve_deploy
-
             - docker_frontend:
                 context:
                     kwetter
                 requires:
                     - approve_deploy
-
             - github-release:
                 context:
                     kwetter
@@ -89,7 +87,7 @@ executors:
             - image: circleci/node:10.15.3
         environment:
             SOURCE_PATH: kwetter_angular
-    
+
     go:
         docker:
             # 'Go' docker image with ghr pre-installed
@@ -329,26 +327,20 @@ jobs:
                 version: "${KWETTER_VERSION}"
                 tag: "${CIRCLE_BRANCH}"
 
-    github-release:
+    github_release:
         executor: go
         steps:
             - attach_workspace_all
             - version_to_environment
             - run:
                 name: Create the artifacts folder
-                command: mkdir ./artifacts && ls
+                command: mkdir ./artifacts
             - run:
                 name: Copy the java binary to artifacts
-                command: cd kwetter_backend/target && ls && cp *.jar ../../artifacts
+                command: cd kwetter_backend/target && cp *.jar ../../artifacts
             - run:
-                name: Test result of "Copy the java binary to artifacts"
-                command: ls && cd artifacts && ls      
-            - run:
-                name: Copy the angular dist to artifacts
-                command: cd kwetter_angular/dist && ls && zip -r KwetterAngular.zip . && cp -vr KwetterAngular.zip ../../artifacts
-            - run:
-                name: Test artifact copy
-                command: cd artifacts && ls
+                name: Zip and Copy the angular dist to artifacts
+                command: cd kwetter_angular/dist && zip -r KwetterAngular.zip . && cp -vr KwetterAngular.zip ../../artifacts
             - run:
                 name: "Publish Release on GitHub"
                 command: |
