@@ -65,8 +65,7 @@ workflows:
                 context:
                     kwetter
                 requires:
-                    - build_backend
-                    - build_frontend
+                    - approval
                 filters:
                     branches:
                         only:
@@ -334,24 +333,31 @@ jobs:
         executor: go
         steps:
             - attach_workspace_all
+            - version_to_environment
             - run:
                 name: Create the artifacts folder
                 command: mkdir ./artifacts && ls
             - run:
                 name: Copy the java binary to artifacts
                 command: cd kwetter_backend/target && ls && cp *.jar ../../artifacts
-            - run:
-                name: Test result of "Copy the java binary to artifacts"
-                command: ls && cd artifacts && ls      
+            # - run:
+            #     name: Test result of "Copy the java binary to artifacts"
+            #     command: ls && cd artifacts && ls      
             - run:
                 name: Copy the angular dist to artifacts
                 command: cd kwetter_angular/dist && ls && cp -vr ./KwetterAngular ../../artifacts
-            - run:
-                name: Test artifact copy
-                command: cd artifacts && ls
-
             # - run:
-            #     name: "Publish Release on GitHub"
-            #     command: |
-            #         VERSION=$(my-binary --version)
-            #         ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
+            #     name: Test artifact copy
+            #     command: cd artifacts && ls
+            - run:
+                name: "Publish Release on GitHub"
+                command: |
+                    ghr \
+                    -t ${GITHUB_TOKEN} \
+                    -u ${CIRCLE_PROJECT_USERNAME} \
+                    -r ${CIRCLE_PROJECT_REPONAME} \
+                    -c ${CIRCLE_SHA1} \
+                    -draft \
+                    -delete \
+                    ${KWETTER_VERSION} \
+                    ./artifacts/
