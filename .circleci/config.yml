@@ -8,6 +8,7 @@ workflows:
             - dependencies_backend:
                 requires:
                     - checkout
+
             - dependencies_frontend:
                 requires:
                     - checkout
@@ -15,6 +16,7 @@ workflows:
             - build_backend:
                 requires:
                     - dependencies_backend
+
             - build_frontend:
                 requires:
                     - dependencies_frontend
@@ -22,9 +24,11 @@ workflows:
             - test_backend:
                 requires:
                     - build_backend
+
             - lint_frontend:
                 requires:
                     - build_frontend
+
             - test_frontend:
                 requires:
                     - build_frontend
@@ -54,12 +58,14 @@ workflows:
                     kwetter
                 requires:
                     - approve_deploy
+
             - docker_frontend:
                 context:
                     kwetter
                 requires:
                     - approve_deploy
-            - github-release:
+
+            - github_release:
                 context:
                     kwetter
                 requires:
