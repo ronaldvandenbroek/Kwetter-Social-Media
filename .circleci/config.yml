@@ -3,18 +3,12 @@ version: 2.1
 workflows:
     build-test-deploy:
         jobs:
-            - checkout:
-                filters:
-                    branches:
-                        only:
-                            - master
-                            - release
-                            - development
-                            - feature-demo
+            - checkout
 
             - dependencies_backend:
                 requires:
                     - checkout
+
             - dependencies_frontend:
                 requires:
                     - checkout
@@ -22,6 +16,7 @@ workflows:
             - build_backend:
                 requires:
                     - dependencies_backend
+
             - build_frontend:
                 requires:
                     - dependencies_frontend
@@ -29,9 +24,11 @@ workflows:
             - test_backend:
                 requires:
                     - build_backend
+
             - lint_frontend:
                 requires:
                     - build_frontend
+
             - test_frontend:
                 requires:
                     - build_frontend
@@ -44,17 +41,40 @@ workflows:
                     - test_frontend
                     - lint_frontend
 
+            - approve_deploy:
+                type: approval
+                requires:
+                    - sonarqube
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - release
+                            - development
+                            - feature-github-release
+
             - docker_backend:
                 context:
                     kwetter
                 requires:
-                    - sonarqube
+                    - approve_deploy
 
             - docker_frontend:
                 context:
                     kwetter
                 requires:
-                    - sonarqube
+                    - approve_deploy
+
+            - github_release:
+                context:
+                    kwetter
+                requires:
+                    - approve_deploy
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - feature-github-release
 
 executors:
     python:
@@ -74,6 +94,11 @@ executors:
         environment:
             SOURCE_PATH: kwetter_angular
 
+    go:
+        docker:
+            # 'Go' docker image with ghr pre-installed
+            - image: cibuilds/github:0.10
+
 commands:
     skip:
         steps:
@@ -81,47 +106,45 @@ commands:
                 name: Skip
                 command: ls
 
+    version_to_environment:
+        steps:
+            - run:
+                name: Setup Kwetter Version Environment Variable
+                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
+
     attach_workspace_all:
         steps:
             - attach_workspace:
                 at: .
 
-    persist_workspace_angular_dist:
+    persist_workspace_angular_after_checkout:
+        steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                    - kwetter_angular
+
+    persist_workspace_angular_after_build:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
                     - kwetter_angular/dist
 
-    persist_workspace_angular:
+    persist_workspace_backend_after_checkout:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - kwetter_angular
-                    # Find a way to exclude node_modules
+                    - kwetter_backend
 
-    persist_workspace_backend:
+    persist_workspace_backend_after_build_and_tests:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
                     - version.txt
-                    - kwetter_backend
-
-    persist_workspace_backend_tests:
-        steps:
-            - persist_to_workspace:
-                root: .
-                paths:
                     - kwetter_backend/target
-
-    persist_workspace_sonar:
-        steps:
-            - persist_to_workspace:
-                root: .
-                paths:
-                    - sonar-scanner-3.3.0.1492-linux
 
     run_docker:
         parameters:
@@ -190,8 +213,8 @@ jobs:
         executor: python
         steps:
             - checkout
-            - persist_workspace_angular
-            - persist_workspace_backend
+            - persist_workspace_angular_after_checkout
+            - persist_workspace_backend_after_checkout
 
     dependencies_backend:
         executor: java
@@ -226,7 +249,7 @@ jobs:
             - run:
                 name: Save Kwetter version to file
                 command: cd $SOURCE_PATH && echo "$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)" >> ../version.txt
-            - persist_workspace_backend
+            - persist_workspace_backend_after_build_and_tests
 
     build_frontend:
         executor: node
@@ -236,7 +259,7 @@ jobs:
             - run:
                 name: Build Frontend
                 command: cd $SOURCE_PATH && npm run build
-            - persist_workspace_angular_dist
+            - persist_workspace_angular_after_build
 
     test_backend:
         executor: java
@@ -246,7 +269,7 @@ jobs:
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn test
-            - persist_workspace_backend_tests
+            - persist_workspace_backend_after_build_and_tests
 
     lint_frontend:
         executor: node
@@ -256,8 +279,6 @@ jobs:
             - run:
                 name: Linting
                 command: cd $SOURCE_PATH && npm run lint
-            - store_test_results:
-                path: test-results/lint_frontend
 
     test_frontend:
         executor: node
@@ -272,27 +293,25 @@ jobs:
     sonarqube:
         executor: java
         steps:
-            - attach_workspace_all
-            - restore_cache_backend
-            - run:
-                command: |
-                    cd $SOURCE_PATH
-                    mvn sonar:sonar \
-                    -Dsonar.projectKey=kwetter \
-                    -Dsonar.organization=ronaldvandenbroek-github \
-                    -Dsonar.host.url=https://sonarcloud.io \
-                    -Dsonar.login=$SONAR_LOGIN
+            - skip
+            # - attach_workspace_all
+            # - restore_cache_backend
+            # - run:
+            #     command: |
+            #         cd $SOURCE_PATH
+            #         mvn sonar:sonar \
+            #         -Dsonar.projectKey=kwetter \
+            #         -Dsonar.organization=ronaldvandenbroek-github \
+            #         -Dsonar.host.url=https://sonarcloud.io \
+            #         -Dsonar.login=$SONAR_LOGIN
 
     docker_backend:
         machine: true
         environment:
             SOURCE_PATH: kwetter_backend
         steps:
-            - attach_workspace:
-                at: .
-            - run:
-                name: Setup Kwetter Version Environment Variable
-                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
+            - attach_workspace_all
+            - version_to_environment
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
@@ -305,14 +324,37 @@ jobs:
         environment:
             SOURCE_PATH: kwetter_angular
         steps:
-            - attach_workspace:
-                at: .
-            - run:
-                name: Setup Kwetter Version Environment Variable
-                command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
+            - attach_workspace_all
+            - version_to_environment
             - run_docker:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source: "${SOURCE_PATH}"
                 version: "${KWETTER_VERSION}"
                 tag: "${CIRCLE_BRANCH}"
+
+    github_release:
+        executor: go
+        steps:
+            - attach_workspace_all
+            - version_to_environment
+            - run:
+                name: Create the artifacts folder
+                command: mkdir ./artifacts
+            - run:
+                name: Copy the java binary to artifacts
+                command: cd kwetter_backend/target && cp *.jar ../../artifacts
+            - run:
+                name: Zip and Copy the angular dist to artifacts
+                command: cd kwetter_angular/dist && zip -r KwetterAngular.zip . && cp -vr KwetterAngular.zip ../../artifacts
+            - run:
+                name: "Publish Release on GitHub"
+                command: |
+                    ghr \
+                    -t ${GITHUB_TOKEN} \
+                    -u ${CIRCLE_PROJECT_USERNAME} \
+                    -r ${CIRCLE_PROJECT_REPONAME} \
+                    -c ${CIRCLE_SHA1} \
+                    -delete \
+                    ${KWETTER_VERSION} \
+                    ./artifacts/
