@@ -3,19 +3,23 @@ version: 2.1
 workflows:
     build-test-deploy:
         jobs:
+            # Checkout the code from github
             - checkout
+            # Load the dependancies from cache and update if nessesary
             - dependencies_backend:
                 requires:
                     - checkout
             - dependencies_frontend:
                 requires:
                     - checkout
+            # Build the applications
             - build_backend:
                 requires:
                     - dependencies_backend
             - build_frontend:
                 requires:
                     - dependencies_frontend
+            # Test the applications
             - test_backend:
                 requires:
                     - build_backend
@@ -32,6 +36,7 @@ workflows:
                     - test_backend
                     - test_frontend
                     - lint_frontend
+            # Manual approve to proceed with deployment and archiving
             - approve_deploy:
                 type: approval
                 requires:
@@ -43,12 +48,8 @@ workflows:
                             - release
                             - development
                             - feature-docker-rewrite
-            - docker:
-                context:
-                    kwetter
-                requires:
-                    - approve_deploy
-            - github_release:
+            # Archive code on github on a release from master branch or a prerelease from release branch
+            - github: # Release
                 context:
                     kwetter
                 requires:
@@ -57,7 +58,48 @@ workflows:
                     branches:
                         only:
                             - master
-                            - feature-docker-rewrite       
+            - github: # Pre-Release
+                context:
+                    kwetter
+                requires:
+                    - approve_deploy
+                filters:
+                    branches:
+                        only:
+                            - release
+                            - feature-docker-rewrite
+            # Docker deployment for every OTAP environment
+            - docker: # Testing
+                tag: Testing
+                context:
+                    kwetter
+                requires:
+                    - approve_deploy
+                filters:
+                    branches:
+                        only:
+                            - development
+                            - feature-docker-rewrite
+            - docker: # Acceptance
+                tag: Testing
+                context:
+                    kwetter
+                requires:
+                    - approve_deploy
+                filters:
+                    branches:
+                        only:
+                            - release                            
+            - docker: # Production
+                tag: Production
+                context:
+                    kwetter
+                requires:
+                    - approve_deploy
+                filters:
+                    branches:
+                        only:
+                            - master
 
 executors:
     python:
@@ -216,7 +258,7 @@ jobs:
             - checkout
             - persist_workspace_angular_after_checkout
             - persist_workspace_backend_after_checkout
-    dependencies_backend:
+    dependencies_backend: 
         executor: java
         steps:
             - attach_workspace_all
@@ -300,6 +342,9 @@ jobs:
                     -Dsonar.login=$SONAR_LOGIN
     docker:
         machine: true
+        parameters:
+            tag:
+                type: string
         environment:
             SOURCE_PATH_BACKEND: kwetter_backend
             SOURCE_PATH_FRONTEND: kwetter_angular
@@ -312,8 +357,8 @@ jobs:
                 source_backend: "${SOURCE_PATH_BACKEND}"
                 source_frontend: "${SOURCE_PATH_FRONTEND}"
                 version: "${KWETTER_VERSION}"
-                tag: "${CIRCLE_BRANCH}"
-    github_release:
+                tag: << parameters.tag >>
+    github:
         executor: go
         steps:
             - attach_workspace_all
