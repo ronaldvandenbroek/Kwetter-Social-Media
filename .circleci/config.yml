@@ -345,7 +345,7 @@ jobs:
                 command: ls && cd artifacts && ls      
             - run:
                 name: Copy the angular dist to artifacts
-                command: cd kwetter_angular/dist && ls && zip -r KwetterAngular.zip . && cp -vr KwetterAngular.zop ../../artifacts
+                command: cd kwetter_angular/dist && ls && zip -r KwetterAngular.zip . && cp -vr KwetterAngular.zip ../../artifacts
             - run:
                 name: Test artifact copy
                 command: cd artifacts && ls
