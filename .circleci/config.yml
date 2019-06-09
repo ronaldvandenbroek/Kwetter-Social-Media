@@ -44,28 +44,28 @@ workflows:
                     - test_frontend
                     - lint_frontend
 
-            - approval:
+            - approve_deploy:
                 type: approval
                 requires:
-                    - sonarqube     
+                    - sonarqube
 
             - docker_backend:
                 context:
                     kwetter
                 requires:
-                    - approval
+                    - approve_deploy
 
             - docker_frontend:
                 context:
                     kwetter
                 requires:
-                    - approval
+                    - approve_deploy
 
             - github-release:
                 context:
                     kwetter
                 requires:
-                    - approval
+                    - approve_deploy
                 filters:
                     branches:
                         only:
@@ -340,15 +340,15 @@ jobs:
             - run:
                 name: Copy the java binary to artifacts
                 command: cd kwetter_backend/target && ls && cp *.jar ../../artifacts
-            # - run:
-            #     name: Test result of "Copy the java binary to artifacts"
-            #     command: ls && cd artifacts && ls      
+            - run:
+                name: Test result of "Copy the java binary to artifacts"
+                command: ls && cd artifacts && ls      
             - run:
                 name: Copy the angular dist to artifacts
-                command: cd kwetter_angular/dist && ls && cp -vr ./KwetterAngular ../../artifacts
-            # - run:
-            #     name: Test artifact copy
-            #     command: cd artifacts && ls
+                command: cd kwetter_angular/dist && ls && zip -r KwetterAngular.zip . && cp -vr KwetterAngular.zop ../../artifacts
+            - run:
+                name: Test artifact copy
+                command: cd artifacts && ls
             - run:
                 name: "Publish Release on GitHub"
                 command: |
