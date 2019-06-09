@@ -47,7 +47,6 @@ workflows:
                             - master
                             - release
                             - development
-                            - feature-docker-rewrite
             # Archive code on github on a release from master branch or a prerelease from release branch
             - github: # Release
                 context:
@@ -67,7 +66,6 @@ workflows:
                     branches:
                         only:
                             - release
-                            - feature-docker-rewrite
             # Docker deployment for every OTAP environment
             - docker: # Testing
                 tag: Testing
@@ -79,7 +77,6 @@ workflows:
                     branches:
                         only:
                             - development
-                            - feature-docker-rewrite
             - docker: # Acceptance
                 tag: Testing
                 context:
