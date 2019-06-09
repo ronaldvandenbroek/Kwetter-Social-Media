@@ -4,35 +4,27 @@ workflows:
     build-test-deploy:
         jobs:
             - checkout
-
             - dependencies_backend:
                 requires:
                     - checkout
-
             - dependencies_frontend:
                 requires:
                     - checkout
-
             - build_backend:
                 requires:
                     - dependencies_backend
-
             - build_frontend:
                 requires:
                     - dependencies_frontend
-
             - test_backend:
                 requires:
                     - build_backend
-
             - lint_frontend:
                 requires:
                     - build_frontend
-
             - test_frontend:
                 requires:
                     - build_frontend
-
             - sonarqube:
                 context:
                     kwetter
@@ -40,7 +32,6 @@ workflows:
                     - test_backend
                     - test_frontend
                     - lint_frontend
-
             - approve_deploy:
                 type: approval
                 requires:
@@ -51,20 +42,12 @@ workflows:
                             - master
                             - release
                             - development
-                            - feature-github-release
-
-            - docker_backend:
+                            - feature-docker-rewrite
+            - docker:
                 context:
                     kwetter
                 requires:
                     - approve_deploy
-
-            - docker_frontend:
-                context:
-                    kwetter
-                requires:
-                    - approve_deploy
-
             - github_release:
                 context:
                     kwetter
@@ -74,26 +57,23 @@ workflows:
                     branches:
                         only:
                             - master
-                            - feature-github-release
+                            - feature-docker-rewrite       
 
 executors:
     python:
         docker:
             - image: python
-
     java:
         docker:
             - image: circleci/openjdk:8-jdk
         environment:
             MAVEN_OPTS: -Xmx3200m
             SOURCE_PATH: kwetter_backend
-
     node:
         docker:
             - image: circleci/node:10.15.3
         environment:
             SOURCE_PATH: kwetter_angular
-
     go:
         docker:
             # 'Go' docker image with ghr pre-installed
@@ -105,39 +85,33 @@ commands:
             - run:
                 name: Skip
                 command: ls
-
     version_to_environment:
         steps:
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
-
     attach_workspace_all:
         steps:
             - attach_workspace:
                 at: .
-
     persist_workspace_angular_after_checkout:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
                     - kwetter_angular
-
     persist_workspace_angular_after_build:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
                     - kwetter_angular/dist
-
     persist_workspace_backend_after_checkout:
         steps:
             - persist_to_workspace:
                 root: .
                 paths:
                     - kwetter_backend
-
     persist_workspace_backend_after_build_and_tests:
         steps:
             - persist_to_workspace:
@@ -145,62 +119,89 @@ commands:
                 paths:
                     - version.txt
                     - kwetter_backend/target
-
-    run_docker:
+    docker_deploy:
         parameters:
             user:
                 type: string
-                default: .
             pass:
                 type: string
-                default: .
-            source:
+            source_backend:
                 type: string
-                default: .
+            source_frontend:
+                type: string
             tag:
                 type: string
-                default: .
             version:
                 type: string
-                default: .
+        steps:
+            - docker_login:
+                user: "<< parameters.user >>"
+                pass: "<< parameters.pass >>"
+            - docker_build_and_push:
+                user: "<< parameters.user >>"
+                source: "<< parameters.source_frontend >>"
+                version: "<< parameters.version >>"
+                tag: "<< parameters.tag >>"
+            - docker_build_and_push:
+                user: "<< parameters.user >>"
+                source: "<< parameters.source_frontend >>"
+                version: latest
+                tag: "<< parameters.tag >>"
+            - docker_build_and_push:
+                user: "<< parameters.user >>"
+                source: "<< parameters.source_backend >>"
+                version: "<< parameters.version >>"
+                tag: "<< parameters.tag >>"
+            - docker_build_and_push:
+                user: "<< parameters.user >>"
+                source: "<< parameters.source_backend >>"
+                version: latest
+                tag: "<< parameters.tag >>"            
+    docker_login:
+        parameters:
+            user:
+                type: string
+            pass:
+                type: string
         steps:
             - run:
                 name: Docker Login
                 command: docker login -u << parameters.user >> -p << parameters.pass >>
+    docker_build_and_push:
+        parameters:
+            user:
+                type: string
+            source:
+                type: string
+            tag:
+                type: string
+            version:
+                type: string
+        steps:
             - run:
                 name: Docker Build
-                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >> ./<< parameters.source >>
+                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >> ./<< parameters.source >>          
             - run:
                 name: Docker Push
                 command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >>
-            - run:
-                name: Docker Build Latest
-                command: docker build -t << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest ./<< parameters.source >>
-            - run:
-                name: Docker Push Latest
-                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-latest
-
     restore_cache_backend:
         steps:
             - restore_cache:
                 keys:
                     - maven-v4-{{ checksum "kwetter_backend/pom.xml" }}
                     - maven-v4-
-
     restore_cache_angular:
         steps:
             - restore_cache:
                 keys:
                     - node-v6-{{ checksum "kwetter_angular/package.json" }}
                     - node-v6-
-
     save_cache_backend:
         steps:
             - save_cache:
                 paths:
                     - ~/.m2
                 key: maven-v4-{{ checksum "kwetter_backend/pom.xml" }}
-
     save_cache_angular:
         steps:
             - save_cache:
@@ -213,9 +214,8 @@ jobs:
         executor: python
         steps:
             - checkout
-            - persist_workspace_angular_after_checkout
-            - persist_workspace_backend_after_checkout
-
+            - persist_workspace_angular
+            - persist_workspace_backend
     dependencies_backend:
         executor: java
         steps:
@@ -226,7 +226,6 @@ jobs:
                 command: cd $SOURCE_PATH && mvn dependency:go-offline
             - save_cache_backend
             # Dont persist dependencies they are loaded via the cache
-
     dependencies_frontend:
         executor: node
         steps:
@@ -237,7 +236,6 @@ jobs:
                 command: cd $SOURCE_PATH && npm install
             - save_cache_angular
             # Dont persist dependencies they are loaded via the cache
-
     build_backend:
         executor: java
         steps:
@@ -249,8 +247,7 @@ jobs:
             - run:
                 name: Save Kwetter version to file
                 command: cd $SOURCE_PATH && echo "$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec 2>/dev/null)" >> ../version.txt
-            - persist_workspace_backend_after_build_and_tests
-
+            - persist_workspace_backend
     build_frontend:
         executor: node
         steps:
@@ -259,8 +256,7 @@ jobs:
             - run:
                 name: Build Frontend
                 command: cd $SOURCE_PATH && npm run build
-            - persist_workspace_angular_after_build
-
+            - persist_workspace_angular_dist
     test_backend:
         executor: java
         steps:
@@ -269,8 +265,7 @@ jobs:
             - run:
                 name: Test Backend
                 command: cd $SOURCE_PATH && mvn test
-            - persist_workspace_backend_after_build_and_tests
-
+            - persist_workspace_backend_tests
     lint_frontend:
         executor: node
         steps:
@@ -279,7 +274,8 @@ jobs:
             - run:
                 name: Linting
                 command: cd $SOURCE_PATH && npm run lint
-
+            - store_test_results:
+                path: test-results/lint_frontend
     test_frontend:
         executor: node
         steps:
@@ -289,50 +285,34 @@ jobs:
             # - run:
             #     name: Testing
             #     command: cd $SOURCE_PATH && npm run test
-
     sonarqube:
         executor: java
         steps:
-            - skip
-            # - attach_workspace_all
-            # - restore_cache_backend
-            # - run:
-            #     command: |
-            #         cd $SOURCE_PATH
-            #         mvn sonar:sonar \
-            #         -Dsonar.projectKey=kwetter \
-            #         -Dsonar.organization=ronaldvandenbroek-github \
-            #         -Dsonar.host.url=https://sonarcloud.io \
-            #         -Dsonar.login=$SONAR_LOGIN
-
-    docker_backend:
+            - attach_workspace_all
+            - restore_cache_backend
+            - run:
+                command: |
+                    cd $SOURCE_PATH
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=kwetter \
+                    -Dsonar.organization=ronaldvandenbroek-github \
+                    -Dsonar.host.url=https://sonarcloud.io \
+                    -Dsonar.login=$SONAR_LOGIN
+    docker:
         machine: true
         environment:
-            SOURCE_PATH: kwetter_backend
+            SOURCE_PATH_BACKEND: kwetter_backend
+            SOURCE_PATH_FRONTEND: kwetter_angular
         steps:
             - attach_workspace_all
             - version_to_environment
-            - run_docker:
+            - docker_deploy:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
-                source: "${SOURCE_PATH}"
+                source_backend: "${SOURCE_PATH_BACKEND}"
+                source_frontend: "${SOURCE_PATH_FRONTEND}"
                 version: "${KWETTER_VERSION}"
                 tag: "${CIRCLE_BRANCH}"
-
-    docker_frontend:
-        machine: true
-        environment:
-            SOURCE_PATH: kwetter_angular
-        steps:
-            - attach_workspace_all
-            - version_to_environment
-            - run_docker:
-                user: "${DOCKER_USER}"
-                pass: "${DOCKER_PASS}"
-                source: "${SOURCE_PATH}"
-                version: "${KWETTER_VERSION}"
-                tag: "${CIRCLE_BRANCH}"
-
     github_release:
         executor: go
         steps:
