@@ -3,14 +3,7 @@ version: 2.1
 workflows:
     build-test-deploy:
         jobs:
-            - checkout:
-                filters:
-                    branches:
-                        only:
-                            - master
-                            - release
-                            - development
-                            - feature-github-release
+            - checkout
 
             - dependencies_backend:
                 requires:
@@ -48,6 +41,13 @@ workflows:
                 type: approval
                 requires:
                     - sonarqube
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - release
+                            - development
+                            - feature-github-release
 
             - docker_backend:
                 context:
