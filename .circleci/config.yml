@@ -81,7 +81,9 @@ workflows:
                 filters:
                     branches:
                         only:
-                            - release                            
+                            - master
+                            - release
+                            - development                        
             # - docker: # Production
             #     tag: production
             #     context:
