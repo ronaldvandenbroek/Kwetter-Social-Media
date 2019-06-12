@@ -60,17 +60,17 @@ workflows:
                             - release
                             - development
             # Docker deployment for every OTAP environment
-            - docker: # Testing
+            - docker_testing: # Testing
                 tag: testing
                 context:
-                    kwetter
+                    sonarqube
                 requires:
                     - approve_deploy
                 filters:
                     branches:
                         only:
                             - development
-            - docker: # Acceptance
+            - docker_acceptance: # Acceptance
                 tag: acceptance
                 context:
                     kwetter
@@ -80,16 +80,16 @@ workflows:
                     branches:
                         only:
                             - release                            
-            - docker: # Production
-                tag: production
-                context:
-                    kwetter
-                requires:
-                    - approve_deploy
-                filters:
-                    branches:
-                        only:
-                            - master
+            # - docker: # Production
+            #     tag: production
+            #     context:
+            #         kwetter
+            #     requires:
+            #         - approve_deploy
+            #     filters:
+            #         branches:
+            #             only:
+            #                 - master
 
 executors:
     python:
@@ -330,7 +330,7 @@ jobs:
                     -Dsonar.organization=ronaldvandenbroek-github \
                     -Dsonar.host.url=https://sonarcloud.io \
                     -Dsonar.login=$SONAR_LOGIN
-    docker:
+    docker_testing:
         machine: true
         parameters:
             tag:
@@ -348,6 +348,26 @@ jobs:
                 source_frontend: "${SOURCE_PATH_FRONTEND}"
                 version: "${KWETTER_VERSION}"
                 tag: << parameters.tag >>
+
+    docker_acceptance:
+        machine: true
+        parameters:
+            tag:
+                type: string
+        environment:
+            SOURCE_PATH_BACKEND: kwetter_backend
+            SOURCE_PATH_FRONTEND: kwetter_angular
+        steps:
+            - attach_workspace_all
+            - version_to_environment
+            - docker_deploy:
+                user: "${DOCKER_USER}"
+                pass: "${DOCKER_PASS}"
+                source_backend: "${SOURCE_PATH_BACKEND}"
+                source_frontend: "${SOURCE_PATH_FRONTEND}"
+                version: "${KWETTER_VERSION}"
+                tag: << parameters.tag >>
+                
     github:
         executor: go
         steps:
