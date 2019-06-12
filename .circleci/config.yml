@@ -36,7 +36,6 @@ workflows:
                     - test_backend
                     - test_frontend
                     - lint_frontend
-
             # Archive code on github on a release from master branch or a prerelease from release branch
             - github: # Release
                 context:
@@ -83,17 +82,7 @@ workflows:
                         only:
                             - master
                             - release
-                            - development                        
-            # - docker: # Production
-            #     tag: production
-            #     context:
-            #         kwetter
-            #     requires:
-            #         - approve_deploy
-            #     filters:
-            #         branches:
-            #             only:
-            #                 - master
+                            - development
 
 executors:
     python:
