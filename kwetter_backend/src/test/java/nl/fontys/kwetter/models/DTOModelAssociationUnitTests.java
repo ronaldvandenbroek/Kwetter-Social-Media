@@ -14,9 +14,16 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 
 @DisplayName("Testing the associations of the models")
 class DTOModelAssociationUnitTests {
+
+    @Test
+    void pipelineTest() {
+        //fail("This is a controlled fail to test the pipeline");
+    }
 
     @Test
     void createAJwtTokenDTO() {

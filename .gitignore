@@ -29,6 +29,10 @@ mvnw.cmd
 kwetter_backend/target/*
 kwetter_backend/.idea/*
 kwetter_backend/classes/*
+kwetter_backend/.classpath
+kwetter_backend/.factorypath
+kwetter_backend/.project
+kwetter_backend/.settings/*
 
 .mvn/*
 .tools/*
