@@ -72,7 +72,8 @@ workflows:
                             - release
                             - development                           
             - docker_acceptance: # Acceptance
-                tag: acceptance
+                old-tag: testing
+                new-tag: acceptance
                 context:
                     kwetter
                 requires:
@@ -144,7 +145,7 @@ commands:
                 paths:
                     - version.txt
                     - kwetter_backend/target
-    docker_deploy:
+    docker_build_and_deploy:
         parameters:
             user:
                 type: string
@@ -181,7 +182,51 @@ commands:
                 user: "<< parameters.user >>"
                 source: "<< parameters.source_backend >>"
                 version: latest
-                tag: "<< parameters.tag >>"            
+                tag: "<< parameters.tag >>"
+    docker_rename_and_deploy:
+        parameters:
+            user:
+                type: string
+            pass:
+                type: string
+            source_backend:
+                type: string
+            source_frontend:
+                type: string
+            old-tag:
+                type: string
+            new-tag:
+                type: string  
+            version:
+                type: string
+        steps:
+            - docker_login:
+                user: "<< parameters.user >>"
+                pass: "<< parameters.pass >>"
+            - docker_pull_rename_and_push:
+                user: "<< parameters.user >>"
+                source: "<< parameters.source_frontend >>"
+                version: "<< parameters.version >>"
+                old-tag: "<< parameters.old-tag >>"
+                new-tag: "<< parameters.new-tag >>"
+            - docker_pull_rename_and_push:
+                user: "<< parameters.user >>"
+                source: "<< parameters.source_frontend >>"
+                version: latest
+                old-tag: "<< parameters.old-tag >>"
+                new-tag: "<< parameters.new-tag >>"
+            - docker_pull_rename_and_push:
+                user: "<< parameters.user >>"
+                source: "<< parameters.source_backend >>"
+                version: "<< parameters.version >>"
+                old-tag: "<< parameters.old-tag >>"
+                new-tag: "<< parameters.new-tag >>"
+            - docker_pull_rename_and_push:
+                user: "<< parameters.user >>"
+                source: "<< parameters.source_backend >>"
+                version: latest
+                old-tag: "<< parameters.old-tag >>"
+                new-tag: "<< parameters.new-tag >>"           
     docker_login:
         parameters:
             user:
@@ -209,6 +254,31 @@ commands:
             - run:
                 name: Docker Push
                 command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.tag >>-<< parameters.version >>
+    docker_pull_rename_and_push:
+        parameters:
+            user:
+                type: string
+            source:
+                type: string
+            old-tag:
+                type: string
+            new-tag:
+                type: string                
+            version:
+                type: string
+        steps:
+            - run:
+                name: Docker Pull
+                command: docker pull << parameters.user >>/<< parameters.source >>:<< parameters.old-tag >>-<< parameters.version >>
+            - run:
+                name: Docker Rename
+                command: |
+                    docker tag \
+                    << parameters.user >>/<< parameters.source >>:<< parameters.old-tag >>-<< parameters.version >> \
+                    << parameters.user >>/<< parameters.source >>:<< parameters.new-tag >>-<< parameters.version >>
+            - run:
+                name: Docker Push
+                command: docker push << parameters.user >>/<< parameters.source >>:<< parameters.new-tag >>-<< parameters.version >>
     restore_cache_backend:
         steps:
             - restore_cache:
@@ -334,7 +404,7 @@ jobs:
         steps:
             - attach_workspace_all
             - version_to_environment
-            - docker_deploy:
+            - docker_build_and_deploy:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source_backend: "${SOURCE_PATH_BACKEND}"
@@ -345,7 +415,9 @@ jobs:
     docker_acceptance:
         machine: true
         parameters:
-            tag:
+            old-tag:
+                type: string
+            new-tag:
                 type: string
         environment:
             SOURCE_PATH_BACKEND: kwetter_backend
@@ -353,13 +425,14 @@ jobs:
         steps:
             - attach_workspace_all
             - version_to_environment
-            - docker_deploy:
+            - docker_rename_and_deploy:
                 user: "${DOCKER_USER}"
                 pass: "${DOCKER_PASS}"
                 source_backend: "${SOURCE_PATH_BACKEND}"
                 source_frontend: "${SOURCE_PATH_FRONTEND}"
                 version: "${KWETTER_VERSION}"
-                tag: << parameters.tag >>
+                old-tag: << parameters.old-tag >>
+                new-tag: << parameters.new-tag >>
                 
     github:
         executor: go
