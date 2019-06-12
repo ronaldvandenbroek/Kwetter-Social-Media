@@ -53,9 +53,9 @@ workflows:
             - docker_testing: # Testing
                 tag: testing
                 context:
-                    sonarqube
+                    kwetter
                 requires:
-                    - approve_deploy
+                    - sonarqube
                 filters:
                     branches:
                         only:
