@@ -22,7 +22,7 @@ class DTOModelAssociationUnitTests {
 
     @Test
     void pipelineTest() {
-        fail("This is a controlled fail to test the pipeline");
+        //fail("This is a controlled fail to test the pipeline");
     }
 
     @Test
