@@ -68,7 +68,7 @@ workflows:
                             - release
             # Docker deployment for every OTAP environment
             - docker: # Testing
-                tag: Testing
+                tag: testing
                 context:
                     kwetter
                 requires:
@@ -78,7 +78,7 @@ workflows:
                         only:
                             - development
             - docker: # Acceptance
-                tag: Testing
+                tag: acceptance
                 context:
                     kwetter
                 requires:
@@ -88,7 +88,7 @@ workflows:
                         only:
                             - release                            
             - docker: # Production
-                tag: Production
+                tag: production
                 context:
                     kwetter
                 requires:
