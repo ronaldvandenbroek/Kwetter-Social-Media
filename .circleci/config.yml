@@ -52,20 +52,13 @@ workflows:
                 context:
                     kwetter
                 requires:
-                    - approve_deploy
+                    - sonarqube
                 filters:
                     branches:
                         only:
                             - master
-            - github: # Pre-Release
-                context:
-                    kwetter
-                requires:
-                    - approve_deploy
-                filters:
-                    branches:
-                        only:
                             - release
+                            - development
             # Docker deployment for every OTAP environment
             - docker: # Testing
                 tag: testing
