@@ -36,17 +36,7 @@ workflows:
                     - test_backend
                     - test_frontend
                     - lint_frontend
-            # Manual approve to proceed with deployment and archiving
-            - approve_deploy:
-                type: approval
-                requires:
-                    - sonarqube
-                filters:
-                    branches:
-                        only:
-                            - master
-                            - release
-                            - development
+
             # Archive code on github on a release from master branch or a prerelease from release branch
             - github: # Release
                 context:
@@ -70,6 +60,18 @@ workflows:
                     branches:
                         only:
                             - development
+             # Manual approve to proceed with deployment and archiving
+            - approve_deploy:
+                type: approval
+                requires:
+                    - github
+                    - docker_testing
+                filters:
+                    branches:
+                        only:
+                            - master
+                            - release
+                            - development                           
             - docker_acceptance: # Acceptance
                 tag: acceptance
                 context:
