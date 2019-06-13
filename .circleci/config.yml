@@ -102,7 +102,7 @@ commands:
         steps:
             - run:
                 name: Setup Kwetter Check if Testing release
-                command: echo "export IS_RELEASE="[ -e /release.txt ]"" >> $BASH_ENV
+                command: echo "export IS_RELEASE="$([ -e /release.txt ])"" >> $BASH_ENV
     attach_workspace_all:
         steps:
             - attach_workspace:
