@@ -103,6 +103,11 @@ commands:
             - run:
                 name: Setup Kwetter Check if Testing release
                 command: echo "export IS_RELEASE="$([ -e /release.txt ])"" >> $BASH_ENV
+    end_job_if_not_release:
+        steps:
+            - run:
+                name: Check if job is a release otherwise end
+                command: if [ ! -e /release.txt ]; then circleci step halt           
     attach_workspace_all:
         steps:
             - attach_workspace:
@@ -383,6 +388,7 @@ jobs:
     check_if_release:
         executor: java
         steps:
+            - attach_workspace_all
             - is_release_to_environment
             - run: 
                 command: echo "${IS_RELEASE}"
@@ -397,6 +403,7 @@ jobs:
             SOURCE_PATH_FRONTEND: kwetter_angular
         steps:
             - attach_workspace_all
+            - end_job_if_not_release
             - version_to_environment
             - docker_build_and_deploy:
                 user: "${DOCKER_USER}"
@@ -418,6 +425,7 @@ jobs:
             SOURCE_PATH_FRONTEND: kwetter_angular
         steps:
             - attach_workspace_all
+            - end_job_if_not_release
             - version_to_environment
             - docker_rename_and_deploy:
                 user: "${DOCKER_USER}"
@@ -431,6 +439,7 @@ jobs:
     github:
         executor: go
         steps:
+            - end_job_if_not_release
             - attach_workspace_all
             - version_to_environment
             - run:
