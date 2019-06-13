@@ -36,12 +36,17 @@ workflows:
                     - test_backend
                     - test_frontend
                     - lint_frontend
+            - check_if_release:
+                context:
+                    kwetter
+                requires:
+                    - sonarqube
             # Archive code on github on a release from master branch or a prerelease from release branch
             - github: # Release
                 context:
                     kwetter
                 requires:
-                    - sonarqube
+                    - check_if_release
                 filters:
                     branches:
                         only:
@@ -54,30 +59,7 @@ workflows:
                 context:
                     kwetter
                 requires:
-                    - sonarqube
-                filters:
-                    branches:
-                        only:
-                            - development
-             # Manual approve to proceed with deployment and archiving
-            - approve_deploy:
-                type: approval
-                requires:
-                    - github
-                    - docker_testing
-                filters:
-                    branches:
-                        only:
-                            - master
-                            - release
-                            - development                           
-            - docker_acceptance: # Acceptance
-                old-tag: testing
-                new-tag: acceptance
-                context:
-                    kwetter
-                requires:
-                    - approve_deploy
+                    - check_if_release
                 filters:
                     branches:
                         only:
@@ -116,6 +98,11 @@ commands:
             - run:
                 name: Setup Kwetter Version Environment Variable
                 command: echo "export KWETTER_VERSION="$(tail version.txt)"" >> $BASH_ENV
+    is_release_to_environment:
+        steps:
+            - run:
+                name: Setup Kwetter Check if Testing release
+                command: echo "export IS_RELEASE="[ -e /release.txt ]"" >> $BASH_ENV
     attach_workspace_all:
         steps:
             - attach_workspace:
@@ -393,6 +380,13 @@ jobs:
                     -Dsonar.organization=ronaldvandenbroek-github \
                     -Dsonar.host.url=https://sonarcloud.io \
                     -Dsonar.login=$SONAR_LOGIN
+    check_if_release:
+        executor: java
+        steps:
+            - is_release_to_environment
+            - run: 
+                command: echo "${IS_RELEASE}"
+    
     docker_testing:
         machine: true
         parameters:
