@@ -36,17 +36,12 @@ workflows:
                     - test_backend
                     - test_frontend
                     - lint_frontend
-            - check_if_release:
-                context:
-                    kwetter
-                requires:
-                    - sonarqube
             # Archive code on github on a release from master branch or a prerelease from release branch
             - github: # Release
                 context:
                     kwetter
                 requires:
-                    - check_if_release
+                    - sonarqube
                 filters:
                     branches:
                         only:
@@ -59,7 +54,7 @@ workflows:
                 context:
                     kwetter
                 requires:
-                    - check_if_release
+                    - sonarqube
                 filters:
                     branches:
                         only:
