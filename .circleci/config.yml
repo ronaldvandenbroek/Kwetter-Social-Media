@@ -118,6 +118,7 @@ commands:
                 root: .
                 paths:
                     - kwetter_angular
+                    - release.txt
     persist_workspace_angular_after_build:
         steps:
             - persist_to_workspace:
