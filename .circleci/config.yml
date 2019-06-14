@@ -102,7 +102,7 @@ commands:
         steps:
             - run:
                 name: Check if job is a release otherwise end
-                command: if [ -e /release.txt ]; then circleci step halt; fi         
+                command: if [ ! -e /release.txt ]; then circleci step halt; fi         
     attach_workspace_all:
         steps:
             - attach_workspace:
