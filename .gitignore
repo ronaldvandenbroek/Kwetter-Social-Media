@@ -39,3 +39,4 @@ kwetter_backend/.settings/*
 .scannerwork/*
 .idea/*
 .run/*
+.run-testing/docker-compose.yml
