@@ -442,8 +442,9 @@ jobs:
     github:
         executor: go
         steps:
-            - end_job_if_not_release
             - attach_workspace_all
+            - end_job_if_not_release
+            - list_files
             - version_to_environment
             - run:
                 name: Create the artifacts folder
