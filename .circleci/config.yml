@@ -88,6 +88,11 @@ commands:
             - run:
                 name: Skip
                 command: ls
+    list_files:
+        steps:
+            - run:
+                name: List files
+                command: ls
     version_to_environment:
         steps:
             - run:
@@ -398,6 +403,7 @@ jobs:
             SOURCE_PATH_FRONTEND: kwetter_angular
         steps:
             - attach_workspace_all
+            - list_files
             - end_job_if_not_release
             - version_to_environment
             - docker_build_and_deploy:
@@ -420,6 +426,7 @@ jobs:
             SOURCE_PATH_FRONTEND: kwetter_angular
         steps:
             - attach_workspace_all
+            - list_files
             - end_job_if_not_release
             - version_to_environment
             - docker_rename_and_deploy:
